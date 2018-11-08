@@ -1,4 +1,4 @@
-[EDirection]
+[ECommandDirection]
 _def = enum <byte>
     {
         Up,
@@ -11,16 +11,16 @@ _def = enum <byte>
 [Move]
 _def = class 
 id = int
-direction = EDirection
+direction = ECommandDirection
 
 
 [PlantBomb]
 _def = class
 id = int
-direction = EDirection
+direction = ECommandDirection
 
 
 [DefuseBomb]
 _def = class
 id = int
-direction = EDirection
+direction = ECommandDirection

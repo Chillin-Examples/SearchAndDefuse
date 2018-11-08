@@ -28,7 +28,7 @@ public:
 namespace commands
 {
 
-enum class EDirection
+enum class ECommandDirection
 {
 	Up = 0,
 	Right = 1,
@@ -43,7 +43,7 @@ class Move : public KSObject
 protected:
 
 	int __id;
-	EDirection __direction;
+	ECommandDirection __direction;
 
 	bool __has_id;
 	bool __has_direction;
@@ -56,7 +56,7 @@ public: // getters
 		return __id;
 	}
 	
-	inline EDirection direction() const
+	inline ECommandDirection direction() const
 	{
 		return __direction;
 	}
@@ -69,9 +69,9 @@ public: // reference getters
 		return (int&) __id;
 	}
 	
-	inline EDirection &ref_direction() const
+	inline ECommandDirection &ref_direction() const
 	{
-		return (EDirection&) __direction;
+		return (ECommandDirection&) __direction;
 	}
 	
 
@@ -83,7 +83,7 @@ public: // setters
 		has_id(true);
 	}
 	
-	inline void direction(const EDirection &direction)
+	inline void direction(const ECommandDirection &direction)
 	{
 		__direction = direction;
 		has_direction(true);
@@ -178,7 +178,7 @@ public:
 			char tmp6;
 			tmp6 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__direction = (EDirection) tmp6;
+			__direction = (ECommandDirection) tmp6;
 		}
 		
 		return offset;
@@ -192,7 +192,7 @@ class PlantBomb : public KSObject
 protected:
 
 	int __id;
-	EDirection __direction;
+	ECommandDirection __direction;
 
 	bool __has_id;
 	bool __has_direction;
@@ -205,7 +205,7 @@ public: // getters
 		return __id;
 	}
 	
-	inline EDirection direction() const
+	inline ECommandDirection direction() const
 	{
 		return __direction;
 	}
@@ -218,9 +218,9 @@ public: // reference getters
 		return (int&) __id;
 	}
 	
-	inline EDirection &ref_direction() const
+	inline ECommandDirection &ref_direction() const
 	{
-		return (EDirection&) __direction;
+		return (ECommandDirection&) __direction;
 	}
 	
 
@@ -232,7 +232,7 @@ public: // setters
 		has_id(true);
 	}
 	
-	inline void direction(const EDirection &direction)
+	inline void direction(const ECommandDirection &direction)
 	{
 		__direction = direction;
 		has_direction(true);
@@ -327,7 +327,7 @@ public:
 			char tmp13;
 			tmp13 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__direction = (EDirection) tmp13;
+			__direction = (ECommandDirection) tmp13;
 		}
 		
 		return offset;
@@ -341,7 +341,7 @@ class DefuseBomb : public KSObject
 protected:
 
 	int __id;
-	EDirection __direction;
+	ECommandDirection __direction;
 
 	bool __has_id;
 	bool __has_direction;
@@ -354,7 +354,7 @@ public: // getters
 		return __id;
 	}
 	
-	inline EDirection direction() const
+	inline ECommandDirection direction() const
 	{
 		return __direction;
 	}
@@ -367,9 +367,9 @@ public: // reference getters
 		return (int&) __id;
 	}
 	
-	inline EDirection &ref_direction() const
+	inline ECommandDirection &ref_direction() const
 	{
-		return (EDirection&) __direction;
+		return (ECommandDirection&) __direction;
 	}
 	
 
@@ -381,7 +381,7 @@ public: // setters
 		has_id(true);
 	}
 	
-	inline void direction(const EDirection &direction)
+	inline void direction(const ECommandDirection &direction)
 	{
 		__direction = direction;
 		has_direction(true);
@@ -476,7 +476,7 @@ public:
 			char tmp20;
 			tmp20 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__direction = (EDirection) tmp20;
+			__direction = (ECommandDirection) tmp20;
 		}
 		
 		return offset;
