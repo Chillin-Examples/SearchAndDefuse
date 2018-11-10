@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47128ef4-6229-4981-a355-212cae5e8796" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/PythonServer/GuiEvent/gui_event.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PythonServer/GuiEvent/gui_event.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonServer/gui_event/gui_event.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,14 +32,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="107" />
+          <entry key="py" value="155" />
           <entry key="txt" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="24" />
-          <entry key="Python" value="107" />
+          <entry key="Python" value="155" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -77,12 +78,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/PythonServer/GuiEvent/gui_event.py">
+        <entry file="file://$PROJECT_DIR$/PythonServer/gui_event/gui_event.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="6" column="13" lean-forward="true" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
               <folding>
-                <marker date="1541865911967" expanded="true" signature="57:59" ph="..." />
+                <marker date="1541866768948" expanded="true" signature="57:59" ph="..." />
               </folding>
             </state>
           </provider>
@@ -122,6 +123,7 @@
       <list>
         <option value="$PROJECT_DIR$/PythonServer/game_handler.py" />
         <option value="$PROJECT_DIR$/PythonServer/GuiEvent/gui_event.py" />
+        <option value="$PROJECT_DIR$/PythonServer/gui_event/gui_event.py" />
       </list>
     </option>
   </component>
@@ -131,9 +133,10 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-15" />
-    <option name="width" value="1948" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-40" />
+    <option name="y" value="115" />
+    <option name="width" value="1950" />
     <option name="height" value="2075" />
   </component>
   <component name="ProjectView">
@@ -168,7 +171,7 @@
               <item name="chillinwars-senior" type="b2602c69:ProjectViewProjectNode" />
               <item name="chillinwars-senior" type="462c0819:PsiDirectoryNode" />
               <item name="PythonServer" type="462c0819:PsiDirectoryNode" />
-              <item name="GuiEvent" type="462c0819:PsiDirectoryNode" />
+              <item name="gui_event" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="chillinwars-senior" type="b2602c69:ProjectViewProjectNode" />
@@ -214,10 +217,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="0" width="779" height="830" extended-state="0" />
+    <frame x="-16" y="46" width="780" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2524272" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25207755" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -228,10 +231,10 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" sideWeight="0.56865466" visible="true" weight="0.33285713" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.56865466" weight="0.33285713" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.43134534" side_tool="true" visible="true" weight="0.33285713" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49966466" weight="0.32956153" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5041551" side_tool="true" visible="true" weight="0.32857144" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49584487" visible="true" weight="0.32857144" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -275,12 +278,12 @@
     <entry file="file://$PROJECT_DIR$/PythonServer/handlers/map_handler.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/PythonServer/GuiEvent/gui_event.py">
+    <entry file="file://$PROJECT_DIR$/PythonServer/gui_event/gui_event.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="13" lean-forward="true" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
           <folding>
-            <marker date="1541865911967" expanded="true" signature="57:59" ph="..." />
+            <marker date="1541866768948" expanded="true" signature="57:59" ph="..." />
           </folding>
         </state>
       </provider>

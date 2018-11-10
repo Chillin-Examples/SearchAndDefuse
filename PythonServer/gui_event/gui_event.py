@@ -4,4 +4,4 @@ class GuiEvent:
 
     def __init__(self, type):
         self.type = type
-#GuiEventType
+#GUIEventType needs to be implemented.
