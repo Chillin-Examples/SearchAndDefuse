@@ -3,7 +3,9 @@ class GuiHandler:
     sides = []
     canvas = None
     def __init__(self, world, sides, canvas):
-        pass
+        self.world = world
+        self.sides = sides
+        self.canvas = canvas
 
     def update(self, gui_events):
         pass
