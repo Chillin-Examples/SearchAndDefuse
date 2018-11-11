@@ -6,7 +6,7 @@ def change_direction(self, world, command):
 
 
 def defuse_bomb(self, world, command):
-    pass
+    return True
 
 
 Police.change_direction = change_direction
