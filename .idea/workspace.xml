@@ -99,15 +99,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.ks">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1000" />
+            <state relative-caret-position="-1204" />
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PythonServer/extensions/police_extensions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="136">
+              <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -127,7 +127,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="425">
               <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
               <folding>
                 <element signature="e#42#52#0" expanded="true" />
@@ -175,9 +175,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1570" />
-    <option name="y" value="205" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1837" />
+    <option name="y" value="70" />
     <option name="width" value="1950" />
     <option name="height" value="2075" />
   </component>
@@ -253,10 +253,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="628" y="82" width="780" height="830" extended-state="0" />
-    <editor active="true" />
+    <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26177284" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12676056" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -269,8 +268,8 @@
       <window_info anchor="bottom" id="Structure" order="8" sideWeight="0.49966466" weight="0.23620933" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.56726766" weight="0.14714286" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5360111" side_tool="true" visible="true" weight="0.32428572" />
-      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.46398893" visible="true" weight="0.32428572" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.53588194" side_tool="true" visible="true" weight="0.32107496" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="12" sideWeight="0.46411803" visible="true" weight="0.32107496" />
       <window_info anchor="bottom" id="Python Console" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -294,16 +293,6 @@
           <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
           <folding>
             <element signature="e#42#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
-          <folding>
-            <element signature="e#42#52#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -334,11 +323,6 @@
     <entry file="file://$PROJECT_DIR$/PythonServer/handlers/map_handler.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.ks">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1000" />
-      </provider>
-    </entry>
     <entry file="file://F:/python3.6.5/Lib/site-packages/ks/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -356,10 +340,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
+          <folding>
+            <element signature="e#42#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.ks">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1204" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PythonServer/extensions/police_extensions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        <state relative-caret-position="136">
+          <caret line="8" column="8" lean-forward="true" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>

@@ -9,5 +9,5 @@ def defuse_bomb(self, world, command):
     pass
 
 
-Police.validate_command = change_direction
-Police.apply_command = defuse_bomb
+Police.change_direction = change_direction
+Police.defuse_bomb = defuse_bomb
