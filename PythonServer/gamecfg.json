@@ -9,14 +9,12 @@
 		"": "online configs",
 		"match_id": "0"
 	},
-
 	"net": {
 		"host": "0.0.0.0",
 		"port": 5000,
 		"keyfile": "certs/key.pem",
 		"certfile": "certs/cert.pem"
 	},
-
 	"gui": {
 		"host": "0.0.0.0",
 		"port": 5001,
@@ -26,14 +24,18 @@
 		"replay_filename": null,
 		"width": 500,
 		"height": 500,
-		"images": {}
+		"images": {
+			"Background": "images/background.png"
+		}
 	},
-
 	"sides": {
-		"Police": ["0"],
-		"Terrorist": ["0"]
+		"Police": [
+			"0"
+		],
+		"Terrorist": [
+			"0"
+		]
 	},
-
 	"game_handler": {
 		"": "base game handler configs",
 		"start_time": "2017-11-08 00:50",
@@ -45,7 +47,10 @@
 		"max_agent_commands": 100,
 		"": "turnbased game handler configs",
 		"auto_change_turn": true,
-		"auto_change_turn_sequence": ["Police", "Terrorist"],
+		"auto_change_turn_sequence": [
+			"Police",
+			"Terrorist"
+		],
 		"": "my configs"
 	}
 }

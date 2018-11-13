@@ -64,6 +64,8 @@ class GameHandler(TurnbasedGameHandler):
                     new_terrorist.footstep_sounds = []
                     new_terrorist.is_dead = False
 
+        #Status Bar Not Initialized Yet.
+
     def on_initialize_gui(self):
         print('initialize gui')
 
