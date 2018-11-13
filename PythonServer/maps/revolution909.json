@@ -24,8 +24,39 @@
     "wewwweweweweeewwweeeeeew",
     "weeeeeeeeeeeeeeeeeeeeeew",
     "wwwwwwwwwwwwwwwwwwwwwwww"
-
-  ]
-
-
+  ],
+  "player": {
+    "Police": [
+      {
+        "position": 51
+      },
+      {
+        "position": 74
+      },
+      {
+        "position": 76
+      },
+      {
+        "position": 99
+      }
+    ],
+    "Terrorist": [
+      {
+        "position": 475
+      },
+      {
+        "position": 499
+      },
+      {
+        "position": 500
+      },
+      {
+        "position": 501
+      },
+      {
+        "position": 524
+      }
+    ]
   }
+}
+
