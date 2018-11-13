@@ -2,6 +2,8 @@ import json
 
 from ..ks.models import World
 
+GLOBAL_BOARD_WIDTH = 0
+GLOBAL_BOARD_HEIGHT = 0
 
 class MapHandler:
     BOARD_WIDTH = 0
@@ -29,7 +31,11 @@ class MapHandler:
         powerup_emmiters = []  # powerup emitters position
 
 
+        GLOBAL_BOARD_WIDTH = self.BOARD_WIDTH
+        GLOBAL_BOARD_HEIGHT = self.BOARD_HEIGHT
+
         return world, board
 
     def initialize_constants(self, constants):
         constants.initialize(7, 10, 15, 2, 1, 2, 2.5, 5, 7.5, 10, 5, 4, 6, 100)
+
