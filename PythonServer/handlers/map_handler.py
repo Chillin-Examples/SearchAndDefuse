@@ -13,7 +13,7 @@ class MapHandler:
     def __init__(self, sides):
         self.sides = sides
 
-    def load_map(self, constants):
+    def load_map(self, constants, map_config):
         self.initialize_constants(constants)
         self.map_config = json.loads(open((self.config['map']), "r").read())
         board = self.map_config['board']
@@ -27,7 +27,10 @@ class MapHandler:
         world.bombs = {side: [] for side in self.sides}
         world.polices = {side: [] for side in self.sides}
         world.terrorists = {side: [] for side in self.sides}
-        world.enter_score = self.map_config['enter_score']
+        world.enter_score = map_config['enter_score']
+        # world.players = map_config['player']
+        world.map_config = map_config
+
         powerup_emmiters = []  # powerup emitters position
 
 
