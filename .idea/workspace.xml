@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47128ef4-6229-4981-a355-212cae5e8796" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PythonServer/game_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/PythonServer/game_handler.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,7 +37,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="json" value="3" />
-          <entry key="py" value="986" />
+          <entry key="py" value="1106" />
           <entry key="txt" value="41" />
         </counts>
       </usages-collector>
@@ -46,7 +45,7 @@
         <counts>
           <entry key="JSON" value="3" />
           <entry key="PLAIN_TEXT" value="41" />
-          <entry key="Python" value="986" />
+          <entry key="Python" value="1106" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -72,8 +71,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PythonServer/game_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+            <state relative-caret-position="191">
+              <caret line="52" column="100" selection-start-line="52" selection-start-column="100" selection-end-line="52" selection-end-column="100" />
               <folding>
                 <element signature="e#42#73#0" expanded="true" />
               </folding>
@@ -105,8 +104,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.ks">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="78" column="5" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
+            <state relative-caret-position="255">
+              <caret line="69" selection-start-line="64" selection-end-line="69" />
             </state>
           </provider>
         </entry>
@@ -298,10 +297,10 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Structure" order="8" sideWeight="0.49966466" weight="0.23620933" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" sideWeight="0.7733065" visible="true" weight="0.28712872" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.7733065" weight="0.28712872" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.2266935" side_tool="true" visible="true" weight="0.28712872" />
-      <window_info anchor="bottom" id="Terminal" order="12" sideWeight="0.4614353" weight="0.32107496" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5392354" side_tool="true" visible="true" weight="0.32107496" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="12" sideWeight="0.4607646" visible="true" weight="0.32107496" />
       <window_info anchor="bottom" id="Python Console" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -426,15 +425,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonServer/ks/models.ks">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="78" column="5" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
+        <state relative-caret-position="255">
+          <caret line="69" selection-start-line="64" selection-end-line="69" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/PythonServer/game_handler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
+        <state relative-caret-position="191">
+          <caret line="52" column="100" selection-start-line="52" selection-start-column="100" selection-end-line="52" selection-end-column="100" />
           <folding>
             <element signature="e#42#73#0" expanded="true" />
           </folding>
