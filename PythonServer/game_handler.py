@@ -63,8 +63,13 @@ class GameHandler(TurnbasedGameHandler):
                     new_terrorist.planting_remaining_time = self.world.constants.bomb_planting_time
                     new_terrorist.footstep_sounds = []
                     new_terrorist.is_dead = False
+                    self.world.terrorists[side].append(new_terrorist)
+
 
         #Status Bar Not Initialized Yet.
+
+        # Initializes Commands
+        self.
 
     def on_initialize_gui(self):
         print('initialize gui')
