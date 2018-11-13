@@ -5,11 +5,13 @@ from __future__ import division
 
 # chillin imports
 from chillin_server import TurnbasedGameHandler
-# project imports
-from extensions import *
 
 from .handlers import map_handler, logic_handler
-from .ks.models import ECell, Police, Terrorist, Constants
+from .ks.commands import *
+from .ks.models import *
+
+
+# project imports
 
 
 class GameHandler(TurnbasedGameHandler):
@@ -65,11 +67,50 @@ class GameHandler(TurnbasedGameHandler):
                     new_terrorist.is_dead = False
                     self.world.terrorists[side].append(new_terrorist)
 
+        # Status Bar Not Initialized Yet.
 
-        #Status Bar Not Initialized Yet.
+        # Initialize Commands
+        self.move_dirs = {
 
-        # Initializes Commands
-        self.
+            ECommandDirection.Up.name: Position(x=0, y=-1),
+            ECommandDirection.Right.name: Position(x=1, y=0),
+            ECommandDirection.Down.name: Position(x=0, y=1),
+            ECommandDirection.Left.name: Position(x=-1, y=0)
+        }
+        self.move_angle = {
+            ECommandDirection.Up.name: -90,
+            ECommandDirection.Right.name: 180,
+            ECommandDirection.Down.name: 90,
+            ECommandDirection.Left.name: 0
+        }
+
+        self.plant_dirs = {
+
+            ECommandDirection.Up.name: Position(x=0, y=-1),
+            ECommandDirection.Right.name: Position(x=1, y=0),
+            ECommandDirection.Down.name: Position(x=0, y=1),
+            ECommandDirection.Left.name: Position(x=-1, y=0)
+        }
+        self.plant_angle = {
+            ECommandDirection.Up.name: -90,
+            ECommandDirection.Right.name: 180,
+            ECommandDirection.Down.name: 90,
+            ECommandDirection.Left.name: 0
+        }
+
+        self.defuse_dirs = {
+
+            ECommandDirection.Up.name: Position(x=0, y=-1),
+            ECommandDirection.Right.name: Position(x=1, y=0),
+            ECommandDirection.Down.name: Position(x=0, y=1),
+            ECommandDirection.Left.name: Position(x=-1, y=0)
+        }
+        self.defuse_angle = {
+            ECommandDirection.Up.name: -90,
+            ECommandDirection.Right.name: 180,
+            ECommandDirection.Down.name: 90,
+            ECommandDirection.Left.name: 0
+        }
 
     def on_initialize_gui(self):
         print('initialize gui')
