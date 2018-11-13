@@ -17,8 +17,14 @@ from ks.models import (World, Police, Terrorist, Bomb, Position, Constants,
 from ks.commands import DefuseBomb, PlantBomb, Move, ECommandDirection
 from extensions import *
 
+from .handlers import map_handler, logic_handler, gui_handler
+from .gui_event import gui_event
+
 
 class GameHandler(TurnbasedGameHandler):
+    _map_handler, _logic_handler, _gui_handler = None, None, None
+    gui_event_tmp = None
+
 
     def on_recv_command(self, side_name, agent_name, command_type, command):
         if None in command.__dict__.values():
