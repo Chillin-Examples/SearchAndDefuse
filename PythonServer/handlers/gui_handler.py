@@ -9,3 +9,6 @@ class GuiHandler:
 
     def update(self, gui_events):
         pass
+
+    def initialize(self):
+        pass
