@@ -35,7 +35,7 @@ class GameHandler(TurnbasedGameHandler):
             for x in range(self.world.width):
                 if board[y][x] == 'w':  # Wall
                     self.world.board[y][x] = ECell.Wall
-                elif board[y][x] == 'b':  # Small Bomb
+                elif board[y][x] == 's':  # Small Bomb
                     self.world.board[y][x] = ECell.SmallBombSite
                 elif board[y][x] == 'l':  # Large Bomb
                     self.world.board[y][x] = ECell.LargeBombSite
