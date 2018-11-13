@@ -2,6 +2,7 @@ from ..ks.models import Police
 from ..ks.commands import Move,DefuseBomb
 
 def change_direction(self, world, command):
+    #start
     return True
 
 
