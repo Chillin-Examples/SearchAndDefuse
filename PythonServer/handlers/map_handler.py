@@ -13,9 +13,9 @@ class MapHandler:
     def __init__(self, sides):
         self.sides = sides
 
-    def load_map(self, constants, map_config):
+    def load_map(self, constants, map_config, config):
         self.initialize_constants(constants)
-        self.map_config = json.loads(open((self.config['map']), "r").read())
+        self.map_config = json.loads(open((config['map']), "r").read())
         board = self.map_config['board']
         self.BOARD_WIDTH = len(board[0])
         self.BOARD_HEIGHT = len(board)
@@ -30,7 +30,7 @@ class MapHandler:
         world.enter_score = map_config['enter_score']
         # world.players = map_config['player']
         world.map_config = map_config
-
+        world.config = config
         powerup_emmiters = []  # powerup emitters position
 
 
