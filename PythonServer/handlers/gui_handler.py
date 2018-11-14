@@ -17,7 +17,7 @@ class GuiHandler:
     def update(self, gui_events):
         pass
 
-    def initialize(self, background_ref, canvas, config, world, cell_size, sides):
+    def initialize(self, background_ref, canvas, config, world, cell_size, sides, move_angle, font_size):
         # Draw background
         background_ref = self.canvas.create_image('Background', 0, 0)
         canvas.edit_image(background_ref, scale_type=ScaleType.ScaleToWidth,
@@ -47,32 +47,27 @@ class GuiHandler:
                                              scale_type=ScaleType.ScaleToWidth, scale_value=cell_size)
 
                 # Draw Players
-                for side in self.sides:
-                    img_name = side
-                    for banana in self.world.bananas[side]:
-                        position = pos.Pos(position=banana.position)
-                        canvas_pos = GuiUtils()._get_canvas_position(pos.x, pos.y, cell_size, center_origin=True)
-                        banana.angle = self.move_angle[EMoveDir.Left.name]
-                        banana.img_ref = self.canvas.create_image(img_name, canvas_pos['x'], canvas_pos['y'],
-                                                                  center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                                  scale_value=self.cell_size)
+                for terrorist in world.terrorists:
+                    position = pos.Pos(position=terrorist.position)
+                    canvas_pos = GuiUtils()._get_canvas_position(pos.x, pos.y, cell_size, center_origin=True)
+                    terrorist.angle = move_angle[EDirection.Left.name]
+                    terrorist.img_ref = self.canvas.create_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
+                                                              center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                                              scale_value=cell_size)
 
-                        text_color = self.canvas.make_rgba(0, 0, 255,
-                                                           255) if side == 'Chiquita' else self.canvas.make_rgba(255, 0,
-                                                                                                                 0, 255)
-                        banana.id_ref = self.canvas.create_text(str(banana.id),
-                                                                canvas_pos['x'] + self.cell_size // 2 - 10,
-                                                                canvas_pos['y'] - self.cell_size // 2, text_color,
-                                                                self.font_size, center_origin=True)
+                    # terrorist.id_ref = self.canvas.create_text(str(terrorist.id),
+                    #                                         canvas_pos['x'] + cell_size // 2 - 10,
+                    #                                         canvas_pos['y'] - cell_size // 2, text_color,
+                    #                                         self.font_size, center_origin=True)
 
-                        x1, y1, x2, y2 = GuiUtils()._get_line_xys(banana, banana.health, banana.max_health, 0)
-                        banana.health_ref = canvas.create_line(x1, y1, x2, y2,
-                                                                    self.canvas.make_rgba(255, 0, 0, 150),
-                                                                    stroke_width=5)
+                    x1, y1, x2, y2 = GuiUtils()._get_line_xys(terrorist, terrorist.health, terrorist.max_health, 0)
+                    terrorist.health_ref = canvas.create_line(x1, y1, x2, y2,
+                                                                canvas.make_rgba(255, 0, 0, 150),
+                                                                stroke_width=5)
 
-                        x1, y1, x2, y2 = GuiUtils()._get_line_xys(banana, banana.laser_count, banana.max_laser_count, 5)
-                        banana.ammo_ref = canvas.create_line(x1, y1, x2, y2, self.canvas.make_rgba(0, 0, 255, 150),
-                                                                  stroke_width=5)
+                    x1, y1, x2, y2 = GuiUtils()._get_line_xys(terrorist, terrorist.laser_count, terrorist.max_laser_count, 5)
+                    terrorist.ammo_ref = canvas.create_line(x1, y1, x2, y2, canvas.make_rgba(0, 0, 255, 150),
+                                                              stroke_width=5)
 
 
 class GuiUtils:
