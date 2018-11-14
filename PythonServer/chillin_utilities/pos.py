@@ -1,5 +1,6 @@
 from ..handlers import map_handler
 
+
 class Pos(object):
     x = 0
     y = 0
