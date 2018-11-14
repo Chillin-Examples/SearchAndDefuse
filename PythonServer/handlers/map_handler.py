@@ -1,6 +1,6 @@
 import json
 
-from ..ks.models import World
+from .ks.models import World
 
 GLOBAL_BOARD_WIDTH = 0
 GLOBAL_BOARD_HEIGHT = 0
