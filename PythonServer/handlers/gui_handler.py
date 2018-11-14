@@ -17,7 +17,7 @@ class GuiHandler:
     def update(self, gui_events):
         pass
 
-    def initialize(self, background_ref, canvas, config, world, cell_size, sides, move_angle, font_size):
+    def initialize(self, canvas, config, world, cell_size, sides, move_angle, font_size):
         # Draw background
         background_ref = self.canvas.create_image('Background', 0, 0)
         canvas.edit_image(background_ref, scale_type=ScaleType.ScaleToWidth,
@@ -84,7 +84,7 @@ class GuiHandler:
 
         return canvas
 
-    
+
 class GuiUtils:
     def __init__(self):
         pass
