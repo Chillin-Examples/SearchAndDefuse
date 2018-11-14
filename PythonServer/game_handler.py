@@ -31,7 +31,7 @@ class GameHandler(TurnbasedGameHandler):
         self.world.board = [[ECell.Empty for _ in range(self.world.width)] for _ in range(self.world.height)]
         self._logic_handler = logic_handler.LogicHandler(self.world, self.sides, board)
         self.move_dirs, self.move_angle, self.plant_dirs, \
-        self.plant_angle, self.defuse_dirs, self.defuse_angle = self._logic_handler.initialize()
+        self.plant_angle, self.defuse_dirs, self.defuse_angle = self._logic_handler.initialize(self.canvas,self.config)
 
     def on_initialize_gui(self):
         print('initialize gui')
