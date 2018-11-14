@@ -5,10 +5,8 @@ from __future__ import division
 
 # chillin imports
 from chillin_server import TurnbasedGameHandler
-from chillin_server.gui.canvas_elements import ScaleType
 
-
-from .handlers import map_handler, logic_handler,gui_handler
+from .handlers import map_handler, logic_handler, gui_handler
 from .ks.models import *
 
 
@@ -31,15 +29,16 @@ class GameHandler(TurnbasedGameHandler):
         self.world.board = [[ECell.Empty for _ in range(self.world.width)] for _ in range(self.world.height)]
         self._logic_handler = logic_handler.LogicHandler(self.world, self.sides, board)
         self.move_dirs, self.move_angle, self.plant_dirs, \
-        self.plant_angle, self.defuse_dirs, self.defuse_angle = self._logic_handler.initialize(self.canvas,self.config)
+        self.plant_angle, self.defuse_dirs, self.defuse_angle, self.scale_factor, \
+        self.scale_percent, self.cell_size, self.font_size = self._logic_handler.initialize(self.canvas, self.config)
 
     def on_initialize_gui(self):
         print('initialize gui')
-        self._gui_handler = gui_handler.GuiHandler(self.world,self.sides,self.canvas)
-        self.canvas=self._gui_handler.initialize(self.canvas,self.canvas,self.world,self.cel)
+        self._gui_handler = gui_handler.GuiHandler(self.world, self.sides, self.canvas)
+        self.canvas = self._gui_handler.initialize(self.canvas, self.canvas, self.world, self.cell_size, self.sides,
+                                                   self.move_angle, self.font_size)
         # Apply actions
         self.canvas.apply_actions()
-
 
     def on_process_cycle(self):
         print('cycle %i' % (self.current_cycle,))
