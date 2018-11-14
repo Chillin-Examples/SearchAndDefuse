@@ -35,7 +35,8 @@
       "SmallBomb": "images/small_bomb.png",
       "MediumBomb": "images/medium_bomb.png",
       "LargeBomb": "images/large_bomb.png",
-      "VastBomb": "images/vast_bomb.png"
+      "VastBomb": "images/vast_bomb.png",
+      "Empty":"images/empty.png"
     }
   },
   "sides": {
