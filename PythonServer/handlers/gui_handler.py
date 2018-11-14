@@ -82,7 +82,9 @@ class GuiHandler:
                     police.ammo_ref = canvas.create_line(x1, y1, x2, y2, canvas.make_rgba(0, 0, 255, 150),
                                                             stroke_width=5)
 
+        return canvas
 
+    
 class GuiUtils:
     def __init__(self):
         pass
