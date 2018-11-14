@@ -46,28 +46,41 @@ class GuiHandler:
                     self.canvas.create_image('VastBomb', x * cell_size, y * cell_size,
                                              scale_type=ScaleType.ScaleToWidth, scale_value=cell_size)
 
-                # Draw Players
+                # Draw Terrorists
                 for terrorist in world.terrorists:
                     position = pos.Pos(position=terrorist.position)
-                    canvas_pos = GuiUtils()._get_canvas_position(pos.x, pos.y, cell_size, center_origin=True)
+                    canvas_pos = GuiUtils()._get_canvas_position(position.x, position.y, cell_size, center_origin=True)
                     terrorist.angle = move_angle[EDirection.Left.name]
                     terrorist.img_ref = self.canvas.create_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
                                                               center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                                               scale_value=cell_size)
-
-                    # terrorist.id_ref = self.canvas.create_text(str(terrorist.id),
-                    #                                         canvas_pos['x'] + cell_size // 2 - 10,
-                    #                                         canvas_pos['y'] - cell_size // 2, text_color,
-                    #                                         self.font_size, center_origin=True)
-
+                    # terrorist.id_ref = self.canvas.create_text(str(terrorist.id),canvas_pos['x'] + cell_size // 2 - 10,canvas_pos['y'] - cell_size // 2, text_color,font_size, center_origin=True)
                     x1, y1, x2, y2 = GuiUtils()._get_line_xys(terrorist, terrorist.health, terrorist.max_health, 0)
                     terrorist.health_ref = canvas.create_line(x1, y1, x2, y2,
                                                                 canvas.make_rgba(255, 0, 0, 150),
                                                                 stroke_width=5)
-
                     x1, y1, x2, y2 = GuiUtils()._get_line_xys(terrorist, terrorist.laser_count, terrorist.max_laser_count, 5)
                     terrorist.ammo_ref = canvas.create_line(x1, y1, x2, y2, canvas.make_rgba(0, 0, 255, 150),
                                                               stroke_width=5)
+
+                # Draw Polices
+                for police in world.terrorists:
+                    position = pos.Pos(position=terrorist.position)
+                    canvas_pos = GuiUtils()._get_canvas_position(position.x, position.y, cell_size, center_origin=True)
+                    police.angle = move_angle[EDirection.Left.name]
+                    police.img_ref = self.canvas.create_image("Police", canvas_pos['x'], canvas_pos['y'],
+                                                                 center_origin=True,
+                                                                 scale_type=ScaleType.ScaleToWidth,
+                                                                 scale_value=cell_size)
+                    # terrorist.id_ref = self.canvas.create_text(str(terrorist.id),canvas_pos['x'] + cell_size // 2 - 10,canvas_pos['y'] - cell_size // 2, text_color,font_size, center_origin=True)
+                    x1, y1, x2, y2 = GuiUtils()._get_line_xys(police, police.health, police.max_health, 0)
+                    police.health_ref = canvas.create_line(x1, y1, x2, y2,
+                                                              canvas.make_rgba(255, 0, 0, 150),
+                                                              stroke_width=5)
+                    x1, y1, x2, y2 = GuiUtils()._get_line_xys(police, police.laser_count,
+                                                              police.max_laser_count, 5)
+                    police.ammo_ref = canvas.create_line(x1, y1, x2, y2, canvas.make_rgba(0, 0, 255, 150),
+                                                            stroke_width=5)
 
 
 class GuiUtils:
