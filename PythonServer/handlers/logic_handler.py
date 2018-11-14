@@ -13,6 +13,10 @@ class LogicHandler:
     plant_angle=None
     defuse_dirs=None
     defuse_angle=None
+    scale_factor=None
+    scale_percent=None
+    cell_size=None
+    font_size=None
 
 
     def __init__(self, world, sides, board):
@@ -108,6 +112,7 @@ class LogicHandler:
             ECommandDirection.Down.name: 90,
             ECommandDirection.Left.name: 0
         }
+
 
         return self.move_dirs, self.move_angle, self.plant_dirs, self.plant_angle, \
                self.defuse_dirs, self.defuse_angle
