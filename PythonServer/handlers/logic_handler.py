@@ -1,23 +1,23 @@
+import math
+
 from ..ks.commands import *
 from ..ks.models import *
-import math
 
 
 class LogicHandler:
     world = None
     board = []
     sides = []
-    move_dirs=None
-    move_angle=None
-    plant_dirs=None
-    plant_angle=None
-    defuse_dirs=None
-    defuse_angle=None
-    scale_factor=None
-    scale_percent=None
-    cell_size=None
-    font_size=None
-
+    move_dirs = None
+    move_angle = None
+    plant_dirs = None
+    plant_angle = None
+    defuse_dirs = None
+    defuse_angle = None
+    scale_factor = None
+    scale_percent = None
+    cell_size = None
+    font_size = None
 
     def __init__(self, world, sides, board):
         self.world = world
@@ -30,7 +30,7 @@ class LogicHandler:
     def clear_commands(self):
         pass
 
-    def initialize(self):
+    def initialize(self, canvas, config):
         # Create World board
         for y in range(self.world.height):
             for x in range(self.world.width):
@@ -112,10 +112,15 @@ class LogicHandler:
             ECommandDirection.Down.name: 90,
             ECommandDirection.Left.name: 0
         }
-
+        self.scale_factor = (canvas.width) / (
+                self.world.width * self.world.map_config['cell_size'])
+        self.scale_percent = math.ceil(self.scale_factor * 100)
+        self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
+        self.font_size = self.cell_size // 2
 
         return self.move_dirs, self.move_angle, self.plant_dirs, self.plant_angle, \
-               self.defuse_dirs, self.defuse_angle
+               self.defuse_dirs, self.defuse_angle, self.scale_factor, \
+               self.scale_percent, self.cell_size, self.font_size
 
     def process(self, current_cycle):
         pass
