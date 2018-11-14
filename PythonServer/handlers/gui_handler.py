@@ -95,8 +95,8 @@ class GuiUtils:
             'y': y * cell_size + addition
         }
 
-    def _get_line_xys(self, banana, curr_val, max_val, offset, cell_size):
-        position = pos.Pos(position=banana.position)
+    def _get_line_xys(self, player, curr_val, max_val, offset, cell_size):
+        position = pos.Pos(position=player.position)
         canvas_pos = self._get_canvas_position(position.x, position.y, cell_size, center_origin=True)
         y1 = y2 = canvas_pos['y'] + cell_size // 2 - 10 + offset
         x1 = canvas_pos['x'] - cell_size // 2 + 5
