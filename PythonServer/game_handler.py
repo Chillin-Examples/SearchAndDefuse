@@ -5,7 +5,7 @@ from __future__ import division
 
 # chillin imports
 from chillin_server import TurnbasedGameHandler
-import chillin_server.gui.canvas_elements
+from chillin_server.gui.canvas_elements import ScaleType
 
 
 from .handlers import map_handler, logic_handler,gui_handler
@@ -34,9 +34,12 @@ class GameHandler(TurnbasedGameHandler):
         self.plant_angle, self.defuse_dirs, self.defuse_angle = self._logic_handler.initialize()
 
     def on_initialize_gui(self):
-        self._gui_handler = gui_handler.GuiHandler(self.world,self.sides,self.canvas)
-        self.canvas=self._gui_handler.initialize()
         print('initialize gui')
+        self._gui_handler = gui_handler.GuiHandler(self.world,self.sides,self.canvas)
+        self.canvas=self._gui_handler.initialize(self.canvas,self.canvas,self.world,self.cel)
+        # Apply actions
+        self.canvas.apply_actions()
+
 
     def on_process_cycle(self):
         print('cycle %i' % (self.current_cycle,))

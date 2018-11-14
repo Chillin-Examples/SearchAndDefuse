@@ -1,11 +1,19 @@
 from ..ks.commands import *
 from ..ks.models import *
+import math
 
 
 class LogicHandler:
     world = None
     board = []
     sides = []
+    move_dirs=None
+    move_angle=None
+    plant_dirs=None
+    plant_angle=None
+    defuse_dirs=None
+    defuse_angle=None
+
 
     def __init__(self, world, sides, board):
         self.world = world
@@ -100,7 +108,9 @@ class LogicHandler:
             ECommandDirection.Down.name: 90,
             ECommandDirection.Left.name: 0
         }
-        return self.move_dirs, self.move_angle, self.plant_dirs, self.plant_angle, self.defuse_dirs, self.defuse_angle
+
+        return self.move_dirs, self.move_angle, self.plant_dirs, self.plant_angle, \
+               self.defuse_dirs, self.defuse_angle
 
     def process(self, current_cycle):
         pass
