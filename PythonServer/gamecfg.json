@@ -25,7 +25,17 @@
     "width": 500,
     "height": 500,
     "images": {
-      "Background": "images/background.png"
+      "Background": "images/background.png",
+      "Terrorist": "images/terrorist.png",
+      "Police": "images/police.png",
+      "Planting_Terrorist": "images/planting_terrorist.png",
+      "Defusing_Police": "images/defusing_police.png",
+      "Fog": "images/fog.png",
+      "Wall": "images/wall.png",
+      "SmallBomb": "images/small_bomb.png",
+      "MediumBomb": "images/medium_bomb.png",
+      "LargeBomb": "images/large_bomb.png",
+      "VastBomb": "images/vast_bomb.png"
     }
   },
   "sides": {
