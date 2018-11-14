@@ -36,7 +36,7 @@
       "MediumBomb": "images/medium_bomb.png",
       "LargeBomb": "images/large_bomb.png",
       "VastBomb": "images/vast_bomb.png",
-      "Empty":"images/empty.png"
+      "Empty": "images/empty.png"
     }
   },
   "sides": {
@@ -63,6 +63,7 @@
       "Terrorist"
     ],
     "": "my configs",
+    "cell_size": 150,
     "show_statuses": false
   }
 }
