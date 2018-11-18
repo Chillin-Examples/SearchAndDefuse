@@ -1,28 +1,19 @@
+# -*- coding: utf-8 -*-
+
+# python imports
 import math
 
+# project imports
 from ..ks.commands import *
 from ..ks.models import *
 
 
 class LogicHandler:
-    world = None
-    board = []
-    sides = []
-    move_dirs = None
-    move_angle = None
-    plant_dirs = None
-    plant_angle = None
-    defuse_dirs = None
-    defuse_angle = None
-    scale_factor = None
-    scale_percent = None
-    cell_size = None
-    font_size = None
 
     def __init__(self, world, sides, board):
         self.world = world
         self.sides = sides
-        self.board = board
+        self.char_board = board
 
     def store_command(self, side_name, command):
         pass
@@ -34,17 +25,17 @@ class LogicHandler:
         # Create World board
         for y in range(self.world.height):
             for x in range(self.world.width):
-                if self.board[y][x] == 'w':  # Wall
+                if self.char_board[y][x] == 'w':  # Wall
                     self.world.board[y][x] = ECell.Wall
-                elif self.board[y][x] == 's':  # Small Bomb
+                elif self.char_board[y][x] == 's':  # Small Bomb
                     self.world.board[y][x] = ECell.SmallBombSite
-                elif self.board[y][x] == 'l':  # Large Bomb
+                elif self.char_board[y][x] == 'l':  # Large Bomb
                     self.world.board[y][x] = ECell.LargeBombSite
-                elif self.board[y][x] == 'm':  # Medium Bomb
+                elif self.char_board[y][x] == 'm':  # Medium Bomb
                     self.world.board[y][x] = ECell.MediumBombSite
-                elif self.board[y][x] == 'v':  # Vast Bomb
+                elif self.char_board[y][x] == 'v':  # Vast Bomb
                     self.world.board[y][x] = ECell.VastBombSite
-                elif self.board[y][x] == 'e':  # Empty
+                elif self.char_board[y][x] == 'e':  # Empty
                     self.world.board[y][x] = ECell.Empty
 
         # Create Polices and Terrorists
@@ -53,7 +44,8 @@ class LogicHandler:
                 if side == 'Police':
                     new_police = Police()
                     new_police.id = len(self.world.polices[side])
-                    new_police.position = player['position']
+                    new_police.position.x = player['position'][0]
+                    new_police.position.y = player['position'][1]
                     new_police.defusion_remaining_time = -1  # self.world.constants.bomb_defusing_time
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
@@ -62,7 +54,8 @@ class LogicHandler:
                 if side == 'Terrorist':
                     new_terrorist = Terrorist()
                     new_terrorist.id = len(self.world.terrorists[side])
-                    new_terrorist.position = player['position']
+                    new_terrorist.position.x = player['position'][0]
+                    new_terrorist.position.y = player['position'][1]
                     new_terrorist.planting_remaining_time = self.world.constants.bomb_planting_time
                     new_terrorist.footstep_sounds = []
                     new_terrorist.is_dead = False
@@ -70,19 +63,12 @@ class LogicHandler:
 
         # Status Bar Not Initialized Yet.
 
-        # Initialize Commands
         self.move_dirs = {
 
             ECommandDirection.Up.name: Position(x=0, y=-1),
             ECommandDirection.Right.name: Position(x=1, y=0),
             ECommandDirection.Down.name: Position(x=0, y=1),
             ECommandDirection.Left.name: Position(x=-1, y=0)
-        }
-        self.move_angle = {
-            ECommandDirection.Up.name: -90,
-            ECommandDirection.Right.name: 180,
-            ECommandDirection.Down.name: 90,
-            ECommandDirection.Left.name: 0
         }
 
         self.plant_dirs = {
@@ -92,12 +78,6 @@ class LogicHandler:
             ECommandDirection.Down.name: Position(x=0, y=1),
             ECommandDirection.Left.name: Position(x=-1, y=0)
         }
-        self.plant_angle = {
-            ECommandDirection.Up.name: -90,
-            ECommandDirection.Right.name: 180,
-            ECommandDirection.Down.name: 90,
-            ECommandDirection.Left.name: 0
-        }
 
         self.defuse_dirs = {
 
@@ -106,21 +86,7 @@ class LogicHandler:
             ECommandDirection.Down.name: Position(x=0, y=1),
             ECommandDirection.Left.name: Position(x=-1, y=0)
         }
-        self.defuse_angle = {
-            ECommandDirection.Up.name: -90,
-            ECommandDirection.Right.name: 180,
-            ECommandDirection.Down.name: 90,
-            ECommandDirection.Left.name: 0
-        }
-        self.scale_factor = (canvas.width) / (
-                self.world.width * self.world.map_config['cell_size'])
-        self.scale_percent = math.ceil(self.scale_factor * 100)
-        self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
-        self.font_size = self.cell_size // 2
 
-        return self.move_dirs, self.move_angle, self.plant_dirs, self.plant_angle, \
-               self.defuse_dirs, self.defuse_angle, self.scale_factor, \
-               self.scale_percent, self.cell_size, self.font_size
 
     def process(self, current_cycle):
         pass

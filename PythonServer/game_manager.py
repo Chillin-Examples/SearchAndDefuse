@@ -4,18 +4,13 @@
 from __future__ import division
 
 # chillin imports
-from chillin_server import TurnbasedGameHandler
-
-from .handlers import map_handler, logic_handler, gui_handler
-from .ks.models import *
-
+from chillin_server import RealtimeGameHandler
 
 # project imports
+from .handlers import map_handler, logic_handler, gui_handler
 
 
-class GameHandler(TurnbasedGameHandler):
-    _map_handler, _logic_handler, _gui_handler = None, None, None
-    gui_event_tmp = None
+class GameHandler(RealtimeGameHandler):
 
     def on_recv_command(self, side_name, agent_name, command_type, command):
         if None in command.__dict__.values():
@@ -25,18 +20,14 @@ class GameHandler(TurnbasedGameHandler):
     def on_initialize(self):
         print('initialize')
         self._map_handler = map_handler.MapHandler(self.sides)
-        self.world, board = self._map_handler.load_map(Constants, self.map_config, self.config)
-        self.world.board = [[ECell.Empty for _ in range(self.world.width)] for _ in range(self.world.height)]
-        self._logic_handler = logic_handler.LogicHandler(self.world, self.sides, board)
-        self.move_dirs, self.move_angle, self.plant_dirs, \
-        self.plant_angle, self.defuse_dirs, self.defuse_angle, self.scale_factor, \
-        self.scale_percent, self.cell_size, self.font_size = self._logic_handler.initialize(self.canvas, self.config)
+        char_board = self._map_handler.load_map(self.map_config, self.config)
+        self._logic_handler = logic_handler.LogicHandler(self.world, self.sides, char_board)
+        self._logic_handler.initialize(self.canvas, self.config)
 
     def on_initialize_gui(self):
         print('initialize gui')
         self._gui_handler = gui_handler.GuiHandler(self.world, self.sides, self.canvas)
-        self.canvas = self._gui_handler.initialize(self.canvas, self.canvas, self.world, self.cell_size, self.sides,
-                                                   self.move_angle, self.font_size)
+        self._gui_handler.initialize(self.canvas, self.config, self.world)
         # Apply actions
         self.canvas.apply_actions()
 
