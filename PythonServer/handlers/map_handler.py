@@ -28,8 +28,6 @@ class MapHandler:
         world.bombs = {side: [] for side in self._sides}
         world.polices = {side: [] for side in self._sides}
         world.terrorists = {side: [] for side in self._sides}
-        world.map_config = map_config
-        world.config = config
 
         world.constants.bomb_planting_time = map_config["bomb_planting_time"]
         world.constants.bomb_defusion_time = map_config["bomb_defusion_time"]

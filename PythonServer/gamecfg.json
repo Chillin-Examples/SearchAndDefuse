@@ -40,12 +40,8 @@
     }
   },
   "sides": {
-    "Police": [
-      "0"
-    ],
-    "Terrorist": [
-      "0"
-    ]
+    "Police": ["0"],
+    "Terrorist": ["0"]
   },
   "game_handler": {
     "": "base game handler configs",
@@ -58,10 +54,7 @@
     "max_agent_commands": 100,
     "": "turnbased game handler configs",
     "auto_change_turn": true,
-    "auto_change_turn_sequence": [
-      "Police",
-      "Terrorist"
-    ],
+    "auto_change_turn_sequence": ["Police", "Terrorist"],
     "": "my configs",
     "cell_size": 150,
     "show_statuses": false

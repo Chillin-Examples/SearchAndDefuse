@@ -72,7 +72,6 @@
     "terrorist_vision_distance" : 5,
     "terrorist_death_score" : 4,
     "police_vision_distance" : 6,
-  //  sound_ranges : map<ESoundIntensity, int>
     "max_cycles" : 100
   }
 }

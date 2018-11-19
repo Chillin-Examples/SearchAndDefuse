@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# general imports
+# python imports
 import math
 
 # chillin imports
