@@ -7,8 +7,8 @@ import math
 from chillin_server.gui.canvas_elements import ScaleType
 
 # project imports
-from ..ks.commands import *
-from ..ks.models import *
+from ks.commands import *
+from ks.models import *
 
 
 class GuiHandler:

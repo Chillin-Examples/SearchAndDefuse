@@ -8,7 +8,7 @@ import sys
 # chillin imports
 from chillin_server import GameServer, Config
 # project imports
-from game_handler import GameHandler
+from game_manager import GameHandler
 
 config_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),

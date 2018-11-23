@@ -4,8 +4,10 @@
 import math
 
 # project imports
-from ..ks.commands import *
-from ..ks.models import *
+import sys
+sys.path.append('../')
+from ks.commands import *
+from ks.models import *
 
 
 class LogicHandler:

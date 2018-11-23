@@ -4,7 +4,10 @@
 import json
 
 # project imports
-from ..ks.models import World, ECell
+# from ..ks.models import World, ECell
+import sys
+sys.path.append('../')
+from ks.models import World, ECell
 
 GLOBAL_BOARD_WIDTH = 0
 GLOBAL_BOARD_HEIGHT = 0
