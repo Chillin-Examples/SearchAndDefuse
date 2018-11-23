@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import Police
-from ..ks.commands import Move, DefuseBomb
+from ks.models import Police
+from ks.commands import Move, DefuseBomb
 
 
 def change_direction(self, world, command):
