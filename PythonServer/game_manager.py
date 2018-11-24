@@ -18,15 +18,16 @@ class GameHandler(RealtimeGameHandler):
             return
 
     def on_initialize(self):
+
         print('initialize')
         self._map_handler = map_handler.MapHandler(self.sides)
-        char_board = self._map_handler.load_map(self.map_config, self.config)
+        self.world, char_board = self._map_handler.load_map(self.config)
         self._logic_handler = logic_handler.LogicHandler(self.world, self.sides, char_board)
         self._logic_handler.initialize(self.canvas, self.config)
 
     def on_initialize_gui(self):
         print('initialize gui')
-        self._gui_handler = gui_handler.GuiHandler(self.world, self.sides, self.canvas)
+        self._gui_handler = gui_handler.GuiHandler(self.world, self.sides)
         self._gui_handler.initialize(self.canvas, self.config, self.world)
         # Apply actions
         self.canvas.apply_actions()

@@ -43,25 +43,24 @@ class LogicHandler:
         # Create Polices and Terrorists
         for side in self.sides:
             for player in self.world.map_config['player'][side]:
+                player_position = Position(x=player['position'][0], y=player['position'][1])
                 if side == 'Police':
                     new_police = Police()
-                    new_police.id = len(self.world.polices[side])
-                    new_police.position.x = player['position'][0]
-                    new_police.position.y = player['position'][1]
+                    new_police.id = len(self.world.polices)
+                    new_police.position = player_position
                     new_police.defusion_remaining_time = -1  # self.world.constants.bomb_defusing_time
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
                     new_police.is_visible = False
-                    self.world.polices[side].append(new_police)
+                    self.world.polices.append(new_police)
                 if side == 'Terrorist':
                     new_terrorist = Terrorist()
-                    new_terrorist.id = len(self.world.terrorists[side])
-                    new_terrorist.position.x = player['position'][0]
-                    new_terrorist.position.y = player['position'][1]
-                    new_terrorist.planting_remaining_time = self.world.constants.bomb_planting_time
+                    new_terrorist.id = len(self.world.terrorists)
+                    new_terrorist.position = player_position
+                    new_terrorist.planting_remaining_time = self.world.constants["bomb_planting_time"]
                     new_terrorist.footstep_sounds = []
                     new_terrorist.is_dead = False
-                    self.world.terrorists[side].append(new_terrorist)
+                    self.world.terrorists.append(new_terrorist)
 
         # Status Bar Not Initialized Yet.
 

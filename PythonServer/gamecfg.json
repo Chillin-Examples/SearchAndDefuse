@@ -22,20 +22,20 @@
     "save_replay": true,
     "replay_dir": "replays",
     "replay_filename": null,
-    "width": 500,
-    "height": 500,
+    "width": 1874,
+    "height": 1874,
     "images": {
       "Background": "images/background.png",
       "Terrorist": "images/terrorist.png",
       "Police": "images/police.png",
-      "Planting_Terrorist": "images/planting_terrorist.png",
+      "Planting_Terrorist": "images/planting_police.png",
       "Defusing_Police": "images/defusing_police.png",
       "Fog": "images/fog.png",
       "Wall": "images/wall.png",
       "SmallBomb": "images/small_bomb.png",
       "MediumBomb": "images/medium_bomb.png",
       "LargeBomb": "images/large_bomb.png",
-      "VastBomb": "images/vast_bomb.png",
+      "VastBomb": "images/vast_site.png",
       "Empty": "images/empty.png"
     }
   },
@@ -56,7 +56,9 @@
     "auto_change_turn": true,
     "auto_change_turn_sequence": ["Police", "Terrorist"],
     "": "my configs",
-    "cell_size": 150,
-    "show_statuses": false
+    "cell_size": 6,
+    "show_statuses": false,
+    "map": "maps/revolution909.json"
+
   }
 }
