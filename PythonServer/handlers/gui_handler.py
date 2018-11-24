@@ -15,7 +15,7 @@ class GuiHandler:
 
     def __init__(self, world, sides):
         self._world = world
-        self.sides = sides
+        self._sides = sides
 
     def update(self, gui_events):
         pass
