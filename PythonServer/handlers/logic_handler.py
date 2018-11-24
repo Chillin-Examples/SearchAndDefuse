@@ -52,5 +52,5 @@ class LogicHandler:
     def get_client_world(self, side_name):
         pass
 
-    def check_end_game(self):
+    def _check_end_game(self):
         pass
