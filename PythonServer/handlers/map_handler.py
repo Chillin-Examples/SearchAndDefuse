@@ -9,9 +9,6 @@ import sys
 sys.path.append('../')
 from ks.models import World, ECell
 
-GLOBAL_BOARD_WIDTH = 0
-GLOBAL_BOARD_HEIGHT = 0
-
 
 class MapHandler:
 
@@ -21,12 +18,10 @@ class MapHandler:
     def load_map(self, config):
         map_config = json.loads(open((config['map']), "r").read())
         char_board = map_config['char_board']
-        self.BOARD_WIDTH = len(char_board[0])
-        self.BOARD_HEIGHT = len(char_board)
 
         world = World()
-        world.width = self.BOARD_WIDTH
-        world.height = self.BOARD_HEIGHT
+        world.width = len(char_board[0])
+        world.height = len(char_board)
         world.map_config = map_config
         world.config = config
         world.scores = {side: 0 for side in self._sides}
