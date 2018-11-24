@@ -7,6 +7,7 @@ import sys
 
 # chillin imports
 from chillin_server import GameServer, Config
+
 # project imports
 from game_manager import GameHandler
 
