@@ -28,7 +28,7 @@ class GameHandler(RealtimeGameHandler):
     def on_initialize_gui(self):
         print('initialize gui')
         self._gui_handler = gui_handler.GuiHandler(self._logic_handler.world, self.sides)
-        self._gui_handler.initialize(self.canvas, self.config, self._logic_handler.world)
+        self._gui_handler.initialize(self.canvas, self.config)
         # Apply actions
         self.canvas.apply_actions()
 

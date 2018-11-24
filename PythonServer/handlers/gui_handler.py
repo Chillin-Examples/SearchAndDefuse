@@ -14,13 +14,13 @@ from ks.models import *
 class GuiHandler:
 
     def __init__(self, world, sides):
-        self.world = world
+        self._world = world
         self.sides = sides
 
     def update(self, gui_events):
         pass
 
-    def initialize(self, canvas, config, world):
+    def initialize(self, canvas, config):
         # Draw background
         background_ref = canvas.create_image('Background', 0, 0)
         canvas.edit_image(background_ref, scale_type=ScaleType.ScaleToWidth,
@@ -47,15 +47,15 @@ class GuiHandler:
             ECommandDirection.Left.name: 0
         }
         self.scale_factor = (canvas.width) / (
-                self.world.width * self.world.config['cell_size'])
+                self._world.width * self._world.config['cell_size'])
         self.scale_percent = math.ceil(self.scale_factor * 100)
         self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
         self.font_size = int(self.cell_size / 2)
 
         # Draw Board
-        for y in range(world.height):
-            for x in range(world.width):
-                cell = world.board[y][x]
+        for y in range(self._world.height):
+            for x in range(self._world.width):
+                cell = self._world.board[y][x]
                 if cell == ECell.Empty:
                     canvas.create_image('Empty', x * self.cell_size, y * self.cell_size,
                                              scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
@@ -76,7 +76,7 @@ class GuiHandler:
                                              scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
 
                 # Draw Terrorists
-                for terrorist in world.terrorists:
+                for terrorist in self._world.terrorists:
                     position = terrorist.position
 
                     canvas_pos = GuiUtils()._get_canvas_position(position.x, position.y, self.cell_size,
@@ -87,7 +87,7 @@ class GuiHandler:
                                                                  scale_value=self.cell_size)
 
                 # Draw Polices
-                for police in world.polices:
+                for police in self._world.polices:
                     position = police.position
                     canvas_pos = GuiUtils()._get_canvas_position(position.x, position.y, self.cell_size,
                                                                  center_origin=True)

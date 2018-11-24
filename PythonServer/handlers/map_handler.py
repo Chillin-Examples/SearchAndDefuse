@@ -4,13 +4,7 @@
 import json
 
 # project imports
-# from ..ks.models import World, ECell
-import sys
-sys.path.append('../')
-from ks.models import World, ECell, Constants
-
-GLOBAL_BOARD_WIDTH = 0
-GLOBAL_BOARD_HEIGHT = 0
+from ks.models import *
 
 
 class MapHandler:
@@ -34,6 +28,30 @@ class MapHandler:
                     board[y][x] = ECell.VastBombSite
                 elif char_board[y][x] == 'e':  # Empty
                     board[y][x] = ECell.Empty
+
+    def _create_players(self, map_config, world):
+
+        # Create Polices and Terrorists
+        for side in self._sides:
+            for player in map_config['player'][side]:
+                player_position = Position(x=player['position'][0], y=player['position'][1])
+                if side == 'Police':
+                    new_police = Police()
+                    new_police.id = len(world.polices)
+                    new_police.position = player_position
+                    new_police.defusion_remaining_time = -1  # self.world.constants.bomb_defusing_time
+                    new_police.footstep_sounds = []
+                    new_police.bomb_sounds = []
+                    new_police.is_visible = False
+                    world.polices.append(new_police)
+                if side == 'Terrorist':
+                    new_terrorist = Terrorist()
+                    new_terrorist.id = len(world.terrorists)
+                    new_terrorist.position = player_position
+                    new_terrorist.planting_remaining_time = world.constants.bomb_planting_time
+                    new_terrorist.footstep_sounds = []
+                    new_terrorist.is_dead = False
+                    world.terrorists.append(new_terrorist)
 
 
     def load_map(self, config):
@@ -66,6 +84,7 @@ class MapHandler:
         world.constants.max_cycles = map_config["constants"]["max_cycles"]
         world.board = [[ECell.Empty for _ in range(world.width)] for _ in range(world.height)]
         self._fill_board(world.board, world.width, world.height, char_board)
+        self._create_players(map_config, world)
 
 
         return world
