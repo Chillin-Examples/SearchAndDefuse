@@ -46,10 +46,7 @@ class LogicHandler:
                     new_terrorist.is_dead = False
                     self.world.terrorists.append(new_terrorist)
 
-        # Status Bar Not Initialized Yet.
-
         self.move_dirs = {
-
             ECommandDirection.Up.name: Position(x=0, y=-1),
             ECommandDirection.Right.name: Position(x=1, y=0),
             ECommandDirection.Down.name: Position(x=0, y=1),
@@ -57,7 +54,6 @@ class LogicHandler:
         }
 
         self.plant_dirs = {
-
             ECommandDirection.Up.name: Position(x=0, y=-1),
             ECommandDirection.Right.name: Position(x=1, y=0),
             ECommandDirection.Down.name: Position(x=0, y=1),
@@ -65,7 +61,6 @@ class LogicHandler:
         }
 
         self.defuse_dirs = {
-
             ECommandDirection.Up.name: Position(x=0, y=-1),
             ECommandDirection.Right.name: Position(x=1, y=0),
             ECommandDirection.Down.name: Position(x=0, y=1),
