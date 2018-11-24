@@ -10,7 +10,7 @@ using namespace ks::models;
 using namespace ks::commands;
 
 
-AI::AI(World *world): TurnbasedAI<World*>(world)
+AI::AI(World *world): RealtimeAI<World*>(world)
 {
     srand(time(0));
 }

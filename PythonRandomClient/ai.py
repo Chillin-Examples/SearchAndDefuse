@@ -4,7 +4,7 @@
 import random
 
 # chillin imports
-from chillin_client import TurnbasedAI
+from chillin_client import RealtimeAI
 
 # project imports
 from ks.models import (World, Police, Terrorist, Bomb, Position, Constants,
@@ -12,7 +12,7 @@ from ks.models import (World, Police, Terrorist, Bomb, Position, Constants,
 from ks.commands import DefuseBomb, PlantBomb, Move, ECommandDirection
 
 
-class AI(TurnbasedAI):
+class AI(RealtimeAI):
 
     def __init__(self, world):
         super(AI, self).__init__(world)
