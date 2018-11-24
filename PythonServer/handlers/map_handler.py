@@ -35,10 +35,6 @@ class MapHandler:
         world.terrorists = []
         world.constants = Constants()
         world.constants.bomb_planting_time = map_config["constants"]["bomb_planting_time"]
-        print("FUCK AMIN HDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
-        print(world.constants.bomb_planting_time)
-        print("FUCK AMIN HDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
-
         world.constants.bomb_defusion_time = map_config["constants"]["bomb_defusion_time"]
         world.constants.bomb_explosion_time = map_config["constants"]["bomb_explosion_time"]
         world.constants.bomb_planting_score = map_config["constants"]["bomb_planting_score"]
