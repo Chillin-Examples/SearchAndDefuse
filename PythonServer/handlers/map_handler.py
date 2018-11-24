@@ -18,15 +18,31 @@ class MapHandler:
     def __init__(self, sides):
         self._sides = sides
 
+    def _fill_board(self, board, width, height, char_board):
+        # Create World board
+        for y in range(height):
+            for x in range(width):
+                if char_board[y][x] == 'w':  # Wall
+                    board[y][x] = ECell.Wall
+                elif char_board[y][x] == 's':  # Small Bomb
+                    board[y][x] = ECell.SmallBombSite
+                elif char_board[y][x] == 'l':  # Large Bomb
+                    board[y][x] = ECell.LargeBombSite
+                elif char_board[y][x] == 'm':  # Medium Bomb
+                    board[y][x] = ECell.MediumBombSite
+                elif char_board[y][x] == 'v':  # Vast Bomb
+                    board[y][x] = ECell.VastBombSite
+                elif char_board[y][x] == 'e':  # Empty
+                    board[y][x] = ECell.Empty
+
+
     def load_map(self, config):
         map_config = json.loads(open((config['map']), "r").read())
         char_board = map_config['char_board']
-        self.BOARD_WIDTH = len(char_board[0])
-        self.BOARD_HEIGHT = len(char_board)
 
         world = World()
-        world.width = self.BOARD_WIDTH
-        world.height = self.BOARD_HEIGHT
+        world.width = len(char_board[0])
+        world.height = len(char_board)
         world.map_config = map_config
         world.config = config
         world.scores = {side: 0 for side in self._sides}
@@ -49,5 +65,7 @@ class MapHandler:
         world.constants.police_vision_distance = map_config["constants"]["police_vision_distance"]
         world.constants.max_cycles = map_config["constants"]["max_cycles"]
         world.board = [[ECell.Empty for _ in range(world.width)] for _ in range(world.height)]
+        self._fill_board(world.board, world.width, world.height, char_board)
 
-        return world, char_board
+
+        return world

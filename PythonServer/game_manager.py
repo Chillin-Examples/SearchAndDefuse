@@ -21,14 +21,14 @@ class GameHandler(RealtimeGameHandler):
 
         print('initialize')
         self._map_handler = map_handler.MapHandler(self.sides)
-        self.world, char_board = self._map_handler.load_map(self.config)
-        self._logic_handler = logic_handler.LogicHandler(self.world, self.sides, char_board)
+        world = self._map_handler.load_map(self.config)
+        self._logic_handler = logic_handler.LogicHandler(world, self.sides)
         self._logic_handler.initialize(self.canvas, self.config)
 
     def on_initialize_gui(self):
         print('initialize gui')
-        self._gui_handler = gui_handler.GuiHandler(self.world, self.sides)
-        self._gui_handler.initialize(self.canvas, self.config, self.world)
+        self._gui_handler = gui_handler.GuiHandler(self._logic_handler.world, self.sides)
+        self._gui_handler.initialize(self.canvas, self.config, self._logic_handler.world)
         # Apply actions
         self.canvas.apply_actions()
 
@@ -39,7 +39,7 @@ class GameHandler(RealtimeGameHandler):
 
     def on_update_clients(self):
         print('update clients')
-        self.send_snapshot(self.world)
+        self.send_snapshot(self._logic_handler.world)
 
     def on_update_gui(self):
         print('update gui')

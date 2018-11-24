@@ -12,10 +12,9 @@ from ks.models import *
 
 class LogicHandler:
 
-    def __init__(self, world, sides, board):
+    def __init__(self, world, sides):
         self.world = world
         self.sides = sides
-        self.char_board = board
 
     def store_command(self, side_name, command):
         pass
@@ -24,21 +23,6 @@ class LogicHandler:
         pass
 
     def initialize(self, canvas, config):
-        # Create World board
-        for y in range(self.world.height):
-            for x in range(self.world.width):
-                if self.char_board[y][x] == 'w':  # Wall
-                    self.world.board[y][x] = ECell.Wall
-                elif self.char_board[y][x] == 's':  # Small Bomb
-                    self.world.board[y][x] = ECell.SmallBombSite
-                elif self.char_board[y][x] == 'l':  # Large Bomb
-                    self.world.board[y][x] = ECell.LargeBombSite
-                elif self.char_board[y][x] == 'm':  # Medium Bomb
-                    self.world.board[y][x] = ECell.MediumBombSite
-                elif self.char_board[y][x] == 'v':  # Vast Bomb
-                    self.world.board[y][x] = ECell.VastBombSite
-                elif self.char_board[y][x] == 'e':  # Empty
-                    self.world.board[y][x] = ECell.Empty
 
         # Create Polices and Terrorists
         for side in self.sides:
