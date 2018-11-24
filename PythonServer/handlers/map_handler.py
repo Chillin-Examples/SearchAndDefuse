@@ -7,7 +7,7 @@ import json
 # from ..ks.models import World, ECell
 import sys
 sys.path.append('../')
-from ks.models import World, ECell
+from ks.models import World, ECell, Constants
 
 
 class MapHandler:
@@ -28,21 +28,25 @@ class MapHandler:
         world.bombs = []
         world.polices = []
         world.terrorists = []
-        world.constants = {}
-        world.constants["bomb_planting_time"] = map_config["constants"]["bomb_planting_time"]
-        world.constants["bomb_defusion_time"] = map_config["constants"]["bomb_defusion_time"]
-        world.constants["bomb_explosion_time"] = map_config["constants"]["bomb_explosion_time"]
-        world.constants["bomb_planting_score"] = map_config["constants"]["bomb_planting_score"]
-        world.constants["bomb_defusion_score"] = map_config["constants"]["bomb_defusion_score"]
-        world.constants["bomb_explosion_score"] = map_config["constants"]["bomb_explosion_score"]
-        world.constants["score_coefficient_small_bomb_site"] = map_config["constants"]["score_coefficient_small_bomb_site"]
-        world.constants["score_coefficient_medium_bomb_site"] = map_config["constants"]["score_coefficient_medium_bomb_site"]
-        world.constants["score_coefficient_large_bomb_site"] = map_config["constants"]["score_coefficient_large_bomb_site"]
-        world.constants["score_coefficient_vast_bomb_site"] = map_config["constants"]["score_coefficient_vast_bomb_site"]
-        world.constants["terrorist_vision_distance"] = map_config["constants"]["terrorist_vision_distance"]
-        world.constants["terrorist_death_score"] = map_config["constants"]["terrorist_death_score"]
-        world.constants["police_vision_distance"] = map_config["constants"]["police_vision_distance"]
-        world.constants["max_cycles"] = map_config["constants"]["max_cycles"]
+        world.constants = Constants()
+        world.constants.bomb_planting_time = map_config["constants"]["bomb_planting_time"]
+        print("FUCK AMIN HDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+        print(world.constants.bomb_planting_time)
+        print("FUCK AMIN HDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+
+        world.constants.bomb_defusion_time = map_config["constants"]["bomb_defusion_time"]
+        world.constants.bomb_explosion_time = map_config["constants"]["bomb_explosion_time"]
+        world.constants.bomb_planting_score = map_config["constants"]["bomb_planting_score"]
+        world.constants.bomb_defusion_score = map_config["constants"]["bomb_defusion_score"]
+        world.constants.bomb_explosion_score = map_config["constants"]["bomb_explosion_score"]
+        world.constants.score_coefficient_small_bomb_site = map_config["constants"]["score_coefficient_small_bomb_site"]
+        world.constants.score_coefficient_medium_bomb_site = map_config["constants"]["score_coefficient_medium_bomb_site"]
+        world.constants.score_coefficient_large_bomb_site = map_config["constants"]["score_coefficient_large_bomb_site"]
+        world.constants.score_coefficient_vast_bomb_site = map_config["constants"]["score_coefficient_vast_bomb_site"]
+        world.constants.terrorist_vision_distance = map_config["constants"]["terrorist_vision_distance"]
+        world.constants.terrorist_death_score = map_config["constants"]["terrorist_death_score"]
+        world.constants.police_vision_distance = map_config["constants"]["police_vision_distance"]
+        world.constants.max_cycles = map_config["constants"]["max_cycles"]
         world.board = [[ECell.Empty for _ in range(world.width)] for _ in range(world.height)]
 
         return world, char_board
