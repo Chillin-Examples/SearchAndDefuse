@@ -10,7 +10,7 @@ from chillin_server import RealtimeGameHandler
 from handlers import map_handler, logic_handler, gui_handler
 
 
-class GameHandler(RealtimeGameHandler):
+class GameManager(RealtimeGameHandler):
 
     def on_recv_command(self, side_name, agent_name, command_type, command):
         if None in command.__dict__.values():
