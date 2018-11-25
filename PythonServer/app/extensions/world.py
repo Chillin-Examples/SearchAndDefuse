@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ks.models import World
+from ..ks.models import World
 
 
 def apply_command(self, side_name, command):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ks.models import Terrorist
-from ks.commands import Move, PlantBomb
+from ..ks.models import Terrorist
+from ..ks.commands import Move, PlantBomb
 
 
 def change_direction(self, world, command):

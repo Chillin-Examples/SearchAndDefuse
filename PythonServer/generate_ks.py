@@ -8,5 +8,5 @@ lang = 'python'
 if len(sys.argv) > 1:
     lang = sys.argv[1]
 
-generate('ks/commands.ks', lang, 'ks')
-generate('ks/models.ks', lang, 'ks')
+generate('app/ks/commands.ks', lang, 'app/ks')
+generate('app/ks/models.ks', lang, 'app/ks')

@@ -2,7 +2,7 @@
   "general": {
     "game_name": "SearchAndDefuse",
     "command_files": [
-      "ks/commands"
+      "app/ks/commands"
     ],
     "allowed_teams": {},
     "offline_mode": true,

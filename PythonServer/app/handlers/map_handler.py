@@ -4,7 +4,7 @@
 import json
 
 # project imports
-from ks.models import *
+from ..ks.models import *
 
 
 class MapHandler:

@@ -4,10 +4,8 @@
 import math
 
 # project imports
-import sys
-sys.path.append('../')
-from ks.commands import *
-from ks.models import *
+from ..ks.commands import *
+from ..ks.models import *
 
 
 class LogicHandler:
@@ -16,6 +14,7 @@ class LogicHandler:
         self.last_gui_events = []
         self.world = world
         self._sides = sides
+        self._last_cycle_commands = {'Police': [], 'Terrorist': []}
 
     def store_command(self, side_name, command):
         pass
@@ -48,6 +47,7 @@ class LogicHandler:
 
 
     def process(self, current_cycle):
+        self.world.apply_command(None, None)
         gui_events = []
         # # #
         self.last_gui_events = gui_events
