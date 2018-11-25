@@ -13,8 +13,9 @@ from ks.models import *
 class LogicHandler:
 
     def __init__(self, world, sides):
+        self.last_gui_events = []
         self.world = world
-        self.sides = sides
+        self._sides = sides
 
     def store_command(self, side_name, command):
         pass
@@ -22,7 +23,7 @@ class LogicHandler:
     def clear_commands(self):
         pass
 
-    def initialize(self, canvas, config):
+    def initialize(self):
 
         self.move_dirs = {
             ECommandDirection.Up.name: Position(x=0, y=-1),
@@ -47,10 +48,12 @@ class LogicHandler:
 
 
     def process(self, current_cycle):
-        pass
+        gui_events = []
+        # # #
+        self.last_gui_events = gui_events
 
     def get_client_world(self, side_name):
-        pass
+        return self.world
 
     def _check_end_game(self):
         pass

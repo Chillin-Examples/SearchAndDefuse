@@ -9,12 +9,14 @@
     "": "online configs",
     "match_id": "0"
   },
+
   "net": {
     "host": "0.0.0.0",
     "port": 5000,
     "keyfile": "certs/key.pem",
     "certfile": "certs/cert.pem"
   },
+
   "gui": {
     "host": "0.0.0.0",
     "port": 5001,
@@ -38,11 +40,13 @@
       "VastBomb": "images/small_bomb.png",
       "Empty": "images/background.png"
     }
+
   },
   "sides": {
     "Police": ["0"],
     "Terrorist": ["0"]
   },
+
   "game_handler": {
     "": "base game handler configs",
     "start_time": "2017-11-08 00:50",
@@ -59,6 +63,5 @@
     "cell_size": 6,
     "show_statuses": false,
     "map": "maps/revolution909.json"
-
   }
 }

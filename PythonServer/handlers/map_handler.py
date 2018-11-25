@@ -13,7 +13,6 @@ class MapHandler:
         self._sides = sides
 
     def _fill_board(self, world, char_board):
-
         # Init World Board
         world.board = [[ECell.Empty for _ in range(world.width)] for _ in range(world.height)]
 
@@ -33,34 +32,30 @@ class MapHandler:
                 elif char_board[y][x] == 'e':  # Empty
                     world.board[y][x] = ECell.Empty
 
-    def _fill_constants(self, world, map_config):
+    def _fill_constants(self, world, constants_config):
+        world.constants = Constants()
+        world.constants.bomb_planting_time = constants_config["bomb_planting_time"]
+        world.constants.bomb_defusion_time = constants_config["bomb_defusion_time"]
+        world.constants.bomb_explosion_time = constants_config["bomb_explosion_time"]
+        world.constants.bomb_planting_score = constants_config["bomb_planting_score"]
+        world.constants.bomb_defusion_score = constants_config["bomb_defusion_score"]
+        world.constants.bomb_explosion_score = constants_config["bomb_explosion_score"]
+        world.constants.score_coefficient_small_bomb_site = constants_config["score_coefficient_small_bomb_site"]
+        world.constants.score_coefficient_medium_bomb_site = constants_config["score_coefficient_medium_bomb_site"]
+        world.constants.score_coefficient_large_bomb_site = constants_config["score_coefficient_large_bomb_site"]
+        world.constants.score_coefficient_vast_bomb_site = constants_config["score_coefficient_vast_bomb_site"]
+        world.constants.terrorist_vision_distance = constants_config["terrorist_vision_distance"]
+        world.constants.terrorist_death_score = constants_config["terrorist_death_score"]
+        world.constants.police_vision_distance = constants_config["police_vision_distance"]
+        world.constants.max_cycles = constants_config["max_cycles"]
 
-        world.bombs = []
+    def _create_players(self, world, player_config):
         world.polices = []
         world.terrorists = []
-        world.constants = Constants()
-        world.constants.bomb_planting_time = map_config["constants"]["bomb_planting_time"]
-        world.constants.bomb_defusion_time = map_config["constants"]["bomb_defusion_time"]
-        world.constants.bomb_explosion_time = map_config["constants"]["bomb_explosion_time"]
-        world.constants.bomb_planting_score = map_config["constants"]["bomb_planting_score"]
-        world.constants.bomb_defusion_score = map_config["constants"]["bomb_defusion_score"]
-        world.constants.bomb_explosion_score = map_config["constants"]["bomb_explosion_score"]
-        world.constants.score_coefficient_small_bomb_site = map_config["constants"]["score_coefficient_small_bomb_site"]
-        world.constants.score_coefficient_medium_bomb_site = map_config["constants"]["score_coefficient_medium_bomb_site"]
-        world.constants.score_coefficient_large_bomb_site = map_config["constants"]["score_coefficient_large_bomb_site"]
-        world.constants.score_coefficient_vast_bomb_site = map_config["constants"]["score_coefficient_vast_bomb_site"]
-        world.constants.terrorist_vision_distance = map_config["constants"]["terrorist_vision_distance"]
-        world.constants.terrorist_death_score = map_config["constants"]["terrorist_death_score"]
-        world.constants.police_vision_distance = map_config["constants"]["police_vision_distance"]
-        world.constants.max_cycles = map_config["constants"]["max_cycles"]
-
-
-
-    def _create_players(self, map_config, world):
 
         # Create Polices and Terrorists
         for side in self._sides:
-            for player in map_config['player'][side]:
+            for player in player_config[side]:
                 player_position = Position(x=player['position'][0], y=player['position'][1])
                 if side == 'Police':
                     new_police = Police()
@@ -80,19 +75,20 @@ class MapHandler:
                     new_terrorist.is_dead = False
                     world.terrorists.append(new_terrorist)
 
-
     def load_map(self, config):
-
         map_config = json.loads(open((config['map']), "r").read())
         char_board = map_config['char_board']
+        constants_config = map_config['constants']
+        player_config = map_config['player']
+
         world = World()
         world.width = len(char_board[0])
         world.height = len(char_board)
-        world.map_config = map_config
-        world.config = config
         world.scores = {side: 0 for side in self._sides}
-        self._fill_constants(world, map_config)
+        world.bombs = []
+
         self._fill_board(world, char_board)
-        self._create_players(map_config, world)
+        self._fill_constants(world, constants_config)
+        self._create_players(world, player_config)
 
         return world
