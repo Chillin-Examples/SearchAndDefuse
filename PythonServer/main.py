@@ -9,16 +9,16 @@ import sys
 from chillin_server import GameServer, Config
 
 # project imports
-from game_handler import GameHandler
+from game_manager import GameManager
 
 
 config_path = os.path.join(
-  os.path.dirname(os.path.abspath(__file__)),
-  "gamecfg.json"
+    os.path.dirname(os.path.abspath(__file__)),
+    "gamecfg.json"
 )
 if len(sys.argv) > 1:
-  config_path = sys.argv[1]
+    config_path = sys.argv[1]
 
 app = GameServer(config_path)
-app.register_game_handler(GameHandler(Config.config))
+app.register_game_handler(GameManager(Config.config))
 app.run()

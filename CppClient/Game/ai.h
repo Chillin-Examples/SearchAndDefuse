@@ -7,7 +7,7 @@
 #include "ks/commands.h"
 
 
-class AI : public koala::chillin::client::TurnbasedAI<ks::models::World*>
+class AI : public koala::chillin::client::RealtimeAI<ks::models::World*>
 {
 private:
     int **board;
