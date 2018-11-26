@@ -50,7 +50,4 @@ def _check_move_condition(self, side_name, command, move_dirs):
     return False
 
 
-
-
-
 World.apply_command = apply_command
