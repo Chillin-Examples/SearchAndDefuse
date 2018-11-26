@@ -54,7 +54,7 @@ class LogicHandler:
 
 
     def process(self, current_cycle):
-        self.world.apply_command(None, None, self.directions)
+        self.world.apply_command(None, None, self)
         gui_events = []
         # # #
         self.last_gui_events = gui_events

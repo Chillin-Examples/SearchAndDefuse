@@ -36,6 +36,7 @@ def _check_move_condition(self, side_name, command, move_dirs):
                 if check_police.position == new_position:
                     return False
 
+            player.position = new_position
             return True
 
         if side_name == 'Terrorist':
@@ -43,6 +44,7 @@ def _check_move_condition(self, side_name, command, move_dirs):
                 if check_terrorist.position == new_position:
                     return False
 
+            player.position = new_position
             return True
 
     return False
