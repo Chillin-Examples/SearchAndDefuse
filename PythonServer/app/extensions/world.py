@@ -12,7 +12,43 @@ def apply_command(self, side_name, command, directions):
             return False
         return True
 
-def _check_move_condition(self, side_name, command, move_dir):
-    pass
+def _check_move_condition(self, side_name, command, move_dirs):
+    player = None
+
+    # Get Player Who Gave Command
+    if side_name == 'Police':
+        player = self.polices[command.id]
+
+    elif side_name == 'Terrorist':
+        player = self.terrorists[command.id]
+
+    # Get New Position
+    new_position_x = player.position.x + move_dirs[command.direction.name].x
+    new_position_y = player.position.y + move_dirs[command.direction.name].y
+    new_position = Position(x=new_position_x, y=new_position_y)
+
+    # Check There Is No Wall In Path
+    if self.board[new_position_y][new_position_x] != ECell.Wall:
+
+        # Check No Teammate Is There
+        if side_name == 'Police':
+            for check_police in self.polices:
+                if check_police.position == new_position:
+                    return False
+
+            return True
+
+        if side_name == 'Terrorist':
+            for check_terrorist in self.terrorists:
+                if check_terrorist.position == new_position:
+                    return False
+
+            return True
+
+    return False
+
+
+
+
 
 World.apply_command = apply_command
