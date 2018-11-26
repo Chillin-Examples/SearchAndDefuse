@@ -17,13 +17,7 @@ class LogicHandler:
         self._last_cycle_commands = {'Police': [], 'Terrorist': []}
 
     def store_command(self, side_name, command):
-        if command.id < 0 or command.id >= len(self.world.player):
-            print('Invalid id in command: %s %i' % (side_name, command.id))
-            return
-
-        print('command: %s(%i)' % (side_name, command.id))
-        self.commands[side_name][command.id] = command
-
+        pass
 
     def clear_commands(self):
         pass
