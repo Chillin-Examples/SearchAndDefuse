@@ -5,14 +5,14 @@ from ..ks.models import *
 from ..ks.commands import *
 
 
-def apply_command(self, side_name, command, move_dirs):
+def apply_command(self, side_name, command, directions):
     # Read Commands
     if command.name() == Move.name():
-        if not _check_move_condition(self, side_name, command):
+        if not _check_move_condition(self, side_name, command, directions['move_dir']):
             return False
         return True
 
-def _check_move_condition(self, side_name, command, move_dirs):
+def _check_move_condition(self, side_name, command, move_dir):
     pass
 
 World.apply_command = apply_command
