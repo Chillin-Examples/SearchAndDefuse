@@ -50,6 +50,7 @@ class LogicHandler:
             ECommandDirection.Down.name: Position(x=0, y=1),
             ECommandDirection.Left.name: Position(x=-1, y=0)
         }
+        self.directions = {'move_dir': self.move_dirs, 'plant_dir': self.plant_dirs,'defue_dir': self.defuse_dirs}
 
 
     def process(self, current_cycle):
