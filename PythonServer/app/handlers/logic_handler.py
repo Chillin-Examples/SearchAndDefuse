@@ -24,9 +24,8 @@ class LogicHandler:
         print('command: %s(%i)' % (side_name, command.id))
         self._last_cycle_commands[side_name].append(command)
 
-
     def clear_commands(self):
-        pass
+        self._last_cycle_commands = {'Police': [], 'Terrorist': []}
 
     def initialize(self):
         self.move_dirs = {
