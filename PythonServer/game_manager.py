@@ -15,8 +15,8 @@ class GameManager(RealtimeGameHandler):
     def on_recv_command(self, side_name, agent_name, command_type, command):
         if None in command.__dict__.values():
             print("None in command: %s - %s" % (side_name, command_type))
-            self._logic_handler.store_command(side_name, command)
-            return
+        self._logic_handler.store_command(side_name, command)
+        return
 
     def on_initialize(self):
         print('initialize')
