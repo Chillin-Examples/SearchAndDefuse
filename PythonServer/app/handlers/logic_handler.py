@@ -29,30 +29,27 @@ class LogicHandler:
         pass
 
     def initialize(self):
-
         self.move_dirs = {
             ECommandDirection.Up.name: Position(x=0, y=-1),
             ECommandDirection.Right.name: Position(x=1, y=0),
             ECommandDirection.Down.name: Position(x=0, y=1),
             ECommandDirection.Left.name: Position(x=-1, y=0)
         }
-
         self.plant_dirs = {
             ECommandDirection.Up.name: Position(x=0, y=-1),
             ECommandDirection.Right.name: Position(x=1, y=0),
             ECommandDirection.Down.name: Position(x=0, y=1),
             ECommandDirection.Left.name: Position(x=-1, y=0)
         }
-
         self.defuse_dirs = {
             ECommandDirection.Up.name: Position(x=0, y=-1),
             ECommandDirection.Right.name: Position(x=1, y=0),
             ECommandDirection.Down.name: Position(x=0, y=1),
             ECommandDirection.Left.name: Position(x=-1, y=0)
         }
-
-        self.directions = {'move_dir': self.move_dirs, 'plant_dir': self.plant_dirs,'defuse_dir': self.defuse_dirs}
-
+        self.directions = {'move_dir': self.move_dirs,
+                           'plant_dir': self.plant_dirs,
+                           'defuse_dir': self.defuse_dirs}
 
     def process(self, current_cycle):
         gui_events = []
