@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
+from . import position
 from ..ks.models import *
 from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
@@ -36,7 +37,7 @@ def _get_new_position(self, player, move_dirs, direction):
     new_position_y = player.position.y + move_dirs[direction].y
     return Position(x=new_position_x, y=new_position_y)
 
-
+g
 def _check_move_condition(self, side_name, command, move_dirs):
 
     player = _get_player_by_command(self, command, side_name)
@@ -49,13 +50,13 @@ def _check_move_condition(self, side_name, command, move_dirs):
         # Check No Teammate Is There
         if side_name == 'Police':
             for check_police in self.polices:
-                if check_police.position.isEqual(new_position):
+                if check_police.position.is_equal(new_position):
                     return False
             return True
 
         if side_name == 'Terrorist':
             for check_terrorist in self.terrorists:
-                if check_terrorist.position.isEqual(new_position):
+                if check_terrorist.position.is_equal(new_position):
                     return False
 
             return True
