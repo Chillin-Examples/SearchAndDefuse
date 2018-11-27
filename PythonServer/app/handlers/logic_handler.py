@@ -17,7 +17,7 @@ class LogicHandler:
         self._last_cycle_commands = {'Police': [], 'Terrorist': []}
 
     def store_command(self, side_name, command):
-        if command.id < 0 or command.id >= len(self.world.polices) + len(self.world.terrorists):
+        if command.id < 0 or command.id >= max(len(self.world.polices), len(self.world.terrorists)):
             print('Invalid id in command: %s %i' % (side_name, command.id))
             return
 
@@ -52,6 +52,7 @@ class LogicHandler:
                            'defuse_dir': self.defuse_dirs}
 
     def process(self, current_cycle):
+        print(self._last_cycle_commands['Police'])
         gui_events = []
         for side in self._sides:
             for command in self._last_cycle_commands[side]:

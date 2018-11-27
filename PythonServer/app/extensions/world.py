@@ -7,6 +7,7 @@ from ..gui_events import GuiEvent, GuiEventType
 
 
 def apply_command(self, side_name, command, directions):
+    print("APPLY COMAAAAAAAAAAAAAND")
     # Read Commands
     if command.name() == Move.name():
         if not _check_move_condition(self, side_name, command, directions['move_dir']):
