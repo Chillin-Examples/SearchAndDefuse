@@ -53,3 +53,4 @@ def _check_move_condition(self, side_name, command, move_dirs):
 
 
 World.apply_command = apply_command
+World._check_move_condition = _check_move_condition
