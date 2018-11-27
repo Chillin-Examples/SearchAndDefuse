@@ -24,17 +24,24 @@ def _get_player_by_command(self, command, side_name):
         return self.terrorists[command.id]
 
 
+def _apply_move(player, can_move, new_position):
+    pass
+
+
+def _get_new_position(self, player, move_dirs, direction_name):
+    new_position_x = player.position.x + move_dirs[direction_name].x
+    new_position_y = player.position.y + move_dirs[direction_name].y
+    return Position(x=new_position_x, y=new_position_y)
+
+
 def _check_move_condition(self, side_name, command, move_dirs):
 
     player = _get_player_by_command(self, command, side_name)
 
-    # Get New Position
-    new_position_x = player.position.x + move_dirs[command.direction.name].x
-    new_position_y = player.position.y + move_dirs[command.direction.name].y
-    new_position = Position(x=new_position_x, y=new_position_y)
+    new_position = _get_new_position(self, player, move_dirs, command.direction.name)
 
     # Check There Is No Wall In Path
-    if self.board[new_position_y][new_position_x] != ECell.Wall:
+    if self.board[new_position.y][new_position.x] != ECell.Wall:
 
         # Check No Teammate Is There
         if side_name == 'Police':
