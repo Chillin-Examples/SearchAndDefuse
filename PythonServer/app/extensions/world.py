@@ -29,15 +29,6 @@ def _get_player_by_command(self, command, side_name):
 def _apply_move(self, command, side_name, move_dirs):
     player = _get_player_by_command(self, command, side_name)
     player.position = _get_new_position(self, player, move_dirs, command.direction.name)
-    _update_players_list(self, player, side_name)
-
-
-def _update_players_list(self, player, side_name):
-    if side_name == 'Police':
-        self.polices[player.id] = player
-
-    elif side_name == 'Terrorist':
-        self.terrorists[player.id] = player
 
 
 def _get_new_position(self, player, move_dirs, direction):
@@ -77,4 +68,3 @@ World._get_player_by_command = _get_player_by_command
 World._get_new_position = _get_new_position
 World._apply_move = _apply_move
 World._check_move_condition = _check_move_condition
-World._update_players_list = _update_players_list
