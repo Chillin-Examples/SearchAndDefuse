@@ -9,12 +9,13 @@ from ..gui_events import GuiEvent, GuiEventType
 def apply_command(self, side_name, command, directions):
     # Read Commands
     if command.name() == Move.name():
-        if not check_move_condition(self, side_name, command, directions['move_dir']):
+        if not _check_move_condition(self, side_name, command, directions['move_dir']):
             return False
         event = GuiEventType.move_police
         return GuiEvent(event)
 
-def check_move_condition(self, side_name, command, move_dirs):
+
+def _check_move_condition(self, side_name, command, move_dirs):
     player = None
 
     # Get Player Who Gave Command
@@ -46,7 +47,6 @@ def check_move_condition(self, side_name, command, move_dirs):
                 if check_terrorist.position == new_position:
                     return False
 
-            player.position = new_position
             return True
 
     return False
