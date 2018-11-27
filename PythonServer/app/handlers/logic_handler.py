@@ -22,7 +22,7 @@ class LogicHandler:
             return
 
         print('command: %s(%i)' % (side_name, command.id))
-        self._last_cycle_commands[side_name][command.id] = command
+        self._last_cycle_commands[side_name].append(command)
 
 
     def clear_commands(self):

@@ -28,7 +28,7 @@ def _get_player_by_command(self, command, side_name):
 
 def _apply_move(self, command, side_name, move_dirs):
     player = _get_player_by_command(self, command, side_name)
-    player.position = _get_new_position(player, move_dirs, command.direction.name)
+    player.position = _get_new_position(self, player, move_dirs, command.direction.name)
 
 
 def _get_new_position(self, player, move_dirs, direction):
