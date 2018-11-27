@@ -15,15 +15,18 @@ def apply_command(self, side_name, command, directions):
         return GuiEvent(event)
 
 
-def _check_move_condition(self, side_name, command, move_dirs):
-    player = None
+def _get_player_by_command(self, command, side_name):
 
     # Get Player Who Gave Command
     if side_name == 'Police':
-        player = self.polices[command.id]
-
+        return self.polices[command.id]
     elif side_name == 'Terrorist':
-        player = self.terrorists[command.id]
+        return self.terrorists[command.id]
+
+
+def _check_move_condition(self, side_name, command, move_dirs):
+
+    player = _get_player_by_command(self, command, side_name)
 
     # Get New Position
     new_position_x = player.position.x + move_dirs[command.direction.name].x
@@ -53,4 +56,5 @@ def _check_move_condition(self, side_name, command, move_dirs):
 
 
 World.apply_command = apply_command
+World._get_player_by_command = _get_player_by_command
 World._check_move_condition = _check_move_condition
