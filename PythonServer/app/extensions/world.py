@@ -11,8 +11,10 @@ def apply_command(self, side_name, command, directions):
     if command.name() == Move.name():
         if not _check_move_condition(self, side_name, command, directions['move_dir']):
             return False
-        event = GuiEventType.move_police
-        return GuiEvent(event)
+        else:
+            _apply_move(self, command, side_name, directions['move_dir'])
+            event = GuiEventType.move_police
+            return GuiEvent(event)
 
 
 def _get_player_by_command(self, command, side_name):
@@ -24,8 +26,9 @@ def _get_player_by_command(self, command, side_name):
         return self.terrorists[command.id]
 
 
-def _apply_move(player, new_position):
-    player.position = new_position
+def _apply_move(self, command, side_name, move_dirs):
+    player = _get_player_by_command(self, command, side_name)
+    player.position = _get_new_position(player, move_dirs, command.direction.name)
 
 
 def _get_new_position(self, player, move_dirs, direction):
