@@ -61,7 +61,7 @@ class GuiHandler:
 
     def update(self, gui_events, world):
         self._world = world
-        self._update_board(self._canvas)
+        self._initialize_board(self._canvas)
 
     def _update_board(self, canvas):
         for y in range(self._world.height):
