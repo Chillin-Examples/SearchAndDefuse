@@ -49,13 +49,13 @@ def _check_move_condition(self, side_name, command, move_dirs):
         # Check No Teammate Is There
         if side_name == 'Police':
             for check_police in self.polices:
-                if check_police.position == new_position:
+                if check_police.position.isEqual(new_position):
                     return False
             return True
 
         if side_name == 'Terrorist':
             for check_terrorist in self.terrorists:
-                if check_terrorist.position == new_position:
+                if check_terrorist.position.isEqual(new_position):
                     return False
 
             return True
