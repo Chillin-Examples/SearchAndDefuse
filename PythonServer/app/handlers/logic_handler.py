@@ -51,7 +51,6 @@ class LogicHandler:
                            'defuse_dir': self.defuse_dirs}
 
     def process(self, current_cycle):
-        print(self._last_cycle_commands['Police'])
         gui_events = []
         for side in self._sides:
             for command in self._last_cycle_commands[side]:
