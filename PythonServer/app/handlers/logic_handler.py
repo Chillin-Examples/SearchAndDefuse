@@ -57,6 +57,7 @@ class LogicHandler:
         for side in self._sides:
             for command in self._last_cycle_commands[side]:
                 gui_events.append(self.world.apply_command(side, command, self.directions))
+
         self.last_gui_events = gui_events
 
     def get_client_world(self, side_name):

@@ -43,5 +43,5 @@ class GameManager(RealtimeGameHandler):
 
     def on_update_gui(self):
         print('update gui')
-        self._gui_handler.update(self._logic_handler.last_gui_events)
+        self._gui_handler.update(self._logic_handler.last_gui_events, self._logic_handler.world)
         self.canvas.apply_actions()
