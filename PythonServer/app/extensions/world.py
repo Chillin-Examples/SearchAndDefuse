@@ -24,13 +24,13 @@ def _get_player_by_command(self, command, side_name):
         return self.terrorists[command.id]
 
 
-def _apply_move(player, can_move, new_position):
-    pass
+def _apply_move(player, new_position):
+    player.position = new_position
 
 
-def _get_new_position(self, player, move_dirs, direction_name):
-    new_position_x = player.position.x + move_dirs[direction_name].x
-    new_position_y = player.position.y + move_dirs[direction_name].y
+def _get_new_position(self, player, move_dirs, direction):
+    new_position_x = player.position.x + move_dirs[direction].x
+    new_position_y = player.position.y + move_dirs[direction].y
     return Position(x=new_position_x, y=new_position_y)
 
 
@@ -48,8 +48,6 @@ def _check_move_condition(self, side_name, command, move_dirs):
             for check_police in self.polices:
                 if check_police.position == new_position:
                     return False
-
-            player.position = new_position
             return True
 
         if side_name == 'Terrorist':
