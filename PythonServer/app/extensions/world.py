@@ -3,6 +3,7 @@
 # project imports
 from ..ks.models import *
 from ..ks.commands import *
+from ..gui_events import GuiEvent, GuiEventType
 
 
 def apply_command(self, side_name, command, directions):
@@ -10,7 +11,8 @@ def apply_command(self, side_name, command, directions):
     if command.name() == Move.name():
         if not check_move_condition(self, side_name, command, directions['move_dir']):
             return False
-        return True
+        event = GuiEventType.move_police
+        return GuiEvent(event)
 
 def check_move_condition(self, side_name, command, move_dirs):
     player = None
