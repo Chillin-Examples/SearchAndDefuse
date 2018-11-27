@@ -57,28 +57,33 @@ class GuiHandler:
         self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
         self.font_size = int(self.cell_size / 2)
 
-        # Draw Board
+
+    def update(self, gui_events):
+        pass
+
+
+    def _draw_board(self, canvas):
         for y in range(self._world.height):
             for x in range(self._world.width):
                 cell = self._world.board[y][x]
                 if cell == ECell.Empty:
                     canvas.create_image('Empty', x * self.cell_size, y * self.cell_size,
-                                             scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
                 elif cell == ECell.Wall:
                     canvas.create_image('Wall', x * self.cell_size, y * self.cell_size,
-                                             scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
                 elif cell == ECell.SmallBombSite:
                     canvas.create_image('SmallBomb', x * self.cell_size, y * self.cell_size,
-                                             scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
                 elif cell == ECell.MediumBombSite:
                     canvas.create_image('MediumBomb', x * self.cell_size, y * self.cell_size,
-                                             scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
                 elif cell == ECell.LargeBombSite:
                     canvas.create_image('LargeBomb', x * self.cell_size, y * self.cell_size,
-                                             scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
                 elif cell == ECell.VastBombSite:
                     canvas.create_image('VastBomb', x * self.cell_size, y * self.cell_size,
-                                             scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
 
                 # Draw Terrorists
                 for terrorist in self._world.terrorists:
@@ -88,8 +93,8 @@ class GuiHandler:
                                                                  center_origin=True)
                     terrorist.angle = self.move_angle[EDirection.Left.name]
                     terrorist.img_ref = canvas.create_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
-                                                                 center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                                 scale_value=self.cell_size)
+                                                            center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                                            scale_value=self.cell_size)
 
                 # Draw Polices
                 for police in self._world.polices:
@@ -98,13 +103,9 @@ class GuiHandler:
                                                                  center_origin=True)
                     police.angle = self.move_angle[EDirection.Left.name]
                     police.img_ref = canvas.create_image("Police", canvas_pos['x'], canvas_pos['y'],
-                                                              center_origin=True,
-                                                              scale_type=ScaleType.ScaleToWidth,
-                                                              scale_value=self.cell_size)
-
-    def update(self, gui_events):
-        pass
-
+                                                         center_origin=True,
+                                                         scale_type=ScaleType.ScaleToWidth,
+                                                         scale_value=self.cell_size)
 
 
 class GuiUtils:
