@@ -57,12 +57,14 @@ class GuiHandler:
         self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
         self.font_size = int(self.cell_size / 2)
 
+        self._draw_board(canvas)
 
-    def update(self, gui_events):
-        pass
-
+    def update(self, gui_events, world):
+        self._world = world
+        self._draw_board(self._canvas)
 
     def _draw_board(self, canvas):
+
         for y in range(self._world.height):
             for x in range(self._world.width):
                 cell = self._world.board[y][x]
