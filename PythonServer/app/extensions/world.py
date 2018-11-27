@@ -65,4 +65,6 @@ def _check_move_condition(self, side_name, command, move_dirs):
 
 World.apply_command = apply_command
 World._get_player_by_command = _get_player_by_command
+World._get_new_position = _get_new_position
+World._apply_move = _apply_move
 World._check_move_condition = _check_move_condition
