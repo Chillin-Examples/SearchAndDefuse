@@ -37,7 +37,7 @@ def _get_new_position(self, player, move_dirs, direction):
     new_position_y = player.position.y + move_dirs[direction].y
     return Position(x=new_position_x, y=new_position_y)
 
-g
+
 def _check_move_condition(self, side_name, command, move_dirs):
 
     player = _get_player_by_command(self, command, side_name)
@@ -52,6 +52,7 @@ def _check_move_condition(self, side_name, command, move_dirs):
             for check_police in self.polices:
                 if check_police.position.is_equal(new_position):
                     return False
+
             return True
 
         if side_name == 'Terrorist':
