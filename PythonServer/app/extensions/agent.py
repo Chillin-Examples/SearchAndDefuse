@@ -7,7 +7,7 @@ from ..handlers.logic_handler import LogicHandler
 
 
 def move(self, command):
-    self.position.add_to_another_position(directions[command.direction.name])
+    self.position = self.position.add_to_another_position(directions[command.direction.name])
 
 
 directions = LogicHandler.directions
