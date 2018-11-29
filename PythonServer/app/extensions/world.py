@@ -6,6 +6,7 @@ from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
 from ..handlers.logic_handler import LogicHandler
 
+
 def apply_command(self, side_name, command):
     agents = {'Police': self.polices, 'Terrorist': self.terrorists}
 
