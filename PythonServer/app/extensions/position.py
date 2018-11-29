@@ -17,8 +17,12 @@ def __eq__(self, another_position):
 
 
 def add_to_another_position(self, another_position):
-    self.x += another_position.x
-    self.y += another_position.y
+    # Bug Potential :)
+    x = self.x
+    y = self.y
+    x += another_position.x
+    y += another_position.y
+    return Position(x=x, y=y)
 
 
 Position.is_equal = is_equal
