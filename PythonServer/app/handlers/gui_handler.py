@@ -50,7 +50,7 @@ class GuiHandler:
         # self._world = world
         terrorist_IDs, police_IDs = [], []
         for event in gui_events:
-            if not "error" in event:
+            if not event == 'error':
                 if event.type.value == 0:  # move police
                     police_IDs.append(event.payload['agent_id'])
                 elif event.type.value == 1:  # move terrorist

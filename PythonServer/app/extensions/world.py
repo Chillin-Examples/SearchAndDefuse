@@ -14,7 +14,7 @@ def apply_command(self, side_name, command):
     if command.name() == Move.name():
         agent = agents[side_name][command.id]
         if not self._check_move_condition(side_name, agent, command):
-            return {"error": "no_gui_event_passed"}
+            return "error"
         else:
             agent.move(command)
             event = GuiEventType.move_police
