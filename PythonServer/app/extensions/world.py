@@ -18,7 +18,7 @@ def apply_command(self, side_name, command):
         else:
             agent.move(command)
             event = GuiEventType.move_police
-            return GuiEvent(event, agent_id=agent.id, side_name=side_name)
+            return GuiEvent(event, agent_id=agent.id)
 
 
 def _check_move_condition(self, side_name, agent, command):
