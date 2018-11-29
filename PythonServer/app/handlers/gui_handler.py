@@ -51,9 +51,9 @@ class GuiHandler:
         terrorist_IDs, police_IDs = [], []
         if not "error" in gui_events:
             for event in gui_events:
-                if event.value == 0:  # move police
+                if event.type.value == 0:  # move police
                     police_IDs.append(event.payload['agent_id'])
-                elif event.value == 1:  # move terrorist
+                elif event.type.value == 1:  # move terrorist
                     terrorist_IDs.append(event.payload['agent_id'])
 
         if 0 or 1 in gui_events.value:
