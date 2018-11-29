@@ -6,6 +6,7 @@ from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
 from ..handlers.logic_handler import LogicHandler
 
+
 def apply_command(self, side_name, command):
     agents = {'Police': self.polices, 'Terrorist': self.terrorists}
 
@@ -21,7 +22,6 @@ def apply_command(self, side_name, command):
 
 
 def _check_move_condition(self, side_name, agent):
-
 
     new_position = agent.position.add_to_another_position(LogicHandler.directions)
 
@@ -46,6 +46,5 @@ def _check_move_condition(self, side_name, agent):
     return False
 
 
-# World._agent =
 World.apply_command = apply_command
 World._check_move_condition = _check_move_condition
