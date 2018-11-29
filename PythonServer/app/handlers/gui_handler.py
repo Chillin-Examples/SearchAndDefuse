@@ -56,7 +56,7 @@ class GuiHandler:
                 elif event.type.value == 1:  # move terrorist
                     terrorist_IDs.append(event.payload['agent_id'])
 
-        if 0 or 1 in gui_events.value:
+        if 0 or 1 in gui_events.type.value:
             self._update_board_on_move(self._canvas, terrorist_IDs, police_IDs)
 
     def _update_board_on_move(self, canvas, terrorist_IDs, polices_IDs):
