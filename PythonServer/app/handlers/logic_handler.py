@@ -17,12 +17,12 @@ class LogicHandler:
 
     def store_command(self, side_name, command):
         if side_name == "Police":
-            if command.id < 0 or command.id >= self.world.polices:
+            if command.id < 0 or command.id >= len(self.world.polices):
                 print('Invalid id in command: %s %i' % (side_name, command.id))
                 return
 
         elif side_name == "Terrorist":
-            if command.id < 0 or command.id >= self.world.terrorists:
+            if command.id < 0 or command.id >= len(self.world.terrorists):
                 print('Invalid id in command: %s %i' % (side_name, command.id))
                 return
 
