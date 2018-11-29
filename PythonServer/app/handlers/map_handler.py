@@ -61,7 +61,7 @@ class MapHandler:
                     new_police = Police()
                     new_police.id = len(world.polices)
                     new_police.position = player_position
-                    new_police.defusion_remaining_time = -1  # self.world.constants.bomb_defusing_time
+                    new_police.defusion_remaining_time = -1
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
                     new_police.is_visible = False
@@ -70,7 +70,7 @@ class MapHandler:
                     new_terrorist = Terrorist()
                     new_terrorist.id = len(world.terrorists)
                     new_terrorist.position = player_position
-                    new_terrorist.planting_remaining_time = world.constants.bomb_planting_time
+                    new_terrorist.planting_remaining_time = -1
                     new_terrorist.footstep_sounds = []
                     new_terrorist.is_dead = False
                     world.terrorists.append(new_terrorist)

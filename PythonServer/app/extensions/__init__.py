@@ -1,3 +1,4 @@
 # -*- coding: utf-8 -*-
 
-from . import world, police, terrorist, position
+from . import position
+from . import world, police, terrorist

@@ -29,33 +29,34 @@ class GuiHandler:
         canvas.edit_image(background_ref, scale_type=ScaleType.ScaleToWidth,
                           scale_value=canvas.width)
 
+        a = {(x.value - 1) * 90 for x in ECommandDirection}
         # Initialize Commands
-        self.move_angle = {
-            ECommandDirection.Up.name: -90,
-            ECommandDirection.Right.name: 180,
-            ECommandDirection.Down.name: 90,
-            ECommandDirection.Left.name: 0
-        }
+        # self.move_angle = {
+        #     ECommandDirection.Up.name: -90,
+        #     ECommandDirection.Right.name: 180,
+        #     ECommandDirection.Down.name: 90,
+        #     ECommandDirection.Left.name: 0
+        # }
+        #
+        # self.plant_angle = {
+        #     ECommandDirection.Up.name: -90,
+        #     ECommandDirection.Right.name: 180,
+        #     ECommandDirection.Down.name: 90,
+        #     ECommandDirection.Left.name: 0
+        # }
+        #
+        # self.defuse_angle = {
+        #     ECommandDirection.Up.name: -90,
+        #     ECommandDirection.Right.name: 180,
+        #     ECommandDirection.Down.name: 90,
+        #     ECommandDirection.Left.name: 0
+        # }
 
-        self.plant_angle = {
-            ECommandDirection.Up.name: -90,
-            ECommandDirection.Right.name: 180,
-            ECommandDirection.Down.name: 90,
-            ECommandDirection.Left.name: 0
-        }
-
-        self.defuse_angle = {
-            ECommandDirection.Up.name: -90,
-            ECommandDirection.Right.name: 180,
-            ECommandDirection.Down.name: 90,
-            ECommandDirection.Left.name: 0
-        }
-
-        self.scale_factor = (canvas.width) / (
+        self._scale_factor = (canvas.width) / (
                 self._world.width * config['cell_size'])
-        self.scale_percent = math.ceil(self.scale_factor * 100)
-        self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
-        self.font_size = int(self.cell_size / 2)
+        self._scale_percent = math.ceil(self.scale_factor * 100)
+        self._cell_size = math.ceil(config['cell_size'] * self.scale_factor)
+        self._font_size = int(self.cell_size / 2)
 
         self._initialize_board(canvas)
 

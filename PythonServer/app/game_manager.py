@@ -7,7 +7,7 @@ from __future__ import division
 from chillin_server import RealtimeGameHandler
 
 # project imports
-from app.handlers import map_handler, logic_handler, gui_handler
+from .handlers import map_handler, logic_handler, gui_handler
 
 
 class GameManager(RealtimeGameHandler):
@@ -15,8 +15,8 @@ class GameManager(RealtimeGameHandler):
     def on_recv_command(self, side_name, agent_name, command_type, command):
         if None in command.__dict__.values():
             print("None in command: %s - %s" % (side_name, command_type))
+            return
         self._logic_handler.store_command(side_name, command)
-        return
 
     def on_initialize(self):
         print('initialize')
@@ -34,7 +34,7 @@ class GameManager(RealtimeGameHandler):
 
     def on_process_cycle(self):
         print('cycle %i' % (self.current_cycle,))
-        self._logic_handler.process(self.current_cycle)
+        self._gui_events = self._logic_handler.process(self.current_cycle)
 
     def on_update_clients(self):
         print('update clients')
@@ -43,5 +43,5 @@ class GameManager(RealtimeGameHandler):
 
     def on_update_gui(self):
         print('update gui')
-        self._gui_handler.update(self._logic_handler.last_gui_events, self._logic_handler.world)
+        self._gui_handler.update(self._gui_events, self._logic_handler.world)
         self.canvas.apply_actions()
