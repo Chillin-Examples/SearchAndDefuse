@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # python imports
-import math
 
 # project imports
 from ..ks.commands import *
@@ -27,7 +26,11 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def initialize(self):
-        pass
+        self.directions = {
+            ECommandDirection.Up.name: Position(x=0, y=-1),
+            ECommandDirection.Right.name: Position(x=1, y=0),
+            ECommandDirection.Down.name: Position(x=0, y=1),
+            ECommandDirection.Left.name: Position(x=-1, y=0)}
 
     def process(self, current_cycle):
         gui_events = []
