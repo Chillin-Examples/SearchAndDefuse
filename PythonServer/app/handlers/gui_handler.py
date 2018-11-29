@@ -47,18 +47,15 @@ class GuiHandler:
         self._initialize_board(canvas)
 
     def update(self, gui_events):
-        # self._world = world
         terrorist_IDs, police_IDs = [], []
         for event in gui_events:
-            if not "error" in event:
+            if not event == 'error':
                 if event.type.value == 0:  # move police
                     police_IDs.append(event.payload['agent_id'])
                 elif event.type.value == 1:  # move terrorist
                     terrorist_IDs.append(event.payload['agent_id'])
-
-        # for event in gui_events:
-        #     if (0 or 1) in event.type.value:
-        self._update_board_on_move(self._canvas, terrorist_IDs, police_IDs)
+        if (len(terrorist_IDs) != 0) or (len(police_IDs) != 0):
+            self._update_board_on_move(self._canvas, terrorist_IDs, police_IDs)
 
     def _update_board_on_move(self, canvas, terrorist_IDs, polices_IDs):
 
