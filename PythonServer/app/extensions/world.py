@@ -4,27 +4,26 @@
 from ..ks.models import *
 from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
+from ..handlers.logic_handler import LogicHandler
 
-
-def apply_command(self, side_name, command, directions):
+def apply_command(self, side_name, command):
     agents = {'Police': self.polices, 'Terrorist': self.terrorists}
 
     # Read Commands
     if command.name() == Move.name():
-        if not self._check_move_condition(side_name, command, directions['move_dir']):
+        agent = agents[side_name][command.id]
+        if not self._check_move_condition(side_name, agent):
             return False
         else:
-            agents[side_name][command.id].move()
-            self._apply_move(command, side_name, directions['move_dir'])
+            agent.move()
             event = GuiEventType.move_police
             return GuiEvent(event)
 
 
-def _check_move_condition(self, side_name, command, move_dirs):
+def _check_move_condition(self, side_name, agent):
 
-    player = _get_player_by_command(self, command, side_name)
 
-    new_position = _get_new_position(self, player, move_dirs, command.direction.name)
+    new_position = agent.position.add_to_another_position(LogicHandler.directions)
 
     # Check There Is No Wall In Path
     if self.board[new_position.y][new_position.x] != ECell.Wall:
@@ -47,6 +46,6 @@ def _check_move_condition(self, side_name, command, move_dirs):
     return False
 
 
-World._agent =
+# World._agent =
 World.apply_command = apply_command
 World._check_move_condition = _check_move_condition
