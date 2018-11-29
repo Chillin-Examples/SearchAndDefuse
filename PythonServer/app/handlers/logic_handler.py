@@ -39,7 +39,7 @@ class LogicHandler:
         gui_events = []
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
-                gui_events.append(self.world.apply_command(side, self._last_cycle_commands[side][command_id]))
+                gui_events += self.world.apply_command(self.world.apply_command(side, self._last_cycle_commands[side][command_id]))
 
         return gui_events
 

@@ -46,43 +46,43 @@ class GuiHandler:
         self._initialize_board(canvas)
 
     def update(self, gui_events):
-        terrorist_IDs, police_IDs = [], []
-        for event in gui_events:
-            if not event == 'error':
-                if event.type.name == 'move_police':
-                    police_IDs.append(event.payload['agent_id'])
-                elif event.type.name == 'terrorist_move':
-                    terrorist_IDs.append(event.payload['agent_id'])
-        if (len(terrorist_IDs) != 0) or (len(police_IDs) != 0):
-            self._update_board_on_move(self._canvas, terrorist_IDs, police_IDs)
+        terrorist_info, police_info = [], []
+        for events in gui_events:
+            if not events == []:
+                for event in events:
+                    if event.type.name == 'move_police':
+                        police_info.append((event.payload['agent_id'], event.payload['agent_position']))
+                    elif event.type.name == 'terrorist_move':
+                        terrorist_info.append((event.payload['agent_id'], event.payload['agent_position']))
 
-    def _update_board_on_move(self, canvas, terrorist_IDs, polices_IDs):
+        if (len(terrorist_info) != 0) or (len(police_info) != 0):
+            self._update_board_on_move(self._canvas, terrorist_info, police_info)
+
+    def _update_board_on_move(self, canvas, terrorist_info, police_info):
 
         # Update Terrorists
-        for terrorist in self._world.terrorists:
-            if terrorist.id in terrorist_IDs:
-                position = terrorist.position
+        for terrorist in terrorist_info:
+            id, position = terrorist
 
-                canvas_pos = self._utils.get_canvas_position(position.x, position.y,
-                                                             center_origin=True)
-                terrorist.angle = self.angle[EDirection.Left.name]
-                terrorist.img_ref = canvas.edit_image(self._img_refs["Terrorist"][terrorist.id], canvas_pos['x'],
-                                                      canvas_pos['y'],
-                                                      center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                      scale_value=self._cell_size)
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
+                                                         center_origin=True)
+            # terrorist.angle = self.angle[EDirection.Left.name]
+            canvas.edit_image(self._img_refs["Terrorist"][id], canvas_pos['x'],
+                              canvas_pos['y'],
+                              center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                              scale_value=self._cell_size)
 
         # Update Polices
-        for police in self._world.polices:
-            if police.id in polices_IDs:
-                position = police.position
-                canvas_pos = self._utils.get_canvas_position(position.x, position.y,
-                                                             center_origin=True)
-                police.angle = self.angle[EDirection.Left.name]
-                police.img_ref = canvas.edit_image(self._img_refs["Police"][police.id], canvas_pos['x'],
-                                                   canvas_pos['y'],
-                                                   center_origin=True,
-                                                   scale_type=ScaleType.ScaleToWidth,
-                                                   scale_value=self._cell_size)
+        for police in police_info:
+            id, position = police
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
+                                                         center_origin=True)
+            # police.angle = self.angle[EDirection.Left.name]
+            canvas.edit_image(self._img_refs["Police"][id], canvas_pos['x'],
+                              canvas_pos['y'],
+                              center_origin=True,
+                              scale_type=ScaleType.ScaleToWidth,
+                              scale_value=self._cell_size)
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
