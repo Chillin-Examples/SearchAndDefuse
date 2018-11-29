@@ -14,11 +14,16 @@ from ..ks.models import *
 class GuiHandler:
 
     def __init__(self, world, sides, canvas, config):
+
         self._world = world
         self._sides = sides
         self._canvas = canvas
         self._config = config
-        self._utils = GuiUtils()
+        self._scale_factor = canvas.width / (self._world.width * config['cell_size'])
+        self._scale_percent = math.ceil(self._scale_factor * 100)
+        self._cell_size = math.ceil(config['cell_size'] * self._scale_factor)
+        self._font_size = int(self._cell_size / 2)
+        self._utils = GuiUtils(self._cell_size)
         self._img_refs = {side: {} for side in self._sides}
 
     def initialize(self):
@@ -38,21 +43,15 @@ class GuiHandler:
             ECommandDirection.Left.name: 0
         }
 
-        self._scale_factor = (canvas.width) / (
-                self._world.width * config['cell_size'])
-        self._scale_percent = math.ceil(self._scale_factor * 100)
-        self._cell_size = math.ceil(config['cell_size'] * self._scale_factor)
-        self._font_size = int(self._cell_size / 2)
-
         self._initialize_board(canvas)
 
     def update(self, gui_events):
         terrorist_IDs, police_IDs = [], []
         for event in gui_events:
             if not event == 'error':
-                if event.type.value == 0:  # move police
+                if event.type.name == 'move_police':
                     police_IDs.append(event.payload['agent_id'])
-                elif event.type.value == 1:  # move terrorist
+                elif event.type.name == 'terrorist_move':
                     terrorist_IDs.append(event.payload['agent_id'])
         if (len(terrorist_IDs) != 0) or (len(police_IDs) != 0):
             self._update_board_on_move(self._canvas, terrorist_IDs, police_IDs)
@@ -64,7 +63,7 @@ class GuiHandler:
             if terrorist.id in terrorist_IDs:
                 position = terrorist.position
 
-                canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
+                canvas_pos = self._utils.get_canvas_position(position.x, position.y,
                                                              center_origin=True)
                 terrorist.angle = self.angle[EDirection.Left.name]
                 terrorist.img_ref = canvas.edit_image(self._img_refs["Terrorist"][terrorist.id], canvas_pos['x'],
@@ -76,7 +75,7 @@ class GuiHandler:
         for police in self._world.polices:
             if police.id in polices_IDs:
                 position = police.position
-                canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
+                canvas_pos = self._utils.get_canvas_position(position.x, position.y,
                                                              center_origin=True)
                 police.angle = self.angle[EDirection.Left.name]
                 police.img_ref = canvas.edit_image(self._img_refs["Police"][police.id], canvas_pos['x'],
@@ -114,7 +113,7 @@ class GuiHandler:
         for terrorist in self._world.terrorists:
             position = terrorist.position
 
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
                                                          center_origin=True)
             terrorist.angle = self.angle[EDirection.Left.name]
             terrorist.img_ref = canvas.create_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
@@ -125,7 +124,7 @@ class GuiHandler:
         # Draw Polices
         for police in self._world.polices:
             position = police.position
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
                                                          center_origin=True)
             police.angle = self.angle[EDirection.Left.name]
             police.img_ref = canvas.create_image("Police", canvas_pos['x'], canvas_pos['y'],
@@ -137,24 +136,24 @@ class GuiHandler:
 
 class GuiUtils:
 
-    def __init__(self):
-        pass
+    def __init__(self, cell_size):
+        self._cell_size = cell_size
 
-    def get_canvas_position(self, x, y, cell_size, center_origin=False):
-        addition = int(cell_size / 2) if center_origin else 0
+    def get_canvas_position(self, x, y, center_origin=False):
+        addition = int(self._cell_size / 2) if center_origin else 0
         return {
-            'x': x * cell_size + addition,
-            'y': y * cell_size + addition
+            'x': x * self._cell_size + addition,
+            'y': y * self._cell_size + addition
         }
 
-    def _get_line_xys(self, player, curr_val, max_val, offset, cell_size):
+    def _get_line_xys(self, player, curr_val, max_val, offset):
         position = player.position
-        canvas_pos = self.get_canvas_position(position.x, position.y, cell_size, center_origin=True)
-        y1 = y2 = canvas_pos['y'] + int(cell_size / 2) - 10 + offset
-        x1 = canvas_pos['x'] - int(cell_size / 2) + 5
+        canvas_pos = self.get_canvas_position(position.x, position.y, center_origin=True)
+        y1 = y2 = canvas_pos['y'] + int(self._cell_size / 2) - 10 + offset
+        x1 = canvas_pos['x'] - int(self._cell_size / 2) + 5
         if curr_val == 0:
             x2 = x1
         else:
-            x2 = x1 + math.ceil((cell_size - 10) * (curr_val / max_val))
+            x2 = x1 + math.ceil((self._cell_size - 10) * (curr_val / max_val))
 
-        return (x1, y1, x2, y2)
+        return x1, y1, x2, y2
