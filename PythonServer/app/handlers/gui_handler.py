@@ -19,6 +19,7 @@ class GuiHandler:
         self._canvas = canvas
         self._config = config
         self._utils = GuiUtils()
+        self._img_refs = {side: {} for side in self._sides}
 
     def initialize(self):
         canvas = self._canvas
@@ -81,7 +82,7 @@ class GuiHandler:
             canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
                                                          center_origin=True)
             terrorist.angle = self.angle[EDirection.Left.name]
-            terrorist.img_ref = canvas.edit_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
+            terrorist.img_ref = canvas.edit_image(self._img_refs["Terrorist"][terrorist.id], canvas_pos['x'], canvas_pos['y'],
                                                   center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                                   scale_value=self._cell_size)
 
@@ -91,7 +92,7 @@ class GuiHandler:
             canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
                                                          center_origin=True)
             police.angle = self.angle[EDirection.Left.name]
-            police.img_ref = canvas.edit_image("Police", canvas_pos['x'], canvas_pos['y'],
+            police.img_ref = canvas.edit_image(self._img_refs["Police"][police.id], canvas_pos['x'], canvas_pos['y'],
                                                center_origin=True,
                                                scale_type=ScaleType.ScaleToWidth,
                                                scale_value=self._cell_size)
@@ -131,6 +132,7 @@ class GuiHandler:
             terrorist.img_ref = canvas.create_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
                                                     center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                                     scale_value=self._cell_size)
+            self._img_refs["Terrorist"][terrorist.id] = terrorist.img_ref
 
         # Draw Polices
         for police in self._world.polices:
@@ -142,6 +144,8 @@ class GuiHandler:
                                                  center_origin=True,
                                                  scale_type=ScaleType.ScaleToWidth,
                                                  scale_value=self._cell_size)
+            self._img_refs["Police"][police.id] = police.img_ref
+
 
 
 class GuiUtils:
