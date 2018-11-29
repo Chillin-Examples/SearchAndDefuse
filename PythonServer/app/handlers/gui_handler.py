@@ -29,34 +29,19 @@ class GuiHandler:
         canvas.edit_image(background_ref, scale_type=ScaleType.ScaleToWidth,
                           scale_value=canvas.width)
 
-        a = {(x.value - 1) * 90 for x in ECommandDirection}
         # Initialize Commands
-        # self.move_angle = {
-        #     ECommandDirection.Up.name: -90,
-        #     ECommandDirection.Right.name: 180,
-        #     ECommandDirection.Down.name: 90,
-        #     ECommandDirection.Left.name: 0
-        # }
-        #
-        # self.plant_angle = {
-        #     ECommandDirection.Up.name: -90,
-        #     ECommandDirection.Right.name: 180,
-        #     ECommandDirection.Down.name: 90,
-        #     ECommandDirection.Left.name: 0
-        # }
-        #
-        # self.defuse_angle = {
-        #     ECommandDirection.Up.name: -90,
-        #     ECommandDirection.Right.name: 180,
-        #     ECommandDirection.Down.name: 90,
-        #     ECommandDirection.Left.name: 0
-        # }
+        self.angle = {
+            ECommandDirection.Up.name: -90,
+            ECommandDirection.Right.name: 180,
+            ECommandDirection.Down.name: 90,
+            ECommandDirection.Left.name: 0
+        }
 
         self._scale_factor = (canvas.width) / (
                 self._world.width * config['cell_size'])
-        self._scale_percent = math.ceil(self.scale_factor * 100)
-        self._cell_size = math.ceil(config['cell_size'] * self.scale_factor)
-        self._font_size = int(self.cell_size / 2)
+        self._scale_percent = math.ceil(self._scale_factor * 100)
+        self._cell_size = math.ceil(config['cell_size'] * self._scale_factor)
+        self._font_size = int(self._cell_size / 2)
 
         self._initialize_board(canvas)
 
@@ -71,45 +56,45 @@ class GuiHandler:
 
                 # Draw non-player cells
                 if cell == ECell.Empty:
-                    canvas.edit_image('Empty', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.edit_image('Empty', x * self._cell_size, y * self._cell_size,
+                                      scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.Wall:
-                    canvas.edit_image('Wall', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.edit_image('Wall', x * self._cell_size, y * self._cell_size,
+                                      scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.SmallBombSite:
-                    canvas.edit_image('SmallBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.edit_image('SmallBomb', x * self._cell_size, y * self._cell_size,
+                                      scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.MediumBombSite:
-                    canvas.edit_image('MediumBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.edit_image('MediumBomb', x * self._cell_size, y * self._cell_size,
+                                      scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.LargeBombSite:
-                    canvas.edit_image('LargeBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.edit_image('LargeBomb', x * self._cell_size, y * self._cell_size,
+                                      scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.VastBombSite:
-                    canvas.edit_image('VastBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.edit_image('VastBomb', x * self._cell_size, y * self._cell_size,
+                                      scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
         # Draw Terrorists
         for terrorist in self._world.terrorists:
             position = terrorist.position
 
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self.cell_size,
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
                                                          center_origin=True)
-            terrorist.angle = self.move_angle[EDirection.Left.name]
+            terrorist.angle = self.angle[EDirection.Left.name]
             terrorist.img_ref = canvas.edit_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
-                                                    center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                    scale_value=self.cell_size)
+                                                  center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                                  scale_value=self._cell_size)
 
         # Draw Polices
         for police in self._world.polices:
             position = police.position
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self.cell_size,
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
                                                          center_origin=True)
-            police.angle = self.move_angle[EDirection.Left.name]
+            police.angle = self.angle[EDirection.Left.name]
             police.img_ref = canvas.edit_image("Police", canvas_pos['x'], canvas_pos['y'],
-                                                 center_origin=True,
-                                                 scale_type=ScaleType.ScaleToWidth,
-                                                 scale_value=self.cell_size)
+                                               center_origin=True,
+                                               scale_type=ScaleType.ScaleToWidth,
+                                               scale_value=self._cell_size)
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
@@ -118,45 +103,45 @@ class GuiHandler:
 
                 # Draw non-player cells
                 if cell == ECell.Empty:
-                    canvas.create_image('Empty', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.create_image('Empty', x * self._cell_size, y * self._cell_size,
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.Wall:
-                    canvas.create_image('Wall', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.create_image('Wall', x * self._cell_size, y * self._cell_size,
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.SmallBombSite:
-                    canvas.create_image('SmallBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.create_image('SmallBomb', x * self._cell_size, y * self._cell_size,
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.MediumBombSite:
-                    canvas.create_image('MediumBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.create_image('MediumBomb', x * self._cell_size, y * self._cell_size,
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.LargeBombSite:
-                    canvas.create_image('LargeBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.create_image('LargeBomb', x * self._cell_size, y * self._cell_size,
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.VastBombSite:
-                    canvas.create_image('VastBomb', x * self.cell_size, y * self.cell_size,
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
+                    canvas.create_image('VastBomb', x * self._cell_size, y * self._cell_size,
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
         # Draw Terrorists
         for terrorist in self._world.terrorists:
             position = terrorist.position
 
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self.cell_size,
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
                                                          center_origin=True)
-            terrorist.angle = self.move_angle[EDirection.Left.name]
+            terrorist.angle = self.angle[EDirection.Left.name]
             terrorist.img_ref = canvas.create_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
                                                     center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                    scale_value=self.cell_size)
+                                                    scale_value=self._cell_size)
 
         # Draw Polices
         for police in self._world.polices:
             position = police.position
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self.cell_size,
+            canvas_pos = self._utils.get_canvas_position(position.x, position.y, self._cell_size,
                                                          center_origin=True)
-            police.angle = self.move_angle[EDirection.Left.name]
+            police.angle = self.angle[EDirection.Left.name]
             police.img_ref = canvas.create_image("Police", canvas_pos['x'], canvas_pos['y'],
                                                  center_origin=True,
                                                  scale_type=ScaleType.ScaleToWidth,
-                                                 scale_value=self.cell_size)
+                                                 scale_value=self._cell_size)
 
 
 class GuiUtils:
