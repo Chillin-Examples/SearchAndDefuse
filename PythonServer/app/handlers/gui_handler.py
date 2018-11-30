@@ -58,27 +58,20 @@ class GuiHandler:
             self._update_board_on_move(self._canvas, terrorist_info, police_info)
 
     def _update_board_on_move(self, canvas, terrorist_info, police_info):
+        for side in self._sides:
+            if side == "Terrorist":
+                agent_list = terrorist_info
+            elif side == "Police":
+                agent_list = police_info
 
-        # Update Terrorists
-        for terrorist in terrorist_info:
-            id, position = terrorist
-
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
-                                                         center_origin=True)
-            # terrorist.angle = self.angle[EDirection.Left.name]
-            canvas.edit_image(self._img_refs["Terrorist"][id], canvas_pos['x'],
-                              canvas_pos['y'],
-                              center_origin=True)
-
-        # Update Polices
-        for police in police_info:
-            id, position = police
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
-                                                         center_origin=True)
-            # police.angle = self.angle[EDirection.Left.name]
-            canvas.edit_image(self._img_refs["Police"][id], canvas_pos['x'],
-                              canvas_pos['y'],
-                              center_origin=True)
+            for agent in agent_list:
+                id, position = agent
+                canvas_pos = self._utils.get_canvas_position(position.x, position.y,
+                                                             center_origin=True)
+                # terrorist.angle = self.angle[EDirection.Left.name]
+                canvas.edit_image(self._img_refs[side][id], canvas_pos['x'],
+                                  canvas_pos['y'],
+                                  center_origin=True)
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
