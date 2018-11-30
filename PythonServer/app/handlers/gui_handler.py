@@ -9,6 +9,7 @@ from chillin_server.gui.canvas_elements import ScaleType
 # project imports
 from ..ks.commands import *
 from ..ks.models import *
+from ..gui_events import GuiEventType
 
 
 class GuiHandler:
@@ -47,13 +48,11 @@ class GuiHandler:
 
     def update(self, gui_events):
         terrorist_info, police_info = [], []
-        for events in gui_events:
-            if not events == []:
-                for event in events:
-                    if event.type.name == 'move_police':
-                        police_info.append((event.payload['agent_id'], event.payload['agent_position']))
-                    elif event.type.name == 'terrorist_move':
-                        terrorist_info.append((event.payload['agent_id'], event.payload['agent_position']))
+        for event in gui_events:
+            if event.type == GuiEventType.move_police:
+                police_info.append((event.payload['agent_id'], event.payload['agent_position']))
+            elif event.type == GuiEventType.move_terrorist:
+                terrorist_info.append((event.payload['agent_id'], event.payload['agent_position']))
 
         if (len(terrorist_info) != 0) or (len(police_info) != 0):
             self._update_board_on_move(self._canvas, terrorist_info, police_info)
