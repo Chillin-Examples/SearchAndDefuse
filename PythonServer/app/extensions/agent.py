@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from ..ks.commands import *
 # project imports
+from ..ks.commands import *
 from ..ks.models import *
 
 
