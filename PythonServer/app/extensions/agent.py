@@ -6,7 +6,7 @@ from ..ks.models import *
 
 
 def move(self, command):
-    self.position = self.position.add_to_another_position(directions[command.direction.name])
+    self.position = self.position.add(directions[command.direction.name])
 
 
 directions = {

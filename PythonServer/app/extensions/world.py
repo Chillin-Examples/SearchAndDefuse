@@ -13,43 +13,31 @@ def apply_command(self, side_name, command):
     # Read Commands
     if command.name() == Move.name():
         agent = agents[side_name][command.id]
-        if not self._check_move_condition(side_name, agent, command):
+        if not self._can_move(side_name, agent, command):
             return []
         else:
             agent.move(command)
-            event = None
-            if side_name == 'Police':
-                event = GuiEventType.move_police
-            elif side_name == 'Terrorist':
-                event = GuiEventType.move_terrorist
 
-            return [GuiEvent(event, agent_id=agent.id, agent_position=agent.position)]
+            event_type = GuiEventType.move_police if side_name == 'Police' else GuiEventType.move_terrorist
+            return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
 
-def _check_move_condition(self, side_name, agent, command):
+def _can_move(self, side_name, agent, command):
+    new_position = agent.position.add(directions[command.direction.name])
 
-    new_position = agent.position.add_to_another_position(directions[command.direction.name])
-
-    # Check There Is No Wall In Path
-    if self.board[new_position.y][new_position.x] != ECell.Wall:
-
+    # Check new cell is empty
+    if self.board[new_position.y][new_position.x] == ECell.Empty:
         # Check No Teammate Is There
-        if side_name == 'Police':
-            for check_police in self.polices:
-                if check_police.position == new_position:
-                    return False
+        teammates = self.polices if side_name == 'Police' else self.terrorists
 
-            return True
+        for teammate in teammates:
+            if teammate.position == new_position:
+                return False
 
-        if side_name == 'Terrorist':
-            for check_terrorist in self.terrorists:
-                if check_terrorist.position == new_position:
-                    return False
-
-            return True
+        return True
 
     return False
 
 
 World.apply_command = apply_command
-World._check_move_condition = _check_move_condition
+World._can_move = _can_move

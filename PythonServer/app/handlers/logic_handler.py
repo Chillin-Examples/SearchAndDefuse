@@ -16,15 +16,11 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def store_command(self, side_name, command):
-        if side_name == "Police":
-            if command.id < 0 or command.id >= len(self.world.polices):
-                print('Invalid id in command: %s %i' % (side_name, command.id))
-                return
+        agents = self.world.polices if side_name == 'Police' else self.world.terrorists
 
-        elif side_name == "Terrorist":
-            if command.id < 0 or command.id >= len(self.world.terrorists):
-                print('Invalid id in command: %s %i' % (side_name, command.id))
-                return
+        if command.id < 0 or command.id >= len(agents):
+            print('Invalid id in command: %s %i' % (side_name, command.id))
+            return
 
         print('command: %s(%i)' % (side_name, command.id))
         self._last_cycle_commands[side_name][command.id] = command
