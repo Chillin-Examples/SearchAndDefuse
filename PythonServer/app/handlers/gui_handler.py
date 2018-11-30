@@ -105,29 +105,23 @@ class GuiHandler:
                     canvas.create_image('VastBomb', x * self._cell_size, y * self._cell_size,
                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
-        # Draw Terrorists
-        for terrorist in self._world.terrorists:
-            position = terrorist.position
+        # Draw Agents
+        for side in self._sides:
+            if side == "Terrorist":
+                agent_list = self._world.terrorists
+            elif side == "Police":
+                agent_list = self._world.polices
 
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
-                                                         center_origin=True)
-            terrorist.angle = self.angle[EDirection.Left.name]
-            terrorist.img_ref = canvas.create_image("Terrorist", canvas_pos['x'], canvas_pos['y'],
-                                                    center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                    scale_value=self._cell_size)
-            self._img_refs["Terrorist"][terrorist.id] = terrorist.img_ref
+            for agent in agent_list:
+                position = agent.position
 
-        # Draw Polices
-        for police in self._world.polices:
-            position = police.position
-            canvas_pos = self._utils.get_canvas_position(position.x, position.y,
-                                                         center_origin=True)
-            police.angle = self.angle[EDirection.Left.name]
-            police.img_ref = canvas.create_image("Police", canvas_pos['x'], canvas_pos['y'],
-                                                 center_origin=True,
-                                                 scale_type=ScaleType.ScaleToWidth,
-                                                 scale_value=self._cell_size)
-            self._img_refs["Police"][police.id] = police.img_ref
+                canvas_pos = self._utils.get_canvas_position(position.x, position.y,
+                                                             center_origin=True)
+                agent.angle = self.angle[EDirection.Left.name]
+                agent.img_ref = canvas.create_image(side, canvas_pos['x'], canvas_pos['y'],
+                                                        center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                                        scale_value=self._cell_size)
+                self._img_refs[side][agent.id] = agent.img_ref
 
 
 class GuiUtils:
