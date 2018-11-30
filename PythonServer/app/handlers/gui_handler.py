@@ -68,8 +68,7 @@ class GuiHandler:
             # terrorist.angle = self.angle[EDirection.Left.name]
             canvas.edit_image(self._img_refs["Terrorist"][id], canvas_pos['x'],
                               canvas_pos['y'],
-                              center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                              scale_value=self._cell_size)
+                              center_origin=True)
 
         # Update Polices
         for police in police_info:
@@ -79,9 +78,7 @@ class GuiHandler:
             # police.angle = self.angle[EDirection.Left.name]
             canvas.edit_image(self._img_refs["Police"][id], canvas_pos['x'],
                               canvas_pos['y'],
-                              center_origin=True,
-                              scale_type=ScaleType.ScaleToWidth,
-                              scale_value=self._cell_size)
+                              center_origin=True)
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
