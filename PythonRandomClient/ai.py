@@ -26,20 +26,11 @@ class AI(RealtimeAI):
         print('decide')
 
         if self.my_side == 'Police':
-            police_id = 0
-            direction = random.choice([
-                ECommandDirection.Up,
-                ECommandDirection.Right,
-                ECommandDirection.Down,
-                ECommandDirection.Left
-            ])
-            self.send_command(Move(id=police_id, direction=direction))
+            direction = ECommandDirection.Down
+            for i in range(0, 4):
+                self.send_command(Move(id=i, direction=direction))
+
         elif self.my_side == 'Terrorist':
-            terrorist_id = 0
-            direction = random.choice([
-                ECommandDirection.Up,
-                ECommandDirection.Right,
-                ECommandDirection.Down,
-                ECommandDirection.Left
-            ])
-            self.send_command(Move(id=terrorist_id, direction=direction))
+            direction = ECommandDirection.Up
+            for i in range(0, 5):
+                self.send_command(Move(id=i, direction=direction))
