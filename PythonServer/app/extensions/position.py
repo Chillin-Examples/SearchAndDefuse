@@ -4,20 +4,19 @@
 from ..ks.models import Position
 
 
-def is_equal(self, another_position):
-    if self.y == another_position.y and self.x == another_position.x:
+def is_equal(self, position):
+    if self.y == position.y and self.x == position.x:
         return True
     return False
 
 
-def __eq__(self, another_position):
-    return self.is_equal(another_position)
+def __eq__(self, position):
+    return self.is_equal(position)
 
 
-def add(self, another_position):
-    # Bug Potential :)
-    x = self.x + another_position.x
-    y = self.y + another_position.y
+def add(self, position):
+    x = self.x + position.x
+    y = self.y + position.y
     return Position(x=x, y=y)
 
 

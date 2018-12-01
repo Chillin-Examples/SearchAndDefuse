@@ -49,9 +49,9 @@ class GuiHandler:
         terrorists_move, polices_move = [], []
 
         for event in gui_events:
-            if event.type == GuiEventType.move_police:
+            if event.type == GuiEventType.MovePolice:
                 polices_move.append(event.payload)
-            elif event.type == GuiEventType.move_terrorist:
+            elif event.type == GuiEventType.MoveTerrorist:
                 terrorists_move.append(event.payload)
 
         if (len(terrorists_move) != 0) or (len(polices_move) != 0):

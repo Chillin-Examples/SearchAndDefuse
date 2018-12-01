@@ -26,12 +26,9 @@ class AI(RealtimeAI):
         print('decide')
 
         if self.my_side == 'Police':
-            police_id = 0
             direction = ECommandDirection.Down
-            self.send_command(Move(id=police_id, direction=direction))
-            self.send_command(Move(id=1, direction=direction))
-            self.send_command(Move(id=2, direction=direction))
-            self.send_command(Move(id=3, direction=direction))
+            for i in range(0, 4):
+                self.send_command(Move(id=i, direction=direction))
 
         elif self.my_side == 'Terrorist':
             terrorist_id = 0

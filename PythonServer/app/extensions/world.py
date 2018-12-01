@@ -15,11 +15,10 @@ def apply_command(self, side_name, command):
         agent = agents[side_name][command.id]
         if not self._can_move(side_name, agent, command):
             return []
-        else:
-            agent.move(command)
+        agent.move(command)
 
-            event_type = GuiEventType.move_police if side_name == 'Police' else GuiEventType.move_terrorist
-            return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
+        event_type = GuiEventType.MoveTerrorist if side_name == 'Police' else GuiEventType.MoveTerrorist
+        return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
 
 def _can_move(self, side_name, agent, command):

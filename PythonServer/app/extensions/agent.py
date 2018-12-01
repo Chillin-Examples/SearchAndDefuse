@@ -13,4 +13,5 @@ directions = {
     ECommandDirection.Up.name: Position(x=0, y=-1),
     ECommandDirection.Right.name: Position(x=1, y=0),
     ECommandDirection.Down.name: Position(x=0, y=1),
-    ECommandDirection.Left.name: Position(x=-1, y=0)}
+    ECommandDirection.Left.name: Position(x=-1, y=0)
+}

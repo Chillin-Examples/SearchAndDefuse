@@ -5,19 +5,17 @@ from enum import Enum
 
 
 class GuiEventType(Enum):
-    move_police = 0
-    move_terrorist = 1
-    change_police_direction = 2
-    change_terrorist_direction = 3
-    plant_bomb = 4
-    defuse_bomb = 5
-    explode_bomb = 6
-    terrorist_death = 7
-    change_polices_status = 8
-    change_terrorists_status = 9
-    change_police_intensity_border = 10
-    change_terrorist_intensity_border = 11
-    change_bomb_timer = 12
+    MovePolice = 0
+    MoveTerrorist = 1
+    ChangePoliceDirection = 2
+    ChangeTerroristDirection = 3
+    PlantBomb = 4
+    DefuseBomb = 5
+    ExplodeBomb = 6
+    TerroristDeath = 7
+    ChangePolicesStatus = 8
+    ChangeTerroristsStatus = 9
+    ChangeBombTimer = 12
 
 
 class GuiEvent(object):
