@@ -38,6 +38,7 @@
       "MediumBomb": "images/small_bomb.png",
       "LargeBomb": "images/small_bomb.png",
       "VastBomb": "images/small_bomb.png",
+      "PlantedBomb":"images/planted_bomb.png",
       "Empty": "images/background.png"
     }
 

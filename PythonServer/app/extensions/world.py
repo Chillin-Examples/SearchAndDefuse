@@ -31,7 +31,7 @@ def apply_command(self, side_name, command):
         terrorist.plant_bomb(self.world, command)
 
         event_type = GuiEventType.PlantBomb
-        return [GuiEvent(event_type, terrorist_info=(terrorist.id, terrorist.position), bomb_direction=command.direction.name)]
+        return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
 
 
 def _can_move(self, side_name, agent, command):

@@ -26,6 +26,7 @@ class GuiHandler:
         self._font_size = int(self._cell_size / 2)
         self._utils = GuiUtils(self._cell_size)
         self._img_refs = {side: {} for side in self._sides}
+        self._img_refs['bombs'] = {}
 
     def initialize(self):
         canvas = self._canvas
@@ -54,7 +55,7 @@ class GuiHandler:
             elif event.type == GuiEventType.MoveTerrorist:
                 moving_terrorists.append(event.payload)
             elif event.type == GuiEventType.PlantBomb:
-                bombs_planting.append()
+                bombs_planting.append(event.payload)
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             self._update_board_on_move(moving_terrorists, moving_polices)
@@ -74,8 +75,11 @@ class GuiHandler:
                                         center_origin=True)
 
     def _update_board_on_plant(self, bombs_planting):
-        pass
-
+        for bomb in bombs_planting:
+            canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
+            self._canvas.edit_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                    scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+        
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
             for x in range(self._world.width):
@@ -102,7 +106,7 @@ class GuiHandler:
                     canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
-        # Draw Agents
+                    # Draw Agents
         for side in self._sides:
             agents = self._world.polices if side == 'Police' else self._world.terrorists
 
@@ -112,8 +116,8 @@ class GuiHandler:
                 canvas_pos = self._utils.get_canvas_position(agent.position)
                 agent.angle = self.angle[EDirection.Left.name]
                 agent.img_ref = canvas.create_image(side, canvas_pos['x'], canvas_pos['y'],
-                                                        center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                        scale_value=self._cell_size)
+                                                    center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                                    scale_value=self._cell_size)
                 self._img_refs[side][agent.id] = agent.img_ref
 
 
