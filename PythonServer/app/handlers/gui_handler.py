@@ -54,13 +54,13 @@ class GuiHandler:
             elif event.type == GuiEventType.MoveTerrorist:
                 moving_terrorists.append(event.payload)
             elif event.type == GuiEventType.PlantBomb:
-                pass
+                bombs_planting.append()
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             self._update_board_on_move(moving_terrorists, moving_polices)
 
         elif len(bombs_planting) != 0:
-            self._update_board_on_plant()
+            self._update_board_on_plant(bombs_planting)
 
     def _update_board_on_move(self, moving_terrorists, moving_polices):
         for side in self._sides:
@@ -73,7 +73,7 @@ class GuiHandler:
                                         canvas_pos['x'], canvas_pos['y'],
                                         center_origin=True)
 
-    def _update_board_on_plant(self, ):
+    def _update_board_on_plant(self, bombs_planting):
         pass
 
     def _initialize_board(self, canvas):
