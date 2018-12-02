@@ -22,13 +22,17 @@ def apply_command(self, side_name, command):
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
     elif command.name() == PlantBomb.name():
+        # Only terrorists can plan
         if side_name == "Police":
             return []
-        else:
-            terrorist = agents["Terrorist"][command.id]
-            if not self._can_plant(self, terrorist, command):
-                return []
-            terrorist.plant_bomb()
+
+        terrorist = agents["Terrorist"][command.id]
+        if not self._can_plant(self, terrorist, command):
+            return []
+        terrorist.plant_bomb(command)
+
+        event_type = GuiEventType.PlantBomb
+        return [GuiEvent(event_type, terrorist_info=(terrorist.id, terrorist.position), bomb_direction=command.direction.name)]
 
 
 def _can_move(self, side_name, agent, command):
