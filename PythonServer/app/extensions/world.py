@@ -9,6 +9,7 @@ from .agent import directions
 
 def apply_command(self, side_name, command):
     agents = {'Police': self.polices, 'Terrorist': self.terrorists}
+    bombs = self.bombs
 
     # Read Commands
     if command.name() == Move.name():
@@ -19,6 +20,15 @@ def apply_command(self, side_name, command):
 
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
+
+    elif command.name() == PlantBomb.name():
+        if side_name == "Police":
+            return []
+        else:
+            terrorist = agents["Terrorist"][command.id]
+            if not self._can_plant(self, terrorist, command):
+                return []
+            terrorist.plant_bomb()
 
 
 def _can_move(self, side_name, agent, command):
@@ -38,5 +48,16 @@ def _can_move(self, side_name, agent, command):
     return False
 
 
+def _can_plant(self, terrorist, command):
+    new_bomb_position = terrorist.add(directions[command.direction.name])
+
+    for planted_bomb in self.bombs:
+        if planted_bomb.position == new_bomb_position:
+            return False
+
+    return True
+
+
 World.apply_command = apply_command
 World._can_move = _can_move
+World._can_plant = _can_plant
