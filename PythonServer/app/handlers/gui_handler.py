@@ -77,8 +77,19 @@ class GuiHandler:
     def _update_board_on_plant(self, bombs_planting):
         for bomb in bombs_planting:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
-            self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
-                                    scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+            board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
+            if board_cell == ECell.SmallBombSite:
+                self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                          scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+            elif board_cell == ECell.MediumBombSite:
+                self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                          scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+            elif board_cell == ECell.LargeBombSite:
+                self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                          scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+            elif board_cell == ECell.VastBombSite:
+                self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                          scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
@@ -90,22 +101,26 @@ class GuiHandler:
                 if cell == ECell.Empty:
                     canvas.create_image('Empty', canvas_pos['x'], canvas_pos['y'],
                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-                    
                 elif cell == ECell.Wall:
                     canvas.create_image('Wall', canvas_pos['x'], canvas_pos['y'],
                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.SmallBombSite:
-                    canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    small_bomb_ref = canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
+                                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    self._img_refs['bombs']['SmallSite'] = small_bomb_ref
                 elif cell == ECell.MediumBombSite:
-                    canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    medium_bomb_ref = canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
+                                                          scale_type=ScaleType.ScaleToWidth,
+                                                          scale_value=self._cell_size)
+                    self._img_refs['bombs']['MediumSite'] = medium_bomb_ref
                 elif cell == ECell.LargeBombSite:
-                    canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    large_bomb_ref = canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
+                                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    self._img_refs['bombs']['LargeSite'] = large_bomb_ref
                 elif cell == ECell.VastBombSite:
-                    canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    vast_bomb_ref = canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
+                                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    self._img_refs['bombs']['VastSite'] = vast_bomb_ref
 
                     # Draw Agents
         for side in self._sides:
