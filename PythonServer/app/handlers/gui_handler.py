@@ -79,7 +79,7 @@ class GuiHandler:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
             self._canvas.edit_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
                                     scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-        
+
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
             for x in range(self._world.width):

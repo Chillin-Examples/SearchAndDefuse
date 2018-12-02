@@ -54,10 +54,18 @@ def _can_move(self, side_name, agent, command):
 def _can_plant(self, terrorist, command):
     new_bomb_position = terrorist.add(directions[command.direction.name])
 
+    # If it's not a bombsite return false
+    if not self.board[new_bomb_position.y][new_bomb_position.x] == ECell.SmallBombSite or \
+            self.board[new_bomb_position.y][new_bomb_position.x] == ECell.MediumBombSite or \
+            self.board[new_bomb_position.y][new_bomb_position.x] == ECell.VastBombSite:
+        return False
+
+    # If it already has a bomb return false
     for planted_bomb in self.bombs:
         if planted_bomb.position == new_bomb_position:
             return False
 
+    # Otherwise return True!
     return True
 
 
