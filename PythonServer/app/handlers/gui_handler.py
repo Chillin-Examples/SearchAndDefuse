@@ -46,20 +46,25 @@ class GuiHandler:
         self._initialize_board(canvas)
 
     def update(self, gui_events):
-        terrorists_move, polices_move = [], []
+        moving_terrorists, moving_polices, bombs_planting = [], [], []
 
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
-                polices_move.append(event.payload)
+                moving_polices.append(event.payload)
             elif event.type == GuiEventType.MoveTerrorist:
-                terrorists_move.append(event.payload)
+                moving_terrorists.append(event.payload)
+            elif event.type == GuiEventType.PlantBomb:
+                pass
 
-        if (len(terrorists_move) != 0) or (len(polices_move) != 0):
-            self._update_board_on_move(terrorists_move, polices_move)
+        if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
+            self._update_board_on_move(moving_terrorists, moving_polices)
 
-    def _update_board_on_move(self, terrorists_move, polices_move):
+        elif len(bombs_planting) != 0:
+            self._update_board_on_plant()
+
+    def _update_board_on_move(self, moving_terrorists, moving_polices):
         for side in self._sides:
-            moves = polices_move if side == 'Police' else terrorists_move
+            moves = moving_polices if side == 'Police' else moving_terrorists
 
             for move in moves:
                 canvas_pos = self._utils.get_canvas_position(move['agent_position'])
@@ -67,6 +72,9 @@ class GuiHandler:
                 self._canvas.edit_image(self._img_refs[side][move['agent_id']],
                                         canvas_pos['x'], canvas_pos['y'],
                                         center_origin=True)
+
+    def _update_board_on_plant(self, ):
+        pass
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
