@@ -15,5 +15,5 @@ def plant_bomb(self, world, command):
     #    write this: self.bombs = plant_bomb(bombs_list, command)
 
 
-Terrorist.defuse_bomb = plant_bomb
+Terrorist.plant_bomb = plant_bomb
 Terrorist.move = move
