@@ -79,17 +79,17 @@ class GuiHandler:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
             board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
             if board_cell == ECell.SmallBombSite:
-                self._canvas.edit_image(self._img_refs['bombs']['Planted'], canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                          scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
             elif board_cell == ECell.MediumBombSite:
-                self._canvas.edit_image(self._img_refs['bombs']['Planted'], canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                              scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
             elif board_cell == ECell.LargeBombSite:
-                self._canvas.edit_image(self._img_refs['bombs']['Planted'], canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                              scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
             elif board_cell == ECell.VastBombSite:
-                self._canvas.edit_image(self._img_refs['bombs']['Planted'], canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                    self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                                              scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
@@ -122,8 +122,8 @@ class GuiHandler:
                                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                     self._img_refs['bombs']['VastSite'] = vast_bomb_ref
 
-        self._img_refs['bombs']['Planted'] = canvas.create_image('PlantedBomb', scale_type=ScaleType.ScaleToWidth,
-                                                                 scale_value=self._cell_size)
+        # self._img_refs['bombs']['Planted'] = canvas.create_image('PlantedBomb', scale_type=ScaleType.ScaleToWidth,
+        #                                                          scale_value=self._cell_size)
         # Draw Agents
         for side in self._sides:
             agents = self._world.polices if side == 'Police' else self._world.terrorists
