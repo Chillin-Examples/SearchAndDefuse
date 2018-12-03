@@ -2,7 +2,6 @@
 
 # project imports
 from ..ks.models import Police
-from ..ks.commands import Move, DefuseBomb
 from .agent import move
 
 

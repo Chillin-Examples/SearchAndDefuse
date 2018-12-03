@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import Terrorist, Bomb, Constants
-from ..ks.commands import Move, PlantBomb
+from ..ks.models import Terrorist, Bomb
 from .agent import move, directions
 
 
