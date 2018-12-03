@@ -10,10 +10,10 @@ def increase_score_on_plant(world, terrorist, command):
 
     # Update Terrorists Score
     if world.board[new_bomb_position.y][new_bomb_position.x] == ECell.SmallBombSite:
-        world.score['Terrorist'] += world.constants.score_coefficient_small_bomb_site
+        world.scores['Terrorist'] += world.constants.score_coefficient_small_bomb_site
     elif world.board[new_bomb_position.y][new_bomb_position.x] == ECell.MediumBombSite:
-        world.score['Terrorist'] += world.constants.score_coefficient_medium_bomb_site
+        world.scores['Terrorist'] += world.constants.score_coefficient_medium_bomb_site
     elif world.board[new_bomb_position.y][new_bomb_position.x] == ECell.LargeBombSite:
-        world.score['Terrorist'] += world.constants.score_coefficient_large_bomb_site
+        world.scores['Terrorist'] += world.constants.score_coefficient_large_bomb_site
     elif world.board[new_bomb_position.y][new_bomb_position.x] == ECell.VastBombSite:
-        world.score['Terrorist'] += world.constants.score_coefficient_vast_bomb_site
+        world.scores['Terrorist'] += world.constants.score_coefficient_vast_bomb_site

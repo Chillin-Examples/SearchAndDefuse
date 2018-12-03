@@ -31,6 +31,6 @@ class AI(RealtimeAI):
                 self.send_command(Move(id=i, direction=direction))
 
         elif self.my_side == 'Terrorist':
-            direction = ECommandDirection.Up
+            direction = ECommandDirection.Down
             for i in range(0, 5):
-                self.send_command(Move(id=i, direction=direction))
+                self.send_command(PlantBomb(id=i, direction=direction))
