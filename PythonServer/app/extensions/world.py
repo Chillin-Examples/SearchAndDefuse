@@ -20,6 +20,19 @@ def apply_command(self, side_name, command):
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
+    elif command.name() == DefuseBomb.name():
+        # Only terrorists can plan
+        if side_name == "Terrorist":
+            return []
+
+        police = agents["Police"][command.id]
+        if not self._can_defuse(police, command):
+            return []
+        police.defuse_bomb(self, command)
+
+        event_type = GuiEventType.DefuseBomb
+        return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
+
 
 def _can_move(self, side_name, agent, command):
     new_position = agent.position.add(directions[command.direction.name])
@@ -35,7 +48,19 @@ def _can_move(self, side_name, agent, command):
 
         return True
 
-    return False
+    elif command.name() == DefuseBomb.name():
+        # Only terrorists can plan
+        if side_name == "Terrorist":
+            return []
+
+        police = agents["Police"][command.id]
+        if not self._can_defuse(police, command):
+            return []
+        police.defuse_bomb(self, command)
+
+        event_type = GuiEventType.DefuseBomb
+        return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
+
 
 
 def _can_defuse(self, police, command):
