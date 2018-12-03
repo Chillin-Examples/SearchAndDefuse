@@ -38,5 +38,18 @@ def _can_move(self, side_name, agent, command):
     return False
 
 
+def _can_defuse(self, police, command):
+    planted_position = police.position.add(directions[command.direction.name])
+
+    # If bomb exists return True
+    for planted_bomb in self.bombs:
+        if planted_bomb.position == planted_position:
+            return True
+
+    # Otherwise return False!
+    return False
+
+
 World.apply_command = apply_command
 World._can_move = _can_move
+World._can_defuse = _can_defuse
