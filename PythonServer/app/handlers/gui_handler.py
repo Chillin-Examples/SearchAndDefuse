@@ -46,16 +46,18 @@ class GuiHandler:
         self._initialize_board(canvas)
 
     def update(self, gui_events):
-        terrorists_move, polices_move = [], []
+        moving_terrorists, moving_polices, bombs_defusing = [], [], []
 
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
-                polices_move.append(event.payload)
+                moving_polices.append(event.payload)
             elif event.type == GuiEventType.MoveTerrorist:
-                terrorists_move.append(event.payload)
+                moving_terrorists.append(event.payload)
+            elif event.type == GuiEventType.DefuseBomb:
+                bombs_defusing.append(event.payload)
 
-        if (len(terrorists_move) != 0) or (len(polices_move) != 0):
-            self._update_board_on_move(terrorists_move, polices_move)
+        if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
+            self._update_board_on_move(moving_terrorists, moving_polices)
 
     def _update_board_on_move(self, terrorists_move, polices_move):
         for side in self._sides:
@@ -104,8 +106,8 @@ class GuiHandler:
                 canvas_pos = self._utils.get_canvas_position(agent.position)
                 agent.angle = self.angle[EDirection.Left.name]
                 agent.img_ref = canvas.create_image(side, canvas_pos['x'], canvas_pos['y'],
-                                                        center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                        scale_value=self._cell_size)
+                                                    center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                                    scale_value=self._cell_size)
                 self._img_refs[side][agent.id] = agent.img_ref
 
 
