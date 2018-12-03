@@ -57,6 +57,7 @@ def _can_plant(self, terrorist, command):
     # If it's not a bombsite return false
     if not self.board[new_bomb_position.y][new_bomb_position.x] == ECell.SmallBombSite or \
             self.board[new_bomb_position.y][new_bomb_position.x] == ECell.MediumBombSite or \
+            self.board[new_bomb_position.y][new_bomb_position.x] == ECell.LargeBombSite or \
             self.board[new_bomb_position.y][new_bomb_position.x] == ECell.VastBombSite:
         return False
 
@@ -67,6 +68,20 @@ def _can_plant(self, terrorist, command):
 
     # Otherwise return True!
     return True
+
+
+def _increase_score_on_plant(self, terrorist, command):
+    new_bomb_position = terrorist.position.add(directions[command.direction.name])
+
+    # Update Terrorists Score
+    if self.board[new_bomb_position.y][new_bomb_position.x] == ECell.SmallBombSite:
+        self.score['Terrorist'] += self.constants.score_coefficient_small_bomb_site
+    elif self.board[new_bomb_position.y][new_bomb_position.x] == ECell.MediumBombSite:
+        self.score['Terrorist'] += self.constants.score_coefficient_medium_bomb_site
+    elif self.board[new_bomb_position.y][new_bomb_position.x] == ECell.LargeBombSite:
+        self.score['Terrorist'] += self.constants.score_coefficient_large_bomb_site
+    elif self.board[new_bomb_position.y][new_bomb_position.x] == ECell.VastBombSite:
+        self.score['Terrorist'] += self.constants.score_coefficient_vast_bomb_site
 
 
 World.apply_command = apply_command
