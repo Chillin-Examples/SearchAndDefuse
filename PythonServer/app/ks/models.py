@@ -794,7 +794,7 @@ class World(object):
 					s += tmp70.encode('ISO-8859-1') if PY3 else tmp70
 				s += b'\x00' if self.scores[tmp70] is None else b'\x01'
 				if self.scores[tmp70] is not None:
-					s += struct.pack('i', self.scores[tmp70])
+					s += struct.pack('f', self.scores[tmp70])
 		
 		# serialize self.bombs
 		s += b'\x00' if self.bombs is None else b'\x01'
@@ -938,7 +938,7 @@ class World(object):
 				tmp105 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
 				if tmp105:
-					tmp100 = struct.unpack('i', s[offset:offset + 4])[0]
+					tmp100 = struct.unpack('f', s[offset:offset + 4])[0]
 					offset += 4
 				else:
 					tmp100 = None
