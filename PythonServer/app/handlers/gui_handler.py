@@ -79,16 +79,18 @@ class GuiHandler:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
             board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
             if board_cell == ECell.SmallBombSite:
+                self._canvas.remove_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
+                                          scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
                                           scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
             elif board_cell == ECell.MediumBombSite:
-                    self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                    self._canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
                                               scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
             elif board_cell == ECell.LargeBombSite:
-                    self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                    self._canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
                                               scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
             elif board_cell == ECell.VastBombSite:
-                    self._canvas.create_image('PlantedBomb', canvas_pos['x'], canvas_pos['y'],
+                    self._canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
                                               scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
     def _initialize_board(self, canvas):
