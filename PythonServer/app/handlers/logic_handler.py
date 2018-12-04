@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..helpers.timer import GameTimer, BombTimer
+from ..helpers.timer import BombTimer
 
 
 class LogicHandler:
@@ -10,7 +10,6 @@ class LogicHandler:
         self.world = world
         self._sides = sides
         self._last_cycle_commands = {side: {} for side in self._sides}
-        self._game_timer = GameTimer(self.world)
         self.bomb_timer = BombTimer(self.world)
 
     def store_command(self, side_name, command):
