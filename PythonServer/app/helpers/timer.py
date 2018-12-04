@@ -26,10 +26,9 @@ class BombTimer(Timer):
         self._bombs_timers = {bomb.position: {} for bomb in world.bombs}
 
         for bombsite in self._bombs_timers:
-            bombsite['remaining_planting_time'] = world.constants.bomb_planting_time  # this property is for terrorists model in models.ks
-            bombsite['remaining_defusion_time'] = -1  # this property is for polices model in models.ks
-            bombsite['remaining_explosion_time'] = -1  # this property is for bomb model in models.ks
-
+            self._bombs_timers[bombsite]['remaining_planting_time'] = world.constants.bomb_planting_time  # this property is for terrorists model in models.ks
+            self._bombs_timers[bombsite]['remaining_defusion_time'] = -1  # this property is for polices model in models.ks
+            self._bombs_timers[bombsite]['remaining_explosion_time'] = -1  # this property is for bomb model in models.ks
 
     def update_bombsites_timings(self, active_bombs):
         for active_bomb in active_bombs:
@@ -59,5 +58,5 @@ class BombTimer(Timer):
 
             # if it explodes
             if self._bombs_timers[bombsite_position]['remaining_explosion_time'] == 0:
-                # EXPLODE :D
-                pass
+                del self._bombs_timers[bombsite_position]
+                return bombsite_position
