@@ -27,7 +27,7 @@ class LogicHandler:
     def clear_commands(self):
         self._last_cycle_commands = {side: {} for side in self._sides}
 
-    def process(self, current_cycle):
+    def process(self):
         gui_events = []
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
@@ -38,5 +38,5 @@ class LogicHandler:
     def get_client_world(self, side_name):
         return self.world
 
-    def check_end_game(self):
+    def check_end_game(self, current_cycle):
         pass
