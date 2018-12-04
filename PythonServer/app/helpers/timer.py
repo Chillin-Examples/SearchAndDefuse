@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
 
-# project imports
-
 
 class Timer(object):
 
     def __init(self, world):
-        pass
+        self._world = world
+
+
+class GameTimer(Timer):
+
+    def __init__(self):
+        self._max_cycles = self._world.constants.max_cycles
+
+    def check_max_cycles(self, current_cycle_number):
+        if self._max_cycles <= current_cycle_number:
+            return True
 
 
 class BombTimer(Timer):
