@@ -23,7 +23,6 @@ class GameManager(RealtimeGameHandler):
         self._map_handler = map_handler.MapHandler(self.sides)
         world = self._map_handler.load_map(self.config)
         self._logic_handler = logic_handler.LogicHandler(world, self.sides)
-        self._logic_handler.initialize()
 
     def on_initialize_gui(self):
         print('initialize gui')
