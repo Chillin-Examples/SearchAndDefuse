@@ -14,7 +14,7 @@ def apply_command(self, side_name, command):
     # Read Commands
     if command.name() == Move.name():
         agent = agents[side_name][command.id]
-        if not self._can_move(side_name, agent, command):
+        if not self._can_move_agent(side_name, agent, command):
             return []
         agent.move(command)
 
@@ -27,7 +27,7 @@ def apply_command(self, side_name, command):
             return []
 
         terrorist = agents["Terrorist"][command.id]
-        if not self._can_plant(terrorist, command):
+        if not self._can_plant_bomb(terrorist, command):
             return []
         terrorist.plant_bomb(self, command)
         self._increase_score_on_plant(terrorist, command)
@@ -36,7 +36,7 @@ def apply_command(self, side_name, command):
         return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
 
 
-def _can_move(self, side_name, agent, command):
+def _can_move_agent(self, side_name, agent, command):
     new_position = agent.position.add(directions[command.direction.name])
 
     # Check new cell is empty
@@ -53,7 +53,7 @@ def _can_move(self, side_name, agent, command):
     return False
 
 
-def _can_plant(self, terrorist, command):
+def _can_plant_bomb(self, terrorist, command):
     new_bomb_position = terrorist.position.add(directions[command.direction.name])
 
     # If it's not a bombsite return false
@@ -73,6 +73,6 @@ def _can_plant(self, terrorist, command):
 
 
 World.apply_command = apply_command
-World._can_move = _can_move
-World._can_plant = _can_plant
+World._can_move = _can_move_agent
+World._can_plant = _can_plant_bomb
 World._increase_score_on_plant = increase_score_on_plant

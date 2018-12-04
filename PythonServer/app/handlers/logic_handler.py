@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 class LogicHandler:
 
     def __init__(self, world, sides):
@@ -11,6 +10,7 @@ class LogicHandler:
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
 
+        # Dead Agents Should Not Be Removed From Agents List.
         if command.id < 0 or command.id >= len(agents):
             print('Invalid id in command: %s %i' % (side_name, command.id))
             return
@@ -20,9 +20,6 @@ class LogicHandler:
 
     def clear_commands(self):
         self._last_cycle_commands = {side: {} for side in self._sides}
-
-    def initialize(self):
-        pass
 
     def process(self, current_cycle):
         gui_events = []
