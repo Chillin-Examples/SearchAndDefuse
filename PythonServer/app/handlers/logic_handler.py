@@ -39,4 +39,24 @@ class LogicHandler:
         return self.world
 
     def check_end_game(self, current_cycle):
-        pass
+        end_game = self._game_timer.reached_max_cycles(current_cycle)
+        winner_sidename = ''
+        details = {}
+
+        # Game Statuses Should Be Cached In Details too.
+        if end_game:
+            if self.world.scores['Terrorist'] > self.world.scores['Police']:
+                winner_sidename = 'Terrorist'
+            elif self.world.scores['Police'] > self.world.scores['Terrorist']:
+                winner_sidename = 'Police'
+            else:
+                winner_sidename = None
+
+            details = {
+                'Scores': {
+                    'Police': str(self.world.scores['Police']),
+                    'Terrorist': str(self.world.scores['Terrorist'])
+                }
+            }
+
+        return winner_sidename, details

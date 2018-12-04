@@ -17,6 +17,7 @@ class GameTimer(Timer):
     def reached_max_cycles(self, current_cycle_number):
         if self._max_cycles <= current_cycle_number:
             return True
+        return False
 
 
 class BombTimer(Timer):
