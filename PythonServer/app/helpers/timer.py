@@ -26,20 +26,16 @@ class BombTimer(Timer):
         self._bombs_timers = {bomb.position: {} for bomb in world.bombs}
 
         for bombsite in self._bombs_timers:
-            bombsite[
-                'remaining_planting_time'] = world.constants.bomb_planting_time  # this property is for terrorists model in models.ks
+            bombsite['remaining_planting_time'] = world.constants.bomb_planting_time  # this property is for terrorists model in models.ks
             bombsite['remaining_defusion_time'] = -1  # this property is for polices model in models.ks
             bombsite['remaining_explosion_time'] = -1  # this property is for bomb model in models.ks
 
-        self.planting_queue = queue.Queue()
-        self.defusion_queue = queue.Queue()
 
     def update_bombsites_timings(self, active_bombs):
         for active_bomb in active_bombs:
             # if the bomb is planned in this cycle.
             if active_bomb not in self._bombs_timers:
                 self._update_bombs_timer_on_plant(active_bomb)
-
             else:
                 # 1. check bombs that are waiting to be planted
                 # 2. check bombs that are already planted
