@@ -1871,7 +1871,7 @@ protected:
 	int __width;
 	int __height;
 	std::vector<std::vector<ECell>> __board;
-	std::map<std::string, int> __scores;
+	std::map<std::string, float> __scores;
 	std::vector<Bomb> __bombs;
 	std::vector<Terrorist> __terrorists;
 	std::vector<Police> __polices;
@@ -1904,7 +1904,7 @@ public: // getters
 		return __board;
 	}
 	
-	inline std::map<std::string, int> scores() const
+	inline std::map<std::string, float> scores() const
 	{
 		return __scores;
 	}
@@ -1947,9 +1947,9 @@ public: // reference getters
 		return (std::vector<std::vector<ECell>>&) __board;
 	}
 	
-	inline std::map<std::string, int> &ref_scores() const
+	inline std::map<std::string, float> &ref_scores() const
 	{
-		return (std::map<std::string, int>&) __scores;
+		return (std::map<std::string, float>&) __scores;
 	}
 	
 	inline std::vector<Bomb> &ref_bombs() const
@@ -1993,7 +1993,7 @@ public: // setters
 		has_board(true);
 	}
 	
-	inline void scores(const std::map<std::string, int> &scores)
+	inline void scores(const std::map<std::string, float> &scores)
 	{
 		__scores = scores;
 		has_scores(true);
@@ -2227,9 +2227,9 @@ public:
 				s += tmp170.first;
 				
 				s += '\x01';
-				int tmp179 = tmp170.second;
+				float tmp179 = tmp170.second;
 				auto tmp180 = reinterpret_cast<char*>(&tmp179);
-				s += std::string(tmp180, sizeof(int));
+				s += std::string(tmp180, sizeof(float));
 			}
 		}
 		
@@ -2407,10 +2407,10 @@ public:
 				tmp220 = s.substr(offset, tmp224);
 				offset += tmp224;
 				
-				int tmp221;
+				float tmp221;
 				offset++;
-				tmp221 = *((int*) (&s[offset]));
-				offset += sizeof(int);
+				tmp221 = *((float*) (&s[offset]));
+				offset += sizeof(float);
 				
 				__scores[tmp220] = tmp221;
 			}

@@ -13,7 +13,7 @@ def apply_command(self, side_name, command):
     # Read Commands
     if command.name() == Move.name():
         agent = agents[side_name][command.id]
-        if not self._can_move(side_name, agent, command):
+        if not self._can_move_agent(side_name, agent, command):
             return []
         agent.move(command)
 
@@ -26,7 +26,7 @@ def apply_command(self, side_name, command):
             return []
 
         police = agents["Police"][command.id]
-        if not self._can_defuse(police, command):
+        if not self._can_defuse_bomb(police, command):
             return []
         police.defuse_bomb(self, command)
 
@@ -34,7 +34,7 @@ def apply_command(self, side_name, command):
         return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
 
 
-def _can_move(self, side_name, agent, command):
+def _can_move_agent(self, side_name, agent, command):
     new_position = agent.position.add(directions[command.direction.name])
 
     # Check new cell is empty
@@ -48,22 +48,10 @@ def _can_move(self, side_name, agent, command):
 
         return True
 
-    elif command.name() == DefuseBomb.name():
-        # Only terrorists can plan
-        if side_name == "Terrorist":
-            return []
-
-        police = agents["Police"][command.id]
-        if not self._can_defuse(police, command):
-            return []
-        police.defuse_bomb(self, command)
-
-        event_type = GuiEventType.DefuseBomb
-        return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
+    return False
 
 
-
-def _can_defuse(self, police, command):
+def _can_defuse_bomb(self, police, command):
     planted_position = police.position.add(directions[command.direction.name])
 
     # If bomb exists return True
@@ -76,5 +64,5 @@ def _can_defuse(self, police, command):
 
 
 World.apply_command = apply_command
-World._can_move = _can_move
-World._can_defuse = _can_defuse
+World._can_move = _can_move_agent
+World._can_defuse = _can_defuse_bomb
