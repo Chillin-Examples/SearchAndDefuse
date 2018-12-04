@@ -12,7 +12,7 @@ class GameTimer(Timer):
     def __init__(self):
         self._max_cycles = self._world.constants.max_cycles
 
-    def check_max_cycles(self, current_cycle_number):
+    def reached_max_cycles(self, current_cycle_number):
         if self._max_cycles <= current_cycle_number:
             return True
 
