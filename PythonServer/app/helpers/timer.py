@@ -62,3 +62,6 @@ class BombTimer(Timer):
                 self._bombs_timers[bombsite_position]['remaining_explosion_time'] -= 1
 
             # if it explodes
+            if self._bombs_timers[bombsite_position]['remaining_explosion_time'] == 0:
+                # EXPLODE :D
+                pass
