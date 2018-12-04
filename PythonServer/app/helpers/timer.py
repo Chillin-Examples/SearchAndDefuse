@@ -35,12 +35,12 @@ class BombTimer(Timer):
                 # 2. check bombs that are already planted
                 self._update_planting_timer_on_cycle(map_bombs)
 
-    def _update_planting_timer_on_plant(self, bombsite_position):
+    def _update_planted_timer_on_plant(self, bombsite_position):
         self._bombs_timers[bombsite_position]['remaining_planting_time'] = self._world.constants.bomb_planting_time
         self._bombs_timers[bombsite_position]['remaining_defusion_time'] = -1
         self._bombs_timers[bombsite_position]['remaining_explosion_time'] = -1
 
-    def _update_planting_timer_on_cycle(self, bombsite_position):
+    def _update_planted_timer_on_cycle(self, bombsite_position):
         # if the planting timer is not zero yet, keep planting
         if self._bombs_timers[bombsite_position]['remaining_planting_time'] != 0:
             self._bombs_timers[bombsite_position]['remaining_planting_time'] -= 1
