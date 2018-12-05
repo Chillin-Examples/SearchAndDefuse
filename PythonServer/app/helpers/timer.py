@@ -29,6 +29,7 @@ class BombTimer(Timer):
                     if self.world.terrorist[bombsite.planter_id].remaining_planting_time > 0:
                         self.world.terrorist[bombsite.planter_id].remaining_planting_time -= 1
                     else:
+                        # TODO return planted bomb position for gui
                         score.increase_score('plant', world, bombsite.position)
                         self._update_plant_timer_on_cycle(bombsite)
 

@@ -5,7 +5,6 @@ from ..ks.models import *
 from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
 from .agent import directions
-from ..helpers.score import increase_score_on_plant
 
 
 def apply_command(self, side_name, command):
@@ -30,8 +29,8 @@ def apply_command(self, side_name, command):
         if not self._can_plant_bomb(terrorist, command):
             return []
         terrorist.plant_bomb(self, command)
-        self._increase_score_on_plant(terrorist, command)
 
+        # TODO event should be matched with bomb when plantation is done
         event_type = GuiEventType.PlantBomb
         return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
 
@@ -75,4 +74,3 @@ def _can_plant_bomb(self, terrorist, command):
 World.apply_command = apply_command
 World._can_move = _can_move_agent
 World._can_plant = _can_plant_bomb
-World._increase_score_on_plant = increase_score_on_plant
