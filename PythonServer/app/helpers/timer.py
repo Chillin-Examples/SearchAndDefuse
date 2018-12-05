@@ -16,28 +16,28 @@ class BombTimer(Timer):
     def update_bombsites_timings(self, world, agent_id):
         for bombsite in world.bombs:
             # if the bomb is planted in this cycle.
-            if world.terrorists[agent_id].remaining_planting_time == world.constants.bomb_planting_time:
-                self._update_planted_timer_on_plant(bombsite, world)
+            if world.terrorists[agent_id].remaining_planting_time == -1:
+                self._update_plant_timer_on_plant(agent_id, world)
             else:
                 # 1. check bombs that are waiting to be planted
                 # 2. check bombs that are already planted
-                self._update_planted_timer_on_cycle(bombsite, world, agent_id)
+                self._update_plant_timer_on_cycle(bombsite, world, agent_id)
 
-    def _update_planted_timer_on_plant(self, bomb, world):
-        bomb.explosion_remaining_time = world.constants.bomb_explosion_time
+    def _update_plant_timer_on_plant(self, agent_id, world):
+        world.terrorists[agent_id].planting_remaining_time = world.constants.bomb_planting_time
 
-    def _update_planted_timer_on_cycle(self, bomb, world, terrorist_id):
+    def _update_plant_timer_on_cycle(self, bomb, world, terrorist_id):
         # if the planting timer is not zero yet, keep planting
-        if world.terrorist[terrorist_id].remaining_planting_time != 0:
+        if world.terrorist[terrorist_id].remaining_planting_time > 0:
             world.terrorist[terrorist_id].remaining_planting_time -= 1
             return "planting_the_bomb", None
 
+        # if it explodes
+        elif bomb.explosion_remaining_time <= 0:
+            bomb_position = bomb.position
+            del world.bombs[bomb]
+            return "bomb_exploded", bomb_position
+
+        # bomb is not exploded yet
         else:
-
             bomb.explosion_remaining_time -= 1
-
-            # if it explodes
-            if bomb.explosion_remaining_time <= 0:
-                bomb_position = bomb.position
-                del world.bombs[bomb]
-                return "bomb_exploded", bomb_position
