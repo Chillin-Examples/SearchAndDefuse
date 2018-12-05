@@ -10,13 +10,13 @@ planted_bombs = []
 def increase_score(operation_type, world, bomb_position):
     if operation_type == "plant":
         if bomb_position not in planted_bombs:
-            _increase_score(world, bomb_position, world.constants.bomb_planting_score)
+            _increase(world, bomb_position, world.constants.bomb_planting_score)
             planted_bombs.append(bomb_position)
     elif operation_type == "explode":
-        _increase_score(world, bomb_position, world.constants.bomb_explosion_score)
+        _increase(world, bomb_position, world.constants.bomb_explosion_score)
 
 
-def _increase_score(world, bomb_position, score):
+def _increase(world, bomb_position, score):
     if world.board[bomb_position.y][bomb_position.x] == ECell.SmallBombSite:
         world.scores['Terrorist'] += world.constants.score_coefficient_small_bomb_site * world.bomb_explosion_score
     elif world.board[bomb_position.y][bomb_position.x] == ECell.MediumBombSite:
