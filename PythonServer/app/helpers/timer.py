@@ -34,12 +34,12 @@ class BombTimer(Timer):
             return "planting_the_bomb", None
 
         # if it explodes
-        elif bomb.explosion_remaining_time <= 0:
-            bomb_position = bomb.position
-            del self._world.bombs[bomb]
-            return "bomb_exploded", bomb_position
+        elif bomb.planter_id == terrorist_id:
+            if bomb.explosion_remaining_time <= 0:
+                bomb_position = bomb.position
+                del self._world.bombs[bomb]
+                return "bomb_exploded", bomb_position
 
-        # bomb is not exploded yet
-        else:
-            bomb.explosion_remaining_time -= 1
-
+            # bomb is not exploded yet
+            else:
+                bomb.explosion_remaining_time -= 1
