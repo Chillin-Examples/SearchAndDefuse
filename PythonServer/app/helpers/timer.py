@@ -12,40 +12,32 @@ class BombTimer(Timer):
 
     def __init__(self, world):
         super().__init__(world)
-        self._bombs_timers = {bomb.position: {} for bomb in world.bombs}
 
-    def update_bombsites_timings(self, bombs_queue):
-        for map_bombs in bombs_queue:
-            # if the bomb is planned in this cycle.
-            if map_bombs not in self._bombs_timers:
-                self._update_planted_timer_on_plant(map_bombs)
+    def update_bombsites_timings(self, world, agent_id):
+        for bombsite in world.bombs:
+            # if the bomb is planted in this cycle.
+            if world.terrorists[agent_id].remaining_planting_time == world.constants.bomb_planting_time:
+                self._update_planted_timer_on_plant(bombsite, world)
             else:
                 # 1. check bombs that are waiting to be planted
                 # 2. check bombs that are already planted
-                self._update_planted_timer_on_cycle(map_bombs)
+                self._update_planted_timer_on_cycle(bombsite, world, agent_id)
 
-    def _update_planted_timer_on_plant(self, bombsite_position):
-        self._bombs_timers[bombsite_position]['remaining_planting_time'] = self._world.constants.bomb_planting_time
-        self._bombs_timers[bombsite_position]['remaining_defusion_time'] = -1
-        self._bombs_timers[bombsite_position]['remaining_explosion_time'] = -1
+    def _update_planted_timer_on_plant(self, bomb, world):
+        bomb.explosion_remaining_time = world.constants.bomb_explosion_time
 
-    def _update_planted_timer_on_cycle(self, bombsite_position):
+    def _update_planted_timer_on_cycle(self, bomb, world, terrorist_id):
         # if the planting timer is not zero yet, keep planting
-        if self._bombs_timers[bombsite_position]['remaining_planting_time'] != 0:
-            self._bombs_timers[bombsite_position]['remaining_planting_time'] -= 1
+        if world.terrorist[terrorist_id].remaining_planting_time != 0:
+            world.terrorist[terrorist_id].remaining_planting_time -= 1
             return "planting_the_bomb", None
 
         else:
-            # if the planting timer is zero, plant the bomb
-            if self._bombs_timers[bombsite_position]['remaining_explosion_time'] == -1:
-                self._bombs_timers[bombsite_position]['remaining_explosion_time'] = self._world.constants.bomb_explosion_time
-                return "bomb_planted", bombsite_position
 
-            # keep counting until the bomb explodes
-            else:
-                self._bombs_timers[bombsite_position]['remaining_explosion_time'] -= 1
+            bomb.explosion_remaining_time -= 1
 
             # if it explodes
-            if self._bombs_timers[bombsite_position]['remaining_explosion_time'] == 0:
-                del self._bombs_timers[bombsite_position]
-                return "bomb_exploded", bombsite_position
+            if bomb.explosion_remaining_time <= 0:
+                bomb_position = bomb.position
+                del world.bombs[bomb]
+                return "bomb_exploded", bomb_position
