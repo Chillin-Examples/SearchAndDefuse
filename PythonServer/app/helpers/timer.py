@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import queue
 
-
+# project imports
+from ..helpers import score
 class Timer(object):
 
     def __init__(self, world):
@@ -27,6 +27,7 @@ class BombTimer(Timer):
                     if self._world.terrorist[bombsite.planter_id].remaining_planting_time > 0:
                         self._world.terrorist[bombsite.planter_id].remaining_planting_time -= 1
                     else:
+                        score.increase_score_on_plant(world, bombsite.position)
                         self._update_plant_timer_on_cycle(bombsite)
 
     def _update_plant_timer_on_plant(self, agent_id):
