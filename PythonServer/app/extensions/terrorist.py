@@ -7,8 +7,13 @@ from .agent import move, directions
 
 def plant_bomb(self, world, command):
     bomb_position = self.position.add(directions[command.direction.name])
-    world.bombs.append(Bomb(position=bomb_position, explosion_remaining_time=world.constants.bomb_explosion_time,
-                            planter_id=self.id, defuser_id=None))
+    new_bomb = Bomb(position=bomb_position, explosion_remaining_time=world.constants.bomb_explosion_time,
+                    planter_id=self.id, defuser_id=None)
+    for bomb in world.bombs:
+        if new_bomb == bomb:
+            del world.bombs[bomb]
+            break
+    world.bombs.append(new_bomb)
 
 
 Terrorist.plant_bomb = plant_bomb
