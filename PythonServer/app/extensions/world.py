@@ -56,10 +56,8 @@ def _can_plant_bomb(self, terrorist, command):
     new_bomb_position = terrorist.position.add(directions[command.direction.name])
 
     # If it's not a bombsite return false
-    if not self.board[new_bomb_position.y][new_bomb_position.x] == ECell.SmallBombSite or \
-            self.board[new_bomb_position.y][new_bomb_position.x] == ECell.MediumBombSite or \
-            self.board[new_bomb_position.y][new_bomb_position.x] == ECell.LargeBombSite or \
-            self.board[new_bomb_position.y][new_bomb_position.x] == ECell.VastBombSite:
+    if self.board[new_bomb_position.y][new_bomb_position.x] not in [ECell.SmallBombSite, ECell.MediumBombSite,
+                                                                    ECell.LargeBombSite, ECell.VastBombSite]:
         return False
 
     # If it already has a bomb with different planter

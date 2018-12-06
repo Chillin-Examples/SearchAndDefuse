@@ -5,10 +5,7 @@ from ..ks.models import Bomb
 
 
 def is_equal(self, bomb):
-    if self.position == bomb.position and self.explosion_remaining_time == bomb.explosion_remaining_time:
-        if self.planter_id == bomb.planter_id and self.defuser_id == bomb.defuser_id:
-            return True
-    return False
+    return cmp(self.__dict__, bomb.__dict__) == 0
 
 
 def __eq__(self, bomb):

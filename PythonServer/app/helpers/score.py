@@ -2,7 +2,6 @@
 
 # project imports
 from ..ks.models import ECell
-from ..extensions.agent import directions
 
 handled_bombsites_planted_scores = []
 
