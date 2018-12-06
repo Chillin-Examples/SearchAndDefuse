@@ -64,7 +64,7 @@ def _can_plant_bomb(self, terrorist, command):
 
     # If it already has a bomb with different planter
     for planted_bomb in self.bombs:
-        if planted_bomb.planter_id == new_bomb_position and planted_bomb.planter_id != terrorist.id:
+        if planted_bomb.position == new_bomb_position and planted_bomb.planter_id != terrorist.id:
             return False
 
     # Otherwise return True!
@@ -73,4 +73,4 @@ def _can_plant_bomb(self, terrorist, command):
 
 World.apply_command = apply_command
 World._can_move = _can_move_agent
-World._can_plant = _can_plant_bomb
+World._can_plant_bomb = _can_plant_bomb
