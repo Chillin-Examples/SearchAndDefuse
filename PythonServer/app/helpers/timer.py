@@ -33,6 +33,7 @@ class BombTimer(Timer):
                         else:
 
                             # command should be canceled.
+                            self.world.terrorist[bombsite.planter_id].remaining_planting_time = -1
                             del self.world.bombs[bombsite]
                     else:
                         # TODO return planted bomb position for gui
