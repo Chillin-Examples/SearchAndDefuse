@@ -62,9 +62,9 @@ def _can_plant_bomb(self, terrorist, command):
             self.board[new_bomb_position.y][new_bomb_position.x] == ECell.VastBombSite:
         return False
 
-    # If it already has a bomb return false
+    # If it already has a bomb with different planter
     for planted_bomb in self.bombs:
-        if planted_bomb.position == new_bomb_position:
+        if planted_bomb.planter_id == new_bomb_position and planted_bomb.planter_id != terrorist.id:
             return False
 
     # Otherwise return True!
