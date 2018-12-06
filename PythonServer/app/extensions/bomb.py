@@ -5,7 +5,7 @@ from ..ks.models import Bomb
 
 
 def is_equal(self, bomb):
-    return cmp(self.__dict__, bomb.__dict__) == 0
+    return sorted(self.__dict__.items()) == sorted(bomb.__dict__.items())
 
 
 def __eq__(self, bomb):
