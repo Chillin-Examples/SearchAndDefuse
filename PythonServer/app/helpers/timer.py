@@ -19,18 +19,26 @@ class BombTimer(Timer):
         self.world = world
 
         for bombsite in self.world.bombs:
-                # if the bomb is planted in this cycle.
+                # bomb has been planted in this cycle.
                 if self.world.terrorists[bombsite.planter_id].remaining_planting_time == -1:
                     self._update_plant_timer_on_plant(bombsite.planter_id)
                 else:
-                    # 1. check bombs that are waiting to be planted
-                    # 2. check bombs that are already planted
-                    # if the planting timer is not zero yet, keep planting
+
+                    # planting timer is not zero yet,terrorist should keep planting
                     if self.world.terrorist[bombsite.planter_id].remaining_planting_time > 0:
-                        self.world.terrorist[bombsite.planter_id].remaining_planting_time -= 1
+
+                        # if terrorist has not moved since commanding plant.
+                        if self.world.terrorists[bombsite.planter_id] in bombsite.get_neighbours():
+                            self.world.terrorist[bombsite.planter_id].remaining_planting_time -= 1
+                        else:
+
+                            # command should be canceled.
+                            del self.world.bombs[bombsite]
                     else:
                         # TODO return planted bomb position for gui
                         score.increase_score('plant', world, bombsite.position)
+
+                        # check bombs that are already planted
                         self._update_plant_timer_on_cycle(bombsite)
 
     def _update_plant_timer_on_plant(self, agent_id):
