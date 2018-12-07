@@ -70,5 +70,5 @@ def _can_plant_bomb(self, terrorist, command):
 
 
 World.apply_command = apply_command
-World._can_move = _can_move_agent
+World._can_move_agent = _can_move_agent
 World._can_plant_bomb = _can_plant_bomb
