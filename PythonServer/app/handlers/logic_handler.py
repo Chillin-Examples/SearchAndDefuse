@@ -27,12 +27,11 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self):
-        self.bomb_timer.update_bombsites_timings(self.world)
         gui_events = []
+        gui_events += self.bomb_timer.update_bombsites_timings(self.world)
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
-
         return gui_events
 
     def get_client_world(self, side_name):

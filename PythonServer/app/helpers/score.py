@@ -3,14 +3,10 @@
 # project imports
 from ..ks.models import ECell
 
-handled_bombsites_planted_scores = []
-
 
 def increase_score(operation_type, world, bomb_position):
     if operation_type == "plant":
-        if bomb_position not in handled_bombsites_planted_scores:
-            _increase_terrorist_score(world, bomb_position, world.constants.bomb_planting_score)
-            handled_bombsites_planted_scores.append(bomb_position)
+        _increase_terrorist_score(world, bomb_position, world.constants.bomb_planting_score)
     elif operation_type == "explode":
         _increase_terrorist_score(world, bomb_position, world.constants.bomb_explosion_score)
 

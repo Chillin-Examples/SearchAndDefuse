@@ -2,6 +2,7 @@
 
 # project imports
 from ..helpers import score
+from ..gui_events import GuiEvent, GuiEventType
 
 
 class Timer(object):
@@ -27,11 +28,8 @@ class BombTimer(Timer):
                     # planting timer is not zero yet,terrorist should keep planting
                     if self.world.terrorists[bomb.planter_id].planting_remaining_time > 0:
                         self.world.terrorists[bomb.planter_id].planting_remaining_time -= 1
-                    else:
-                        # TODO return planted bomb position for gui
-                        score.increase_score('plant', world, bomb.position)
 
-                        # check bombs that are already planted
+                    else:
                         self._update_plant_timer_on_cycle(bomb)
 
     def _update_plant_timer_on_plant(self, agent_id):
@@ -39,13 +37,17 @@ class BombTimer(Timer):
 
     def _update_plant_timer_on_cycle(self, bomb):
 
-        # if it explodes
-        if bomb.explosion_remaining_time <= 0:
+        # when bomb starts the timer to explode
+        if bomb.explosion_remaining_time == -1:
+            score.increase_score('plant', self.world, bomb.position)
+            return [GuiEvent(GuiEventType.PlantedBomb, bomb_position=bomb.position)] # show timer on gui later
+
+        # when bomb explodes
+        elif bomb.explosion_remaining_time == 0:
             bomb_position = bomb.position
             score.increase_score('explode', self.world, bomb.position)
-            # TODO bugs here needs to be fixed
-            del self.world.bombs[bomb]
-            return "bomb_exploded", bomb_position
+            self.world.bombs.remove(bomb)
+            return [GuiEvent(GuiEventType.ExplodeBomb, bomb_position=bomb_position)]
 
         # bomb is not exploded yet
         else:
