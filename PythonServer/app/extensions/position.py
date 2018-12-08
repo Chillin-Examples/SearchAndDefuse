@@ -20,6 +20,10 @@ def add(self, position):
     return Position(x=x, y=y)
 
 
+def __add__(self, position):
+    return self.add(position)
+
+
 # def get_neighbours(self):
 #     return [Position(x=self.x-1, y=self.y), Position(x=self.x+1, y=self.y),
 #             Position(x=self.x, y=self.y-1), Position(x=self.x, y=self.y+1)]
@@ -28,4 +32,5 @@ def add(self, position):
 Position.is_equal = is_equal
 Position.__eq__ = __eq__
 Position.add = add
+Position.__add__ = __add__
 # Position.get_neighbours = get_neighbours
