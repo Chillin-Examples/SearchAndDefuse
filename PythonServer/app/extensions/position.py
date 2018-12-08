@@ -24,13 +24,15 @@ def __add__(self, position):
     return self.add(position)
 
 
-# def get_neighbours(self):
-#     return [Position(x=self.x-1, y=self.y), Position(x=self.x+1, y=self.y),
-#             Position(x=self.x, y=self.y-1), Position(x=self.x, y=self.y+1)]
+def is_neighbour(self, position):
+    if position in [Position(x=self.x - 1, y=self.y), Position(x=self.x + 1, y=self.y),
+                    Position(x=self.x, y=self.y - 1), Position(x=self.x, y=self.y + 1)]:
+        return True
+    return False
 
 
 Position.is_equal = is_equal
 Position.__eq__ = __eq__
 Position.add = add
 Position.__add__ = __add__
-# Position.get_neighbours = get_neighbours
+Position.is_neighbour = is_neighbour()
