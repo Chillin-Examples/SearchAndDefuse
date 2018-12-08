@@ -54,9 +54,9 @@ def _can_move_agent(self, side_name, agent, command):
 def _can_defuse_bomb(self, police, command):
     planted_position = police.position.add(directions[command.direction.name])
 
-    # If bomb exists return True
+    # If bomb exists and is exploding
     for planted_bomb in self.bombs:
-        if planted_bomb.position == planted_position:
+        if planted_bomb.position == planted_position and planted_bomb.explosion_remaining_time != -1:
             return True
 
     # Otherwise return False!
