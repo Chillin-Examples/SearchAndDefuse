@@ -23,14 +23,15 @@ class BombTimer(Timer):
                 # bomb has been planted in this cycle.
                 if self.world.terrorists[bomb.planter_id].planting_remaining_time == -1:
                     self._update_plant_timer_on_plant(bomb.planter_id)
+                    return []
                 else:
 
                     # planting timer is not zero yet,terrorist should keep planting
                     if self.world.terrorists[bomb.planter_id].planting_remaining_time > 0:
                         self.world.terrorists[bomb.planter_id].planting_remaining_time -= 1
-
+                        return []
                     else:
-                        self._update_plant_timer_on_cycle(bomb)
+                        return self._update_plant_timer_on_cycle(bomb)
 
     def _update_plant_timer_on_plant(self, agent_id):
         self.world.terrorists[agent_id].planting_remaining_time = self.world.constants.bomb_planting_time
@@ -52,3 +53,4 @@ class BombTimer(Timer):
         # bomb is not exploded yet
         else:
             bomb.explosion_remaining_time -= 1
+            return []
