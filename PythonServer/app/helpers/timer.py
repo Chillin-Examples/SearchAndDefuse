@@ -26,15 +26,7 @@ class BombTimer(Timer):
 
                     # planting timer is not zero yet,terrorist should keep planting
                     if self.world.terrorists[bomb.planter_id].planting_remaining_time > 0:
-
-                        # if terrorist has not moved since commanding plant.
-                        if self.world.terrorists[bomb.planter_id].position in bomb.position.get_neighbours():
-                            self.world.terrorists[bomb.planter_id].planting_remaining_time -= 1
-                        else:
-
-                            # command should be canceled.
-                            self.world.terrorists[bomb.planter_id].planting_remaining_time = -1
-                            del self.world.bombs[bomb]
+                        self.world.terrorists[bomb.planter_id].planting_remaining_time -= 1
                     else:
                         # TODO return planted bomb position for gui
                         score.increase_score('plant', world, bomb.position)
