@@ -30,7 +30,9 @@
       "Background": "images/background.png",
       "Terrorist": "images/terrorist.png",
       "Police": "images/police.png",
-      "Planting_Terrorist": "images/terrorist.png",
+      "PlantingBomb": "images/planting_bomb.png",
+      "PlantedBomb": "images/planted_bomb.png",
+      "ExplodedBomb": "images/exploded_bomb.png",
       "Defusing_Police": "images/police.png",
       "Fog": "images/background.png",
       "Wall": "images/wall.png",
@@ -38,7 +40,6 @@
       "MediumBomb": "images/small_bomb.png",
       "LargeBomb": "images/small_bomb.png",
       "VastBomb": "images/small_bomb.png",
-      "PlantedBomb":"images/planted_bomb.png",
       "Empty": "images/background.png"
     }
 
