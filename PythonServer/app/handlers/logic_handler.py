@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+# project imports
+from ..helpers.timer import BombTimer
+
 
 class LogicHandler:
 
@@ -7,6 +10,7 @@ class LogicHandler:
         self.world = world
         self._sides = sides
         self._last_cycle_commands = {side: {} for side in self._sides}
+        self.bomb_timer = BombTimer(world)
 
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
@@ -23,6 +27,7 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
+        self.bomb_timer.update_defuse_timings(self.world)
         gui_events = []
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
