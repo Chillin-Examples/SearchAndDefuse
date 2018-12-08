@@ -35,4 +35,4 @@ Position.is_equal = is_equal
 Position.__eq__ = __eq__
 Position.add = add
 Position.__add__ = __add__
-Position.is_neighbour = is_neighbour()
+Position.is_neighbour = is_neighbour

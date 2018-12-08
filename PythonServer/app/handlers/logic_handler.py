@@ -40,7 +40,7 @@ class LogicHandler:
 
     def check_end_game(self, current_cycle):
         end_game = False
-        if current_cycle <= self.world.constants.max_cycles:
+        if current_cycle > self.world.constants.max_cycles:
             end_game = True
 
         winner_sidename = ''
@@ -62,4 +62,4 @@ class LogicHandler:
                 }
             }
 
-        return winner_sidename, details
+        return end_game, winner_sidename, details
