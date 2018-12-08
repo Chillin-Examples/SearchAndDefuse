@@ -33,7 +33,7 @@ def apply_command(self, side_name, command):
         terrorist.plant_bomb(self, command)
 
         # TODO event should be matched with bomb when plantation is done
-        event_type = GuiEventType.PlantBomb
+        event_type = GuiEventType.PlantingBomb
         return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
 
 
