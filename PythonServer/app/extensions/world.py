@@ -64,5 +64,5 @@ def _can_defuse_bomb(self, police, command):
 
 
 World.apply_command = apply_command
-World._can_move = _can_move_agent
+World._can_move_agent = _can_move_agent
 World._can_defuse = _can_defuse_bomb
