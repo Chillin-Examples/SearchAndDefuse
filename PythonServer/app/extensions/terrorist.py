@@ -12,7 +12,12 @@ def plant_bomb(self, world, command):
                     planter_id=self.id, defuser_id=None)
 
     # check replanting condition
-    world.bombs[:] = [bomb for bomb in world.bombs if bomb != new_bomb]
+    for bomb in world.bombs:
+        if bomb == new_bomb:
+            world.bombs.remove(bomb)
+            self.planting_remaining_time = -1
+            break
+
     world.bombs.append(new_bomb)
 
 
