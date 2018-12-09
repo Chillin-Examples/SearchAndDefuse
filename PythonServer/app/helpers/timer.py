@@ -3,6 +3,7 @@
 # project imports
 from ..helpers import score
 from ..gui_events import GuiEvent, GuiEventType
+from ..ks.models import ECell
 
 
 class BombTimer(object):
@@ -42,6 +43,7 @@ class BombTimer(object):
         elif bomb.explosion_remaining_time == 0:
             bomb_position = bomb.position
             score.increase_score('explode', world, bomb.position)
+            world.board[bomb_position.y][bomb_position.x] = ECell.ExplodedBombSite
             world.bombs.remove(bomb)
             return [GuiEvent(GuiEventType.ExplodeBomb, bomb_position=bomb_position)]
 
