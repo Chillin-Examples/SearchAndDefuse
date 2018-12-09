@@ -2,6 +2,7 @@
 
 # project imports
 from ..helpers import score
+from ..gui_events import GuiEvent, GuiEventType
 
 
 class BombTimer(object):
@@ -9,19 +10,26 @@ class BombTimer(object):
     def update_defuse_timings(self, world):
 
         for bomb in world.bombs:
-                # defuse command given in current cycle.
-                if world.polices[bomb.defuser_id].defusion_remaining_time == -1:
-                    self._update_defuse_timer_on_defuse(bomb.defuser_id, world)
-                else:
 
-                    # defusing timer is not zero yet,police should keep defusing
-                    if world.polices[bomb.defuser_id].defusion_remaining_time > 0:
-                        world.polices[bomb.defuser_id].defusion_remaining_time -= 1
+            if bomb.defuser_id:
+                    # defuse command given in current cycle.
+                    if world.polices[bomb.defuser_id].defusion_remaining_time == -1:
+                        print("police {} commanded defuse.".format(bomb.defuser_id))
+                        self._update_defuse_timer_on_defuse(bomb.defuser_id, world)
+                        return []
+                    else:
 
-                    elif world.polices[bomb.defuser_id].defusion_remaining_time == 0:
-                        score.increase_score('defuse', world)
-                        del world.bombs[bomb]
-                        world.polices[bomb.defuser_id].defusion_remaining_time = -1
+                        # defusing timer is not zero yet,police should keep defusing
+                        if world.polices[bomb.defuser_id].defusion_remaining_time > 0:
+                            print("police {} is defusing.".format(bomb.defuser_id))
+                            world.polices[bomb.defuser_id].defusion_remaining_time -= 1
+                            return []
+                        elif world.polices[bomb.defuser_id].defusion_remaining_time == 0:
+                            print("bomb defused.")
+                            bomb_position = bomb.position
+                            score.increase_score('defuse', world)
+                            world.bombs.remove(bomb)
+                            return [GuiEvent(GuiEventType.DefusedBomb, bomb_position=bomb_position)]
 
     def _update_defuse_timer_on_defuse(self, agent_id, world):
         world.polices[agent_id].defusion_remaining_time = world.constants.bomb_defusion_time
