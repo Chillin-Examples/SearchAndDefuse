@@ -23,7 +23,6 @@ class GameManager(RealtimeGameHandler):
         self._map_handler = map_handler.MapHandler(self.sides)
         world = self._map_handler.load_map(self.config)
         self._logic_handler = logic_handler.LogicHandler(world, self.sides)
-        self._logic_handler.initialize()
 
     def on_initialize_gui(self):
         print('initialize gui')
@@ -35,6 +34,9 @@ class GameManager(RealtimeGameHandler):
     def on_process_cycle(self):
         print('cycle %i' % (self.current_cycle,))
         self._gui_events = self._logic_handler.process(self.current_cycle)
+        end_game, winner_sidename, details = self._logic_handler.check_end_game(self.current_cycle)
+        if end_game:
+            self.end_game(winner_sidename=winner_sidename, details=details)
         self._logic_handler.clear_commands()
 
     def on_update_clients(self):
