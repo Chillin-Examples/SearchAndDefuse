@@ -8,7 +8,7 @@ from .agent import move, directions
 def plant_bomb(self, world, command):
     bomb_position = self.position.add(directions[command.direction.name])
 
-    new_bomb = Bomb(position=bomb_position, explosion_remaining_time=world.constants.bomb_explosion_time,
+    new_bomb = Bomb(position=bomb_position, explosion_remaining_time=-1,
                     planter_id=self.id, defuser_id=None)
 
     # check replanting condition
