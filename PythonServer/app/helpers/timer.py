@@ -4,13 +4,7 @@
 from ..helpers import score
 
 
-class Timer(object):
-
-    def __init__(self, world):
-        self.world = world
-
-
-class BombTimer(Timer):
+class BombTimer(object):
 
     def __init__(self, world):
         super().__init__(world)

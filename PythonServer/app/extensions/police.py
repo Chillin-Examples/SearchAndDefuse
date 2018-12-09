@@ -12,6 +12,7 @@ def defuse_bomb(self, world, command):
         if bomb.position == bomb_position:
             defusing_bomb = bomb
             break
+
     # check redefusing condition
     if defusing_bomb.defuser_id == self.id:
         self.defusion_remaining_time = -1
