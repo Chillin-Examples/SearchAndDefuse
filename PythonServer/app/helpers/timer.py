@@ -5,54 +5,49 @@ from ..helpers import score
 from ..gui_events import GuiEvent, GuiEventType
 
 
-class Timer(object):
-
-    def __init__(self, world):
-        self.world = world
-
-
-class BombTimer(Timer):
-
-    def __init__(self, world):
-        super().__init__(world)
+class BombTimer(object):
 
     def update_bombsites_timings(self, world):
-        self.world = world
 
-        for bomb in self.world.bombs:
+        for bomb in world.bombs:
                 # bomb has been planted in this cycle.
-                if self.world.terrorists[bomb.planter_id].planting_remaining_time == -1:
-                    self._update_plant_timer_on_plant(bomb.planter_id)
+                if world.terrorists[bomb.planter_id].planting_remaining_time == -1:
+                    print("terrorist {} commanded plant.".format(bomb.planter_id))
+                    self._update_plant_timer_on_plant(bomb.planter_id, world)
                     return []
                 else:
 
                     # planting timer is not zero yet,terrorist should keep planting
-                    if self.world.terrorists[bomb.planter_id].planting_remaining_time > 0:
-                        self.world.terrorists[bomb.planter_id].planting_remaining_time -= 1
+                    if world.terrorists[bomb.planter_id].planting_remaining_time > 0:
+                        print("terrorist {} is planting.".format(bomb.planter_id))
+                        world.terrorists[bomb.planter_id].planting_remaining_time -= 1
                         return []
 
                     else:
-                        return self._update_plant_timer_on_cycle(bomb)
+                        return self._update_plant_timer_on_cycle(bomb, world)
         return []
 
-    def _update_plant_timer_on_plant(self, agent_id):
-        self.world.terrorists[agent_id].planting_remaining_time = self.world.constants.bomb_planting_time
+    def _update_plant_timer_on_plant(self, agent_id, world):
+        world.terrorists[agent_id].planting_remaining_time = world.constants.bomb_planting_time
 
-    def _update_plant_timer_on_cycle(self, bomb):
+    def _update_plant_timer_on_cycle(self, bomb, world):
 
         # when bomb starts the timer to explode
         if bomb.explosion_remaining_time == -1:
-            score.increase_score('plant', self.world, bomb.position)
+            print("bomb planted.")
+            score.increase_score('plant', world, bomb.position)
             return [GuiEvent(GuiEventType.PlantedBomb, bomb_position=bomb.position)] # show timer on gui later
 
         # when bomb explodes
         elif bomb.explosion_remaining_time == 0:
+            print("bomb exploded.")
             bomb_position = bomb.position
-            score.increase_score('explode', self.world, bomb.position)
-            self.world.bombs.remove(bomb)
+            score.increase_score('explode', world, bomb.position)
+            world.bombs.remove(bomb)
             return [GuiEvent(GuiEventType.ExplodeBomb, bomb_position=bomb_position)]
 
         # bomb is not exploded yet
         else:
+            print("Bomb is exploding.")
             bomb.explosion_remaining_time -= 1
             return []

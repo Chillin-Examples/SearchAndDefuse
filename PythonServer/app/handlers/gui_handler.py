@@ -55,7 +55,7 @@ class GuiHandler:
                 moving_polices.append(event.payload)
             elif event.type == GuiEventType.MoveTerrorist:
                 moving_terrorists.append(event.payload)
-            elif event.type == GuiEventType.PlantBomb:
+            elif event.type == GuiEventType.PlantingBomb:
                 bombs_events['planting'].append(event.payload)
             elif event.type == GuiEventType.PlantedBomb:
                 bombs_events['planted'].append(event.payload)
