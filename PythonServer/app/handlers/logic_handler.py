@@ -10,7 +10,7 @@ class LogicHandler:
         self.world = world
         self._sides = sides
         self._last_cycle_commands = {side: {} for side in self._sides}
-        self.bomb_timer = BombTimer(world)
+        self.bomb_timer = BombTimer()
 
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
