@@ -7,7 +7,7 @@ from ..gui_events import GuiEvent, GuiEventType
 
 class BombTimer(object):
 
-    def update_bombsites_timings(self, world):
+    def update_plant_timings(self, world):
 
         for bomb in world.bombs:
             # bomb has been planted in this cycle.
