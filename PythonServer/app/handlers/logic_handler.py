@@ -46,10 +46,8 @@ class LogicHandler:
             end_game = True
 
         # all bombs exploded
-        # convert world.board into 1D list
-        temp_board = sum(self.world.board, [])
         if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                            ECell.LargeBombSite, ECell.VastBombSite] for cell in temp_board):
+                            ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
             end_game = True
 
         winner_sidename = ''
