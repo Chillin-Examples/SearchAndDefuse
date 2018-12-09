@@ -30,7 +30,7 @@ def apply_command(self, side_name, command):
             return []
         police.defuse_bomb(self, command)
 
-        event_type = GuiEventType.DefuseBomb
+        event_type = GuiEventType.DefusingBombBomb
         return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
 
 
