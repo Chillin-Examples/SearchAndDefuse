@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
+from ..ks.models import ECell
 from ..helpers.timer import BombTimer
 
 
@@ -39,7 +40,16 @@ class LogicHandler:
 
     def check_end_game(self, current_cycle):
         end_game = False
+
+        # times up!
         if current_cycle > self.world.constants.max_cycles:
+            end_game = True
+
+        # all bombs exploded
+        # convert world.board into 1D list
+        temp_board = sum(self.world.board, [])
+        if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
+                            ECell.LargeBombSite, ECell.VastBombSite] for cell in temp_board):
             end_game = True
 
         winner_sidename = ''
