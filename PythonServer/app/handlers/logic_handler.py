@@ -28,7 +28,7 @@ class LogicHandler:
 
     def process(self):
         gui_events = []
-        gui_events += self.bomb_timer.update_bombsites_timings(self.world)
+        gui_events += self.bomb_timer.update_plant_timings(self.world)
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])

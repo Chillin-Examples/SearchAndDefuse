@@ -123,16 +123,7 @@ class GuiHandler:
         for bomb in bombs_exploded:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
             board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
-            if board_cell == ECell.SmallBombSite:
-                self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
-                                          center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-            elif board_cell == ECell.MediumBombSite:
-                self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
-                                          center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-            elif board_cell == ECell.LargeBombSite:
-                self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
-                                          center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-            elif board_cell == ECell.VastBombSite:
+            if board_cell == ECell.ExplodedBombSite:
                 self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
                                           center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
