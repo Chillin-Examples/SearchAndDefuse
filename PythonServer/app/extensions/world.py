@@ -13,11 +13,11 @@ def apply_command(self, side_name, command):
     # Read Commands
     if command.name() == Move.name():
         agent = agents[side_name][command.id]
+        if side_name == "Terrorist" and agent.planting_remaining_time != -1:
+            agent.cancel_plant(self)
+
         if not self._can_move_agent(side_name, agent, command):
             return []
-
-        if side_name == "Terrorist" and agent.planting_remaining_time != -1:
-            agent.cancel_plant(next((bomb for bomb in self.bombs if bomb.planter_id == agent.id), None))
 
         agent.move(command)
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
@@ -66,6 +66,10 @@ def _can_plant_bomb(self, terrorist, command):
     # If it already has a bomb with different planter
     for planted_bomb in self.bombs:
         if planted_bomb.position == new_bomb_position and planted_bomb.planter_id != terrorist.id:
+            return False
+
+        # if bomb is exploding
+        if planted_bomb.explosion_remaining_time != -1:
             return False
 
     # Otherwise return True!
