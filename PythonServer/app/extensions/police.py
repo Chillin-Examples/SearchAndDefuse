@@ -19,5 +19,10 @@ def defuse_bomb(self, world, command):
         self.defusion_remaining_time = -1
 
 
+def cancel_defuse():
+    pass
+
+
 Police.defuse_bomb = defuse_bomb
 Police.move = move
+Police.cancel_defuse = cancel_defuse
