@@ -10,3 +10,4 @@ def plant_bomb_manually(position, world):
                          planter_id=-1, defuser_id=None)
 
     world.bombs.append(new_test_bomb)
+
