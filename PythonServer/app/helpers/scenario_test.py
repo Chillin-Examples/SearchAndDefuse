@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..app.ks.models import Bomb
+from PythonServer.app.ks.models import Bomb
 
 
 def plant_bomb_manually(position, world):
