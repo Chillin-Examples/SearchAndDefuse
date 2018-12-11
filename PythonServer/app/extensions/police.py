@@ -11,12 +11,13 @@ def defuse_bomb(self, world, command):
     for bomb in world.bombs:
         if bomb.position == bomb_position:
             defusing_bomb = bomb
+
+            # check redefusing condition
+            if defusing_bomb.defuser_id == self.id:
+                self.cancel_defuse()
             bomb.defuser_id = self.id
             break
 
-    # check redefusing condition
-    if defusing_bomb.defuser_id == self.id:
-        self.cancel_defuse()
 
 
 def cancel_defuse(self):
