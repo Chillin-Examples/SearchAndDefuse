@@ -14,8 +14,7 @@ def plant_bomb(self, world, command):
     # check replanting condition
     for bomb in world.bombs:
         if bomb == new_bomb:
-            world.bombs.remove(bomb)
-            self.planting_remaining_time = world.constants.bomb_planting_time
+            self.cancel_plant(bomb)
             break
 
     world.bombs.append(new_bomb)
