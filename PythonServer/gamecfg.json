@@ -65,6 +65,6 @@
     "": "my configs",
     "cell_size": 6,
     "show_statuses": false,
-    "map": "maps/revolution909.json"
+    "map": "maps/revolution909_test_defuse.json"
   }
 }
