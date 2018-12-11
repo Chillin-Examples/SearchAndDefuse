@@ -16,11 +16,11 @@ def defuse_bomb(self, world, command):
 
     # check redefusing condition
     if defusing_bomb.defuser_id == self.id:
-        self.defusion_remaining_time = -1
+        self.cancel_defuse()
 
 
-def cancel_defuse():
-    pass
+def cancel_defuse(self):
+    self.defusion_remaining_time = -1
 
 
 Police.defuse_bomb = defuse_bomb
