@@ -21,5 +21,13 @@ def plant_bomb(self, world, command):
     world.bombs.append(new_bomb)
 
 
+def cancel_plant(self, bombs):
+    for bomb in bombs:
+        if bomb.planter_id == self.id and bomb.position.is_neighbor(self.position):
+            self.bombs.remove(bomb)
+            self.planting_remaining_time = -1
+
+
 Terrorist.plant_bomb = plant_bomb
 Terrorist.move = move
+Terrorist.cancel_plant = cancel_plant

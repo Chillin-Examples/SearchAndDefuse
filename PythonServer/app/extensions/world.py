@@ -17,7 +17,8 @@ def apply_command(self, side_name, command):
             return []
 
         if side_name == "Terrorist" and agent.planting_remaining_time != -1:
-            self._cancel_plantings_on_move(agent)
+            agent.cancel_plant(self.bombs)
+
         agent.move(command)
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
@@ -69,13 +70,6 @@ def _can_plant_bomb(self, terrorist, command):
 
     # Otherwise return True!
     return True
-
-
-def _cancel_plantings_on_move(self, terrorist):
-    for bomb in self.bombs:
-        if bomb.planter_id == terrorist.id and bomb.position.is_neighbor(terrorist.position):
-            self.bombs.remove(bomb)
-            terrorist.planting_remaining_time = -1
 
 
 World.apply_command = apply_command

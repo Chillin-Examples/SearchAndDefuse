@@ -13,16 +13,15 @@ class BombTimer(object):
         for bomb in world.bombs:
             # bomb has been planted in this cycle.
             if world.terrorists[bomb.planter_id].planting_remaining_time == -1:
-                print("terrorist {} commanded plant.".format(bomb.planter_id))
+                print("Terrorist {} commanded plant.".format(bomb.planter_id))
                 self._update_plant_timer_on_plant(bomb.planter_id, world)
                 return []
             else:
 
                 # planting timer is not zero yet,terrorist should keep planting
                 if world.terrorists[bomb.planter_id].planting_remaining_time > 0:
-                    print("terrorist {} is planting.".format(bomb.planter_id))
+                    print("Terrorist {} is planting.".format(bomb.planter_id))
                     world.terrorists[bomb.planter_id].planting_remaining_time -= 1
-                    print("B")
                     return []
                 else:
                     return self._update_plant_timer_on_cycle(bomb, world)
@@ -35,12 +34,14 @@ class BombTimer(object):
 
         # when bomb starts the timer to explode
         if bomb.explosion_remaining_time == -1:
+            print('Bomb planted.')
             bomb.explosion_remaining_time = world.constants.bomb_explosion_time
             score.increase_score('plant', world, bomb.position)
             return [GuiEvent(GuiEventType.PlantedBomb, bomb_position=bomb.position)] # show timer on gui later
 
         # when bomb explodes
         elif bomb.explosion_remaining_time == 0:
+            print('Bomb exploded.')
             bomb_position = bomb.position
             score.increase_score('explode', world, bomb.position)
             world.board[bomb_position.y][bomb_position.x] = ECell.ExplodedBombSite
@@ -49,5 +50,6 @@ class BombTimer(object):
 
         # bomb is not exploded yet
         else:
+            print('Bomb is exploding...')
             bomb.explosion_remaining_time -= 1
             return []
