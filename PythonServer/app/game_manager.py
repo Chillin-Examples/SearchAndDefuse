@@ -33,7 +33,7 @@ class GameManager(RealtimeGameHandler):
 
     def on_process_cycle(self):
         print('cycle %i' % (self.current_cycle,))
-        self._gui_events = self._logic_handler.process()
+        self._gui_events = self._logic_handler.process(self.current_cycle)
         end_game, winner_sidename, details = self._logic_handler.check_end_game(self.current_cycle)
         if end_game:
             self.end_game(winner_sidename=winner_sidename, details=details)

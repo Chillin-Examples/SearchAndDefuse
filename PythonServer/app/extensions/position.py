@@ -25,10 +25,8 @@ def __add__(self, position):
 
 
 def is_neighbour(self, position):
-    if position in [Position(x=self.x - 1, y=self.y), Position(x=self.x + 1, y=self.y),
-                    Position(x=self.x, y=self.y - 1), Position(x=self.x, y=self.y + 1)]:
-        return True
-    return False
+    return position in [Position(x=self.x - 1, y=self.y), Position(x=self.x + 1, y=self.y),
+                        Position(x=self.x, y=self.y - 1), Position(x=self.x, y=self.y + 1)]
 
 
 Position.is_equal = is_equal

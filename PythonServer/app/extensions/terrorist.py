@@ -15,7 +15,7 @@ def plant_bomb(self, world, command):
     for bomb in world.bombs:
         if bomb == new_bomb:
             world.bombs.remove(bomb)
-            self.planting_remaining_time = -1
+            self.planting_remaining_time = world.constants.bomb_planting_time
             break
 
     world.bombs.append(new_bomb)
