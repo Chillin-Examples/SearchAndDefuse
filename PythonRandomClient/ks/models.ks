@@ -6,6 +6,7 @@ _def = enum <byte>
         MediumBombSite,
         LargeBombSite,
         VastBombSite,
+        ExplodedBombSite,
         Wall
     }
 
@@ -58,7 +59,8 @@ y = int
 _def = class
 position = Position
 explosion_remaining_time = int
-
+planter_id = int
+defuser_id = int
 
 [Terrorist]
 _def = class
