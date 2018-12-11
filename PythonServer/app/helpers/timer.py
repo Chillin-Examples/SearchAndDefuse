@@ -12,7 +12,7 @@ class BombTimer(object):
         for bomb in world.bombs:
 
             # some police is defusing
-            if bomb.defuser_id:
+            if bomb.defuser_id != -1:
                     # defuse command given in current cycle.
                     if world.polices[bomb.defuser_id].defusion_remaining_time == -1:
                         print("police {} commanded defuse.".format(bomb.defuser_id))

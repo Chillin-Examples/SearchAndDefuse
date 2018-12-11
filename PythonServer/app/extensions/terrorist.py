@@ -7,6 +7,7 @@ from .agent import move
 
 
 def plant_bomb(self, world, command):
+    # defuser_id should be -1 at first.
     return True
 
 

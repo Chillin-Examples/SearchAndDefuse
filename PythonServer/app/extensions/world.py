@@ -57,8 +57,7 @@ def _can_defuse_bomb(self, police, command):
     for planted_bomb in self.bombs:
 
         # no police is defusing at the moment
-        if not planted_bomb.defuser_id:
-
+        if planted_bomb.defuser_id == -1 or planted_bomb.defuser_id == police.id:
             # bomb exists and is exploding
             if planted_bomb.position == planted_position and planted_bomb.explosion_remaining_time != -1:
                 return True
