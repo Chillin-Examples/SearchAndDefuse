@@ -28,7 +28,7 @@ class AI(RealtimeAI):
             direction = ECommandDirection.Down
             for i in range(0, 4):
                 if not self.done:
-                    self.send_command(PlantBomb(id=i, direction=direction))
+                    self.send_command(DefuseBomb(id=2, direction=direction))
                     self.done = True
 
         elif self.my_side == 'Terrorist':
