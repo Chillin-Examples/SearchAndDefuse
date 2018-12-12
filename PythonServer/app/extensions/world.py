@@ -13,6 +13,11 @@ def apply_command(self, side_name, command):
     # Read Commands
     if command.name() == Move.name():
         agent = agents[side_name][command.id]
+
+        # cancel defuse command if agent is defusing
+        if side_name == "Police" and agent.defusion_remaining_time != -1:
+            agent.cancel_defuse(self)
+
         if not self._can_move_agent(side_name, agent, command):
             return []
         agent.move(command)
