@@ -12,11 +12,10 @@ def increase_score(operation_type, world, bomb_position):
 
 
 def _increase_terrorist_score(world, bomb_position, score):
-    if world.board[bomb_position.y][bomb_position.x] == ECell.SmallBombSite:
-        world.scores['Terrorist'] += world.constants.score_coefficient_small_bomb_site * score
-    elif world.board[bomb_position.y][bomb_position.x] == ECell.MediumBombSite:
-        world.scores['Terrorist'] += world.constants.score_coefficient_medium_bomb_site * score
-    elif world.board[bomb_position.y][bomb_position.x] == ECell.LargeBombSite:
-        world.scores['Terrorist'] += world.constants.score_coefficient_large_bomb_site * score
-    elif world.board[bomb_position.y][bomb_position.x] == ECell.VastBombSite:
-        world.scores['Terrorist'] += world.constants.score_coefficient_vast_bomb_site * score
+    score_coefficients = {
+        ECell.SmallBombSite: world.constants.score_coefficient_small_bomb_site,
+        ECell.MediumBombSite: world.constants.score_coefficient_medium_bomb_site,
+        ECell.LargeBombSite: world.constants.score_coefficient_large_bomb_site,
+        ECell.VastBombSite: world.constants.score_coefficient_vast_bomb_site
+    }
+    world.scores['Terrorist'] += score_coefficients[world.board[bomb_position.y][bomb_position.x]] * score
