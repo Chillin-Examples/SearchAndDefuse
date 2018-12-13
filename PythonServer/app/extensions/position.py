@@ -24,7 +24,7 @@ def __add__(self, position):
     return self.add(position)
 
 
-def get_neighbours(self, position):
+def get_neighbours(self):
     return [Position(x=self.x - 1, y=self.y), Position(x=self.x + 1, y=self.y),
             Position(x=self.x, y=self.y - 1), Position(x=self.x, y=self.y + 1)]
 
