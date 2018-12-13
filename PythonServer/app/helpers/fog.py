@@ -16,12 +16,12 @@ def compute_terrorists_fogs(positions):
     pass
 
 
-# TODO fix dls algorithm
+# depth limited search with no specific goal position
 def _depth_limited_search(position, limit):
     limit += 1
     sentinel = object()
     position_stack = [position]
-    visited = [position]
+    visited = []
     path = []
 
     while position_stack:
@@ -31,7 +31,6 @@ def _depth_limited_search(position, limit):
 
                 # finished this level; go back up one level
                 limit += 1
-                position_stack.pop()
 
             elif limit != 0:
 
