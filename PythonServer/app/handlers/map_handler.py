@@ -5,7 +5,6 @@ import json
 
 # project imports
 from ..ks.models import *
-from ..helpers import scenario_test
 
 
 class MapHandler:
@@ -90,6 +89,5 @@ class MapHandler:
         self._fill_board(world, char_board)
         self._fill_constants(world, constants_config)
         self._create_players(world, player_config)
-        scenario_test.plant_bomb_manually(Position(x=3, y=5), world)
 
         return world

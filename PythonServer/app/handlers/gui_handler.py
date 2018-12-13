@@ -85,19 +85,24 @@ class GuiHandler:
             board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
             if board_cell == ECell.Empty:
                 self._canvas.create_image('Empty', canvas_pos['x'], canvas_pos['y'],
-                                          center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
             elif board_cell == ECell.SmallBombSite:
                 self._canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
             elif board_cell == ECell.MediumBombSite:
                 self._canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
             elif board_cell == ECell.LargeBombSite:
                 self._canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
             elif board_cell == ECell.VastBombSite:
                 self._canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
 
     def _update_board_on_defusing(self, bombs_defusing):
         for bomb in bombs_defusing:
@@ -105,16 +110,20 @@ class GuiHandler:
             board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
             if board_cell == ECell.SmallBombSite:
                 self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
             elif board_cell == ECell.MediumBombSite:
                 self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
             elif board_cell == ECell.LargeBombSite:
                 self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
             elif board_cell == ECell.VastBombSite:
                 self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True, scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
 
     def _initialize_board(self, canvas):
         for y in range(self._world.height):
