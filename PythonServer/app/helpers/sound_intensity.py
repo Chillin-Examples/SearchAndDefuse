@@ -8,7 +8,7 @@ def update_sound_intensities(world):
     for terrorist in world.terrorists:
         terrorist.footstep_sounds = _update_agent_sound_intensity(terrorist, world.polices)
     for police in world.polices:
-        police.footstep_sounds = _update_agent_sound_intensity(police, world.polices)
+        police.footstep_sounds = _update_agent_sound_intensity(police, world.terrorists)
 
 
 def _update_agent_sound_intensity(agent, opponent_agents):
