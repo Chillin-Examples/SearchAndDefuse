@@ -20,24 +20,26 @@ def compute_terrorists_fogs(positions):
 def _depth_limited_search(position, limit):
     limit += 1
     sentinel = object()
-    visited_stack = [position]
+    position_stack = [position]
+    visited = [position]
     path = []
 
-    while visited_stack:
-        current_position = visited_stack.pop()
+    while position_stack:
+        current_position = position_stack.pop()
+        if current_position not in visited:
+            if current_position == sentinel:
 
-        if current_position == sentinel:
+                # finished this level; go back up one level
+                limit += 1
+                position_stack.pop()
 
-            # finished this level; go back up one level
-            limit += 1
-            visited_stack.pop()
+            elif limit != 0:
 
-        elif limit != 0:
-
-            # go one level deeper, push sentinel
-            limit -= 1
-            path.append(current_position)
-            visited_stack.append(sentinel)
-            if limit != 0:
-                visited_stack.extend(current_position.get_neighbours())
+                visited.append(current_position)
+                # go one level deeper, push sentinel
+                limit -= 1
+                path.append(current_position)
+                position_stack.append(sentinel)
+                if limit != 0:
+                    position_stack.extend(current_position.get_neighbours())
     return path
