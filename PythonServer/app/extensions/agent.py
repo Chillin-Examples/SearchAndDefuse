@@ -5,8 +5,8 @@ from ..ks.commands import *
 from ..ks.models import *
 
 
-def move(self, command):
-    self.position = self.position.add(directions[command.direction.name])
+def move(self, world, command):
+    self.position = self.position + directions[command.direction.name]
 
 
 directions = {

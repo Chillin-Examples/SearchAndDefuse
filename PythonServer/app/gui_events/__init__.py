@@ -9,13 +9,12 @@ class GuiEventType(Enum):
     MoveTerrorist = 1
     ChangePoliceDirection = 2
     ChangeTerroristDirection = 3
-    PlantBomb = 4
-    DefuseBomb = 5
-    ExplodeBomb = 6
-    TerroristDeath = 7
-    ChangePolicesStatus = 8
-    ChangeTerroristsStatus = 9
-    ChangeBombTimer = 12
+    PlantingBomb = 4
+    PlantedBomb = 5
+    DefusedBomb = 6
+    DefusingBomb = 7
+    ExplodeBomb = 8
+    TerroristDeath = 9
 
 
 class GuiEvent(object):
