@@ -14,8 +14,14 @@ def update_sound_intensities(world):
 def _update_agent_sound_intensity(agent, opponent_agents):
     sounds = []
     for opponent_agent in opponent_agents:
-        sounds.append(_calculate_distance(agent.position, opponent_agent.position))
+        distance = _calculate_distance(agent.position, opponent_agent.position)
+        intensity = _calculate_intensity(distance)
+        sounds.append(intensity)
     return sounds
+
+
+def _calculate_intensity(distance):
+    return int(distance/12)
 
 
 def _calculate_distance(point_a, point_b):
