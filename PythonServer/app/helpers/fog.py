@@ -6,9 +6,9 @@ from ..ks.models import *
 
 def _compute_agent_fog(agent, world):
     if type(agent) == Terrorist:
-        return _depth_limited_search(agent.position, world.constants.terrorist_vision_distance)
+        return _depth_limited_search(agent.position, world.constants.terrorist_vision_distance, world)
     elif type(agent) == Police:
-        return _depth_limited_search(agent.position, world.constants.police_vision_distance)
+        return _depth_limited_search(agent.position, world.constants.police_vision_distance, world)
 
 
 def compute_polices_fogs(world):
@@ -27,9 +27,9 @@ def compute_terrorists_fogs(world):
 
 
 # depth limited search with no specific goal position
-def _depth_limited_search(position, limit):
+def _depth_limited_search(position, limit, world):
     limit += 1
-    sentinel = object()
+    sentinel = Position(None, None)
     position_stack = [position]
     visited = []
     path = []
@@ -50,7 +50,7 @@ def _depth_limited_search(position, limit):
                 path.append(current_position)
                 position_stack.append(sentinel)
                 if limit != 0:
-                    position_stack.extend(current_position.get_neighbours())
+                    position_stack.extend(_get_valid_neighbours(current_position.get_neighbours(), world))
     return path
 
 
@@ -62,3 +62,12 @@ def _join_fogs(fog_positions):
         else:
             final_list.append(position)
     return final_list
+
+
+def _get_valid_neighbours(neighbours, world):
+    valid_neighbours = []
+    for neighbour in neighbours:
+        if 0 <= neighbour.x < world.width:
+            if 0 <= neighbour.y < world.height:
+                valid_neighbours.append(neighbour)
+    return valid_neighbours
