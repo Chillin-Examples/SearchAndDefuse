@@ -4,6 +4,7 @@
 from ..ks.models import *
 
 
+# computes agent's fog based on its vision_distance.
 def _compute_agent_fog(agent, world):
     if type(agent) == Terrorist:
         return _depth_limited_search(agent.position, world.constants.terrorist_vision_distance, world)
@@ -11,6 +12,7 @@ def _compute_agent_fog(agent, world):
         return _depth_limited_search(agent.position, world.constants.police_vision_distance, world)
 
 
+# computes all polices fogs and converts them into one list.
 def compute_polices_fogs(world):
     fog_positions = []
     for police in world.polices:
@@ -19,6 +21,7 @@ def compute_polices_fogs(world):
     return _join_fogs(fog_positions)
 
 
+# computes all terrorists fogs and converts them into one list.
 def compute_terrorists_fogs(world):
     fog_positions = []
     for terrorist in world.terrorists:
@@ -26,7 +29,7 @@ def compute_terrorists_fogs(world):
     return _join_fogs(fog_positions)
 
 
-# depth limited search with no specific goal position
+# performs a depth limited search with no specific goal position.
 def _depth_limited_search(position, limit, world):
     limit += 1
     sentinel = Position(None, None)
@@ -54,6 +57,7 @@ def _depth_limited_search(position, limit, world):
     return path
 
 
+# removes duplicates
 def _join_fogs(fog_positions):
     final_list = []
     for position in fog_positions:
@@ -64,6 +68,7 @@ def _join_fogs(fog_positions):
     return final_list
 
 
+# returns valid neighbours based on world's board.
 def _get_valid_neighbours(neighbours, world):
     valid_neighbours = []
     for neighbour in neighbours:
