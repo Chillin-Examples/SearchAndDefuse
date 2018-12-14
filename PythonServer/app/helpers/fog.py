@@ -16,14 +16,14 @@ def compute_polices_fogs(world):
     for police in world.polices:
         fog_positions += _compute_agent_fog(police, world)
         # set(fog_positions) not working :/
-    return join_fogs(fog_positions)
+    return _join_fogs(fog_positions)
 
 
 def compute_terrorists_fogs(world):
     fog_positions = []
     for terrorist in world.terrorists:
         fog_positions += _compute_agent_fog(terrorist, world)
-    return join_fogs(fog_positions)
+    return _join_fogs(fog_positions)
 
 
 # depth limited search with no specific goal position
@@ -54,9 +54,11 @@ def _depth_limited_search(position, limit):
     return path
 
 
-def join_fogs(fog_positions):
+def _join_fogs(fog_positions):
     final_list = []
     for position in fog_positions:
-        if position not in final_list:
+        if any(position == new_pos for new_pos in final_list):
+            continue
+        else:
             final_list.append(position)
     return final_list
