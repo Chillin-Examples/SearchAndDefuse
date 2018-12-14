@@ -2,7 +2,7 @@
 
 # project imports
 from ..ks.models import ECell
-from ..helpers import bomb_timer
+from ..helpers import bomb_timer, fog
 
 
 class LogicHandler:
@@ -27,6 +27,11 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
+        # compute agents fogs
+        # TODO structure needs to be change in order to compute and show fogs in each cycle
+        fogs = {'Police': fog.compute_polices_fogs(self.world),
+                'Terrorist': fog.compute_terrorists_fogs(self.world)}
+
         gui_events = []
         gui_events += bomb_timer.update_plant_timings(self.world)
         for side in self._sides:
