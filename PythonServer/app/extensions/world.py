@@ -61,7 +61,9 @@ def _can_move_agent(self, side_name, agent, command):
     print('new pos: ', new_position.x, '  ', new_position.y)
 
     # Check new cell is empty
-    if self.board[new_position.y][new_position.x] == ECell.Empty:
+    valid_cells = [ECell.Empty, ECell.ExplodedBombSite, ECell.LargeBombSite,
+                   ECell.VastBombSite, ECell.MediumBombSite, ECell.SmallBombSite]
+    if self.board[new_position.y][new_position.x] in valid_cells:
         # Check No Teammate Is There
         teammates = self.polices if side_name == 'Police' else self.terrorists
         for teammate in teammates:
