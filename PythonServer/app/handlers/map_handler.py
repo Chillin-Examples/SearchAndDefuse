@@ -66,7 +66,6 @@ class MapHandler:
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
                     new_police.is_visible = False
-                    new_police.vision = []
                     world.polices.append(new_police)
                 if side == 'Terrorist':
                     new_terrorist = Terrorist()
@@ -75,7 +74,6 @@ class MapHandler:
                     new_terrorist.planting_remaining_time = -1
                     new_terrorist.footstep_sounds = []
                     new_terrorist.is_dead = False
-                    new_terrorist.vision = []
                     world.terrorists.append(new_terrorist)
 
     def load_map(self, config):

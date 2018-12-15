@@ -22,9 +22,6 @@ def apply_command(self, side_name, command):
 
         agent.move(self, command)
 
-        # update agent vision
-        agent.vision = fog.compute_agent_fog(agent, self)
-
         # update world fogs
         for side in side_name:
             if side == 'Police':

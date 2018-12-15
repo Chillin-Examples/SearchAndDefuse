@@ -14,12 +14,6 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def initialize(self):
-        # initialize agents fogs
-        for police in self.world.polices:
-            fog.compute_agent_fog(police, self.world)
-        for terrorist in self.world.terrorists:
-            fog.compute_agent_fog(terrorist, self.world)
-
         # initialize world fogs
         self.world.fogs['Police'] = fog.compute_polices_fogs(self.world)
         self.world.fogs['Terrorist'] = fog.compute_terrorists_fogs(self.world)
