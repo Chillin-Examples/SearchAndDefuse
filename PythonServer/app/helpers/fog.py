@@ -5,7 +5,7 @@ from ..ks.models import *
 
 
 # computes agent's fog based on its vision_distance.
-def _compute_agent_fog(agent, world):
+def compute_agent_fog(agent, world):
     if type(agent) == Terrorist:
         return _depth_limited_search(agent.position, world.constants.terrorist_vision_distance, world)
     elif type(agent) == Police:
@@ -16,7 +16,7 @@ def _compute_agent_fog(agent, world):
 def compute_polices_fogs(world):
     fog_positions = []
     for police in world.polices:
-        fog_positions += _compute_agent_fog(police, world)
+        fog_positions += compute_agent_fog(police, world)
         # set(fog_positions) not working :/
     return _join_fogs(fog_positions)
 
@@ -25,7 +25,7 @@ def compute_polices_fogs(world):
 def compute_terrorists_fogs(world):
     fog_positions = []
     for terrorist in world.terrorists:
-        fog_positions += _compute_agent_fog(terrorist, world)
+        fog_positions += compute_agent_fog(terrorist, world)
     return _join_fogs(fog_positions)
 
 
