@@ -63,7 +63,6 @@ def _can_move_agent(self, side_name, agent, command):
     if self.board[new_position.y][new_position.x] == ECell.Empty:
         # Check No Teammate Is There
         teammates = self.polices if side_name == 'Police' else self.terrorists
-
         for teammate in teammates:
             if teammate.position == new_position:
                 return False
