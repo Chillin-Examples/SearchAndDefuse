@@ -21,7 +21,7 @@ def add(self, position):
 
 
 def __add__(self, position):
-    add(self, position)
+    return self.add(position)
 
 
 Position.is_equal = is_equal

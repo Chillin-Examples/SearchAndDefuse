@@ -17,7 +17,7 @@ def plant_bomb(self, world, command):
 
     bomb_position = self.position + directions[command.direction.name]
     new_bomb = Bomb(position=bomb_position, explosion_remaining_time=-1,
-                    planter_id=self.id, defuser_id=None)
+                    planter_id=self.id, defuser_id=-1)
     world.bombs.append(new_bomb)
 
 
