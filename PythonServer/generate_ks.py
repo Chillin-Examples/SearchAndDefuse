@@ -1,12 +1,11 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# chillin imports
 from koala_serializer import generate
-import sys
 
-lang = 'python'
-if len(sys.argv) > 1:
-    lang = sys.argv[1]
+all_args = [('python', 'app/ks'), ('python', '../PythonClient/ks'), ('python', '../PythonRandomClient/ks'), ('cpp', '../CppClient/Game/ks')]
 
-generate('app/ks/commands.ks', lang, 'app/ks')
-generate('app/ks/models.ks', lang, 'app/ks')
+for args in all_args:
+    generate('app/ks/commands.ks', *args)
+    generate('app/ks/models.ks', *args)
