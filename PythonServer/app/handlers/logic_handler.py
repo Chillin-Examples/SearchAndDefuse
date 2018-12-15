@@ -3,6 +3,7 @@
 # project imports
 from ..ks.models import ECell
 from ..helpers import bomb_timer, fog
+from copy import deepcopy
 
 
 class LogicHandler:
@@ -47,7 +48,24 @@ class LogicHandler:
         return gui_events
 
     def get_client_world(self, side_name):
-        return self.world
+        client_world = deepcopy(self.world)
+        if side_name == 'Police':
+            client_world.terrorists = []
+            for fog_position in self.world.fogs[side_name]:
+                for terrorist in self.world.terrorists:
+                    if terrorist.position == fog_position:
+                        client_world.terrorists.append(terrorist)
+            return client_world
+
+        else:
+            client_world = deepcopy(self.world)
+            if side_name == 'Terrorist':
+                client_world.polices = []
+                for fog_position in self.world.fogs[side_name]:
+                    for police in self.world.polices:
+                        if police.position == fog_position:
+                            client_world.polices.append(police)
+            return client_world
 
     def check_end_game(self, current_cycle):
         end_game = False
