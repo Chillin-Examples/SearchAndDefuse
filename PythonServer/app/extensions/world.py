@@ -18,6 +18,9 @@ def apply_command(self, side_name, command):
         if side_name == "Police" and agent.defusion_remaining_time != -1:
             agent.cancel_defuse(self)
 
+        elif side_name == "Terrorist" and agent.planting_remaining_time != -1:
+            agent.cancel_plant(self)
+
         if not self._can_move_agent(side_name, agent, command):
             return []
         agent.move(self, command)
