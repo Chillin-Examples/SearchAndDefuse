@@ -2,6 +2,7 @@
 
 # project imports
 from ..helpers.timers import bomb_timer
+from ..ks.models import ECell
 
 
 class LogicHandler:
@@ -37,28 +38,35 @@ class LogicHandler:
         return self.world
 
     def check_end_game(self, current_cycle):
-        end_game = False
-        if current_cycle > self.world.constants.max_cycles:
-            end_game = True
+        def check_end_game(self, current_cycle):
+            end_game = False
 
-        winner_sidename = ''
-        details = {}
+            # times up!
+            if current_cycle > self.world.constants.max_cycles:
+                end_game = True
 
-        # Game Statuses Should Be Cached In Details too.
-        if end_game:
-            if self.world.scores['Terrorist'] > self.world.scores['Police']:
-                winner_sidename = 'Terrorist'
-            elif self.world.scores['Police'] > self.world.scores['Terrorist']:
-                winner_sidename = 'Police'
-            else:
-                winner_sidename = None
+            # all bombs exploded
+            if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
+                                ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
+                end_game = True
 
-            details = {
-                'Scores': {
-                    'Police': str(self.world.scores['Police']),
-                    'Terrorist': str(self.world.scores['Terrorist'])
+            winner_sidename = ''
+            details = {}
+
+            # Game Statuses Should Be Cached In Details too.
+            if end_game:
+                if self.world.scores['Terrorist'] > self.world.scores['Police']:
+                    winner_sidename = 'Terrorist'
+                elif self.world.scores['Police'] > self.world.scores['Terrorist']:
+                    winner_sidename = 'Police'
+                else:
+                    winner_sidename = None
+
+                details = {
+                    'Scores': {
+                        'Police': str(self.world.scores['Police']),
+                        'Terrorist': str(self.world.scores['Terrorist'])
+                    }
                 }
-            }
 
-        return end_game, winner_sidename, details
-
+            return end_game, winner_sidename, details
