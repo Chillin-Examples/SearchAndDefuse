@@ -19,6 +19,10 @@ class LogicHandler:
         for terrorist in self.world.terrorists:
             fog.compute_agent_fog(terrorist, self.world)
 
+        # initialize world fogs
+        self.world.fogs['Police'] = fog.compute_polices_fogs(self.world)
+        self.world.fogs['Terrorist'] = fog.compute_terrorists_fogs(self.world)
+
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
 
@@ -34,9 +38,6 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
-        # compute agents fogs
-        # fogs = {'Police': fog.compute_polices_fogs(self.world),
-        #         'Terrorist': fog.compute_terrorists_fogs(self.world)}
 
         gui_events = []
         gui_events += bomb_timer.update_plant_timings(self.world)

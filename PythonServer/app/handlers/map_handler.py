@@ -89,6 +89,7 @@ class MapHandler:
         world.height = len(char_board)
         world.scores = {side: 0 for side in self._sides}
         world.bombs = []
+        world.fogs = {side: [] for side in self._sides}
 
         self._fill_board(world, char_board)
         self._fill_constants(world, constants_config)
