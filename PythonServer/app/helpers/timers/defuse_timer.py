@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..helpers import score
+from .. import score
 from ...gui_events import GuiEvent, GuiEventType
 
 
