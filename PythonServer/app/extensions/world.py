@@ -28,7 +28,7 @@ def apply_command(self, side_name, command):
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
-    elif command.name() == PlantBomb.name():
+    if command.name() == PlantBomb.name():
         # Only terrorists can plan
         if side_name == "Police":
             return []
@@ -42,7 +42,7 @@ def apply_command(self, side_name, command):
         event_type = GuiEventType.PlantingBomb
         return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
 
-    elif command.name() == DefuseBomb.name():
+    if command.name() == DefuseBomb.name():
         # Only terrorists can plan
         if side_name == "Terrorist":
             return []
@@ -80,6 +80,7 @@ def _can_plant_bomb(self, terrorist, command):
     # If it's not a bombsite return false
     if self.board[new_bomb_position.y][new_bomb_position.x] not in [ECell.SmallBombSite, ECell.MediumBombSite,
                                                                     ECell.LargeBombSite, ECell.VastBombSite]:
+
         return False
 
     # If it already has a bomb with different planter
@@ -88,7 +89,7 @@ def _can_plant_bomb(self, terrorist, command):
             return False
 
         # if bomb is exploding
-        if planted_bomb.explosion_remaining_time != -1:
+        if planted_bomb.position == new_bomb_position and planted_bomb.explosion_remaining_time != -1:
             return False
 
     # Otherwise return True!
