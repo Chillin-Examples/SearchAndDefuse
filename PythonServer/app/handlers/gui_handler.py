@@ -52,19 +52,19 @@ class GuiHandler:
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
                 moving_polices.append(event.payload)
-            elif event.type == GuiEventType.MoveTerrorist:
+            if event.type == GuiEventType.MoveTerrorist:
                 moving_terrorists.append(event.payload)
-            elif event.type == GuiEventType.DefusingBomb:
+            if event.type == GuiEventType.DefusingBomb:
                 bombs_defusing.append(event.payload)
                 print(len(bombs_defusing))
-            elif event.type == GuiEventType.DefusedBomb:
+            if event.type == GuiEventType.DefusedBomb:
                 bombs_defused.append(event.payload)
-            elif event.type == GuiEventType.PlantingBomb:
+            if event.type == GuiEventType.PlantingBomb:
                 bombs_events['planting'].append(event.payload)
                 print("APPENDED")
-            elif event.type == GuiEventType.PlantedBomb:
+            if event.type == GuiEventType.PlantedBomb:
                 bombs_events['planted'].append(event.payload)
-            elif event.type == GuiEventType.ExplodeBomb:
+            if event.type == GuiEventType.ExplodeBomb:
                 bombs_events['exploded'].append(event.payload)
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
