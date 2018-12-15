@@ -69,22 +69,6 @@ def _can_move_agent(self, side_name, agent, command):
 
     return False
 
-def _can_move_agent(self, side_name, agent, command):
-    new_position = agent.position.add(directions[command.direction.name])
-
-    # Check new cell is empty
-    if self.board[new_position.y][new_position.x] == ECell.Empty:
-        # Check No Teammate Is There
-        teammates = self.polices if side_name == 'Police' else self.terrorists
-
-        for teammate in teammates:
-            if teammate.position == new_position:
-                return False
-
-        return True
-
-    return False
-
 
 def _can_plant_bomb(self, terrorist, command):
     new_bomb_position = terrorist.position.add(directions[command.direction.name])
