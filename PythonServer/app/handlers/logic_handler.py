@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # project imports
+from ..helpers.timers import bomb_timer
 from ..ks.models import ECell
-from ..helpers import bomb_timer
 
 
 class LogicHandler:
@@ -28,7 +28,7 @@ class LogicHandler:
 
     def process(self, current_cycle):
         gui_events = []
-        gui_events += bomb_timer.update_plant_timings(self.world)
+        gui_events += bomb_timer.update_bombs_timings(self.world)
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
