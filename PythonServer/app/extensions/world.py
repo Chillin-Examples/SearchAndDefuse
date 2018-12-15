@@ -5,6 +5,7 @@ from ..ks.models import *
 from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
 from .agent import directions
+from ..helpers import fog
 
 
 def apply_command(self, side_name, command):
@@ -20,6 +21,8 @@ def apply_command(self, side_name, command):
             return []
 
         agent.move(self, command)
+        # update agent vision
+        agent.vision = fog.compute_agent_fog(agent, self)
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
