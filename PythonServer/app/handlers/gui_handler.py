@@ -61,6 +61,7 @@ class GuiHandler:
                 bombs_defused.append(event.payload)
             elif event.type == GuiEventType.PlantingBomb:
                 bombs_events['planting'].append(event.payload)
+                print("APPENDED")
             elif event.type == GuiEventType.PlantedBomb:
                 bombs_events['planted'].append(event.payload)
             elif event.type == GuiEventType.ExplodeBomb:
@@ -69,13 +70,13 @@ class GuiHandler:
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             self._update_board_on_move(moving_terrorists, moving_polices)
 
-        elif len(bombs_events['planting']) != 0:
+        if len(bombs_events['planting']) != 0:
             self._update_board_on_planting(bombs_events['planting'])
 
-        elif len(bombs_events['planted']) != 0:
+        if len(bombs_events['planted']) != 0:
             self._update_board_on_planted(bombs_events['planted'])
 
-        elif len(bombs_events['exploded']) != 0:
+        if len(bombs_events['exploded']) != 0:
             self._update_board_on_explode(bombs_events['exploded'])
 
         if len(bombs_defusing) != 0:
@@ -96,6 +97,7 @@ class GuiHandler:
                                         center_origin=True)
 
     def _update_board_on_planting(self, bombs_planting):
+        print("HEREEEEEEEEEEEEEEEEEEE")
         for bomb in bombs_planting:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
             board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
