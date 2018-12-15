@@ -28,9 +28,8 @@ class LogicHandler:
 
     def process(self, current_cycle):
         # compute agents fogs
-        # TODO structure needs to be change in order to compute and show fogs in each cycle
-        fogs = {'Police': fog.compute_polices_fogs(self.world),
-                'Terrorist': fog.compute_terrorists_fogs(self.world)}
+        # fogs = {'Police': fog.compute_polices_fogs(self.world),
+        #         'Terrorist': fog.compute_terrorists_fogs(self.world)}
 
         gui_events = []
         gui_events += bomb_timer.update_plant_timings(self.world)

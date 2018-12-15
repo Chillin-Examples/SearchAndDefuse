@@ -67,6 +67,7 @@ id = int
 position = Position
 planting_remaining_time = int
 footstep_sounds = list<int>
+vision = list<Position>
 is_dead = boolean
 
 
@@ -76,6 +77,7 @@ id = int
 position = Position
 defusion_remaining_time = int
 footstep_sounds = list<int>
+vision = list<Position>
 bomb_sounds = list<int>
 is_visible = boolean
 
