@@ -20,8 +20,7 @@ def apply_command(self, side_name, command):
 
         elif side_name == "Terrorist" and agent.planting_remaining_time != -1:
             agent.cancel_plant(self)
-
-        if not agent.can_move(side_name, agent, command):
+        if not agent.can_move(side_name, self, command):
             return []
         agent.move(self, command)
 
