@@ -15,14 +15,16 @@ def defuse_bomb(self, world, command):
     if self.defusion_remaining_time != -1:
         self.cancel_defuse(world)
 
-    bomb_position = self.position.add(directions[command.direction.name])
+    bomb_position = self.position + directions[command.direction.name]
     for bomb in world.bombs:
         if bomb.position == bomb_position:
             bomb.defuser_id = self.id
             break
 
 
-def cancel_defuse(self):
+def cancel_defuse(self, world):
+    bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id))
+    bomb.defuser_id = -1
     self.defusion_remaining_time = -1
 
 
