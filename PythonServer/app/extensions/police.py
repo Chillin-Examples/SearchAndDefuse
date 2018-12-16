@@ -28,6 +28,22 @@ def cancel_defuse(self, world):
     self.defusion_remaining_time = -1
 
 
+def can_defuse_bomb(self, world, command):
+    planted_position = self.position.add(directions[command.direction.name])
+
+    for planted_bomb in world.bombs:
+
+        # no police is defusing at the moment
+        if planted_bomb.defuser_id == -1 or planted_bomb.defuser_id == self.id:
+            # bomb exists and is exploding
+            if planted_bomb.position == planted_position and planted_bomb.explosion_remaining_time != -1:
+                return True
+
+    # Otherwise return False!
+    return False
+
+
 Police.defuse_bomb = defuse_bomb
 Police.move = move
 Police.cancel_defuse = cancel_defuse
+Police.can_defuse_bomb = can_defuse_bomb

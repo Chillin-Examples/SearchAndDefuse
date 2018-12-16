@@ -34,7 +34,7 @@ def apply_command(self, side_name, command):
             return []
 
         terrorist = agents["Terrorist"][command.id]
-        if not self._can_plant_bomb(terrorist, command):
+        if not terrorist.can_plant_bomb(self, command):
             return []
         terrorist.plant_bomb(self, command)
 
@@ -48,7 +48,7 @@ def apply_command(self, side_name, command):
             return []
 
         police = agents["Police"][command.id]
-        if not self._can_defuse_bomb(police, command):
+        if not police.can_defuse_bomb(self, command):
             return []
         police.defuse_bomb(self, command)
 
@@ -74,44 +74,5 @@ def _can_move_agent(self, side_name, agent, command):
     return False
 
 
-def _can_plant_bomb(self, terrorist, command):
-    new_bomb_position = terrorist.position.add(directions[command.direction.name])
-
-    # If it's not a bombsite return false
-    if self.board[new_bomb_position.y][new_bomb_position.x] not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                                                                    ECell.LargeBombSite, ECell.VastBombSite]:
-
-        return False
-
-    # If it already has a bomb with different planter
-    for planted_bomb in self.bombs:
-        if planted_bomb.position == new_bomb_position and planted_bomb.planter_id != terrorist.id:
-            return False
-
-        # if bomb is exploding
-        if planted_bomb.position == new_bomb_position and planted_bomb.explosion_remaining_time != -1:
-            return False
-
-    # Otherwise return True!
-    return True
-
-
-def _can_defuse_bomb(self, police, command):
-    planted_position = police.position.add(directions[command.direction.name])
-
-    for planted_bomb in self.bombs:
-
-        # no police is defusing at the moment
-        if planted_bomb.defuser_id == -1 or planted_bomb.defuser_id == police.id:
-            # bomb exists and is exploding
-            if planted_bomb.position == planted_position and planted_bomb.explosion_remaining_time != -1:
-                return True
-
-    # Otherwise return False!
-    return False
-
-
 World.apply_command = apply_command
 World._can_move_agent = _can_move_agent
-World._can_defuse_bomb = _can_defuse_bomb
-World._can_plant_bomb = _can_plant_bomb
