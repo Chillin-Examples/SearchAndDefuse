@@ -21,7 +21,7 @@ def apply_command(self, side_name, command):
         elif side_name == "Terrorist" and agent.planting_remaining_time != -1:
             agent.cancel_plant(self)
 
-        if not self._can_move_agent(side_name, agent, command):
+        if not agent.can_move(side_name, agent, command):
             return []
         agent.move(self, command)
 
@@ -56,23 +56,4 @@ def apply_command(self, side_name, command):
         return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
 
 
-def _can_move_agent(self, side_name, agent, command):
-    new_position = agent.position.add(directions[command.direction.name])
-
-    # Check new cell is empty
-    valid_cells = [ECell.Empty, ECell.ExplodedBombSite, ECell.LargeBombSite,
-                   ECell.VastBombSite, ECell.MediumBombSite, ECell.SmallBombSite]
-    if self.board[new_position.y][new_position.x] in valid_cells:
-        # Check No Teammate Is There
-        teammates = self.polices if side_name == 'Police' else self.terrorists
-        for teammate in teammates:
-            if teammate.position == new_position and teammate != agent:
-                return False
-
-        return True
-
-    return False
-
-
 World.apply_command = apply_command
-World._can_move_agent = _can_move_agent
