@@ -5,23 +5,26 @@ from .. import score
 from ...gui_events import GuiEvent, GuiEventType
 
 
+# TODO exploded bombsite should not be planted by terrorists.
+# TODO when all bombs are exploded game should end.
 def update_plant_timings(world):
 
     for bomb in world.bombs:
-        # bomb has been planted in this cycle.
-        if world.terrorists[bomb.planter_id].planting_remaining_time == -1:
-            print("Terrorist {} commanded plant.".format(bomb.planter_id))
-            _update_plant_timer_on_plant(bomb.planter_id, world)
-            return []
-        else:
-
-            # planting timer is not zero yet,terrorist should keep planting
-            if world.terrorists[bomb.planter_id].planting_remaining_time > 0:
-                print("Terrorist {} is planting.".format(bomb.planter_id))
-                world.terrorists[bomb.planter_id].planting_remaining_time -= 1
+        if bomb.planter_id != -1:
+            # bomb has been planted in this cycle.
+            if world.terrorists[bomb.planter_id].planting_remaining_time == -1:
+                print("Terrorist {} commanded plant.".format(bomb.planter_id))
+                _update_plant_timer_on_plant(bomb.planter_id, world)
                 return []
             else:
-                return _update_plant_timer_on_cycle(bomb, world)
+
+                # planting timer is not zero yet,terrorist should keep planting
+                if world.terrorists[bomb.planter_id].planting_remaining_time > 0:
+                    print("Terrorist {} is planting.".format(bomb.planter_id))
+                    world.terrorists[bomb.planter_id].planting_remaining_time -= 1
+                    return []
+                else:
+                    return _update_plant_timer_on_cycle(bomb, world)
     return []
 
 
