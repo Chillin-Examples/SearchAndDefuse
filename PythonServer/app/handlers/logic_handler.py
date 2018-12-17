@@ -44,6 +44,7 @@ class LogicHandler:
         if current_cycle > self.world.constants.max_cycles:
             end_game = True
 
+        # TODO this condition should be changed.
         # all bombs exploded
         if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
                             ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):

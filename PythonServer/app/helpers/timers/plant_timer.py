@@ -5,6 +5,8 @@ from .. import score
 from ...gui_events import GuiEvent, GuiEventType
 
 
+# TODO exploded bombsite should not be planted by terrorists.
+# TODO when all bombs are exploded game should end.
 def update_plant_timings(world):
 
     for bomb in world.bombs:
