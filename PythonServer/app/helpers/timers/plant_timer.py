@@ -3,10 +3,11 @@
 # project imports
 from .. import score
 from ...gui_events import GuiEvent, GuiEventType
+from ...ks.models import *
 
 
-# TODO exploded bombsite should not be planted by terrorists.
-# TODO when all bombs are exploded game should end.
+# TODO exploded bombsite should not be planted by terrorists. ->>>>> RESOLVED :]
+# TODO when all bombs are exploded game should end. ->>>>> RESOLVED :]
 def update_plant_timings(world):
 
     for bomb in world.bombs:
@@ -47,6 +48,7 @@ def _update_plant_timer_on_cycle(bomb, world):
         bomb_position = bomb.position
         score.increase_score('explode', world, bomb.position)
         world.bombs.remove(bomb)
+        world.board[bomb_position.y][bomb_position.x] = ECell.Empty
         return [GuiEvent(GuiEventType.ExplodeBomb, bomb_position=bomb_position)]
 
     # bomb is not exploded yet

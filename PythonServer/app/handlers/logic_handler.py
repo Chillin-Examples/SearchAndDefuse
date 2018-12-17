@@ -59,6 +59,10 @@ class LogicHandler:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
                 winner_sidename = 'Police'
+            elif ECell.SmallBombSite not in self.world.board or ECell.MediumBombSite not in self.world.board or \
+                    ECell.LargeBombSite not in self.world.board or ECell.VastBombSite not in self.world.board:
+                winner_sidename = 'Terrorist'
+
             else:
                 winner_sidename = None
 
