@@ -23,6 +23,10 @@ class AI(RealtimeAI):
 
     def decide(self):
         print('decide')
+        # if self.my_side == 'Police':
+        #     direction = ECommandDirection.Down
+        #     for i in range(0, 4):
+        #         self.send_command(Move(id=i, direction=direction))
 
         if self.my_side == 'Police':
             direction = ECommandDirection.Down
@@ -32,6 +36,9 @@ class AI(RealtimeAI):
                 self.done = True
 
         elif self.my_side == 'Terrorist':
-            direction = ECommandDirection.Up
-            for i in range(0, 5):
-                self.send_command(Move(id=i, direction=direction))
+            direction = ECommandDirection.Down
+            # for i in range(0, 5):
+            if not self.done:
+                # if self.current_cycle % 4 == 0:
+                self.send_command(PlantBomb(id=2, direction=direction))
+                self.done = True
