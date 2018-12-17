@@ -6,8 +6,8 @@ from ...gui_events import GuiEvent, GuiEventType
 from ...ks.models import *
 
 
-# TODO exploded bombsite should not be planted by terrorists.
-# TODO when all bombs are exploded game should end.
+# TODO exploded bombsite should not be planted by terrorists. ->>>>> RESOLVED :]
+# TODO when all bombs are exploded game should end. ->>>>> RESOLVED :]
 def update_plant_timings(world):
 
     for bomb in world.bombs:
