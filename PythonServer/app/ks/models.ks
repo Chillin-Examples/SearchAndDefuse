@@ -58,8 +58,7 @@ y = int
 _def = class
 position = Position
 explosion_remaining_time = int
-planter_id = int
-defuser_id = int
+
 
 [Terrorist]
 _def = class
@@ -85,7 +84,7 @@ _def = class
 width = int
 height = int
 board = list<list<ECell>>
-scores = map<string, float>
+scores = map<string, int>
 bombs = list<Bomb>
 terrorists = list<Terrorist>
 polices = list<Police>
