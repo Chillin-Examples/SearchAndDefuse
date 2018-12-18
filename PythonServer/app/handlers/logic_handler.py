@@ -44,6 +44,7 @@ class LogicHandler:
         if current_cycle > self.world.constants.max_cycles:
             end_game = True
 
+        # TODO this condition should be changed.
         # all bombs exploded
         if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
                             ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
@@ -58,6 +59,10 @@ class LogicHandler:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
                 winner_sidename = 'Police'
+            elif ECell.SmallBombSite not in self.world.board or ECell.MediumBombSite not in self.world.board or \
+                    ECell.LargeBombSite not in self.world.board or ECell.VastBombSite not in self.world.board:
+                winner_sidename = 'Terrorist'
+
             else:
                 winner_sidename = None
 
