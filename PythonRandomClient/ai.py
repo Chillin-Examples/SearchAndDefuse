@@ -39,6 +39,8 @@ class AI(RealtimeAI):
             direction = ECommandDirection.Down
             # for i in range(0, 5):
             if not self.done:
-                # if self.current_cycle % 4 == 0:
                 self.send_command(PlantBomb(id=2, direction=direction))
                 self.done = True
+            if self.current_cycle % 10 == 0 and self.current_cycle != 0:
+                direction = ECommandDirection.Down
+                self.send_command(Move(id=2, direction=direction))
