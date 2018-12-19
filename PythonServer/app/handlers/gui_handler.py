@@ -122,7 +122,6 @@ class GuiHandler:
                                           center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                           scale_value=self._cell_size)
 
-
     def _update_board_on_planting(self, bombs_planting):
         for bomb in bombs_planting:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])

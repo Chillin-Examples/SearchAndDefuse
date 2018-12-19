@@ -26,6 +26,7 @@ def cancel_defuse(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id))
     bomb.defuser_id = -1
     self.defusion_remaining_time = -1
+    print('cancel shod')
 
 
 def can_defuse_bomb(self, world, command):

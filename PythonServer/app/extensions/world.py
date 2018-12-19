@@ -15,7 +15,7 @@ def apply_command(self, side_name, command):
         agent = agents[side_name][command.id]
 
         # cancel defuse command if agent is defusing
-        if side_name == "Police" and agent.defusion_remaining_time != -1:
+        if side_name == "Police" and agent.defusion_remaining_time > 0:
             agent.cancel_defuse(self)
 
             event_type = GuiEventType.CancelBombOp

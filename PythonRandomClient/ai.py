@@ -34,6 +34,9 @@ class AI(RealtimeAI):
             if not self.done:
                 self.send_command(DefuseBomb(id=2, direction=direction))
                 self.done = True
+            if self.current_cycle % 4 == 0 and self.current_cycle != 0:
+                direction = ECommandDirection.Up
+                self.send_command(Move(id=2, direction=direction))
 
         elif self.my_side == 'Terrorist':
             direction = ECommandDirection.Down
@@ -41,6 +44,6 @@ class AI(RealtimeAI):
             if not self.done:
                 self.send_command(PlantBomb(id=2, direction=direction))
                 self.done = True
-            if self.current_cycle % 10 == 0 and self.current_cycle != 0:
+            if self.current_cycle % 4 == 0 and self.current_cycle != 0:
                 direction = ECommandDirection.Down
                 self.send_command(Move(id=2, direction=direction))
