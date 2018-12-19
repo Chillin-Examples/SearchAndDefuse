@@ -15,6 +15,7 @@ class GuiEventType(Enum):
     DefusedBomb = 7
     ExplodeBomb = 8
     TerroristDeath = 9
+    CancelBombOp = 10
 
 
 class GuiEvent(object):

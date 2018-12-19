@@ -18,9 +18,15 @@ def apply_command(self, side_name, command):
         if side_name == "Police" and agent.defusion_remaining_time != -1:
             agent.cancel_defuse(self)
 
+            event_type = GuiEventType.CancelBombOp
+            return [GuiEvent(event_type, bomb_position=agent.position.add(directions[command.direction.name]))]
+
         # cancel plant command if agent is planting
         if side_name == "Terrorist" and agent.planting_remaining_time > 0:
             agent.cancel_plant(self)
+
+            event_type = GuiEventType.CancelBombOp
+            return [GuiEvent(event_type, bomb_position=agent.position.add(directions[command.direction.name]))]
 
         if not agent.can_move(side_name, self, command):
             return []
