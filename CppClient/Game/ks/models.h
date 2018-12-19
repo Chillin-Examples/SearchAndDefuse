@@ -35,8 +35,7 @@ enum class ECell
 	MediumBombSite = 2,
 	LargeBombSite = 3,
 	VastBombSite = 4,
-	ExplodedBombSite = 5,
-	Wall = 6,
+	Wall = 5,
 };
 
 

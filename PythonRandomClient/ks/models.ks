@@ -6,7 +6,6 @@ _def = enum <byte>
         MediumBombSite,
         LargeBombSite,
         VastBombSite,
-        ExplodedBombSite,
         Wall
     }
 
