@@ -13,9 +13,15 @@ def can_move(self, side_name, world, command):
     new_position = self.position.add(directions[command.direction.name])
 
     # Check new cell is empty
-    valid_cells = [ECell.Empty, ECell.ExplodedBombSite, ECell.LargeBombSite,
+    valid_cells = [ECell.Empty, ECell.LargeBombSite,
                    ECell.VastBombSite, ECell.MediumBombSite, ECell.SmallBombSite]
     if world.board[new_position.y][new_position.x] in valid_cells:
+
+        # check no bombs are being exploded.
+        for bomb in world.bombs:
+            if bomb.position == new_position and bomb.explosion_remaining_time > 0:
+                return False
+
         # Check No Teammate Is There
         teammates = world.polices if side_name == 'Police' else world.terrorists
         for teammate in teammates:

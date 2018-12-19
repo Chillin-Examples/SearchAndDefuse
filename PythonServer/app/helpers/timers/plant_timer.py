@@ -6,14 +6,12 @@ from ...gui_events import GuiEvent, GuiEventType
 from ...ks.models import *
 
 
-# TODO exploded bombsite should not be planted by terrorists. ->>>>> RESOLVED :]
-# TODO when all bombs are exploded game should end. ->>>>> RESOLVED :]
 def update_plant_timings(world):
 
     for bomb in world.bombs:
         if bomb.planter_id != -1:
-            # bomb has been planted in this cycle.
-            if world.terrorists[bomb.planter_id].planting_remaining_time == -1:
+            # bomb has been planted in this cycle and is not exploding.
+            if world.terrorists[bomb.planter_id].planting_remaining_time == -1 and bomb.explosion_remaining_time == -1:
                 print("Terrorist {} commanded plant.".format(bomb.planter_id))
                 _update_plant_timer_on_plant(bomb.planter_id, world)
                 return []
@@ -37,6 +35,9 @@ def _update_plant_timer_on_cycle(bomb, world):
 
     # when bomb starts the timer to explode
     if bomb.explosion_remaining_time == -1:
+
+        # reset plant remaining time
+        world.terrorists[bomb.planter_id].planting_remaining_time = -1
         print('Bomb planted.')
         bomb.explosion_remaining_time = world.constants.bomb_explosion_time
         score.increase_score('plant', world, bomb.position)
