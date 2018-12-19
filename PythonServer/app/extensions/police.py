@@ -2,7 +2,7 @@
 
 # project imports
 from ..ks.models import Police
-from .agent import directions, can_move_agent, move as base_move
+from .agent import directions, can_move as base_can_move, move as base_move
 
 
 def move(self, world, command):
@@ -47,4 +47,4 @@ Police.defuse_bomb = defuse_bomb
 Police.move = move
 Police.cancel_defuse = cancel_defuse
 Police.can_defuse_bomb = can_defuse_bomb
-Police.can_move = can_move_agent
+Police.can_move = base_can_move

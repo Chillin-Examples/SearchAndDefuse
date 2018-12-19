@@ -11,8 +11,8 @@ class GuiEventType(Enum):
     ChangeTerroristDirection = 3
     PlantingBomb = 4
     PlantedBomb = 5
-    DefusedBomb = 6
-    DefusingBomb = 7
+    DefusingBomb = 6
+    DefusedBomb = 7
     ExplodeBomb = 8
     TerroristDeath = 9
 

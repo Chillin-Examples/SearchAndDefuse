@@ -2,7 +2,7 @@
 
 # project imports
 from ..ks.models import Terrorist, Bomb, ECell
-from .agent import directions, can_move_agent, move as base_move
+from .agent import directions, can_move as base_can_move, move as base_move
 
 
 def move(self, world, command):
@@ -52,4 +52,4 @@ Terrorist.plant_bomb = plant_bomb
 Terrorist.move = move
 Terrorist.cancel_plant = cancel_plant
 Terrorist.can_plant_bomb = can_plant_bomb
-Terrorist.can_move = can_move_agent
+Terrorist.can_move = base_can_move

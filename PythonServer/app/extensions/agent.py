@@ -9,7 +9,7 @@ def move(self, world, command):
     self.position = self.position + directions[command.direction.name]
 
 
-def can_move_agent(self, side_name, world, command):
+def can_move(self, side_name, world, command):
     new_position = self.position.add(directions[command.direction.name])
 
     # Check new cell is empty
