@@ -23,8 +23,10 @@ def plant_bomb(self, world, command):
 
 def cancel_plant(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id))
+    bomb_position = bomb.position
     world.bombs.remove(bomb)
     self.planting_remaining_time = -1
+    return bomb_position
 
 
 def can_plant_bomb(self, world, command):

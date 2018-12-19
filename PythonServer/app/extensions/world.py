@@ -12,28 +12,30 @@ def apply_command(self, side_name, command):
 
     # Read Commands
     if command.name() == Move.name():
+        events = []
         agent = agents[side_name][command.id]
 
         # cancel defuse command if agent is defusing
         if side_name == "Police" and agent.defusion_remaining_time > 0:
-            agent.cancel_defuse(self)
+            bomb_position = agent.cancel_defuse(self)
 
             event_type = GuiEventType.CancelBombOp
-            return [GuiEvent(event_type, bomb_position=agent.position.add(directions[command.direction.name]))]
+            events += [GuiEvent(event_type, bomb_position=bomb_position)]
 
         # cancel plant command if agent is planting
         if side_name == "Terrorist" and agent.planting_remaining_time > 0:
-            agent.cancel_plant(self)
+            bomb_position = agent.cancel_plant(self)
 
             event_type = GuiEventType.CancelBombOp
-            return [GuiEvent(event_type, bomb_position=agent.position.add(directions[command.direction.name]))]
+            events += [GuiEvent(event_type, bomb_position=bomb_position)]
 
         if not agent.can_move(side_name, self, command):
             return []
         agent.move(self, command)
 
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
-        return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
+        events += [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
+        return events
 
     if command.name() == PlantBomb.name():
         # Only terrorists can plan
