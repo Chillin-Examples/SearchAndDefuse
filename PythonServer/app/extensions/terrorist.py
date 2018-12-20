@@ -3,12 +3,19 @@
 # project imports
 from ..ks.models import Terrorist, Bomb, ECell
 from .agent import directions, can_move as base_can_move, move as base_move
+from ..gui_events import *
 
 
 def move(self, world, command):
-    if self.planting_remaining_time != -1:
-        self.cancel_plant(self, world)
+    events = []
+    if self.planting_remaining_time > 0:
+        bomb_position = self.cancel_plant(world).position
+        event_type = GuiEventType.CancelBombOp
+        events += [GuiEvent(event_type, bomb_position=bomb_position)]
+
     base_move(self, world, command)
+    events += [GuiEvent(GuiEventType.MoveTerrorist, agent_id=self.id, agent_position=self.position)]
+    return events
 
 
 def plant_bomb(self, world, command):
@@ -23,10 +30,10 @@ def plant_bomb(self, world, command):
 
 def cancel_plant(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id))
-    bomb_position = bomb.position
+    canceling_bomb = bomb
     world.bombs.remove(bomb)
     self.planting_remaining_time = -1
-    return bomb_position
+    return canceling_bomb
 
 
 def can_plant_bomb(self, world, command):
