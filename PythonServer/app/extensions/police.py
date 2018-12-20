@@ -17,17 +17,19 @@ def move(self, world, command):
 
 
 def defuse_bomb(self, world, command):
+    gui_events = []
     if self.defusion_remaining_time != -1:
-        self.cancel_defuse(world)
-
+        gui_events += self.cancel_defuse(world)
     bomb_position = self.position + directions[command.direction.name]
+
     for bomb in world.bombs:
         if bomb.position == bomb_position:
             bomb.defuser_id = self.id
             break
 
     event_type = GuiEventType.DefusingBomb
-    return [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+    gui_events += [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+    return gui_events
 
 
 def cancel_defuse(self, world):

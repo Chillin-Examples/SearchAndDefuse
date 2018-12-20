@@ -17,8 +17,9 @@ def move(self, world, command):
 
 
 def plant_bomb(self, world, command):
+    gui_events = []
     if self.planting_remaining_time != -1:
-        self.cancel_plant(world)
+        gui_events += self.cancel_plant(world)
 
     bomb_position = self.position + directions[command.direction.name]
     new_bomb = Bomb(position=bomb_position, explosion_remaining_time=-1,
@@ -26,7 +27,8 @@ def plant_bomb(self, world, command):
     world.bombs.append(new_bomb)
 
     event_type = GuiEventType.PlantingBomb
-    return [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+    gui_events += [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+    return gui_events
 
 
 def cancel_plant(self, world):
