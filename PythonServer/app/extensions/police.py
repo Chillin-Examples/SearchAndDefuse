@@ -2,18 +2,24 @@
 
 # project imports
 from ..ks.models import Police
-from .agent import directions, can_move_agent, move as base_move
+from .agent import directions, can_move as base_can_move, move as base_move
+from ..gui_events import *
 
 
 def move(self, world, command):
+    gui_events = []
     if self.defusion_remaining_time != -1:
-        self.cancel_defuse(self, world)
+        gui_events += self.cancel_defuse(world)
+
     base_move(self, world, command)
+    gui_events += [GuiEvent(GuiEventType.MovePolice, agent_id=self.id, agent_position=self.position)]
+    return gui_events
 
 
 def defuse_bomb(self, world, command):
+    gui_events = []
     if self.defusion_remaining_time != -1:
-        self.cancel_defuse(world)
+        gui_events += self.cancel_defuse(world)
 
     bomb_position = self.position + directions[command.direction.name]
     for bomb in world.bombs:
@@ -21,15 +27,21 @@ def defuse_bomb(self, world, command):
             bomb.defuser_id = self.id
             break
 
+    event_type = GuiEventType.DefusingBomb
+    gui_events += [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+    return gui_events
+
 
 def cancel_defuse(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id))
     bomb.defuser_id = -1
     self.defusion_remaining_time = -1
+    event_type = GuiEventType.CancelBombOp
+    return [GuiEvent(event_type, bomb_position=bomb.position)]
 
 
 def can_defuse_bomb(self, world, command):
-    planted_position = self.position.add(directions[command.direction.name])
+    planted_position = self.position + directions[command.direction.name]
 
     for planted_bomb in world.bombs:
 
@@ -47,4 +59,4 @@ Police.defuse_bomb = defuse_bomb
 Police.move = move
 Police.cancel_defuse = cancel_defuse
 Police.can_defuse_bomb = can_defuse_bomb
-Police.can_move = can_move_agent
+Police.can_move = base_can_move

@@ -20,6 +20,11 @@ def add(self, position):
     return Position(x=x, y=y)
 
 
+def __add__(self, position):
+    return self.add(position)
+
+
 Position.is_equal = is_equal
 Position.__eq__ = __eq__
 Position.add = add
+Position.__add__ = __add__

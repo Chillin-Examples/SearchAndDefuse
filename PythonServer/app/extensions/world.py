@@ -3,8 +3,6 @@
 # project imports
 from ..ks.models import *
 from ..ks.commands import *
-from ..gui_events import GuiEvent, GuiEventType
-from .agent import directions
 
 
 def apply_command(self, side_name, command):
@@ -12,22 +10,17 @@ def apply_command(self, side_name, command):
 
     # Read Commands
     if command.name() == Move.name():
+        move_events = []
         agent = agents[side_name][command.id]
-
-        # cancel defuse command if agent is defusing
-        if side_name == "Police" and agent.defusion_remaining_time != -1:
-            agent.cancel_defuse(self)
-
-        elif side_name == "Terrorist" and agent.planting_remaining_time != -1:
-            agent.cancel_plant(self)
         if not agent.can_move(side_name, self, command):
             return []
-        agent.move(self, command)
+        move_events += agent.move(self, command)
 
-        event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
-        return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
+        return move_events
 
     if command.name() == PlantBomb.name():
+        plant_events = []
+
         # Only terrorists can plan
         if side_name == "Police":
             return []
@@ -35,13 +28,13 @@ def apply_command(self, side_name, command):
         terrorist = agents["Terrorist"][command.id]
         if not terrorist.can_plant_bomb(self, command):
             return []
-        terrorist.plant_bomb(self, command)
+        plant_events += terrorist.plant_bomb(self, command)
 
-        # TODO event should be matched with bomb when plantation is done
-        event_type = GuiEventType.PlantingBomb
-        return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
+        return plant_events
 
     if command.name() == DefuseBomb.name():
+        defuse_events = []
+
         # Only terrorists can plan
         if side_name == "Terrorist":
             return []
@@ -49,10 +42,9 @@ def apply_command(self, side_name, command):
         police = agents["Police"][command.id]
         if not police.can_defuse_bomb(self, command):
             return []
-        police.defuse_bomb(self, command)
+        defuse_events += police.defuse_bomb(self, command)
 
-        event_type = GuiEventType.DefusingBomb
-        return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
+        return defuse_events
 
 
 World.apply_command = apply_command
