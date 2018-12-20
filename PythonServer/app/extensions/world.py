@@ -21,6 +21,7 @@ def apply_command(self, side_name, command):
         return move_events
 
     if command.name() == PlantBomb.name():
+        plant_events = []
         # Only terrorists can plan
         if side_name == "Police":
             return []
@@ -28,11 +29,9 @@ def apply_command(self, side_name, command):
         terrorist = agents["Terrorist"][command.id]
         if not terrorist.can_plant_bomb(self, command):
             return []
-        terrorist.plant_bomb(self, command)
+        plant_events += terrorist.plant_bomb(self, command)
 
-        # TODO event should be matched with bomb when plantation is done
-        event_type = GuiEventType.PlantingBomb
-        return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
+        return plant_events
 
     if command.name() == DefuseBomb.name():
         # Only terrorists can plan
