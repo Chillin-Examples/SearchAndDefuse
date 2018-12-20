@@ -28,6 +28,9 @@ def defuse_bomb(self, world, command):
             bomb.defuser_id = self.id
             break
 
+    event_type = GuiEventType.DefusingBomb
+    return [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+
 
 def cancel_defuse(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id))

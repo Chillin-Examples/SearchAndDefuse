@@ -22,6 +22,7 @@ def apply_command(self, side_name, command):
 
     if command.name() == PlantBomb.name():
         plant_events = []
+
         # Only terrorists can plan
         if side_name == "Police":
             return []
@@ -34,6 +35,8 @@ def apply_command(self, side_name, command):
         return plant_events
 
     if command.name() == DefuseBomb.name():
+        defuse_events = []
+
         # Only terrorists can plan
         if side_name == "Terrorist":
             return []
@@ -41,10 +44,9 @@ def apply_command(self, side_name, command):
         police = agents["Police"][command.id]
         if not police.can_defuse_bomb(self, command):
             return []
-        police.defuse_bomb(self, command)
+        defuse_events += police.defuse_bomb(self, command)
 
-        event_type = GuiEventType.DefusingBomb
-        return [GuiEvent(event_type, bomb_position=police.position.add(directions[command.direction.name]))]
+        return defuse_events
 
 
 World.apply_command = apply_command
