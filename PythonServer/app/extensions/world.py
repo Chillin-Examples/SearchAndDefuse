@@ -5,7 +5,7 @@ from ..ks.models import *
 from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
 from .agent import directions
-from ..helpers import fog
+from ..helpers import vision
 
 
 def apply_command(self, side_name, command):
@@ -22,12 +22,12 @@ def apply_command(self, side_name, command):
 
         agent.move(self, command)
 
-        # update world fogs
+        # update world visions
         for side in side_name:
             if side == 'Police':
-                self.fogs[side] = fog.compute_polices_fogs(self)
+                self.visions[side] = vision.compute_polices_visions(self)
             else:
-                self.fogs[side] = fog.compute_terrorists_fogs(self)
+                self.visions[side] = vision.compute_terrorists_visions(self)
 
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
 

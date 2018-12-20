@@ -4,29 +4,29 @@
 from ..ks.models import *
 
 
-# computes agent's fog based on its vision_distance.
-def compute_agent_fog(agent, world):
+# computes agent's vision based on its vision_distance.
+def compute_agent_vision(agent, world):
     if type(agent) == Terrorist:
         return _depth_limited_search(agent.position, world.constants.terrorist_vision_distance, world)
     elif type(agent) == Police:
         return _depth_limited_search(agent.position, world.constants.police_vision_distance, world)
 
 
-# computes all polices fogs and converts them into one list.
-def compute_polices_fogs(world):
-    fog_positions = []
+# computes all polices visions and converts them into one list.
+def compute_polices_visions(world):
+    vision_positions = []
     for police in world.polices:
-        fog_positions += compute_agent_fog(police, world)
-        # set(fog_positions) not working :/
-    return _join_fogs(fog_positions)
+        vision_positions += compute_agent_vision(police, world)
+        # set(vision_positions) not working :/
+    return _join_visions(vision_positions)
 
 
-# computes all terrorists fogs and converts them into one list.
-def compute_terrorists_fogs(world):
-    fog_positions = []
+# computes all terrorists visions and converts them into one list.
+def compute_terrorists_visions(world):
+    vision_positions = []
     for terrorist in world.terrorists:
-        fog_positions += compute_agent_fog(terrorist, world)
-    return _join_fogs(fog_positions)
+        vision_positions += compute_agent_vision(terrorist, world)
+    return _join_visions(vision_positions)
 
 
 # performs a depth limited search with no specific goal position.
@@ -58,9 +58,9 @@ def _depth_limited_search(position, limit, world):
 
 
 # removes duplicates
-def _join_fogs(fog_positions):
+def _join_visions(vision_positions):
     final_list = []
-    for position in fog_positions:
+    for position in vision_positions:
         if any(position == new_pos for new_pos in final_list):
             continue
         else:

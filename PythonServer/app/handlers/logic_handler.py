@@ -2,7 +2,7 @@
 
 # project imports
 from ..ks.models import ECell
-from ..helpers import bomb_timer, fog
+from ..helpers import bomb_timer, vision
 from copy import deepcopy
 
 
@@ -14,9 +14,9 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def initialize(self):
-        # initialize world fogs
-        self.world.fogs['Police'] = fog.compute_polices_fogs(self.world)
-        self.world.fogs['Terrorist'] = fog.compute_terrorists_fogs(self.world)
+        # initialize world vision
+        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
+        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
 
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
@@ -45,9 +45,9 @@ class LogicHandler:
         client_world = deepcopy(self.world)
         if side_name == 'Police':
             client_world.terrorists = []
-            for fog_position in self.world.fogs[side_name]:
+            for vision_position in self.world.visions[side_name]:
                 for terrorist in self.world.terrorists:
-                    if terrorist.position == fog_position:
+                    if terrorist.position == vision_position:
                         client_world.terrorists.append(terrorist)
             return client_world
 
@@ -55,9 +55,9 @@ class LogicHandler:
             client_world = deepcopy(self.world)
             if side_name == 'Terrorist':
                 client_world.polices = []
-                for fog_position in self.world.fogs[side_name]:
+                for vision_position in self.world.visions[side_name]:
                     for police in self.world.polices:
-                        if police.position == fog_position:
+                        if police.position == vision_position:
                             client_world.polices.append(police)
             return client_world
 
