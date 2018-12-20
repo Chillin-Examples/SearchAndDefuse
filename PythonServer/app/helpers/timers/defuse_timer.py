@@ -25,6 +25,7 @@ def update_defuse_timings(world):
                         return []
                     if world.polices[bomb.defuser_id].defusion_remaining_time == 0:
                         print("bomb defused.")
+                        world.polices[bomb.defuser_id].defusion_remaining_time = -1
                         bomb_position = bomb.position
                         score.increase_score('defuse', world)
                         world.bombs.remove(bomb)
