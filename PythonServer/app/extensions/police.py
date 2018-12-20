@@ -3,7 +3,7 @@
 # project imports
 from ..ks.models import Police
 from .agent import directions, can_move as base_can_move, move as base_move
-from ..gui_events import *
+from ..gui_events import GuiEventType, GuiEvent
 
 
 def move(self, world, command):
