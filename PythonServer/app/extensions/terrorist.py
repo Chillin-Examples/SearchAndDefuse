@@ -8,7 +8,7 @@ from ..gui_events import *
 
 def move(self, world, command):
     gui_events = []
-    if self.planting_remaining_time > 0:
+    if self.planting_remaining_time != -1:
         gui_events += self.cancel_plant(world)
 
     base_move(self, world, command)
@@ -17,7 +17,7 @@ def move(self, world, command):
 
 
 def plant_bomb(self, world, command):
-    if self.planting_remaining_time > 0:
+    if self.planting_remaining_time != -1:
         self.cancel_plant(world)
 
     bomb_position = self.position + directions[command.direction.name]

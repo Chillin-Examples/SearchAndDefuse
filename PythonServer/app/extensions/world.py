@@ -3,8 +3,6 @@
 # project imports
 from ..ks.models import *
 from ..ks.commands import *
-from ..gui_events import GuiEvent, GuiEventType
-from .agent import directions
 
 
 def apply_command(self, side_name, command):

@@ -8,7 +8,7 @@ from ..gui_events import *
 
 def move(self, world, command):
     gui_events = []
-    if self.defusion_remaining_time > 0:
+    if self.defusion_remaining_time != -1:
         gui_events += self.cancel_defuse(world)
 
     base_move(self, world, command)
