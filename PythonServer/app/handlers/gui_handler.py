@@ -26,7 +26,6 @@ class GuiHandler:
         self._font_size = int(self._cell_size / 2)
         self._utils = GuiUtils(self._cell_size)
         self._img_refs = {side: {} for side in self._sides}
-        self._img_refs['bombs'] = {"small": [], "medium": [], "large": [], "vast": []}
 
     def initialize(self):
         canvas = self._canvas
@@ -47,36 +46,53 @@ class GuiHandler:
         self._initialize_board(canvas)
 
     def update(self, gui_events):
-        moving_terrorists, moving_polices = [], []
+        moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
 
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
                 moving_polices.append(event.payload)
-            elif event.type == GuiEventType.MoveTerrorist:
+            if event.type == GuiEventType.MoveTerrorist:
                 moving_terrorists.append(event.payload)
-            elif event.type == GuiEventType.PlantingBomb:
+            if event.type == GuiEventType.DefusingBomb:
+                bombs_defusing.append(event.payload)
+                print(len(bombs_defusing))
+            if event.type == GuiEventType.DefusedBomb:
+                bombs_defused.append(event.payload)
+            if event.type == GuiEventType.PlantingBomb:
                 bombs_events['planting'].append(event.payload)
-            elif event.type == GuiEventType.PlantedBomb:
+                print("APPENDED")
+            if event.type == GuiEventType.PlantedBomb:
                 bombs_events['planted'].append(event.payload)
-            elif event.type == GuiEventType.ExplodeBomb:
+            if event.type == GuiEventType.ExplodeBomb:
                 bombs_events['exploded'].append(event.payload)
+            if event.type == GuiEventType.CancelBombOp:
+                bombs_op_canceled.append(event.payload)
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             self._update_board_on_move(moving_terrorists, moving_polices)
 
-        elif len(bombs_events['planting']) != 0:
+        if len(bombs_events['planting']) != 0:
             self._update_board_on_planting(bombs_events['planting'])
 
-        elif len(bombs_events['planted']) != 0:
+        if len(bombs_events['planted']) != 0:
             self._update_board_on_planted(bombs_events['planted'])
 
-        elif len(bombs_events['exploded']) != 0:
+        if len(bombs_events['exploded']) != 0:
             self._update_board_on_explode(bombs_events['exploded'])
 
-    def _update_board_on_move(self, moving_terrorists, moving_polices):
+        if len(bombs_defusing) != 0:
+            self._update_board_on_defusing(bombs_defusing)
+
+        if len(bombs_defused) != 0:
+            self._update_board_on_defuse(bombs_defused)
+
+        if len(bombs_op_canceled) != 0:
+            self._update_board_on_bomb_cancel(bombs_op_canceled)
+
+    def _update_board_on_move(self, terrorists_move, polices_move):
         for side in self._sides:
-            moves = moving_polices if side == 'Police' else moving_terrorists
+            moves = polices_move if side == 'Police' else terrorists_move
 
             for move in moves:
                 canvas_pos = self._utils.get_canvas_position(move['agent_position'])
@@ -84,6 +100,27 @@ class GuiHandler:
                 self._canvas.edit_image(self._img_refs[side][move['agent_id']],
                                         canvas_pos['x'], canvas_pos['y'],
                                         center_origin=True)
+
+    def _update_board_on_bomb_cancel(self, bombs_planting):
+        for bomb in bombs_planting:
+            canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
+            board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
+            if board_cell == ECell.SmallBombSite:
+                self._canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            elif board_cell == ECell.MediumBombSite:
+                self._canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            elif board_cell == ECell.LargeBombSite:
+                self._canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            elif board_cell == ECell.VastBombSite:
+                self._canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
 
     def _update_board_on_planting(self, bombs_planting):
         for bomb in bombs_planting:
@@ -131,20 +168,66 @@ class GuiHandler:
         for bomb in bombs_exploded:
             canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
             board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
-            if board_cell == ECell.SmallBombSite:
+            if board_cell == ECell.Empty:
                 self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            # elif board_cell == ECell.MediumBombSite:
+            #     self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
+            #                               center_origin=True, scale_type=ScaleType.ScaleToWidth,
+            #                               scale_value=self._cell_size)
+            # elif board_cell == ECell.LargeBombSite:
+            #     self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
+            #                               center_origin=True, scale_type=ScaleType.ScaleToWidth,
+            #                               scale_value=self._cell_size)
+            # elif board_cell == ECell.VastBombSite:
+            #     self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
+            #                               center_origin=True, scale_type=ScaleType.ScaleToWidth,
+            #                               scale_value=self._cell_size)
+
+    def _update_board_on_defuse(self, bombs_defusing):
+        for bomb in bombs_defusing:
+            canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
+            board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
+            if board_cell == ECell.Empty:
+                self._canvas.create_image('Empty', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            elif board_cell == ECell.SmallBombSite:
+                self._canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
                                           center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                           scale_value=self._cell_size)
             elif board_cell == ECell.MediumBombSite:
-                self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
+                self._canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
                                           center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                           scale_value=self._cell_size)
             elif board_cell == ECell.LargeBombSite:
-                self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
+                self._canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
                                           center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                           scale_value=self._cell_size)
             elif board_cell == ECell.VastBombSite:
-                self._canvas.create_image('ExplodedBomb', canvas_pos['x'], canvas_pos['y'],
+                self._canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+
+    def _update_board_on_defusing(self, bombs_defusing):
+        for bomb in bombs_defusing:
+            canvas_pos = self._utils.get_canvas_position(bomb['bomb_position'])
+            board_cell = self._world.board[bomb['bomb_position'].y][bomb['bomb_position'].x]
+            if board_cell == ECell.SmallBombSite:
+                self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            elif board_cell == ECell.MediumBombSite:
+                self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            elif board_cell == ECell.LargeBombSite:
+                self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
+                                          center_origin=True, scale_type=ScaleType.ScaleToWidth,
+                                          scale_value=self._cell_size)
+            elif board_cell == ECell.VastBombSite:
+                self._canvas.create_image('DefusingBomb', canvas_pos['x'], canvas_pos['y'],
                                           center_origin=True, scale_type=ScaleType.ScaleToWidth,
                                           scale_value=self._cell_size)
 
@@ -162,22 +245,17 @@ class GuiHandler:
                     canvas.create_image('Wall', canvas_pos['x'], canvas_pos['y'],
                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.SmallBombSite:
-                    small_bomb_ref = canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
-                                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-                    self._img_refs['bombs']['SmallSite'] = small_bomb_ref
+                    self.small_bomb_ref = canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.MediumBombSite:
-                    medium_bomb_ref = canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
-                                                          scale_type=ScaleType.ScaleToWidth,
-                                                          scale_value=self._cell_size)
-                    self._img_refs['bombs']['MediumSite'] = medium_bomb_ref
+                    self.medium_bomb_ref = canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.LargeBombSite:
-                    large_bomb_ref = canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
-                                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-                    self._img_refs['bombs']['LargeSite'] = large_bomb_ref
+                    self.large_bomb_ref = canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.VastBombSite:
-                    vast_bomb_ref = canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
-                                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
-                    self._img_refs['bombs']['VastSite'] = vast_bomb_ref
+                    self.vast_bomb_ref = canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
+                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
 
         # Draw Agents
         for side in self._sides:

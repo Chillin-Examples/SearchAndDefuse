@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import ECell
-from ..helpers import bomb_timer, vision
+from ..helpers.timers import bomb_timer
+from ..helpers import vision
 from copy import deepcopy
+from ..ks.models import ECell
 
 
 class LogicHandler:
@@ -12,11 +13,6 @@ class LogicHandler:
         self.world = world
         self._sides = sides
         self._last_cycle_commands = {side: {} for side in self._sides}
-
-    def initialize(self):
-        # initialize world vision
-        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
-        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
 
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
@@ -29,13 +25,17 @@ class LogicHandler:
         print('command: %s(%i)' % (side_name, command.id))
         self._last_cycle_commands[side_name][command.id] = command
 
+    def initialize(self):
+        # initialize world vision
+        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
+        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
+
     def clear_commands(self):
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
-
         gui_events = []
-        gui_events += bomb_timer.update_plant_timings(self.world)
+        gui_events += bomb_timer.update_bombs_timings(self.world)
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
@@ -68,6 +68,7 @@ class LogicHandler:
         if current_cycle > self.world.constants.max_cycles:
             end_game = True
 
+        # TODO this condition should be changed.
         # all bombs exploded
         if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
                             ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
@@ -82,6 +83,10 @@ class LogicHandler:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
                 winner_sidename = 'Police'
+            elif ECell.SmallBombSite not in self.world.board or ECell.MediumBombSite not in self.world.board or \
+                    ECell.LargeBombSite not in self.world.board or ECell.VastBombSite not in self.world.board:
+                winner_sidename = 'Terrorist'
+
             else:
                 winner_sidename = None
 

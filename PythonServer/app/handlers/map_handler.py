@@ -5,7 +5,6 @@ import json
 
 # project imports
 from ..ks.models import *
-from ..helpers import vision
 
 
 class MapHandler:
