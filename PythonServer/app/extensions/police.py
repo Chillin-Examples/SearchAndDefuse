@@ -20,8 +20,8 @@ def defuse_bomb(self, world, command):
     gui_events = []
     if self.defusion_remaining_time != -1:
         gui_events += self.cancel_defuse(world)
-    bomb_position = self.position + directions[command.direction.name]
 
+    bomb_position = self.position + directions[command.direction.name]
     for bomb in world.bombs:
         if bomb.position == bomb_position:
             bomb.defuser_id = self.id
