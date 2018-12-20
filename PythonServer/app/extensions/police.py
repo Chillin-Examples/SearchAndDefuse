@@ -39,7 +39,7 @@ def cancel_defuse(self, world):
 
 
 def can_defuse_bomb(self, world, command):
-    planted_position = self.position.add(directions[command.direction.name])
+    planted_position = self.position + directions[command.direction.name]
 
     for planted_bomb in world.bombs:
 
