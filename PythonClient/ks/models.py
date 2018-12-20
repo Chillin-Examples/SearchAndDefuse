@@ -14,7 +14,8 @@ class ECell(Enum):
 	MediumBombSite = 2
 	LargeBombSite = 3
 	VastBombSite = 4
-	Wall = 5
+	ExplodedBombSite = 5
+	Wall = 6
 
 
 class EDirection(Enum):
