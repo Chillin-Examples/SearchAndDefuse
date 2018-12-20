@@ -7,15 +7,13 @@ from ..gui_events import *
 
 
 def move(self, world, command):
-    events = []
+    gui_events = []
     if self.planting_remaining_time > 0:
-        bomb_position = self.cancel_plant(world).position
-        event_type = GuiEventType.CancelBombOp
-        events += [GuiEvent(event_type, bomb_position=bomb_position)]
+        gui_events += self.cancel_plant(world)
 
     base_move(self, world, command)
-    events += [GuiEvent(GuiEventType.MoveTerrorist, agent_id=self.id, agent_position=self.position)]
-    return events
+    gui_events += [GuiEvent(GuiEventType.MoveTerrorist, agent_id=self.id, agent_position=self.position)]
+    return gui_events
 
 
 def plant_bomb(self, world, command):
@@ -33,10 +31,11 @@ def plant_bomb(self, world, command):
 
 def cancel_plant(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id))
-    canceling_bomb = bomb
+    bomb_position = bomb.position
     world.bombs.remove(bomb)
     self.planting_remaining_time = -1
-    return canceling_bomb
+    event_type = GuiEventType.CancelBombOp
+    return [GuiEvent(event_type, bomb_position=bomb_position)]
 
 
 def can_plant_bomb(self, world, command):

@@ -7,15 +7,13 @@ from ..gui_events import *
 
 
 def move(self, world, command):
-    events = []
+    gui_events = []
     if self.defusion_remaining_time > 0:
-        bomb_position = self.cancel_defuse(world).position
-        event_type = GuiEventType.CancelBombOp
-        events += [GuiEvent(event_type, bomb_position=bomb_position)]
+        gui_events += self.cancel_defuse(world)
 
     base_move(self, world, command)
-    events += [GuiEvent(GuiEventType.MovePolice, agent_id=self.id, agent_position=self.position)]
-    return events
+    gui_events += [GuiEvent(GuiEventType.MovePolice, agent_id=self.id, agent_position=self.position)]
+    return gui_events
 
 
 def defuse_bomb(self, world, command):
@@ -36,7 +34,8 @@ def cancel_defuse(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id))
     bomb.defuser_id = -1
     self.defusion_remaining_time = -1
-    return bomb
+    event_type = GuiEventType.CancelBombOp
+    return [GuiEvent(event_type, bomb_position=bomb.position)]
 
 
 def can_defuse_bomb(self, world, command):
