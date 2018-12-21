@@ -31,11 +31,6 @@ class GuiHandler:
     def initialize(self):
         canvas = self._canvas
         config = self._config
-        print("AAAAAAAAAAAA")
-        print(len(self._world.visions["Terrorist"]))
-        for i in self._world.visions["Terrorist"]:
-            print("POS:", i.x, ",", i.y)
-        print("AAAAAAAAAAAA")
 
         # Draw background
         background_ref = canvas.create_image('Background', 0, 0)

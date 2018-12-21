@@ -18,11 +18,10 @@ def apply_command(self, side_name, command):
         move_events += agent.move(self, command)
 
         # update world visions
-        for side in side_name:
-            if side == 'Police':
-                self.visions[side] = vision.compute_polices_visions(self)
-            else:
-                self.visions[side] = vision.compute_terrorists_visions(self)
+        if side_name == 'Police':
+            self.visions[side_name] = vision.compute_polices_visions(self)
+        else:
+            self.visions[side_name] = vision.compute_terrorists_visions(self)
 
         return move_events
 

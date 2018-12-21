@@ -34,8 +34,6 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
-        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
-        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
         gui_events = []
         gui_events += bomb_timer.update_bombs_timings(self.world)
         for side in self._sides:
