@@ -40,7 +40,9 @@
       "MediumBomb": "images/small_bomb.png",
       "LargeBomb": "images/small_bomb.png",
       "VastBomb": "images/small_bomb.png",
-      "Empty": "images/background.png"
+      "Empty": "images/background.png",
+      "TerroristLogo": "images/terrorist_icon.png",
+      "PoliceLogo": "images/police_icon.png"
     }
 
   },
