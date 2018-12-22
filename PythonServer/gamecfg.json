@@ -63,7 +63,8 @@
     "auto_change_turn_sequence": ["Police", "Terrorist"],
     "": "my configs",
     "cell_size": 6,
-    "show_statuses": false,
+    "show_statuses": true,
+    "statusbar_width": 800,
     "map": "maps/revolution909.json"
   }
 }
