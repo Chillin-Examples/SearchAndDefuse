@@ -7,7 +7,7 @@ from . import vision_compute
 
 def compute_agent_vision(strategy, position, limit, world):
     if strategy == 'dls':
-        return vision_compute.compute_visions_dls(position, limit, world)
+        return _join_visions(vision_compute.compute_visions_dls(position, limit, world))
     if strategy == 'square':
         return vision_compute.compute_visions_square(position, limit, world)
 
