@@ -22,11 +22,6 @@ def apply_command(self, side_name, command):
         agent.move(self, command)
         sound_intensity.update_sound_intensities(self)
 
-        print('##################')
-        for terrorist in self.terrorists:
-            for inten in terrorist.footstep_sounds:
-                print(inten)
-        print('##################')
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
