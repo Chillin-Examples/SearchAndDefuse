@@ -315,6 +315,10 @@ class GuiHandler:
                                                       scale_type=ScaleType.ScaleToWidth,
                                                       scale_value=self._cell_size)
                         i += 1
+        for index in range(i+1, len(self._fog_refs)):
+            self._canvas.edit_image(self._fog_refs[i], 5000, 5000,
+                                    scale_type=ScaleType.ScaleToWidth,
+                                    scale_value=self._cell_size)
 
 
 class GuiUtils:
