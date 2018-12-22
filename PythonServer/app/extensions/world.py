@@ -3,7 +3,6 @@
 # project imports
 from ..ks.models import *
 from ..ks.commands import *
-from ..helpers import vision
 
 
 def apply_command(self, side_name, command):
@@ -16,12 +15,6 @@ def apply_command(self, side_name, command):
         if not agent.can_move(side_name, self, command):
             return []
         move_events += agent.move(self, command)
-
-        # update world visions
-        if side_name == 'Police':
-            self.visions[side_name] = vision.compute_polices_visions(self)
-        else:
-            self.visions[side_name] = vision.compute_terrorists_visions(self)
 
         return move_events
 
