@@ -69,9 +69,9 @@
     "score_coefficient_medium_bomb_site" : 5,
     "score_coefficient_large_bomb_site" : 7.5,
     "score_coefficient_vast_bomb_site" : 10,
-    "terrorist_vision_distance" : 5,
+    "terrorist_vision_distance" : 3,
     "terrorist_death_score" : 4,
-    "police_vision_distance" : 6,
+    "police_vision_distance" : 2,
     "max_cycles" : 100
   }
 }
