@@ -53,12 +53,11 @@ class LogicHandler:
 
         else:
             client_world = deepcopy(self.world)
-            if side_name == 'Terrorist':
-                client_world.polices = []
-                for vision_position in self.world.visions[side_name]:
-                    for police in self.world.polices:
-                        if police.position == vision_position:
-                            client_world.polices.append(police)
+            client_world.polices = []
+            for vision_position in self.world.visions[side_name]:
+                for police in self.world.polices:
+                    if police.position == vision_position:
+                        client_world.polices.append(police)
             return client_world
 
     def check_end_game(self, current_cycle):
