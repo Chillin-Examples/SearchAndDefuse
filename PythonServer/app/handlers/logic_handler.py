@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+# python imports
+from copy import deepcopy
+
 # project imports
 from ..helpers.timers import bomb_timer
 from ..helpers import vision
-from copy import deepcopy
 from ..ks.models import ECell
 
 
@@ -51,8 +53,7 @@ class LogicHandler:
                         client_world.terrorists.append(terrorist)
             return client_world
 
-        else:
-            client_world = deepcopy(self.world)
+        elif side_name == 'Terrorist':
             client_world.polices = []
             for vision_position in self.world.visions[side_name]:
                 for police in self.world.polices:
