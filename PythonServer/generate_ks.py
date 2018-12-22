@@ -4,9 +4,10 @@
 # chillin imports
 from koala_serializer import generate
 
-all_args = [('python', 'app/ks'), ('python', '../PythonClient/ks'), ('python', '../PythonRandomClient/ks'),
-            ('cpp', '../CppClient/Game/ks')]
+all_args = [('python', 'app/ks', 'snake_case'), ('python', '../PythonClient/ks', 'snake_case'),
+            ('python', '../PythonRandomClient/ks', 'snake_case'),
+            ('cpp', '../CppClient/Game/ks', 'camelCase')]
 
 for args in all_args:
-    generate('app/ks/commands.ks', *args, 'snake_case')
-    generate('app/ks/models.ks', *args, 'snake_case')
+    generate('app/ks/commands.ks', *args)
+    generate('app/ks/models.ks', *args)
