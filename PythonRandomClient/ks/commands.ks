@@ -9,7 +9,7 @@ _def = enum <byte>
 
 
 [Move]
-_def = class 
+_def = class
 id = int
 direction = ECommandDirection
 

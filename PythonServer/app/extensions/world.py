@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import *
 from ..ks.commands import *
+from ..ks.models import World
 from ..helpers import vision
 
 

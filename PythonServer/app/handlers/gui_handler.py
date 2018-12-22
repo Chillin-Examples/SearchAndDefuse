@@ -343,3 +343,4 @@ class GuiUtils:
             x2 = x1 + math.ceil((self._cell_size - 10) * (curr_val / max_val))
 
         return x1, y1, x2, y2
+
