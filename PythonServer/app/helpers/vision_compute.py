@@ -6,6 +6,7 @@ from ..ks.models import Position
 
 # performs a depth limited search with no specific goal position.
 def compute_visions_dls(position, limit, world):
+    limit += 1
     sentinel = Position(None, None)
     position_stack = [position]
     visited = []

@@ -20,7 +20,7 @@ def apply_command(self, side_name, command):
         # update world visions
         if side_name == 'Police':
             self.visions[side_name] = vision.compute_polices_visions(self)
-        else:
+        if side_name == 'Terrorist':
             self.visions[side_name] = vision.compute_terrorists_visions(self)
 
         return move_events
