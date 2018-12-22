@@ -3,6 +3,9 @@
 # python imports
 import math
 
+# project imports
+from ..ks import models
+
 
 def update_sound_intensities(world):
     for terrorist in world.terrorists:

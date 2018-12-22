@@ -67,7 +67,7 @@ _def = class
 id = int
 position = Position
 planting_remaining_time = int
-footstep_sounds = list<int>
+footstep_sounds = list<ESoundIntensity>
 is_dead = boolean
 
 
@@ -76,7 +76,7 @@ _def = class
 id = int
 position = Position
 defusion_remaining_time = int
-footstep_sounds = list<int>
+footstep_sounds = list<ESoundIntensity>
 bomb_sounds = list<int>
 is_visible = boolean
 
