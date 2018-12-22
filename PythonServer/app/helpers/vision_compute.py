@@ -9,19 +9,19 @@ def compute_visions_dls(position, limit, world):
     limit += 1
     sentinel = Position(None, None)
     position_stack = [position]
-    visited = []
     path = []
 
     while position_stack:
         current_position = position_stack.pop()
-        # if current_position not in visited:
+
+        # TODO visiting nodes not working.
+        # if not any(current_position == visited_pos for visited_pos in path):
         if current_position == sentinel:
 
             # finished this level; go back up one level
             limit += 1
 
         elif limit != 0:
-            # visited.append(current_position)
 
             # go one level deeper, push sentinel
             limit -= 1
