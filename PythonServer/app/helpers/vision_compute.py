@@ -5,7 +5,7 @@ from ..ks.models import Position
 
 
 # performs a depth limited search with no specific goal position.
-def _depth_limited_search(position, limit, world):
+def compute_visions_dls(position, limit, world):
     limit += 1
     sentinel = Position(None, None)
     position_stack = [position]
@@ -32,10 +32,10 @@ def _depth_limited_search(position, limit, world):
     return path
 
 
-def compute_vision(position, limit, world):
+def compute_visions_square(position, limit, world):
     visions = []
     for x in range(position.x - limit, position.x + limit + 1):
-        if _is_valid_position(x, world.height):
+        if _is_valid_position(x, world.width):
             for y in range(position.y - limit, position.y + limit + 1):
                 if _is_valid_position(y, world.height):
                     if get_manhattan_distance(position.x, position.y, x, y) <= limit:
@@ -60,4 +60,4 @@ def _is_valid_position(n, radius):
 
 
 def get_manhattan_distance(x1, y1, x2, y2):
-     return abs(x1-x2) + abs(y1-y2)
+    return abs(x1-x2) + abs(y1-y2)
