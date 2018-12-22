@@ -47,8 +47,7 @@ class GuiHandler:
         self._initialize_board(canvas)
         self._initialize_fogs(canvas)
 
-    def update(self, gui_events, world):
-        self._world = world
+    def update(self, gui_events):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
 
