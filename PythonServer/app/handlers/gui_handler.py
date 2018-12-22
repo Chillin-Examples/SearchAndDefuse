@@ -45,7 +45,7 @@ class GuiHandler:
 
         self._initialize_board(canvas)
 
-    def update(self, gui_events):
+    def update(self, gui_events, statusbar):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
 
@@ -271,6 +271,8 @@ class GuiHandler:
                                                     scale_value=self._cell_size)
                 self._img_refs[side][agent.id] = agent.img_ref
 
+    def _update_statusbar(self, statusbar):
+        pass
 
 class GuiUtils:
 
