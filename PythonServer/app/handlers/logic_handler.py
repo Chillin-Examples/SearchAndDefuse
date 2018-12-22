@@ -2,6 +2,8 @@
 
 # project imports
 from ..helpers.timers import bomb_timer
+from ..helpers import vision
+from copy import deepcopy
 from ..ks.models import ECell
 
 
@@ -23,6 +25,11 @@ class LogicHandler:
         print('command: %s(%i)' % (side_name, command.id))
         self._last_cycle_commands[side_name][command.id] = command
 
+    def initialize(self):
+        # initialize world vision
+        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
+        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
+
     def clear_commands(self):
         self._last_cycle_commands = {side: {} for side in self._sides}
 
@@ -35,7 +42,24 @@ class LogicHandler:
         return gui_events
 
     def get_client_world(self, side_name):
-        return self.world
+        client_world = deepcopy(self.world)
+        if side_name == 'Police':
+            client_world.terrorists = []
+            for vision_position in self.world.visions[side_name]:
+                for terrorist in self.world.terrorists:
+                    if terrorist.position == vision_position:
+                        client_world.terrorists.append(terrorist)
+            return client_world
+
+        else:
+            client_world = deepcopy(self.world)
+            if side_name == 'Terrorist':
+                client_world.polices = []
+                for vision_position in self.world.visions[side_name]:
+                    for police in self.world.polices:
+                        if police.position == vision_position:
+                            client_world.polices.append(police)
+            return client_world
 
     def check_end_game(self, current_cycle):
         end_game = False
