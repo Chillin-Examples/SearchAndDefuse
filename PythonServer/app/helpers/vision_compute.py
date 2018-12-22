@@ -27,10 +27,11 @@ def compute_visions_dls(position, limit, world):
             path.append(current_position)
             position_stack.append(sentinel)
 
-            for neighbour in _get_valid_neighbours(current_position.get_neighbours(), world):
-                # if neighbour not in visited:
-                position_stack.append(neighbour)
-                visited.append(neighbour)
+            if limit > 0:
+                for neighbour in _get_valid_neighbours(current_position.get_neighbours(), world):
+                    # if neighbour not in visited:
+                    position_stack.append(neighbour)
+                    visited.append(neighbour)
     return path
 
 
