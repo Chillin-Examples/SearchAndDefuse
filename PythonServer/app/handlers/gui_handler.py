@@ -26,6 +26,7 @@ class GuiHandler:
         self._font_size = int(self._cell_size / 2)
         self._utils = GuiUtils(self._cell_size)
         self._img_refs = {side: {} for side in self._sides}
+        self.statusbar = []
 
     def initialize(self):
         canvas = self._canvas
@@ -246,16 +247,20 @@ class GuiHandler:
                                         scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
                 elif cell == ECell.SmallBombSite:
                     self.small_bomb_ref = canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                                              scale_type=ScaleType.ScaleToWidth,
+                                                              scale_value=self._cell_size)
                 elif cell == ECell.MediumBombSite:
                     self.medium_bomb_ref = canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                                               scale_type=ScaleType.ScaleToWidth,
+                                                               scale_value=self._cell_size)
                 elif cell == ECell.LargeBombSite:
                     self.large_bomb_ref = canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                                              scale_type=ScaleType.ScaleToWidth,
+                                                              scale_value=self._cell_size)
                 elif cell == ECell.VastBombSite:
                     self.vast_bomb_ref = canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self._cell_size)
+                                                             scale_type=ScaleType.ScaleToWidth,
+                                                             scale_value=self._cell_size)
 
         # Draw Agents
         for side in self._sides:
@@ -273,6 +278,38 @@ class GuiHandler:
 
     def _update_statusbar(self, statusbar):
         pass
+
+    def _initialize_statusbar(self):
+        sides_status = [[[], [], []],
+                        [[], [], []],
+                        [[], [], []]]
+
+        general_status = [[], [], [], []]
+
+        self.statusbar.append(sides_status)
+        self.statusbar.append(general_status)
+
+        # side status
+        for i_side_status in range(0, 3):
+            for j_side_status in range(0, 3):
+                self.statusbar[0][i_side_status][j_side_status] = {
+                    "row": j_side_status,
+                    "col": i_side_status,
+                    "x": self._canvas.width - (3 - i_side_status) * (self._world.statusbar_width // 3),
+                    "y": (j_side_status * 200) + 10,  # 10 is y0
+                    "ref": None
+                }
+
+        for i_general_status in range(0,4):
+            self.statusbar[1][i_general_status] = {
+                "row": 0,
+                "col": i_general_status,
+                "x": self._canvas.width - (4 - i_general_status) * (self._world.statusbar_width // 2)
+                "y": 600 + 10
+            }
+
+        
+
 
 class GuiUtils:
 
