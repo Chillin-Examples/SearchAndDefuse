@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 # project imports
+from ..helpers.timers import bomb_timer
 from ..ks.models import ECell
-from ..helpers import bomb_timer
 
 
 class LogicHandler:
@@ -28,7 +28,7 @@ class LogicHandler:
 
     def process(self, current_cycle):
         gui_events = []
-        gui_events += bomb_timer.update_plant_timings(self.world)
+        gui_events += bomb_timer.update_bombs_timings(self.world)
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
@@ -44,6 +44,7 @@ class LogicHandler:
         if current_cycle > self.world.constants.max_cycles:
             end_game = True
 
+        # TODO this condition should be changed.
         # all bombs exploded
         if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
                             ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
@@ -58,6 +59,10 @@ class LogicHandler:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
                 winner_sidename = 'Police'
+            elif ECell.SmallBombSite not in self.world.board or ECell.MediumBombSite not in self.world.board or \
+                    ECell.LargeBombSite not in self.world.board or ECell.VastBombSite not in self.world.board:
+                winner_sidename = 'Terrorist'
+
             else:
                 winner_sidename = None
 

@@ -9,6 +9,28 @@ def move(self, world, command):
     self.position = self.position + directions[command.direction.name]
 
 
+def can_move(self, side_name, world, command):
+    new_position = self.position + directions[command.direction.name]
+
+    # Check new cell is empty
+    if world.board[new_position.y][new_position.x] == ECell.Empty:
+
+        # check no bombs are being exploded.
+        for bomb in world.bombs:
+            if bomb.position == new_position and bomb.explosion_remaining_time > 0:
+                return False
+
+        # Check No Teammate Is There
+        teammates = world.polices if side_name == 'Police' else world.terrorists
+        for teammate in teammates:
+            if teammate.position == new_position and teammate != self:
+                return False
+
+        return True
+
+    return False
+
+
 directions = {
     ECommandDirection.Up.name: Position(x=0, y=-1),
     ECommandDirection.Right.name: Position(x=1, y=0),

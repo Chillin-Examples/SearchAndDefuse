@@ -13,71 +13,44 @@ def apply_command(self, side_name, command):
 
     # Read Commands
     if command.name() == Move.name():
+        move_events = []
         agent = agents[side_name][command.id]
-        if side_name == "Terrorist" and agent.planting_remaining_time != -1:
-            agent.cancel_plant(self)
-
-        if not self._can_move_agent(side_name, agent, command):
+        if not agent.can_move(side_name, self, command):
             return []
+        move_events += agent.move(self, command)
 
         agent.move(self, command)
         sound_intensity.update_sound_intensities(self)
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
-    elif command.name() == PlantBomb.name():
+    if command.name() == PlantBomb.name():
+        plant_events = []
+
         # Only terrorists can plan
         if side_name == "Police":
             return []
 
         terrorist = agents["Terrorist"][command.id]
-        if not self._can_plant_bomb(terrorist, command):
+        if not terrorist.can_plant_bomb(self, command):
             return []
-        terrorist.plant_bomb(self, command)
+        plant_events += terrorist.plant_bomb(self, command)
 
-        # TODO event should be matched with bomb when plantation is done
-        event_type = GuiEventType.PlantingBomb
-        return [GuiEvent(event_type, bomb_position=terrorist.position.add(directions[command.direction.name]))]
+        return plant_events
 
+    if command.name() == DefuseBomb.name():
+        defuse_events = []
 
-def _can_move_agent(self, side_name, agent, command):
-    new_position = agent.position.add(directions[command.direction.name])
+        # Only terrorists can plan
+        if side_name == "Terrorist":
+            return []
 
-    # Check new cell is empty
-    if self.board[new_position.y][new_position.x] == ECell.Empty:
-        # Check No Teammate Is There
-        teammates = self.polices if side_name == 'Police' else self.terrorists
+        police = agents["Police"][command.id]
+        if not police.can_defuse_bomb(self, command):
+            return []
+        defuse_events += police.defuse_bomb(self, command)
 
-        for teammate in teammates:
-            if teammate.position == new_position:
-                return False
-
-        return True
-
-    return False
-
-
-def _can_plant_bomb(self, terrorist, command):
-    new_bomb_position = terrorist.position.add(directions[command.direction.name])
-
-    # If it's not a bombsite return false
-    if self.board[new_bomb_position.y][new_bomb_position.x] not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                                                                    ECell.LargeBombSite, ECell.VastBombSite]:
-        return False
-
-    # If it already has a bomb with different planter
-    for planted_bomb in self.bombs:
-        if planted_bomb.position == new_bomb_position and planted_bomb.planter_id != terrorist.id:
-            return False
-
-        # if bomb is exploding
-        if planted_bomb.explosion_remaining_time != -1:
-            return False
-
-    # Otherwise return True!
-    return True
+        return defuse_events
 
 
 World.apply_command = apply_command
-World._can_move_agent = _can_move_agent
-World._can_plant_bomb = _can_plant_bomb
