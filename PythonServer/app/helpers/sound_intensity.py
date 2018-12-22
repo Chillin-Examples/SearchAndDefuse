@@ -4,7 +4,7 @@
 import math
 
 # project imports
-from ..ks import models
+from ..ks.models import *
 
 
 def update_sound_intensities(world):
@@ -19,13 +19,22 @@ def _update_agent_sound_intensity(agent, opponent_agents):
     for opponent_agent in opponent_agents:
         distance = _calculate_distance(agent.position, opponent_agent.position)
         intensity = _calculate_intensity(distance)
-        sounds.append(intensity)
+        sounds.append(_convert_to_enum(intensity))
     return sounds
 
 
 def _calculate_intensity(distance):
-    return int(distance/12)
+    return int(distance)
 
 
 def _calculate_distance(point_a, point_b):
     return math.sqrt(math.pow(point_a.x - point_b.y, 2) + math.pow(point_a.y - point_b.y, 2))
+
+
+def _convert_to_enum(intensity):
+    if 15 > intensity:
+        return ESoundIntensity.Weak
+    elif 15 <= intensity <= 20:
+        return ESoundIntensity.Normal
+    elif 20 < intensity:
+        return ESoundIntensity.Strong
