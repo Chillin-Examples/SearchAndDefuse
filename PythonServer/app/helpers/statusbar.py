@@ -19,6 +19,9 @@ class StatusBar:
         # cycles remaining
         self.remaining_cycles = world.constants.max_cycles - current_cycle
 
+        # overall bomb number
+        self.update_planted_number()
+
     def update_exploded_number(self):
         self.num_bombs_exploded += 1
 
