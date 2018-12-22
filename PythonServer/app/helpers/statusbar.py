@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class StatusBar:
 
     def __init__(self):

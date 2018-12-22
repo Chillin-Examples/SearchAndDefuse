@@ -2,6 +2,7 @@
 
 # project imports
 from ..helpers.timers import bomb_timer
+from ..helpers.statusbar import StatusBar
 from ..ks.models import ECell
 
 
@@ -11,6 +12,7 @@ class LogicHandler:
         self.world = world
         self._sides = sides
         self._last_cycle_commands = {side: {} for side in self._sides}
+        self.statusbar = StatusBar()
 
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
@@ -27,8 +29,9 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
+        self.statusbar.update_statusbar(self.world, current_cycle)
         gui_events = []
-        gui_events += bomb_timer.update_bombs_timings(self.world)
+        gui_events += bomb_timer.update_bombs_timings(self.world, self.statusbar)
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
