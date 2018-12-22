@@ -14,20 +14,20 @@ def compute_visions_dls(position, limit, world):
 
     while position_stack:
         current_position = position_stack.pop()
-        if current_position not in visited:
-            if current_position == sentinel:
+        # if current_position not in visited:
+        if current_position == sentinel:
 
-                # finished this level; go back up one level
-                limit += 1
+            # finished this level; go back up one level
+            limit += 1
 
-            elif limit != 0:
-                visited.append(current_position)
+        elif limit != 0:
+            # visited.append(current_position)
 
-                # go one level deeper, push sentinel
-                limit -= 1
-                path.append(current_position)
-                position_stack.append(sentinel)
-                position_stack.extend(_get_valid_neighbours(current_position.get_neighbours(), world))
+            # go one level deeper, push sentinel
+            limit -= 1
+            path.append(current_position)
+            position_stack.append(sentinel)
+            position_stack.extend(_get_valid_neighbours(current_position.get_neighbours(), world))
     return path
 
 
