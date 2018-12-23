@@ -47,7 +47,7 @@ class LogicHandler:
         client_world = deepcopy(self.world)
 
         if side_name == 'Police':
-            client_world.terrorist = []
+            client_world.terrorists = []
             return client_world
 
         if side_name == 'Terrorist':
