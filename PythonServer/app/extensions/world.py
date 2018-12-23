@@ -34,8 +34,8 @@ def apply_command(self, side_name, command):
                 self.visions[side_name] = vision.compute_polices_visions(self)
             if side_name == 'Terrorist':
                 self.visions[side_name] = vision.compute_terrorists_visions(self)
-
-        return move_events.extend(terrorist_death_events)
+        move_events += terrorist_death_events
+        return move_events
 
     if command.name() == PlantBomb.name():
         plant_events = []
