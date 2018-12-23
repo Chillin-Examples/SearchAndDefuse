@@ -45,15 +45,12 @@ class LogicHandler:
 
     def get_client_world(self, side_name):
         client_world = deepcopy(self.world)
+
         if side_name == 'Police':
-            client_world.terrorists = []
-            for vision_position in self.world.visions[side_name]:
-                for terrorist in self.world.terrorists:
-                    if terrorist.position == vision_position:
-                        client_world.terrorists.append(terrorist)
+            client_world.terrorist = []
             return client_world
 
-        elif side_name == 'Terrorist':
+        if side_name == 'Terrorist':
             client_world.polices = []
             for vision_position in self.world.visions[side_name]:
                 for police in self.world.polices:

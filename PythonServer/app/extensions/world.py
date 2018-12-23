@@ -2,7 +2,7 @@
 
 # project imports
 from ..ks.commands import *
-from ..ks.models import World
+from ..ks.models import World, Status
 from ..helpers import vision
 
 
@@ -16,6 +16,13 @@ def apply_command(self, side_name, command):
         if not agent.can_move(side_name, self, command):
             return []
         move_events += agent.move(self, command)
+
+        # check death terrorist
+        if side_name == 'Police':
+            for police_vision in self.visions['Police']:
+                for terrorist in self.terrorists:
+                    if terrorist.position == police_vision:
+                        terrorist.status = Status.Dead
 
         # update world visions
         if side_name == 'Police':
