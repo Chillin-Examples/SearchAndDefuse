@@ -30,6 +30,14 @@ _def = enum <byte>
     }
 
 
+[Status]
+_def = enum <byte>
+    {
+        Alive,
+        Dead
+    }
+
+
 [Constants]
 _def = class
 bomb_planting_time = int
@@ -69,7 +77,7 @@ id = int
 position = Position
 planting_remaining_time = int
 footstep_sounds = list<int>
-is_dead = boolean
+status = Status
 
 
 [Police]
@@ -79,7 +87,7 @@ position = Position
 defusion_remaining_time = int
 footstep_sounds = list<int>
 bomb_sounds = list<int>
-is_visible = boolean
+status = Status
 
 
 [World]

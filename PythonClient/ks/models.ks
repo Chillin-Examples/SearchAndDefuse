@@ -30,6 +30,14 @@ _def = enum <byte>
     }
 
 
+[Status]
+_def = enum <byte>
+    {
+        Alive,
+        Dead
+    }
+
+
 [Constants]
 _def = class
 bomb_planting_time = int
