@@ -2,6 +2,7 @@
 
 # project imports
 from ..ks.commands import *
+from ..gui_events import GuiEventType, GuiEvent
 from ..ks.models import World, Status
 from ..helpers import vision
 
@@ -12,25 +13,29 @@ def apply_command(self, side_name, command):
     # Read Commands
     if command.name() == Move.name():
         move_events = []
+        terrorist_death_events = []
         agent = agents[side_name][command.id]
-        if not agent.can_move(side_name, self, command):
-            return []
-        move_events += agent.move(self, command)
+        if agent.status == Status.Alive:
+            if not agent.can_move(side_name, self, command):
+                return []
+            move_events += agent.move(self, command)
 
-        # check death terrorist
-        if side_name == 'Police':
-            for police_vision in self.visions['Police']:
-                for terrorist in self.terrorists:
-                    if terrorist.position == police_vision:
-                        terrorist.status = Status.Dead
+            # check death terrorist
+            if side_name == 'Police':
+                for police_vision in self.visions['Police']:
+                    for terrorist in self.terrorists:
+                        if terrorist.position == police_vision:
+                            terrorist.status = Status.Dead
+                            terrorist_death_events.append(GuiEvent(GuiEventType.TerroristDeath,
+                                                                   terrorist_id=terrorist.id))
 
-        # update world visions
-        if side_name == 'Police':
-            self.visions[side_name] = vision.compute_polices_visions(self)
-        if side_name == 'Terrorist':
-            self.visions[side_name] = vision.compute_terrorists_visions(self)
+            # update world visions
+            if side_name == 'Police':
+                self.visions[side_name] = vision.compute_polices_visions(self)
+            if side_name == 'Terrorist':
+                self.visions[side_name] = vision.compute_terrorists_visions(self)
 
-        return move_events
+        return move_events.extend(terrorist_death_events)
 
     if command.name() == PlantBomb.name():
         plant_events = []
