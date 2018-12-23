@@ -43,11 +43,11 @@ def apply_command(self, side_name, command):
         # Only terrorists can plan
         if side_name == "Police":
             return []
-
         terrorist = agents["Terrorist"][command.id]
-        if not terrorist.can_plant_bomb(self, command):
-            return []
-        plant_events += terrorist.plant_bomb(self, command)
+        if terrorist.status == Status.Alive:
+            if not terrorist.can_plant_bomb(self, command):
+                return []
+            plant_events += terrorist.plant_bomb(self, command)
 
         return plant_events
 
@@ -59,9 +59,10 @@ def apply_command(self, side_name, command):
             return []
 
         police = agents["Police"][command.id]
-        if not police.can_defuse_bomb(self, command):
-            return []
-        defuse_events += police.defuse_bomb(self, command)
+        if police.status == Status.Alive:
+            if not police.can_defuse_bomb(self, command):
+                return []
+            defuse_events += police.defuse_bomb(self, command)
 
         return defuse_events
 
