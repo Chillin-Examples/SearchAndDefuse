@@ -16,8 +16,9 @@ def compute_agent_vision(strategy, position, limit, world):
 def compute_polices_visions(world):
     vision_positions = []
     for police in world.polices:
-        vision_positions += compute_agent_vision('square', police.position,
-                                                 world.constants.police_vision_distance, world)
+        if police.status == Status.Alive:
+            vision_positions += compute_agent_vision('square', police.position,
+                                                     world.constants.police_vision_distance, world)
     return _join_visions(vision_positions)
 
 
@@ -25,8 +26,9 @@ def compute_polices_visions(world):
 def compute_terrorists_visions(world):
     vision_positions = []
     for terrorist in world.terrorists:
-        vision_positions += compute_agent_vision('square', terrorist.position,
-                                                 world.constants.terrorist_vision_distance, world)
+        if terrorist.status == Status.Alive:
+            vision_positions += compute_agent_vision('square', terrorist.position,
+                                                     world.constants.terrorist_vision_distance, world)
     return _join_visions(vision_positions)
 
 
