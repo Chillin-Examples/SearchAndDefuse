@@ -59,30 +59,30 @@ class LogicHandler:
             return client_world
 
     def check_end_game(self, current_cycle):
-        end_game = False
+        end_game = {'bombs_exploded': False, 'polices_dead': False, 'terrorists_dead': False, 'max_cycle': False}
 
         # times up
         if current_cycle > self.world.constants.max_cycles:
-            end_game = True
+            end_game['max_cycle'] = True
 
         # all bombs exploded
         elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
                               ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
-            end_game = True
+            end_game['bombs_exploded'] = True
 
         # all terrorists are dead
         elif all(terrorist.status == Status.Dead for terrorist in self.world.terrorists):
-            end_game = True
+            end_game['terrorists_dead'] = True
 
         # all terrorists are dead
         elif all(police.status == Status.Dead for police in self.world.polices):
-            end_game = True
+            end_game['polices_dead'] = True
 
         winner_sidename = ''
         details = {}
 
         # TODO Game Statuses Should Be Cached In Details too.
-        if end_game:
+        if end_game['max_cycle']:
             if self.world.scores['Terrorist'] > self.world.scores['Police']:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
