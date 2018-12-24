@@ -33,9 +33,9 @@ class GuiHandler:
         config = self._config
 
         # Draw background
-        background_ref = canvas.create_image('Background', 0, 0)
-        canvas.edit_image(background_ref, scale_type=ScaleType.ScaleToWidth,
-                          scale_value=canvas.width)
+        # background_ref = canvas.create_image('Background', 0, 0)
+        # canvas.edit_image(background_ref, scale_type=ScaleType.ScaleToWidth,
+        #                   scale_value=canvas.width)
 
         self.angle = {
             ECommandDirection.Up.name: -90,
