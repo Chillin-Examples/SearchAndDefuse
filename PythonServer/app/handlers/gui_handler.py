@@ -50,7 +50,8 @@ class GuiHandler:
     def update(self, gui_events):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
-
+        agents_dead = {"dead_terrorists": [], "dead_polices": []}
+        
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
                 moving_polices.append(event.payload)
@@ -69,6 +70,11 @@ class GuiHandler:
                 bombs_events['exploded'].append(event.payload)
             if event.type == GuiEventType.CancelBombOp:
                 bombs_op_canceled.append(event.payload)
+
+            if event.type == GuiEventType.TerroristDeath:
+                agents_dead["dead_terrorists"].append(event.payload)
+            if event.type == GuiEventType.PoliceDeath:
+                agents_dead["dead_polices"].append(event.payload)
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             self._update_board_on_move(moving_terrorists, moving_polices)
@@ -91,6 +97,10 @@ class GuiHandler:
         if len(bombs_op_canceled) != 0:
             self._update_board_on_bomb_cancel(bombs_op_canceled)
 
+        if (len(agents_dead["dead_terrorists"]) != 0) or (len(agents_dead["dead_polices"]) != 0):
+            self._update_on_death(agents_dead)
+            
+        
         self._update_fogs()
 
     def _update_board_on_move(self, terrorists_move, polices_move):
@@ -319,7 +329,13 @@ class GuiHandler:
                                     scale_type=ScaleType.ScaleToWidth,
                                     scale_value=self._cell_size)
 
-
+    def _update_on_death(self, dead_agents):
+        for dead_agent in dead_agents:
+            self._canvas.edit_image(self._img_refs[dead_agent][dead_agents[dead_agent]],
+                                    6000, 6000,
+                                    center_origin=True)
+    
+        
 class GuiUtils:
 
     def __init__(self, cell_size):
