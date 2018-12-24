@@ -300,11 +300,11 @@ class GuiHandler:
                 #             is_visible = True
                 #             break
                 # if not is_visible:
-                if cell != ECell.Wall:
-                    new_fog_ref = canvas.create_image('Fog', canvas_pos['x'], canvas_pos['y'],
-                                                      scale_type=ScaleType.ScaleToWidth,
-                                                      scale_value=self._cell_size)
-                    self._fog_refs.append(new_fog_ref)
+                # if cell != ECell.Wall:
+                new_fog_ref = canvas.create_image('Fog', canvas_pos['x'], canvas_pos['y'],
+                                                  scale_type=ScaleType.ScaleToWidth,
+                                                  scale_value=self._cell_size)
+                self._fog_refs.append(new_fog_ref)
 
     def _update_fogs(self):
         i = 0
