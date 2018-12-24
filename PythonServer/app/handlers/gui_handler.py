@@ -46,6 +46,7 @@ class GuiHandler:
 
         self._initialize_board(canvas)
         self._initialize_fogs(canvas)
+        self._update_fogs()
 
     def update(self, gui_events):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
@@ -292,18 +293,18 @@ class GuiHandler:
             for x in range(self._world.width):
                 cell = self._world.board[y][x]
                 canvas_pos = self._utils.get_canvas_position(Position(x=x, y=y), center_origin=False)
-                is_visible = False
-                for side in self._sides:
-                    for visible_cell_pos in self._world.visions[side]:
-                        if visible_cell_pos.x == x and visible_cell_pos.y == y:
-                            is_visible = True
-                            break
-                if not is_visible:
-                    if cell != ECell.Wall:
-                        new_fog_ref = canvas.create_image('Fog', canvas_pos['x'], canvas_pos['y'],
-                                                          scale_type=ScaleType.ScaleToWidth,
-                                                          scale_value=self._cell_size)
-                        self._fog_refs.append(new_fog_ref)
+                # is_visible = False
+                # for side in self._sides:
+                #     for visible_cell_pos in self._world.visions[side]:
+                #         if visible_cell_pos.x == x and visible_cell_pos.y == y:
+                #             is_visible = True
+                #             break
+                # if not is_visible:
+                if cell != ECell.Wall:
+                    new_fog_ref = canvas.create_image('Fog', canvas_pos['x'], canvas_pos['y'],
+                                                      scale_type=ScaleType.ScaleToWidth,
+                                                      scale_value=self._cell_size)
+                    self._fog_refs.append(new_fog_ref)
 
     def _update_fogs(self):
         i = 0
