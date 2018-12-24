@@ -27,7 +27,7 @@ def apply_command(self, side_name, command):
                         if terrorist.position == police_vision:
                             terrorist.status = Status.Dead
                             terrorist_death_events.append(GuiEvent(GuiEventType.TerroristDeath,
-                                                                   terrorist_id=terrorist.id))
+                                                                   terrorist_id=terrorist.id, side_name='Terrorist'))
 
             # update world visions
             if side_name == 'Police':
