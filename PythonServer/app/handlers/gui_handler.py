@@ -26,6 +26,8 @@ class GuiHandler:
         self._font_size = int(self._cell_size / 2)
         self._utils = GuiUtils(self._cell_size)
         self._img_refs = {side: {} for side in self._sides}
+        self._dead_img_refs = {side: {} for side in self._sides}
+
         self._fog_refs = []
 
     def initialize(self):
@@ -287,6 +289,11 @@ class GuiHandler:
                                                     scale_value=self._cell_size)
                 self._img_refs[side][agent.id] = agent.img_ref
 
+                self._dead_img_refs[side][agent.id] = self._canvas.create_image('DeadTerrorist', 7000, 7000,
+                                                                                scale_type=ScaleType.ScaleToWidth,
+                                                                                scale_value=self._cell_size,
+                                                                                center_origin=True)
+
     def _initialize_fogs(self, canvas):
         for y in range(self._world.height):
             for x in range(self._world.width):
@@ -336,9 +343,10 @@ class GuiHandler:
             self._canvas.edit_image(self._img_refs["Terrorist"][agent['terrorist_id']],
                                     6000, 6000,
                                     center_origin=True)
-            self._canvas.create_image('DeadTerrorist', canvas_pos['x'], canvas_pos['y'],
-                                      scale_type=ScaleType.ScaleToWidth,
-                                      scale_value=self._cell_size)
+            self._canvas.edit_image(self._dead_img_refs["Terrorist"][agent['terrorist_id']],
+                                    canvas_pos['x'], canvas_pos['y'],
+                                    center_origin=True)
+
     # pass
 
 
