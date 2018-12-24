@@ -59,46 +59,38 @@ class LogicHandler:
             return client_world
 
     def check_end_game(self, current_cycle):
-        end_game = {'bombs_exploded': False, 'polices_dead': False, 'terrorists_dead': False, 'max_cycle': False}
+        end_game = False
+        winner_sidename = None
+        details = {}
 
         # times up
         if current_cycle > self.world.constants.max_cycles:
-            end_game['max_cycle'] = True
-
-        # all bombs exploded
-        elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                              ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
-            end_game['bombs_exploded'] = True
-
-        # all terrorists are dead
-        elif all(terrorist.status == Status.Dead for terrorist in self.world.terrorists):
-            end_game['terrorists_dead'] = True
-
-        # all terrorists are dead
-        elif all(police.status == Status.Dead for police in self.world.polices):
-            end_game['polices_dead'] = True
-
-        winner_sidename = ''
-        details = {}
-
-        # TODO Game Statuses Should Be Cached In Details too.
-        if end_game['max_cycle']:
             if self.world.scores['Terrorist'] > self.world.scores['Police']:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
                 winner_sidename = 'Police'
-            elif ECell.SmallBombSite not in self.world.board or ECell.MediumBombSite not in self.world.board or \
-                    ECell.LargeBombSite not in self.world.board or ECell.VastBombSite not in self.world.board:
-                winner_sidename = 'Terrorist'
 
-            else:
-                winner_sidename = None
+        # all bombs exploded
+        elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
+                              ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
+            end_game = True
+            winner_sidename = 'Terrorist'
 
-            details = {
-                'Scores': {
-                    'Police': str(self.world.scores['Police']),
-                    'Terrorist': str(self.world.scores['Terrorist'])
-                }
+        # all terrorists are dead
+        elif all(terrorist.status == Status.Dead for terrorist in self.world.terrorists):
+            end_game = True
+            winner_sidename = 'Police'
+
+        # all polices are dead
+        elif all(police.status == Status.Dead for police in self.world.polices):
+            end_game = True
+            winner_sidename = 'Terrorist'
+
+        details = {
+            'Scores': {
+                'Police': str(self.world.scores['Police']),
+                'Terrorist': str(self.world.scores['Terrorist'])
             }
+        }
 
         return end_game, winner_sidename, details
