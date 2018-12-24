@@ -6,7 +6,7 @@ from copy import deepcopy
 # project imports
 from ..helpers.timers import bomb_timer
 from ..helpers import vision
-from ..ks.models import ECell
+from ..ks.models import ECell, Status
 
 
 class LogicHandler:
@@ -61,20 +61,27 @@ class LogicHandler:
     def check_end_game(self, current_cycle):
         end_game = False
 
-        # times up!
+        # times up
         if current_cycle > self.world.constants.max_cycles:
             end_game = True
 
-        # TODO this condition should be changed.
         # all bombs exploded
-        if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                            ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
+        elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
+                                        ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
+            end_game = True
+
+        # all terrorists are dead
+        elif all(terrorist.status == Status.Dead for terrorist in self.world.terrorists):
+            end_game = True
+
+        # all terrorists are dead
+        elif all(police.status == Status.Dead for police in self.world.polices):
             end_game = True
 
         winner_sidename = ''
         details = {}
 
-        # Game Statuses Should Be Cached In Details too.
+        # TODO Game Statuses Should Be Cached In Details too.
         if end_game:
             if self.world.scores['Terrorist'] > self.world.scores['Police']:
                 winner_sidename = 'Terrorist'
