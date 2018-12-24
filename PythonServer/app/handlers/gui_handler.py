@@ -330,11 +330,16 @@ class GuiHandler:
 
     def _update_on_death(self, dead_agents):
         # for side in dead_agents:
-            for agent in dead_agents["Terrorist"]:
-                self._canvas.edit_image(self._img_refs["Terrorist"][agent['terrorist_id']],
-                                        6000, 6000,
-                                        center_origin=True)
-        # pass
+        for agent in dead_agents["Terrorist"]:
+            canvas_pos = self._utils.get_canvas_position(agent['position'])
+
+            self._canvas.edit_image(self._img_refs["Terrorist"][agent['terrorist_id']],
+                                    6000, 6000,
+                                    center_origin=True)
+            self._canvas.create_image('DeadTerrorist', canvas_pos['x'], canvas_pos['y'],
+                                      scale_type=ScaleType.ScaleToWidth,
+                                      scale_value=self._cell_size)
+    # pass
 
 
 class GuiUtils:
