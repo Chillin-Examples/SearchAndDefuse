@@ -330,11 +330,12 @@ class GuiHandler:
                                     scale_value=self._cell_size)
 
     def _update_on_death(self, dead_agents):
-        for dead_agent in dead_agents:
-            self._canvas.edit_image(self._img_refs[dead_agent][dead_agents[dead_agent]],
-                                    6000, 6000,
-                                    center_origin=True)
-    
+        for side in dead_agents:
+            for agent in dead_agents[side]:
+                self._canvas.edit_image(self._img_refs[side][agent],
+                                        6000, 6000,
+                                        center_origin=True)
+
         
 class GuiUtils:
 
