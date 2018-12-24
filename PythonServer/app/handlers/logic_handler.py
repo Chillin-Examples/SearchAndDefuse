@@ -67,7 +67,7 @@ class LogicHandler:
 
         # all bombs exploded
         elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                                        ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
+                              ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
             end_game = True
 
         # all terrorists are dead

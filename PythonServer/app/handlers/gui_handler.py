@@ -50,8 +50,8 @@ class GuiHandler:
     def update(self, gui_events):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
-        agents_dead = {"dead_terrorists": [], "dead_polices": []}
-        
+        agents_dead = {"Terrorist": [], "Police": []}
+
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
                 moving_polices.append(event.payload)
@@ -72,9 +72,9 @@ class GuiHandler:
                 bombs_op_canceled.append(event.payload)
 
             if event.type == GuiEventType.TerroristDeath:
-                agents_dead["dead_terrorists"].append(event.payload)
+                agents_dead["Terrorist"].append(event.payload)
             if event.type == GuiEventType.PoliceDeath:
-                agents_dead["dead_polices"].append(event.payload)
+                agents_dead["Police"].append(event.payload)
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             self._update_board_on_move(moving_terrorists, moving_polices)
@@ -97,10 +97,9 @@ class GuiHandler:
         if len(bombs_op_canceled) != 0:
             self._update_board_on_bomb_cancel(bombs_op_canceled)
 
-        if (len(agents_dead["dead_terrorists"]) != 0) or (len(agents_dead["dead_polices"]) != 0):
+        if (len(agents_dead["Terrorist"]) != 0) or (len(agents_dead["Police"]) != 0):
             self._update_on_death(agents_dead)
-            
-        
+
         self._update_fogs()
 
     def _update_board_on_move(self, terrorists_move, polices_move):
@@ -302,8 +301,8 @@ class GuiHandler:
                 if not is_visible:
                     if cell != ECell.Wall:
                         new_fog_ref = canvas.create_image('Fog', canvas_pos['x'], canvas_pos['y'],
-                                                      scale_type=ScaleType.ScaleToWidth,
-                                                      scale_value=self._cell_size)
+                                                          scale_type=ScaleType.ScaleToWidth,
+                                                          scale_value=self._cell_size)
                         self._fog_refs.append(new_fog_ref)
 
     def _update_fogs(self):
@@ -321,8 +320,8 @@ class GuiHandler:
                 if not is_visible:
                     if cell != ECell.Wall:
                         self._canvas.edit_image(self._fog_refs[i], canvas_pos['x'], canvas_pos['y'],
-                                                      scale_type=ScaleType.ScaleToWidth,
-                                                      scale_value=self._cell_size)
+                                                scale_type=ScaleType.ScaleToWidth,
+                                                scale_value=self._cell_size)
                         i += 1
         for index in range(i, len(self._fog_refs)):
             self._canvas.edit_image(self._fog_refs[index], 5000, 5000,
@@ -336,7 +335,7 @@ class GuiHandler:
                                         6000, 6000,
                                         center_origin=True)
 
-        
+
 class GuiUtils:
 
     def __init__(self, cell_size):
@@ -359,4 +358,3 @@ class GuiUtils:
             x2 = x1 + math.ceil((self._cell_size - 10) * (curr_val / max_val))
 
         return x1, y1, x2, y2
-
