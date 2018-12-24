@@ -20,7 +20,7 @@ class GuiHandler:
         self._sides = sides
         self._canvas = canvas
         self._config = config
-        self._scale_factor = int(canvas.width / (self._world.width * config['cell_size']))
+        self._scale_factor = int((canvas.width-500) / (self._world.width * config['cell_size']))
         self._scale_percent = math.ceil(self._scale_factor * 100)
         self._cell_size = math.ceil(config['cell_size'] * self._scale_factor)
         self._font_size = int(self._cell_size / 2)
@@ -296,8 +296,8 @@ class GuiHandler:
                 self.statusbar[0][i_side_status][j_side_status] = {
                     "row": j_side_status,
                     "col": i_side_status,
-                    "x": int((self._canvas.width - (3 - i_side_status) * int(self._world.statusbar_width / 3))/6),
-                    "y": int(((j_side_status * 200) + 1500)/1),  # 10 is y0
+                    "x": int((self._canvas.width - ((3 - i_side_status) * int(self._world.statusbar_width / 3)))/10),
+                    "y": int(((j_side_status * 200) + 0)/1.5 + 2000),  # 10 is y0
                     "ref": None
                 }
 
@@ -305,8 +305,8 @@ class GuiHandler:
             self.statusbar[1][i_general_status] = {
                 "row": 0,
                 "col": i_general_status,
-                "x": int((self._canvas.width - (4 - i_general_status) * int(self._world.statusbar_width / 2))/6),
-                "y": int((600 + 10)/1)
+                "x": int((self._canvas.width - (4 - i_general_status) * int(self._world.statusbar_width / 2))/10),
+                "y": int((600 + 0)/2 + 2000)
             }
 
         self.statusbar[0][0][0]['ref'] = self._canvas.create_image('PoliceLogo',
@@ -314,20 +314,20 @@ class GuiHandler:
                                                                    self.statusbar[0][0][0]['x'],
                                                                    center_origin=True,
                                                                    scale_type=ScaleType.ScaleToWidth,
-                                                                   scale_value=self._cell_size*2)
+                                                                   scale_value=self._cell_size)
 
         self.statusbar[0][0][1]['ref'] = self._canvas.create_text('vs.',
                                                                   self.statusbar[0][0][1]['y'],
                                                                   self.statusbar[0][0][1]['x'],
                                                                   self._canvas.make_rgba(0, 0, 0, 255),
-                                                                  self._font_size * 2,
+                                                                  self._font_size*2,
                                                                   center_origin=True)
         self.statusbar[0][0][2]['ref'] = self._canvas.create_image('TerroristLogo',
                                                                    self.statusbar[0][0][2]['y'],
                                                                    self.statusbar[0][0][2]['x'],
                                                                    center_origin=True,
                                                                    scale_type=ScaleType.ScaleToWidth,
-                                                                   scale_value=self._cell_size*2)
+                                                                   scale_value=self._cell_size)
 
 
 class GuiUtils:
