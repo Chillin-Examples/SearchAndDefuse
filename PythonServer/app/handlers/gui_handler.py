@@ -106,7 +106,6 @@ class GuiHandler:
     def _update_board_on_move(self, terrorists_move, polices_move):
         for side in self._sides:
             moves = polices_move if side == 'Police' else terrorists_move
-
             for move in moves:
                 canvas_pos = self._utils.get_canvas_position(move['agent_position'])
                 # terrorist.angle = self.angle[EDirection.Left.name]
@@ -330,11 +329,12 @@ class GuiHandler:
                                     scale_value=self._cell_size)
 
     def _update_on_death(self, dead_agents):
-        for side in dead_agents:
-            for agent in dead_agents[side]:
-                self._canvas.edit_image(self._img_refs[side][agent['terrorist_id']],
+        # for side in dead_agents:
+            for agent in dead_agents["Terrorist"]:
+                self._canvas.edit_image(self._img_refs["Terrorist"][agent['terrorist_id']],
                                         6000, 6000,
                                         center_origin=True)
+        # pass
 
 
 class GuiUtils:
