@@ -58,12 +58,10 @@ class GuiHandler:
                 moving_terrorists.append(event.payload)
             if event.type == GuiEventType.DefusingBomb:
                 bombs_defusing.append(event.payload)
-                print(len(bombs_defusing))
             if event.type == GuiEventType.DefusedBomb:
                 bombs_defused.append(event.payload)
             if event.type == GuiEventType.PlantingBomb:
                 bombs_events['planting'].append(event.payload)
-                print("APPENDED")
             if event.type == GuiEventType.PlantedBomb:
                 bombs_events['planted'].append(event.payload)
             if event.type == GuiEventType.ExplodeBomb:
