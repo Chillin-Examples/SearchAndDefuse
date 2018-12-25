@@ -20,7 +20,7 @@ class GuiHandler:
         self._sides = sides
         self._canvas = canvas
         self._config = config
-        self._scale_factor = int((canvas.width-500) / (self._world.width * config['cell_size']))
+        self._scale_factor = int((canvas.width-1000) / (self._world.width * config['cell_size']))
         self._scale_percent = math.ceil(self._scale_factor * 100)
         self._cell_size = math.ceil(config['cell_size'] * self._scale_factor)
         self._font_size = int(self._cell_size / 2)
@@ -296,18 +296,21 @@ class GuiHandler:
                 self.statusbar[0][i_side_status][j_side_status] = {
                     "row": j_side_status,
                     "col": i_side_status,
-                    "x": int((self._canvas.width - ((3 - i_side_status) * int(self._world.statusbar_width / 3)))/10),
-                    "y": int(((j_side_status * 200) + 0)/1.5 + 2000),  # 10 is y0
+                    "x": int((self._canvas.width - ((3 - i_side_status) * int(self._world.statusbar_width / 3)))/3-600),
+                    "y": int(((j_side_status * 250) + 0)/1.5 + 2000),  # 10 is y0
                     "ref": None
                 }
 
-        for i_general_status in range(0, 4):
+
+        for i_general_status in range(0, 2):
             self.statusbar[1][i_general_status] = {
                 "row": 0,
                 "col": i_general_status,
-                "x": int((self._canvas.width - (4 - i_general_status) * int(self._world.statusbar_width / 2))/10),
-                "y": int((600 + 0)/2 + 2000)
+                "x": int(380),#int((self._canvas.width - (2 - i_general_status) * int(self._world.statusbar_width / 2))/3-60),
+                "y": int(i_general_status*270 + 2100)#(600 + 0)/2 + 2000)
             }
+
+
 
         self.statusbar[0][0][0]['ref'] = self._canvas.create_image('PoliceLogo',
                                                                    self.statusbar[0][0][0]['y'],
@@ -329,6 +332,62 @@ class GuiHandler:
                                                                    scale_type=ScaleType.ScaleToWidth,
                                                                    scale_value=self._cell_size)
 
+        self.statusbar[0][1][0]['ref'] = self._canvas.create_text('0',
+                                                                  self.statusbar[0][1][0]['y'],
+                                                                  self.statusbar[0][1][0]['x'],
+                                                                  self._canvas.make_rgba(0, 0, 0, 255),
+                                                                  self._font_size * 2,
+                                                                  center_origin=True)
+
+        self.statusbar[0][1][1]['ref'] = self._canvas.create_text('score',
+                                                                  self.statusbar[0][1][1]['y'],
+                                                                  self.statusbar[0][1][1]['x'],
+                                                                  self._canvas.make_rgba(0, 0, 0, 255),
+                                                                  self._font_size*2,
+                                                                  center_origin=True)
+
+        self.statusbar[0][1][2]['ref'] = self._canvas.create_text('0',
+                                                                  self.statusbar[0][1][2]['y'],
+                                                                  self.statusbar[0][1][2]['x'],
+                                                                  self._canvas.make_rgba(0, 0, 0, 255),
+                                                                  self._font_size * 2,
+                                                                  center_origin=True)
+
+        self.statusbar[0][2][0]['ref'] = self._canvas.create_text('0',
+                                                                  self.statusbar[0][2][0]['y'],
+                                                                  self.statusbar[0][2][0]['x'],
+                                                                  self._canvas.make_rgba(0, 0, 0, 255),
+                                                                  self._font_size*2,
+                                                                  center_origin=True)
+
+        self.statusbar[0][2][1]['ref'] = self._canvas.create_text('bombs',
+                                                                  self.statusbar[0][2][1]['y'],
+                                                                  self.statusbar[0][2][1]['x'],
+                                                                  self._canvas.make_rgba(0, 0, 0, 255),
+                                                                  self._font_size * 2,
+                                                                  center_origin=True)
+
+        self.statusbar[0][2][2]['ref'] = self._canvas.create_text('0',
+                                                                  self.statusbar[0][2][2]['y'],
+                                                                  self.statusbar[0][2][2]['x'],
+                                                                  self._canvas.make_rgba(0, 0, 0, 255),
+                                                                  self._font_size * 2,
+                                                                  center_origin=True)
+
+        self.statusbar[1][0]['ref'] = self._canvas.create_text('rem cycles:',
+                                                               self.statusbar[1][0]['y'],
+                                                               self.statusbar[1][0]['x'],
+                                                               self._canvas.make_rgba(0, 0, 0, 255),
+                                                               self._font_size * 2,
+                                                               center_origin=True)
+
+        # IT SHOULDN'T BE STATIC
+        self.statusbar[1][1]['ref'] = self._canvas.create_text('1000',
+                                                               self.statusbar[1][1]['y'],
+                                                               self.statusbar[1][1]['x'],
+                                                               self._canvas.make_rgba(0, 0, 0, 255),
+                                                               self._font_size * 2,
+                                                               center_origin=True)
 
 class GuiUtils:
 

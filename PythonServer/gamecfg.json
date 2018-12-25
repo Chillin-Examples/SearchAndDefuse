@@ -24,7 +24,7 @@
     "save_replay": true,
     "replay_dir": "replays",
     "replay_filename": null,
-    "width": 2374,
+    "width": 2874,
     "height": 1874,
     "images": {
       "Background": "images/background.png",
