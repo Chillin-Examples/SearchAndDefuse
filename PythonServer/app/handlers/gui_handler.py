@@ -313,7 +313,7 @@ class GuiHandler:
                     "col": i_side_status,
                     "x": int(
                         (self._canvas.width - ((3 - i_side_status) * int(self._world.statusbar_width / 3))) / 3 - 600),
-                    "y": int(((j_side_status * 250) + 0) / 1.5 + 2000),  # 10 is y0
+                    "y": int(((j_side_status * 250) + 0) / 1.5 + 2100),  # 10 is y0
                     "ref": None
                 }
 
@@ -323,7 +323,7 @@ class GuiHandler:
                 "col": i_general_status,
                 "x": int(380),
                 # int((self._canvas.width - (2 - i_general_status) * int(self._world.statusbar_width / 2))/3-60),
-                "y": int(i_general_status * 270 + 2100)  # (600 + 0)/2 + 2000)
+                "y": int(i_general_status * 340 + 2200)  # (600 + 0)/2 + 2000)
             }
 
         self.statusbar[0][0][0]['ref'] = self._canvas.create_image('PoliceLogo',
@@ -388,7 +388,7 @@ class GuiHandler:
                                                                   self._font_size * 2,
                                                                   center_origin=True)
 
-        self.statusbar[1][0]['ref'] = self._canvas.create_text('rem cycles:',
+        self.statusbar[1][0]['ref'] = self._canvas.create_text('remaining cycles:',
                                                                self.statusbar[1][0]['y'],
                                                                self.statusbar[1][0]['x'],
                                                                self._canvas.make_rgba(0, 0, 0, 255),
