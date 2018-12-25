@@ -27,6 +27,8 @@ class GuiHandler:
         self._utils = GuiUtils(self._cell_size)
         self._img_refs = {side: {} for side in self._sides}
         self.statusbar = []
+        self._fog_refs = []
+
 
     def initialize(self):
         canvas = self._canvas
@@ -45,6 +47,8 @@ class GuiHandler:
         }
 
         self._initialize_board(canvas)
+        self._initialize_fogs(canvas)
+
         self._initialize_statusbar()
 
     def update(self, gui_events, statusbar):
@@ -91,6 +95,8 @@ class GuiHandler:
             self._update_board_on_bomb_cancel(bombs_op_canceled)
 
         self._update_statusbar(statusbar)
+        self._update_fogs()
+
 
     def _update_board_on_move(self, terrorists_move, polices_move):
         for side in self._sides:
@@ -396,6 +402,47 @@ class GuiHandler:
                                                                self._canvas.make_rgba(0, 0, 0, 255),
                                                                self._font_size * 2,
                                                                center_origin=True)
+
+    def _initialize_fogs(self, canvas):
+        for y in range(self._world.height):
+            for x in range(self._world.width):
+                cell = self._world.board[y][x]
+                canvas_pos = self._utils.get_canvas_position(Position(x=x, y=y), center_origin=False)
+                is_visible = False
+                for side in self._sides:
+                    for visible_cell_pos in self._world.visions[side]:
+                        if visible_cell_pos.x == x and visible_cell_pos.y == y:
+                            is_visible = True
+                            break
+                if not is_visible:
+                    if cell != ECell.Wall:
+                        new_fog_ref = canvas.create_image('Fog', canvas_pos['x'], canvas_pos['y'],
+                                                          scale_type=ScaleType.ScaleToWidth,
+                                                          scale_value=self._cell_size)
+                        self._fog_refs.append(new_fog_ref)
+
+    def _update_fogs(self):
+        i = 0
+        for y in range(self._world.height):
+            for x in range(self._world.width):
+                cell = self._world.board[y][x]
+                canvas_pos = self._utils.get_canvas_position(Position(x=x, y=y), center_origin=False)
+                is_visible = False
+                for side in self._sides:
+                    for visible_cell_pos in self._world.visions[side]:
+                        if visible_cell_pos.x == x and visible_cell_pos.y == y:
+                            is_visible = True
+                            break
+                if not is_visible:
+                    if cell != ECell.Wall:
+                        self._canvas.edit_image(self._fog_refs[i], canvas_pos['x'], canvas_pos['y'],
+                                                scale_type=ScaleType.ScaleToWidth,
+                                                scale_value=self._cell_size)
+                        i += 1
+        for index in range(i, len(self._fog_refs)):
+            self._canvas.edit_image(self._fog_refs[index], 5000, 5000,
+                                    scale_type=ScaleType.ScaleToWidth,
+                                    scale_value=self._cell_size)
 
 
 class GuiUtils:
