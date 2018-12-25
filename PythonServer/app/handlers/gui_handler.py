@@ -395,8 +395,7 @@ class GuiHandler:
                                                                self._font_size * 2,
                                                                center_origin=True)
 
-        # IT SHOULDN'T BE STATIC
-        self.statusbar[1][1]['ref'] = self._canvas.create_text('100',
+        self.statusbar[1][1]['ref'] = self._canvas.create_text(str(self._world.constants.max_cycles),
                                                                self.statusbar[1][1]['y'],
                                                                self.statusbar[1][1]['x'],
                                                                self._canvas.make_rgba(0, 0, 0, 255),
