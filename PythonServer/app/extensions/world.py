@@ -4,7 +4,7 @@
 from ..ks.commands import *
 from ..gui_events import GuiEventType, GuiEvent
 from ..ks.models import World, Status
-from ..helpers import vision
+from ..helpers import vision, score
 
 
 def apply_command(self, side_name, command):
@@ -24,11 +24,12 @@ def apply_command(self, side_name, command):
             if side_name == 'Police':
                 for police_vision in self.visions['Police']:
                     for terrorist in self.terrorists:
-                        if terrorist.position == police_vision:
+                        if terrorist.position == police_vision and terrorist.status == Status.Alive:
                             terrorist.status = Status.Dead
                             terrorist_death_events.append(GuiEvent(GuiEventType.TerroristDeath,
                                                                    terrorist_id=terrorist.id,
                                                                    position=terrorist.position))
+                            score.increase_score('kill_terrorist', self)
                             self.visions["Terrorist"] = vision.compute_terrorists_visions(self)
 
             # update world visions

@@ -7,10 +7,12 @@ from ..ks.models import ECell
 def increase_score(operation_type, world, bomb_position=None):
     if operation_type == "plant":
         _increase_terrorist_score(world, bomb_position, world.constants.bomb_planting_score)
-    elif operation_type == "explode":
+    if operation_type == "explode":
         _increase_terrorist_score(world, bomb_position, world.constants.bomb_explosion_score)
     if operation_type == "defuse":
         _increase_police_score(world, world.constants.bomb_defusion_score)
+    if operation_type == "kill_terrorist":
+        _increase_police_score(world, world.constants.terrorist_death_score)
 
 
 def _increase_police_score(world, score):
