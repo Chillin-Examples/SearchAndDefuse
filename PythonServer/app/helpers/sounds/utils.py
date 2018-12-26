@@ -16,9 +16,12 @@ def calculate_distance(point_a, point_b):
 
 
 def convert_to_enum(intensity, max_intensities_dict):
-    if max_intensities_dict['max_weak_sound_bomb'] > intensity:
+    max_weak = next(iter(max_intensities_dict))
+    if max_weak > intensity:
         return ESoundIntensity.Weak
-    elif max_intensities_dict['max_weak_sound_bomb'] <= intensity <= max_intensities_dict['max_normal_sound_bomb']:
+    max_normal = next(iter(max_intensities_dict))
+    if max_weak <= intensity <= max_normal:
         return ESoundIntensity.Normal
-    elif max_intensities_dict['max_strong_sound_bomb'] < intensity:
+    max_strong = next(iter(max_intensities_dict))
+    if max_strong < intensity:
         return ESoundIntensity.Strong
