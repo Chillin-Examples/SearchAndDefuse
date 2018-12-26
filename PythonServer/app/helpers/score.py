@@ -1,17 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# python imports
-from enum import Enum
-
 # project imports
 from ..ks.models import ECell
-
-
-class OperationType(Enum):
-    Plant = 0
-    Explode = 1
-    Defuse = 2
-    KillTerrorist = 3
 
 
 def increase_defuse_score(world):
