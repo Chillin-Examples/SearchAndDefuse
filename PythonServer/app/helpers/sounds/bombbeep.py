@@ -4,7 +4,7 @@
 from . import utils
 
 
-def update_bomb_sounds(world):
+def update_police_bomb_sounds(world):
     explosion_time = world.constants.bomb_explosion_time
     _empty_polices_bomb_sound_list(world.polices)
 

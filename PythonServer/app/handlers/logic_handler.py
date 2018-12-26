@@ -3,6 +3,7 @@
 # project imports
 from ..helpers.timers import bomb_timer
 from ..ks.models import ECell
+from ..helpers.sounds import bombbeep
 
 
 class LogicHandler:
@@ -27,6 +28,8 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
+        bombbeep.update_police_bomb_sounds()
+        
         gui_events = []
         gui_events += bomb_timer.update_bombs_timings(self.world)
         for side in self._sides:
