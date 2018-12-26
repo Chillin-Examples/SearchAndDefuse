@@ -2,7 +2,6 @@
 
 # project imports
 from ..ks.commands import *
-from ..gui_events import GuiEventType, GuiEvent
 from ..ks.models import World, AgentStatus
 from ..helpers import vision, score
 
