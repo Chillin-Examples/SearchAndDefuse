@@ -4,7 +4,7 @@
 from ..ks.models import Terrorist, Bomb, ECell
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
-from ..helpers import footsteps
+from ..helpers.sounds import footsteps
 
 
 def move(self, world, command):
