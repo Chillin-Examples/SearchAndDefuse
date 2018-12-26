@@ -64,7 +64,7 @@ def can_plant_bomb(self, world, command):
 
 def die(self, world):
     self.status = AgentStatus.Dead
-    score.increase_police_score(score.OperationType.KillTerrorist, world)
+    score.increase_eliminate_terrorist_score(world)
     world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
     return [GuiEvent(GuiEventType.TerroristDeath,
                      terrorist_id=self.id,

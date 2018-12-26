@@ -38,7 +38,7 @@ def _update_plant_timer_on_cycle(bomb, world):
         world.terrorists[bomb.planter_id].planting_remaining_time = -1
         print('Bomb planted.')
         bomb.explosion_remaining_time = world.constants.bomb_explosion_time
-        score.increase_terrorist_score(score.OperationType.Plant, world, bomb.position)
+        score.increase_plant_score(world, bomb.position)
         return [GuiEvent(GuiEventType.PlantedBomb, bomb_position=bomb.position)]  # show timer on gui later
 
     # when bomb explodes
@@ -46,7 +46,7 @@ def _update_plant_timer_on_cycle(bomb, world):
         explosion_events = []
         print('Bomb exploded.')
         bomb_position = bomb.position
-        score.increase_terrorist_score(score.OperationType.Explode, world, bomb.position)
+        score.increase_explode_bomb_score(world, bomb.position)
         world.bombs.remove(bomb)
         world.board[bomb_position.y][bomb_position.x] = ECell.Empty
         explosion_events.append(GuiEvent(GuiEventType.ExplodeBomb, bomb_position=bomb_position))
@@ -62,6 +62,7 @@ def _update_plant_timer_on_cycle(bomb, world):
                 police.status = AgentStatus.Dead
                 explosion_events.append(GuiEvent(GuiEventType.PoliceDeath,
                                                  terrorist_id=police.id, position=police.position))
+                score.increase_eliminate_police_score(world)
 
         return explosion_events
 
