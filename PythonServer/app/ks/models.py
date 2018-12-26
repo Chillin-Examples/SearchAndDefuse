@@ -141,10 +141,10 @@ class Constants(object):
 			for tmp1 in self.sound_ranges:
 				s += b'\x00' if tmp1 is None else b'\x01'
 				if tmp1 is not None:
-					s += struct.pack('b', tmp1.value)
+					s += struct.pack('i', tmp1)
 				s += b'\x00' if self.sound_ranges[tmp1] is None else b'\x01'
 				if self.sound_ranges[tmp1] is not None:
-					s += struct.pack('i', self.sound_ranges[tmp1])
+					s += struct.pack('b', self.sound_ranges[tmp1].value)
 		
 		# serialize self.max_cycles
 		s += b'\x00' if self.max_cycles is None else b'\x01'
@@ -288,16 +288,16 @@ class Constants(object):
 				tmp22 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
 				if tmp22:
-					tmp23 = struct.unpack('b', s[offset:offset + 1])[0]
-					offset += 1
-					tmp20 = ESoundIntensity(tmp23)
+					tmp20 = struct.unpack('i', s[offset:offset + 4])[0]
+					offset += 4
 				else:
 					tmp20 = None
-				tmp24 = struct.unpack('B', s[offset:offset + 1])[0]
+				tmp23 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp24:
-					tmp21 = struct.unpack('i', s[offset:offset + 4])[0]
-					offset += 4
+				if tmp23:
+					tmp24 = struct.unpack('b', s[offset:offset + 1])[0]
+					offset += 1
+					tmp21 = ESoundIntensity(tmp24)
 				else:
 					tmp21 = None
 				self.sound_ranges[tmp20] = tmp21

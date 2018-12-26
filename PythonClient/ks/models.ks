@@ -45,7 +45,7 @@ score_coefficient_vast_bomb_site = float
 terrorist_vision_distance = int
 terrorist_death_score = int
 police_vision_distance = int
-sound_ranges = map<ESoundIntensity, int>
+sound_ranges = map<int, ESoundIntensity>
 max_cycles = int
 
 
@@ -77,7 +77,7 @@ id = int
 position = Position
 defusion_remaining_time = int
 footstep_sounds = list<ESoundIntensity>
-bomb_sounds = list<int>
+bomb_sounds = list<ESoundIntensity>
 is_visible = boolean
 
 
