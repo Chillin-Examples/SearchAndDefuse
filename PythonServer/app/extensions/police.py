@@ -37,7 +37,7 @@ def cancel_defuse(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id))
     bomb.defuser_id = -1
     self.defusion_remaining_time = -1
-    event_type = GuiEventType.CancelBombOperation
+    event_type = GuiEventType.CancelDefuse
     return [GuiEvent(event_type, bomb_position=bomb.position)]
 
 
