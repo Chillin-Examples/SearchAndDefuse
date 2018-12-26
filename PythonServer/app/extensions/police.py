@@ -4,6 +4,7 @@
 from ..ks.models import Police
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
+from ..helpers import sound_intensity
 
 
 def move(self, world, command):
@@ -12,6 +13,8 @@ def move(self, world, command):
         gui_events += self.cancel_defuse(world)
 
     base_move(self, world, command)
+    sound_intensity.update_police_intensities(self)
+
     gui_events += [GuiEvent(GuiEventType.MovePolice, agent_id=self.id, agent_position=self.position)]
     return gui_events
 
