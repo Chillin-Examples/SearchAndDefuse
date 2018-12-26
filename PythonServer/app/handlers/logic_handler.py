@@ -44,8 +44,8 @@ class LogicHandler:
 
         # check death terrorist
         for terrorist in self.world.terrorists:
-            if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
-                if terrorist.status == AgentStatus.Alive:
+            if terrorist.status == AgentStatus.Alive:
+                if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
                     gui_events += terrorist.die(self.world)
 
         return gui_events
