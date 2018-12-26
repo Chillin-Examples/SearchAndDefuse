@@ -6,7 +6,7 @@ from . import utils
 
 def update_bomb_sounds(world):
     explosion_time = world.constants.bomb_explosion_time
-    _empty_police_bomb_sound_list(world.polices)
+    _empty_polices_bomb_sound_list(world.polices)
 
     for bomb in world.bombs:
         bomb_sound = 0
@@ -22,6 +22,6 @@ def update_bomb_sounds(world):
             police.bomb_sounds.append(utils.convert_to_enum(value, world.constants.sound_ranges))
 
 
-def _empty_police_bomb_sound_list(polices):
+def _empty_polices_bomb_sound_list(polices):
     for police in polices:
         police.bomb_sounds = []
