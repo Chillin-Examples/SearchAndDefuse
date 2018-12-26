@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# python imports
-import math
-
 # project imports
 from . import utils
 
