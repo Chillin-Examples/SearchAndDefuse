@@ -18,8 +18,6 @@ def apply_command(self, side_name, command):
             return []
         move_events += agent.move(self, command)
 
-        agent.move(self, command)
-
         event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
         return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
 
