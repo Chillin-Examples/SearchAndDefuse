@@ -13,7 +13,7 @@ def move(self, world, command):
         gui_events += self.cancel_plant(world)
 
     base_move(self, world, command)
-    footsteps.update_police_intensities(self)
+    footsteps.update_terrorist_intensities(world)
     gui_events += [GuiEvent(GuiEventType.MoveTerrorist, agent_id=self.id, agent_position=self.position)]
     return gui_events
 
