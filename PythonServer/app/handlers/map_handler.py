@@ -64,7 +64,7 @@ class MapHandler:
                     new_police.defusion_remaining_time = -1
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
-                    new_police.status = Status.Alive
+                    new_police.status = AgentStatus.Alive
                     world.polices.append(new_police)
                 if side == 'Terrorist':
                     new_terrorist = Terrorist()
@@ -72,7 +72,7 @@ class MapHandler:
                     new_terrorist.position = player_position
                     new_terrorist.planting_remaining_time = -1
                     new_terrorist.footstep_sounds = []
-                    new_terrorist.status = Status.Alive
+                    new_terrorist.status = AgentStatus.Alive
                     world.terrorists.append(new_terrorist)
 
     def load_map(self, config):

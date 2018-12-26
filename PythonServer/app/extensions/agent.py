@@ -23,8 +23,9 @@ def can_move(self, side_name, world, command):
         # Check No Teammate Is There
         teammates = world.polices if side_name == 'Police' else world.terrorists
         for teammate in teammates:
-            if teammate.position == new_position and teammate != self and teammate.status == Status.Alive:
-                return False
+            if teammate != self:
+                if teammate.position == new_position and teammate.status == AgentStatus.Alive:
+                    return False
 
         return True
 

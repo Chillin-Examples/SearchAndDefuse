@@ -6,7 +6,7 @@ from copy import deepcopy
 # project imports
 from ..helpers.timers import bomb_timer
 from ..helpers import vision
-from ..ks.models import ECell, Status
+from ..ks.models import ECell, AgentStatus
 
 
 class LogicHandler:
@@ -56,7 +56,7 @@ class LogicHandler:
 
             return client_world
 
-        if side_name == 'Terrorist':
+        elif side_name == 'Terrorist':
             client_world.polices = []
             for vision_position in self.world.visions['Terrorist']:
                 for police in self.world.polices:
@@ -82,12 +82,12 @@ class LogicHandler:
             winner_sidename = 'Terrorist'
 
         # all terrorists are dead
-        elif all(terrorist.status == Status.Dead for terrorist in self.world.terrorists):
+        elif all(terrorist.status == AgentStatus.Dead for terrorist in self.world.terrorists):
             end_game = True
             winner_sidename = 'Police'
 
         # all polices are dead
-        elif all(police.status == Status.Dead for police in self.world.polices):
+        elif all(police.status == AgentStatus.Dead for police in self.world.polices):
             end_game = True
             winner_sidename = 'Terrorist'
 

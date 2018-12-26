@@ -30,7 +30,7 @@ _def = enum <byte>
     }
 
 
-[Status]
+[AgentStatus]
 _def = enum <byte>
     {
         Alive,
@@ -77,7 +77,7 @@ id = int
 position = Position
 planting_remaining_time = int
 footstep_sounds = list<int>
-status = Status
+status = AgentStatus
 
 
 [Police]
@@ -87,7 +87,7 @@ position = Position
 defusion_remaining_time = int
 footstep_sounds = list<int>
 bomb_sounds = list<int>
-status = Status
+status = AgentStatus
 
 
 [World]

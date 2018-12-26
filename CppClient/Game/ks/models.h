@@ -57,7 +57,7 @@ enum class ESoundIntensity
 };
 
 
-enum class Status
+enum class AgentStatus
 {
 	Alive = 0,
 	Dead = 1,
@@ -1261,7 +1261,7 @@ protected:
 	Position __position;
 	int __plantingRemainingTime;
 	std::vector<int> __footstepSounds;
-	Status __status;
+	AgentStatus __status;
 
 	bool __has_id;
 	bool __has_position;
@@ -1292,7 +1292,7 @@ public: // getters
 		return __footstepSounds;
 	}
 	
-	inline Status status() const
+	inline AgentStatus status() const
 	{
 		return __status;
 	}
@@ -1320,9 +1320,9 @@ public: // reference getters
 		return (std::vector<int>&) __footstepSounds;
 	}
 	
-	inline Status &ref_status() const
+	inline AgentStatus &ref_status() const
 	{
-		return (Status&) __status;
+		return (AgentStatus&) __status;
 	}
 	
 
@@ -1352,7 +1352,7 @@ public: // setters
 		has_footstepSounds(true);
 	}
 	
-	inline void status(const Status &status)
+	inline void status(const AgentStatus &status)
 	{
 		__status = status;
 		has_status(true);
@@ -1563,7 +1563,7 @@ public:
 			char tmp103;
 			tmp103 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__status = (Status) tmp103;
+			__status = (AgentStatus) tmp103;
 		}
 		
 		return offset;
@@ -1581,7 +1581,7 @@ protected:
 	int __defusionRemainingTime;
 	std::vector<int> __footstepSounds;
 	std::vector<int> __bombSounds;
-	Status __status;
+	AgentStatus __status;
 
 	bool __has_id;
 	bool __has_position;
@@ -1618,7 +1618,7 @@ public: // getters
 		return __bombSounds;
 	}
 	
-	inline Status status() const
+	inline AgentStatus status() const
 	{
 		return __status;
 	}
@@ -1651,9 +1651,9 @@ public: // reference getters
 		return (std::vector<int>&) __bombSounds;
 	}
 	
-	inline Status &ref_status() const
+	inline AgentStatus &ref_status() const
 	{
-		return (Status&) __status;
+		return (AgentStatus&) __status;
 	}
 	
 
@@ -1689,7 +1689,7 @@ public: // setters
 		has_bombSounds(true);
 	}
 	
-	inline void status(const Status &status)
+	inline void status(const AgentStatus &status)
 	{
 		__status = status;
 		has_status(true);
@@ -1961,7 +1961,7 @@ public:
 			char tmp145;
 			tmp145 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__status = (Status) tmp145;
+			__status = (AgentStatus) tmp145;
 		}
 		
 		return offset;

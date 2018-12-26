@@ -71,7 +71,7 @@ class GuiHandler:
                 bombs_events['planted'].append(event.payload)
             if event.type == GuiEventType.ExplodeBomb:
                 bombs_events['exploded'].append(event.payload)
-            if event.type == GuiEventType.CancelBombOp:
+            if event.type == GuiEventType.CancelBombOperation:
                 bombs_op_canceled.append(event.payload)
 
             if event.type == GuiEventType.TerroristDeath:
@@ -346,8 +346,6 @@ class GuiHandler:
             self._canvas.edit_image(self._dead_img_refs["Terrorist"][agent['terrorist_id']],
                                     canvas_pos['x'], canvas_pos['y'],
                                     center_origin=True)
-
-    # pass
 
 
 class GuiUtils:

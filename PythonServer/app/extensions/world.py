@@ -3,7 +3,7 @@
 # project imports
 from ..ks.commands import *
 from ..gui_events import GuiEventType, GuiEvent
-from ..ks.models import World, Status
+from ..ks.models import World, AgentStatus
 from ..helpers import vision, score
 
 
@@ -15,7 +15,7 @@ def apply_command(self, side_name, command):
         move_events = []
         terrorist_death_events = []
         agent = agents[side_name][command.id]
-        if agent.status == Status.Alive:
+        if agent.status == AgentStatus.Alive:
             if not agent.can_move(side_name, self, command):
                 return []
             move_events += agent.move(self, command)
@@ -24,13 +24,8 @@ def apply_command(self, side_name, command):
             if side_name == 'Police':
                 for police_vision in self.visions['Police']:
                     for terrorist in self.terrorists:
-                        if terrorist.position == police_vision and terrorist.status == Status.Alive:
-                            terrorist.status = Status.Dead
-                            terrorist_death_events.append(GuiEvent(GuiEventType.TerroristDeath,
-                                                                   terrorist_id=terrorist.id,
-                                                                   position=terrorist.position))
-                            score.increase_score('kill_terrorist', self)
-                            self.visions["Terrorist"] = vision.compute_terrorists_visions(self)
+                        if terrorist.position == police_vision and terrorist.status == AgentStatus.Alive:
+                            terrorist_death_events.append(agent.kill_terrorist(self, terrorist))
 
             # update world visions
             if side_name == 'Police':
@@ -47,7 +42,7 @@ def apply_command(self, side_name, command):
         if side_name == "Police":
             return []
         terrorist = agents["Terrorist"][command.id]
-        if terrorist.status == Status.Alive:
+        if terrorist.status == AgentStatus.Alive:
             if not terrorist.can_plant_bomb(self, command):
                 return []
             plant_events += terrorist.plant_bomb(self, command)
@@ -62,7 +57,7 @@ def apply_command(self, side_name, command):
             return []
 
         police = agents["Police"][command.id]
-        if police.status == Status.Alive:
+        if police.status == AgentStatus.Alive:
             if not police.can_defuse_bomb(self, command):
                 return []
             defuse_events += police.defuse_bomb(self, command)

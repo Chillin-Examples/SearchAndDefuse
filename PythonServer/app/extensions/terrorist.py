@@ -36,7 +36,7 @@ def cancel_plant(self, world):
     bomb_position = bomb.position
     world.bombs.remove(bomb)
     self.planting_remaining_time = -1
-    event_type = GuiEventType.CancelBombOp
+    event_type = GuiEventType.CancelBombOperation
     return [GuiEvent(event_type, bomb_position=bomb_position)]
 
 

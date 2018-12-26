@@ -27,7 +27,7 @@ def update_defuse_timings(world):
                         print("bomb defused.")
                         world.polices[bomb.defuser_id].defusion_remaining_time = -1
                         bomb_position = bomb.position
-                        score.increase_score('defuse', world)
+                        score.increase_score(score.OperationType.Defuse, world)
                         world.bombs.remove(bomb)
                         return [GuiEvent(GuiEventType.DefusedBomb, bomb_position=bomb_position)]
     return []

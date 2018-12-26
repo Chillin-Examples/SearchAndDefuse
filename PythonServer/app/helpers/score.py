@@ -1,17 +1,27 @@
 # -*- coding: utf-8 -*-
 
+# python imports
+from enum import Enum
+
 # project imports
 from ..ks.models import ECell
 
 
+class OperationType(Enum):
+    Plant = 0
+    Explode = 1
+    Defuse = 2
+    KillTerrorist = 3
+
+
 def increase_score(operation_type, world, bomb_position=None):
-    if operation_type == "plant":
+    if operation_type == OperationType.Plant:
         _increase_terrorist_score(world, bomb_position, world.constants.bomb_planting_score)
-    if operation_type == "explode":
+    if operation_type == OperationType.Explode:
         _increase_terrorist_score(world, bomb_position, world.constants.bomb_explosion_score)
-    if operation_type == "defuse":
+    if operation_type == OperationType.Defuse:
         _increase_police_score(world, world.constants.bomb_defusion_score)
-    if operation_type == "kill_terrorist":
+    if operation_type == OperationType.KillTerrorist:
         _increase_police_score(world, world.constants.terrorist_death_score)
 
 
