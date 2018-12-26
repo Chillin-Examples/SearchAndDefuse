@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import Terrorist, Bomb, ECell
+from ..ks.models import Terrorist, Bomb, ECell, AgentStatus
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
+from ..helpers import score, vision
 
 
 def move(self, world, command):
@@ -61,8 +62,18 @@ def can_plant_bomb(self, world, command):
     return True
 
 
+def die(self, world):
+    self.status = AgentStatus.Dead
+    score.increase_score(score.OperationType.KillTerrorist, world)
+    world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
+    return [GuiEvent(GuiEventType.TerroristDeath,
+                     terrorist_id=self.id,
+                     position=self.position)]
+
+
 Terrorist.plant_bomb = plant_bomb
 Terrorist.move = move
 Terrorist.cancel_plant = cancel_plant
 Terrorist.can_plant_bomb = can_plant_bomb
 Terrorist.can_move = base_can_move
+Terrorist.die = die

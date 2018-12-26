@@ -41,6 +41,13 @@ class LogicHandler:
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
+
+        # check death terrorist
+        for terrorist in self.world.terrorists:
+            if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
+                if terrorist.status == AgentStatus.Alive:
+                    gui_events += terrorist.die(self.world)
+
         return gui_events
 
     def get_client_world(self, side_name):

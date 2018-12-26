@@ -20,13 +20,6 @@ def apply_command(self, side_name, command):
                 return []
             move_events += agent.move(self, command)
 
-            # check death terrorist
-            if side_name == 'Police':
-                for police_vision in self.visions['Police']:
-                    for terrorist in self.terrorists:
-                        if terrorist.position == police_vision and terrorist.status == AgentStatus.Alive:
-                            terrorist_death_events.append(agent.kill_terrorist(self, terrorist))
-
             # update world visions
             if side_name == 'Police':
                 self.visions[side_name] = vision.compute_polices_visions(self)

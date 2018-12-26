@@ -56,13 +56,13 @@ def can_defuse_bomb(self, world, command):
     return False
 
 
-def kill_terrorist(self, world, terrorist):
-    terrorist.status = AgentStatus.Dead
-    score.increase_score(score.OperationType.KillTerrorist, world)
-    world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
-    return GuiEvent(GuiEventType.TerroristDeath,
-                    terrorist_id=terrorist.id,
-                    position=terrorist.position)
+# def kill_terrorist(self, world, terrorist):
+#     terrorist.status = AgentStatus.Dead
+#     score.increase_score(score.OperationType.KillTerrorist, world)
+#     world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
+#     return GuiEvent(GuiEventType.TerroristDeath,
+#                     terrorist_id=terrorist.id,
+#                     position=terrorist.position)
 
 
 Police.defuse_bomb = defuse_bomb
@@ -70,4 +70,4 @@ Police.move = move
 Police.cancel_defuse = cancel_defuse
 Police.can_defuse_bomb = can_defuse_bomb
 Police.can_move = base_can_move
-Police.kill_terrorist = kill_terrorist
+# Police.kill_terrorist = kill_terrorist
