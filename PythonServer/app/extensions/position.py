@@ -29,7 +29,7 @@ def get_neighbours(self):
 
 
 def is_neighbour(self, position):
-    return any(self.position == neighbour for neighbour in get_neighbours(position))
+    return any(self == neighbour for neighbour in get_neighbours(position))
 
 
 Position.is_equal = is_equal
@@ -37,3 +37,4 @@ Position.__eq__ = __eq__
 Position.add = add
 Position.__add__ = __add__
 Position.get_neighbours = get_neighbours
+Position.is_neighbour = is_neighbour
