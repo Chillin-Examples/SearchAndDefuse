@@ -28,6 +28,10 @@ def get_neighbours(self):
             Position(x=self.x, y=self.y - 1), Position(x=self.x, y=self.y + 1)]
 
 
+def is_neighbour(self, position):
+    return any(self.position == neighbour for neighbour in get_neighbours(position))
+
+
 Position.is_equal = is_equal
 Position.__eq__ = __eq__
 Position.add = add
