@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import *
 from ..ks.commands import *
 from ..gui_events import GuiEvent, GuiEventType
 from .agent import directions
+from ..ks.models import World
+from ..helpers import vision
 
 
 def apply_command(self, side_name, command):
@@ -18,8 +19,13 @@ def apply_command(self, side_name, command):
             return []
         move_events += agent.move(self, command)
 
-        event_type = GuiEventType.MovePolice if side_name == 'Police' else GuiEventType.MoveTerrorist
-        return [GuiEvent(event_type, agent_id=agent.id, agent_position=agent.position)]
+        # update world visions
+        if side_name == 'Police':
+            self.visions[side_name] = vision.compute_polices_visions(self)
+        if side_name == 'Terrorist':
+            self.visions[side_name] = vision.compute_terrorists_visions(self)
+
+        return move_events
 
     if command.name() == PlantBomb.name():
         plant_events = []
