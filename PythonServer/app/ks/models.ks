@@ -77,7 +77,7 @@ id = int
 position = Position
 defusion_remaining_time = int
 footstep_sounds = list<ESoundIntensity>
-bomb_sounds = list<int>
+bomb_sounds = list<ESoundIntensity>
 is_visible = boolean
 
 

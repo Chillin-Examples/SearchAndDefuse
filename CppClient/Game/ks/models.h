@@ -62,441 +62,441 @@ class Constants : public KSObject
 
 protected:
 
-	int __bomb_planting_time;
-	int __bomb_defusion_time;
-	int __bomb_explosion_time;
-	int __bomb_planting_score;
-	int __bomb_defusion_score;
-	int __bomb_explosion_score;
-	float __score_coefficient_small_bomb_site;
-	float __score_coefficient_medium_bomb_site;
-	float __score_coefficient_large_bomb_site;
-	float __score_coefficient_vast_bomb_site;
-	int __terrorist_vision_distance;
-	int __terrorist_death_score;
-	int __police_vision_distance;
-	std::map<ESoundIntensity, int> __sound_ranges;
-	int __max_cycles;
+	int __bombPlantingTime;
+	int __bombDefusionTime;
+	int __bombExplosionTime;
+	int __bombPlantingScore;
+	int __bombDefusionScore;
+	int __bombExplosionScore;
+	float __scoreCoefficientSmallBombSite;
+	float __scoreCoefficientMediumBombSite;
+	float __scoreCoefficientLargeBombSite;
+	float __scoreCoefficientVastBombSite;
+	int __terroristVisionDistance;
+	int __terroristDeathScore;
+	int __policeVisionDistance;
+	std::map<ESoundIntensity, int> __soundRanges;
+	int __maxCycles;
 
-	bool __has_bomb_planting_time;
-	bool __has_bomb_defusion_time;
-	bool __has_bomb_explosion_time;
-	bool __has_bomb_planting_score;
-	bool __has_bomb_defusion_score;
-	bool __has_bomb_explosion_score;
-	bool __has_score_coefficient_small_bomb_site;
-	bool __has_score_coefficient_medium_bomb_site;
-	bool __has_score_coefficient_large_bomb_site;
-	bool __has_score_coefficient_vast_bomb_site;
-	bool __has_terrorist_vision_distance;
-	bool __has_terrorist_death_score;
-	bool __has_police_vision_distance;
-	bool __has_sound_ranges;
-	bool __has_max_cycles;
+	bool __has_bombPlantingTime;
+	bool __has_bombDefusionTime;
+	bool __has_bombExplosionTime;
+	bool __has_bombPlantingScore;
+	bool __has_bombDefusionScore;
+	bool __has_bombExplosionScore;
+	bool __has_scoreCoefficientSmallBombSite;
+	bool __has_scoreCoefficientMediumBombSite;
+	bool __has_scoreCoefficientLargeBombSite;
+	bool __has_scoreCoefficientVastBombSite;
+	bool __has_terroristVisionDistance;
+	bool __has_terroristDeathScore;
+	bool __has_policeVisionDistance;
+	bool __has_soundRanges;
+	bool __has_maxCycles;
 
 
 public: // getters
 
-	inline int bomb_planting_time() const
+	inline int bombPlantingTime() const
 	{
-		return __bomb_planting_time;
+		return __bombPlantingTime;
 	}
 	
-	inline int bomb_defusion_time() const
+	inline int bombDefusionTime() const
 	{
-		return __bomb_defusion_time;
+		return __bombDefusionTime;
 	}
 	
-	inline int bomb_explosion_time() const
+	inline int bombExplosionTime() const
 	{
-		return __bomb_explosion_time;
+		return __bombExplosionTime;
 	}
 	
-	inline int bomb_planting_score() const
+	inline int bombPlantingScore() const
 	{
-		return __bomb_planting_score;
+		return __bombPlantingScore;
 	}
 	
-	inline int bomb_defusion_score() const
+	inline int bombDefusionScore() const
 	{
-		return __bomb_defusion_score;
+		return __bombDefusionScore;
 	}
 	
-	inline int bomb_explosion_score() const
+	inline int bombExplosionScore() const
 	{
-		return __bomb_explosion_score;
+		return __bombExplosionScore;
 	}
 	
-	inline float score_coefficient_small_bomb_site() const
+	inline float scoreCoefficientSmallBombSite() const
 	{
-		return __score_coefficient_small_bomb_site;
+		return __scoreCoefficientSmallBombSite;
 	}
 	
-	inline float score_coefficient_medium_bomb_site() const
+	inline float scoreCoefficientMediumBombSite() const
 	{
-		return __score_coefficient_medium_bomb_site;
+		return __scoreCoefficientMediumBombSite;
 	}
 	
-	inline float score_coefficient_large_bomb_site() const
+	inline float scoreCoefficientLargeBombSite() const
 	{
-		return __score_coefficient_large_bomb_site;
+		return __scoreCoefficientLargeBombSite;
 	}
 	
-	inline float score_coefficient_vast_bomb_site() const
+	inline float scoreCoefficientVastBombSite() const
 	{
-		return __score_coefficient_vast_bomb_site;
+		return __scoreCoefficientVastBombSite;
 	}
 	
-	inline int terrorist_vision_distance() const
+	inline int terroristVisionDistance() const
 	{
-		return __terrorist_vision_distance;
+		return __terroristVisionDistance;
 	}
 	
-	inline int terrorist_death_score() const
+	inline int terroristDeathScore() const
 	{
-		return __terrorist_death_score;
+		return __terroristDeathScore;
 	}
 	
-	inline int police_vision_distance() const
+	inline int policeVisionDistance() const
 	{
-		return __police_vision_distance;
+		return __policeVisionDistance;
 	}
 	
-	inline std::map<ESoundIntensity, int> sound_ranges() const
+	inline std::map<ESoundIntensity, int> soundRanges() const
 	{
-		return __sound_ranges;
+		return __soundRanges;
 	}
 	
-	inline int max_cycles() const
+	inline int maxCycles() const
 	{
-		return __max_cycles;
+		return __maxCycles;
 	}
 	
 
 public: // reference getters
 
-	inline int &ref_bomb_planting_time() const
+	inline int &ref_bombPlantingTime() const
 	{
-		return (int&) __bomb_planting_time;
+		return (int&) __bombPlantingTime;
 	}
 	
-	inline int &ref_bomb_defusion_time() const
+	inline int &ref_bombDefusionTime() const
 	{
-		return (int&) __bomb_defusion_time;
+		return (int&) __bombDefusionTime;
 	}
 	
-	inline int &ref_bomb_explosion_time() const
+	inline int &ref_bombExplosionTime() const
 	{
-		return (int&) __bomb_explosion_time;
+		return (int&) __bombExplosionTime;
 	}
 	
-	inline int &ref_bomb_planting_score() const
+	inline int &ref_bombPlantingScore() const
 	{
-		return (int&) __bomb_planting_score;
+		return (int&) __bombPlantingScore;
 	}
 	
-	inline int &ref_bomb_defusion_score() const
+	inline int &ref_bombDefusionScore() const
 	{
-		return (int&) __bomb_defusion_score;
+		return (int&) __bombDefusionScore;
 	}
 	
-	inline int &ref_bomb_explosion_score() const
+	inline int &ref_bombExplosionScore() const
 	{
-		return (int&) __bomb_explosion_score;
+		return (int&) __bombExplosionScore;
 	}
 	
-	inline float &ref_score_coefficient_small_bomb_site() const
+	inline float &ref_scoreCoefficientSmallBombSite() const
 	{
-		return (float&) __score_coefficient_small_bomb_site;
+		return (float&) __scoreCoefficientSmallBombSite;
 	}
 	
-	inline float &ref_score_coefficient_medium_bomb_site() const
+	inline float &ref_scoreCoefficientMediumBombSite() const
 	{
-		return (float&) __score_coefficient_medium_bomb_site;
+		return (float&) __scoreCoefficientMediumBombSite;
 	}
 	
-	inline float &ref_score_coefficient_large_bomb_site() const
+	inline float &ref_scoreCoefficientLargeBombSite() const
 	{
-		return (float&) __score_coefficient_large_bomb_site;
+		return (float&) __scoreCoefficientLargeBombSite;
 	}
 	
-	inline float &ref_score_coefficient_vast_bomb_site() const
+	inline float &ref_scoreCoefficientVastBombSite() const
 	{
-		return (float&) __score_coefficient_vast_bomb_site;
+		return (float&) __scoreCoefficientVastBombSite;
 	}
 	
-	inline int &ref_terrorist_vision_distance() const
+	inline int &ref_terroristVisionDistance() const
 	{
-		return (int&) __terrorist_vision_distance;
+		return (int&) __terroristVisionDistance;
 	}
 	
-	inline int &ref_terrorist_death_score() const
+	inline int &ref_terroristDeathScore() const
 	{
-		return (int&) __terrorist_death_score;
+		return (int&) __terroristDeathScore;
 	}
 	
-	inline int &ref_police_vision_distance() const
+	inline int &ref_policeVisionDistance() const
 	{
-		return (int&) __police_vision_distance;
+		return (int&) __policeVisionDistance;
 	}
 	
-	inline std::map<ESoundIntensity, int> &ref_sound_ranges() const
+	inline std::map<ESoundIntensity, int> &ref_soundRanges() const
 	{
-		return (std::map<ESoundIntensity, int>&) __sound_ranges;
+		return (std::map<ESoundIntensity, int>&) __soundRanges;
 	}
 	
-	inline int &ref_max_cycles() const
+	inline int &ref_maxCycles() const
 	{
-		return (int&) __max_cycles;
+		return (int&) __maxCycles;
 	}
 	
 
 public: // setters
 
-	inline void bomb_planting_time(const int &bomb_planting_time)
+	inline void bombPlantingTime(const int &bombPlantingTime)
 	{
-		__bomb_planting_time = bomb_planting_time;
-		has_bomb_planting_time(true);
+		__bombPlantingTime = bombPlantingTime;
+		has_bombPlantingTime(true);
 	}
 	
-	inline void bomb_defusion_time(const int &bomb_defusion_time)
+	inline void bombDefusionTime(const int &bombDefusionTime)
 	{
-		__bomb_defusion_time = bomb_defusion_time;
-		has_bomb_defusion_time(true);
+		__bombDefusionTime = bombDefusionTime;
+		has_bombDefusionTime(true);
 	}
 	
-	inline void bomb_explosion_time(const int &bomb_explosion_time)
+	inline void bombExplosionTime(const int &bombExplosionTime)
 	{
-		__bomb_explosion_time = bomb_explosion_time;
-		has_bomb_explosion_time(true);
+		__bombExplosionTime = bombExplosionTime;
+		has_bombExplosionTime(true);
 	}
 	
-	inline void bomb_planting_score(const int &bomb_planting_score)
+	inline void bombPlantingScore(const int &bombPlantingScore)
 	{
-		__bomb_planting_score = bomb_planting_score;
-		has_bomb_planting_score(true);
+		__bombPlantingScore = bombPlantingScore;
+		has_bombPlantingScore(true);
 	}
 	
-	inline void bomb_defusion_score(const int &bomb_defusion_score)
+	inline void bombDefusionScore(const int &bombDefusionScore)
 	{
-		__bomb_defusion_score = bomb_defusion_score;
-		has_bomb_defusion_score(true);
+		__bombDefusionScore = bombDefusionScore;
+		has_bombDefusionScore(true);
 	}
 	
-	inline void bomb_explosion_score(const int &bomb_explosion_score)
+	inline void bombExplosionScore(const int &bombExplosionScore)
 	{
-		__bomb_explosion_score = bomb_explosion_score;
-		has_bomb_explosion_score(true);
+		__bombExplosionScore = bombExplosionScore;
+		has_bombExplosionScore(true);
 	}
 	
-	inline void score_coefficient_small_bomb_site(const float &score_coefficient_small_bomb_site)
+	inline void scoreCoefficientSmallBombSite(const float &scoreCoefficientSmallBombSite)
 	{
-		__score_coefficient_small_bomb_site = score_coefficient_small_bomb_site;
-		has_score_coefficient_small_bomb_site(true);
+		__scoreCoefficientSmallBombSite = scoreCoefficientSmallBombSite;
+		has_scoreCoefficientSmallBombSite(true);
 	}
 	
-	inline void score_coefficient_medium_bomb_site(const float &score_coefficient_medium_bomb_site)
+	inline void scoreCoefficientMediumBombSite(const float &scoreCoefficientMediumBombSite)
 	{
-		__score_coefficient_medium_bomb_site = score_coefficient_medium_bomb_site;
-		has_score_coefficient_medium_bomb_site(true);
+		__scoreCoefficientMediumBombSite = scoreCoefficientMediumBombSite;
+		has_scoreCoefficientMediumBombSite(true);
 	}
 	
-	inline void score_coefficient_large_bomb_site(const float &score_coefficient_large_bomb_site)
+	inline void scoreCoefficientLargeBombSite(const float &scoreCoefficientLargeBombSite)
 	{
-		__score_coefficient_large_bomb_site = score_coefficient_large_bomb_site;
-		has_score_coefficient_large_bomb_site(true);
+		__scoreCoefficientLargeBombSite = scoreCoefficientLargeBombSite;
+		has_scoreCoefficientLargeBombSite(true);
 	}
 	
-	inline void score_coefficient_vast_bomb_site(const float &score_coefficient_vast_bomb_site)
+	inline void scoreCoefficientVastBombSite(const float &scoreCoefficientVastBombSite)
 	{
-		__score_coefficient_vast_bomb_site = score_coefficient_vast_bomb_site;
-		has_score_coefficient_vast_bomb_site(true);
+		__scoreCoefficientVastBombSite = scoreCoefficientVastBombSite;
+		has_scoreCoefficientVastBombSite(true);
 	}
 	
-	inline void terrorist_vision_distance(const int &terrorist_vision_distance)
+	inline void terroristVisionDistance(const int &terroristVisionDistance)
 	{
-		__terrorist_vision_distance = terrorist_vision_distance;
-		has_terrorist_vision_distance(true);
+		__terroristVisionDistance = terroristVisionDistance;
+		has_terroristVisionDistance(true);
 	}
 	
-	inline void terrorist_death_score(const int &terrorist_death_score)
+	inline void terroristDeathScore(const int &terroristDeathScore)
 	{
-		__terrorist_death_score = terrorist_death_score;
-		has_terrorist_death_score(true);
+		__terroristDeathScore = terroristDeathScore;
+		has_terroristDeathScore(true);
 	}
 	
-	inline void police_vision_distance(const int &police_vision_distance)
+	inline void policeVisionDistance(const int &policeVisionDistance)
 	{
-		__police_vision_distance = police_vision_distance;
-		has_police_vision_distance(true);
+		__policeVisionDistance = policeVisionDistance;
+		has_policeVisionDistance(true);
 	}
 	
-	inline void sound_ranges(const std::map<ESoundIntensity, int> &sound_ranges)
+	inline void soundRanges(const std::map<ESoundIntensity, int> &soundRanges)
 	{
-		__sound_ranges = sound_ranges;
-		has_sound_ranges(true);
+		__soundRanges = soundRanges;
+		has_soundRanges(true);
 	}
 	
-	inline void max_cycles(const int &max_cycles)
+	inline void maxCycles(const int &maxCycles)
 	{
-		__max_cycles = max_cycles;
-		has_max_cycles(true);
+		__maxCycles = maxCycles;
+		has_maxCycles(true);
 	}
 	
 
 public: // has_attribute getters
 
-	inline bool has_bomb_planting_time() const
+	inline bool has_bombPlantingTime() const
 	{
-		return __has_bomb_planting_time;
+		return __has_bombPlantingTime;
 	}
 	
-	inline bool has_bomb_defusion_time() const
+	inline bool has_bombDefusionTime() const
 	{
-		return __has_bomb_defusion_time;
+		return __has_bombDefusionTime;
 	}
 	
-	inline bool has_bomb_explosion_time() const
+	inline bool has_bombExplosionTime() const
 	{
-		return __has_bomb_explosion_time;
+		return __has_bombExplosionTime;
 	}
 	
-	inline bool has_bomb_planting_score() const
+	inline bool has_bombPlantingScore() const
 	{
-		return __has_bomb_planting_score;
+		return __has_bombPlantingScore;
 	}
 	
-	inline bool has_bomb_defusion_score() const
+	inline bool has_bombDefusionScore() const
 	{
-		return __has_bomb_defusion_score;
+		return __has_bombDefusionScore;
 	}
 	
-	inline bool has_bomb_explosion_score() const
+	inline bool has_bombExplosionScore() const
 	{
-		return __has_bomb_explosion_score;
+		return __has_bombExplosionScore;
 	}
 	
-	inline bool has_score_coefficient_small_bomb_site() const
+	inline bool has_scoreCoefficientSmallBombSite() const
 	{
-		return __has_score_coefficient_small_bomb_site;
+		return __has_scoreCoefficientSmallBombSite;
 	}
 	
-	inline bool has_score_coefficient_medium_bomb_site() const
+	inline bool has_scoreCoefficientMediumBombSite() const
 	{
-		return __has_score_coefficient_medium_bomb_site;
+		return __has_scoreCoefficientMediumBombSite;
 	}
 	
-	inline bool has_score_coefficient_large_bomb_site() const
+	inline bool has_scoreCoefficientLargeBombSite() const
 	{
-		return __has_score_coefficient_large_bomb_site;
+		return __has_scoreCoefficientLargeBombSite;
 	}
 	
-	inline bool has_score_coefficient_vast_bomb_site() const
+	inline bool has_scoreCoefficientVastBombSite() const
 	{
-		return __has_score_coefficient_vast_bomb_site;
+		return __has_scoreCoefficientVastBombSite;
 	}
 	
-	inline bool has_terrorist_vision_distance() const
+	inline bool has_terroristVisionDistance() const
 	{
-		return __has_terrorist_vision_distance;
+		return __has_terroristVisionDistance;
 	}
 	
-	inline bool has_terrorist_death_score() const
+	inline bool has_terroristDeathScore() const
 	{
-		return __has_terrorist_death_score;
+		return __has_terroristDeathScore;
 	}
 	
-	inline bool has_police_vision_distance() const
+	inline bool has_policeVisionDistance() const
 	{
-		return __has_police_vision_distance;
+		return __has_policeVisionDistance;
 	}
 	
-	inline bool has_sound_ranges() const
+	inline bool has_soundRanges() const
 	{
-		return __has_sound_ranges;
+		return __has_soundRanges;
 	}
 	
-	inline bool has_max_cycles() const
+	inline bool has_maxCycles() const
 	{
-		return __has_max_cycles;
+		return __has_maxCycles;
 	}
 	
 
 public: // has_attribute setters
 
-	inline void has_bomb_planting_time(const bool &has_bomb_planting_time)
+	inline void has_bombPlantingTime(const bool &has_bombPlantingTime)
 	{
-		__has_bomb_planting_time = has_bomb_planting_time;
+		__has_bombPlantingTime = has_bombPlantingTime;
 	}
 	
-	inline void has_bomb_defusion_time(const bool &has_bomb_defusion_time)
+	inline void has_bombDefusionTime(const bool &has_bombDefusionTime)
 	{
-		__has_bomb_defusion_time = has_bomb_defusion_time;
+		__has_bombDefusionTime = has_bombDefusionTime;
 	}
 	
-	inline void has_bomb_explosion_time(const bool &has_bomb_explosion_time)
+	inline void has_bombExplosionTime(const bool &has_bombExplosionTime)
 	{
-		__has_bomb_explosion_time = has_bomb_explosion_time;
+		__has_bombExplosionTime = has_bombExplosionTime;
 	}
 	
-	inline void has_bomb_planting_score(const bool &has_bomb_planting_score)
+	inline void has_bombPlantingScore(const bool &has_bombPlantingScore)
 	{
-		__has_bomb_planting_score = has_bomb_planting_score;
+		__has_bombPlantingScore = has_bombPlantingScore;
 	}
 	
-	inline void has_bomb_defusion_score(const bool &has_bomb_defusion_score)
+	inline void has_bombDefusionScore(const bool &has_bombDefusionScore)
 	{
-		__has_bomb_defusion_score = has_bomb_defusion_score;
+		__has_bombDefusionScore = has_bombDefusionScore;
 	}
 	
-	inline void has_bomb_explosion_score(const bool &has_bomb_explosion_score)
+	inline void has_bombExplosionScore(const bool &has_bombExplosionScore)
 	{
-		__has_bomb_explosion_score = has_bomb_explosion_score;
+		__has_bombExplosionScore = has_bombExplosionScore;
 	}
 	
-	inline void has_score_coefficient_small_bomb_site(const bool &has_score_coefficient_small_bomb_site)
+	inline void has_scoreCoefficientSmallBombSite(const bool &has_scoreCoefficientSmallBombSite)
 	{
-		__has_score_coefficient_small_bomb_site = has_score_coefficient_small_bomb_site;
+		__has_scoreCoefficientSmallBombSite = has_scoreCoefficientSmallBombSite;
 	}
 	
-	inline void has_score_coefficient_medium_bomb_site(const bool &has_score_coefficient_medium_bomb_site)
+	inline void has_scoreCoefficientMediumBombSite(const bool &has_scoreCoefficientMediumBombSite)
 	{
-		__has_score_coefficient_medium_bomb_site = has_score_coefficient_medium_bomb_site;
+		__has_scoreCoefficientMediumBombSite = has_scoreCoefficientMediumBombSite;
 	}
 	
-	inline void has_score_coefficient_large_bomb_site(const bool &has_score_coefficient_large_bomb_site)
+	inline void has_scoreCoefficientLargeBombSite(const bool &has_scoreCoefficientLargeBombSite)
 	{
-		__has_score_coefficient_large_bomb_site = has_score_coefficient_large_bomb_site;
+		__has_scoreCoefficientLargeBombSite = has_scoreCoefficientLargeBombSite;
 	}
 	
-	inline void has_score_coefficient_vast_bomb_site(const bool &has_score_coefficient_vast_bomb_site)
+	inline void has_scoreCoefficientVastBombSite(const bool &has_scoreCoefficientVastBombSite)
 	{
-		__has_score_coefficient_vast_bomb_site = has_score_coefficient_vast_bomb_site;
+		__has_scoreCoefficientVastBombSite = has_scoreCoefficientVastBombSite;
 	}
 	
-	inline void has_terrorist_vision_distance(const bool &has_terrorist_vision_distance)
+	inline void has_terroristVisionDistance(const bool &has_terroristVisionDistance)
 	{
-		__has_terrorist_vision_distance = has_terrorist_vision_distance;
+		__has_terroristVisionDistance = has_terroristVisionDistance;
 	}
 	
-	inline void has_terrorist_death_score(const bool &has_terrorist_death_score)
+	inline void has_terroristDeathScore(const bool &has_terroristDeathScore)
 	{
-		__has_terrorist_death_score = has_terrorist_death_score;
+		__has_terroristDeathScore = has_terroristDeathScore;
 	}
 	
-	inline void has_police_vision_distance(const bool &has_police_vision_distance)
+	inline void has_policeVisionDistance(const bool &has_policeVisionDistance)
 	{
-		__has_police_vision_distance = has_police_vision_distance;
+		__has_policeVisionDistance = has_policeVisionDistance;
 	}
 	
-	inline void has_sound_ranges(const bool &has_sound_ranges)
+	inline void has_soundRanges(const bool &has_soundRanges)
 	{
-		__has_sound_ranges = has_sound_ranges;
+		__has_soundRanges = has_soundRanges;
 	}
 	
-	inline void has_max_cycles(const bool &has_max_cycles)
+	inline void has_maxCycles(const bool &has_maxCycles)
 	{
-		__has_max_cycles = has_max_cycles;
+		__has_maxCycles = has_maxCycles;
 	}
 	
 
@@ -504,21 +504,21 @@ public:
 
 	Constants()
 	{
-		has_bomb_planting_time(false);
-		has_bomb_defusion_time(false);
-		has_bomb_explosion_time(false);
-		has_bomb_planting_score(false);
-		has_bomb_defusion_score(false);
-		has_bomb_explosion_score(false);
-		has_score_coefficient_small_bomb_site(false);
-		has_score_coefficient_medium_bomb_site(false);
-		has_score_coefficient_large_bomb_site(false);
-		has_score_coefficient_vast_bomb_site(false);
-		has_terrorist_vision_distance(false);
-		has_terrorist_death_score(false);
-		has_police_vision_distance(false);
-		has_sound_ranges(false);
-		has_max_cycles(false);
+		has_bombPlantingTime(false);
+		has_bombDefusionTime(false);
+		has_bombExplosionTime(false);
+		has_bombPlantingScore(false);
+		has_bombDefusionScore(false);
+		has_bombExplosionScore(false);
+		has_scoreCoefficientSmallBombSite(false);
+		has_scoreCoefficientMediumBombSite(false);
+		has_scoreCoefficientLargeBombSite(false);
+		has_scoreCoefficientVastBombSite(false);
+		has_terroristVisionDistance(false);
+		has_terroristDeathScore(false);
+		has_policeVisionDistance(false);
+		has_soundRanges(false);
+		has_maxCycles(false);
 	}
 	
 	static inline const std::string nameStatic()
@@ -535,129 +535,129 @@ public:
 	{
 		std::string s = "";
 		
-		// serialize bomb_planting_time
-		s += __has_bomb_planting_time;
-		if (__has_bomb_planting_time)
+		// serialize bombPlantingTime
+		s += __has_bombPlantingTime;
+		if (__has_bombPlantingTime)
 		{
-			int tmp1 = __bomb_planting_time;
+			int tmp1 = __bombPlantingTime;
 			auto tmp2 = reinterpret_cast<char*>(&tmp1);
 			s += std::string(tmp2, sizeof(int));
 		}
 		
-		// serialize bomb_defusion_time
-		s += __has_bomb_defusion_time;
-		if (__has_bomb_defusion_time)
+		// serialize bombDefusionTime
+		s += __has_bombDefusionTime;
+		if (__has_bombDefusionTime)
 		{
-			int tmp4 = __bomb_defusion_time;
+			int tmp4 = __bombDefusionTime;
 			auto tmp5 = reinterpret_cast<char*>(&tmp4);
 			s += std::string(tmp5, sizeof(int));
 		}
 		
-		// serialize bomb_explosion_time
-		s += __has_bomb_explosion_time;
-		if (__has_bomb_explosion_time)
+		// serialize bombExplosionTime
+		s += __has_bombExplosionTime;
+		if (__has_bombExplosionTime)
 		{
-			int tmp7 = __bomb_explosion_time;
+			int tmp7 = __bombExplosionTime;
 			auto tmp8 = reinterpret_cast<char*>(&tmp7);
 			s += std::string(tmp8, sizeof(int));
 		}
 		
-		// serialize bomb_planting_score
-		s += __has_bomb_planting_score;
-		if (__has_bomb_planting_score)
+		// serialize bombPlantingScore
+		s += __has_bombPlantingScore;
+		if (__has_bombPlantingScore)
 		{
-			int tmp10 = __bomb_planting_score;
+			int tmp10 = __bombPlantingScore;
 			auto tmp11 = reinterpret_cast<char*>(&tmp10);
 			s += std::string(tmp11, sizeof(int));
 		}
 		
-		// serialize bomb_defusion_score
-		s += __has_bomb_defusion_score;
-		if (__has_bomb_defusion_score)
+		// serialize bombDefusionScore
+		s += __has_bombDefusionScore;
+		if (__has_bombDefusionScore)
 		{
-			int tmp13 = __bomb_defusion_score;
+			int tmp13 = __bombDefusionScore;
 			auto tmp14 = reinterpret_cast<char*>(&tmp13);
 			s += std::string(tmp14, sizeof(int));
 		}
 		
-		// serialize bomb_explosion_score
-		s += __has_bomb_explosion_score;
-		if (__has_bomb_explosion_score)
+		// serialize bombExplosionScore
+		s += __has_bombExplosionScore;
+		if (__has_bombExplosionScore)
 		{
-			int tmp16 = __bomb_explosion_score;
+			int tmp16 = __bombExplosionScore;
 			auto tmp17 = reinterpret_cast<char*>(&tmp16);
 			s += std::string(tmp17, sizeof(int));
 		}
 		
-		// serialize score_coefficient_small_bomb_site
-		s += __has_score_coefficient_small_bomb_site;
-		if (__has_score_coefficient_small_bomb_site)
+		// serialize scoreCoefficientSmallBombSite
+		s += __has_scoreCoefficientSmallBombSite;
+		if (__has_scoreCoefficientSmallBombSite)
 		{
-			float tmp19 = __score_coefficient_small_bomb_site;
+			float tmp19 = __scoreCoefficientSmallBombSite;
 			auto tmp20 = reinterpret_cast<char*>(&tmp19);
 			s += std::string(tmp20, sizeof(float));
 		}
 		
-		// serialize score_coefficient_medium_bomb_site
-		s += __has_score_coefficient_medium_bomb_site;
-		if (__has_score_coefficient_medium_bomb_site)
+		// serialize scoreCoefficientMediumBombSite
+		s += __has_scoreCoefficientMediumBombSite;
+		if (__has_scoreCoefficientMediumBombSite)
 		{
-			float tmp22 = __score_coefficient_medium_bomb_site;
+			float tmp22 = __scoreCoefficientMediumBombSite;
 			auto tmp23 = reinterpret_cast<char*>(&tmp22);
 			s += std::string(tmp23, sizeof(float));
 		}
 		
-		// serialize score_coefficient_large_bomb_site
-		s += __has_score_coefficient_large_bomb_site;
-		if (__has_score_coefficient_large_bomb_site)
+		// serialize scoreCoefficientLargeBombSite
+		s += __has_scoreCoefficientLargeBombSite;
+		if (__has_scoreCoefficientLargeBombSite)
 		{
-			float tmp25 = __score_coefficient_large_bomb_site;
+			float tmp25 = __scoreCoefficientLargeBombSite;
 			auto tmp26 = reinterpret_cast<char*>(&tmp25);
 			s += std::string(tmp26, sizeof(float));
 		}
 		
-		// serialize score_coefficient_vast_bomb_site
-		s += __has_score_coefficient_vast_bomb_site;
-		if (__has_score_coefficient_vast_bomb_site)
+		// serialize scoreCoefficientVastBombSite
+		s += __has_scoreCoefficientVastBombSite;
+		if (__has_scoreCoefficientVastBombSite)
 		{
-			float tmp28 = __score_coefficient_vast_bomb_site;
+			float tmp28 = __scoreCoefficientVastBombSite;
 			auto tmp29 = reinterpret_cast<char*>(&tmp28);
 			s += std::string(tmp29, sizeof(float));
 		}
 		
-		// serialize terrorist_vision_distance
-		s += __has_terrorist_vision_distance;
-		if (__has_terrorist_vision_distance)
+		// serialize terroristVisionDistance
+		s += __has_terroristVisionDistance;
+		if (__has_terroristVisionDistance)
 		{
-			int tmp31 = __terrorist_vision_distance;
+			int tmp31 = __terroristVisionDistance;
 			auto tmp32 = reinterpret_cast<char*>(&tmp31);
 			s += std::string(tmp32, sizeof(int));
 		}
 		
-		// serialize terrorist_death_score
-		s += __has_terrorist_death_score;
-		if (__has_terrorist_death_score)
+		// serialize terroristDeathScore
+		s += __has_terroristDeathScore;
+		if (__has_terroristDeathScore)
 		{
-			int tmp34 = __terrorist_death_score;
+			int tmp34 = __terroristDeathScore;
 			auto tmp35 = reinterpret_cast<char*>(&tmp34);
 			s += std::string(tmp35, sizeof(int));
 		}
 		
-		// serialize police_vision_distance
-		s += __has_police_vision_distance;
-		if (__has_police_vision_distance)
+		// serialize policeVisionDistance
+		s += __has_policeVisionDistance;
+		if (__has_policeVisionDistance)
 		{
-			int tmp37 = __police_vision_distance;
+			int tmp37 = __policeVisionDistance;
 			auto tmp38 = reinterpret_cast<char*>(&tmp37);
 			s += std::string(tmp38, sizeof(int));
 		}
 		
-		// serialize sound_ranges
-		s += __has_sound_ranges;
-		if (__has_sound_ranges)
+		// serialize soundRanges
+		s += __has_soundRanges;
+		if (__has_soundRanges)
 		{
 			std::string tmp39 = "";
-			unsigned int tmp41 = __sound_ranges.size();
+			unsigned int tmp41 = __soundRanges.size();
 			auto tmp42 = reinterpret_cast<char*>(&tmp41);
 			tmp39 += std::string(tmp42, sizeof(unsigned int));
 			while (tmp39.size() && tmp39.back() == 0)
@@ -667,7 +667,7 @@ public:
 			s += std::string(tmp45, sizeof(unsigned char));
 			s += tmp39;
 			
-			for (auto &tmp46 : __sound_ranges)
+			for (auto &tmp46 : __soundRanges)
 			{
 				s += '\x01';
 				char tmp48 = (char) tmp46.first;
@@ -681,11 +681,11 @@ public:
 			}
 		}
 		
-		// serialize max_cycles
-		s += __has_max_cycles;
-		if (__has_max_cycles)
+		// serialize maxCycles
+		s += __has_maxCycles;
+		if (__has_maxCycles)
 		{
-			int tmp54 = __max_cycles;
+			int tmp54 = __maxCycles;
 			auto tmp55 = reinterpret_cast<char*>(&tmp54);
 			s += std::string(tmp55, sizeof(int));
 		}
@@ -695,127 +695,127 @@ public:
 	
 	unsigned int deserialize(const std::string &s, unsigned int offset=0)
 	{
-		// deserialize bomb_planting_time
-		__has_bomb_planting_time = *((unsigned char*) (&s[offset]));
+		// deserialize bombPlantingTime
+		__has_bombPlantingTime = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_bomb_planting_time)
+		if (__has_bombPlantingTime)
 		{
-			__bomb_planting_time = *((int*) (&s[offset]));
+			__bombPlantingTime = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize bomb_defusion_time
-		__has_bomb_defusion_time = *((unsigned char*) (&s[offset]));
+		// deserialize bombDefusionTime
+		__has_bombDefusionTime = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_bomb_defusion_time)
+		if (__has_bombDefusionTime)
 		{
-			__bomb_defusion_time = *((int*) (&s[offset]));
+			__bombDefusionTime = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize bomb_explosion_time
-		__has_bomb_explosion_time = *((unsigned char*) (&s[offset]));
+		// deserialize bombExplosionTime
+		__has_bombExplosionTime = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_bomb_explosion_time)
+		if (__has_bombExplosionTime)
 		{
-			__bomb_explosion_time = *((int*) (&s[offset]));
+			__bombExplosionTime = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize bomb_planting_score
-		__has_bomb_planting_score = *((unsigned char*) (&s[offset]));
+		// deserialize bombPlantingScore
+		__has_bombPlantingScore = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_bomb_planting_score)
+		if (__has_bombPlantingScore)
 		{
-			__bomb_planting_score = *((int*) (&s[offset]));
+			__bombPlantingScore = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize bomb_defusion_score
-		__has_bomb_defusion_score = *((unsigned char*) (&s[offset]));
+		// deserialize bombDefusionScore
+		__has_bombDefusionScore = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_bomb_defusion_score)
+		if (__has_bombDefusionScore)
 		{
-			__bomb_defusion_score = *((int*) (&s[offset]));
+			__bombDefusionScore = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize bomb_explosion_score
-		__has_bomb_explosion_score = *((unsigned char*) (&s[offset]));
+		// deserialize bombExplosionScore
+		__has_bombExplosionScore = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_bomb_explosion_score)
+		if (__has_bombExplosionScore)
 		{
-			__bomb_explosion_score = *((int*) (&s[offset]));
+			__bombExplosionScore = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize score_coefficient_small_bomb_site
-		__has_score_coefficient_small_bomb_site = *((unsigned char*) (&s[offset]));
+		// deserialize scoreCoefficientSmallBombSite
+		__has_scoreCoefficientSmallBombSite = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_score_coefficient_small_bomb_site)
+		if (__has_scoreCoefficientSmallBombSite)
 		{
-			__score_coefficient_small_bomb_site = *((float*) (&s[offset]));
+			__scoreCoefficientSmallBombSite = *((float*) (&s[offset]));
 			offset += sizeof(float);
 		}
 		
-		// deserialize score_coefficient_medium_bomb_site
-		__has_score_coefficient_medium_bomb_site = *((unsigned char*) (&s[offset]));
+		// deserialize scoreCoefficientMediumBombSite
+		__has_scoreCoefficientMediumBombSite = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_score_coefficient_medium_bomb_site)
+		if (__has_scoreCoefficientMediumBombSite)
 		{
-			__score_coefficient_medium_bomb_site = *((float*) (&s[offset]));
+			__scoreCoefficientMediumBombSite = *((float*) (&s[offset]));
 			offset += sizeof(float);
 		}
 		
-		// deserialize score_coefficient_large_bomb_site
-		__has_score_coefficient_large_bomb_site = *((unsigned char*) (&s[offset]));
+		// deserialize scoreCoefficientLargeBombSite
+		__has_scoreCoefficientLargeBombSite = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_score_coefficient_large_bomb_site)
+		if (__has_scoreCoefficientLargeBombSite)
 		{
-			__score_coefficient_large_bomb_site = *((float*) (&s[offset]));
+			__scoreCoefficientLargeBombSite = *((float*) (&s[offset]));
 			offset += sizeof(float);
 		}
 		
-		// deserialize score_coefficient_vast_bomb_site
-		__has_score_coefficient_vast_bomb_site = *((unsigned char*) (&s[offset]));
+		// deserialize scoreCoefficientVastBombSite
+		__has_scoreCoefficientVastBombSite = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_score_coefficient_vast_bomb_site)
+		if (__has_scoreCoefficientVastBombSite)
 		{
-			__score_coefficient_vast_bomb_site = *((float*) (&s[offset]));
+			__scoreCoefficientVastBombSite = *((float*) (&s[offset]));
 			offset += sizeof(float);
 		}
 		
-		// deserialize terrorist_vision_distance
-		__has_terrorist_vision_distance = *((unsigned char*) (&s[offset]));
+		// deserialize terroristVisionDistance
+		__has_terroristVisionDistance = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_terrorist_vision_distance)
+		if (__has_terroristVisionDistance)
 		{
-			__terrorist_vision_distance = *((int*) (&s[offset]));
+			__terroristVisionDistance = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize terrorist_death_score
-		__has_terrorist_death_score = *((unsigned char*) (&s[offset]));
+		// deserialize terroristDeathScore
+		__has_terroristDeathScore = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_terrorist_death_score)
+		if (__has_terroristDeathScore)
 		{
-			__terrorist_death_score = *((int*) (&s[offset]));
+			__terroristDeathScore = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize police_vision_distance
-		__has_police_vision_distance = *((unsigned char*) (&s[offset]));
+		// deserialize policeVisionDistance
+		__has_policeVisionDistance = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_police_vision_distance)
+		if (__has_policeVisionDistance)
 		{
-			__police_vision_distance = *((int*) (&s[offset]));
+			__policeVisionDistance = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize sound_ranges
-		__has_sound_ranges = *((unsigned char*) (&s[offset]));
+		// deserialize soundRanges
+		__has_soundRanges = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_sound_ranges)
+		if (__has_soundRanges)
 		{
 			unsigned char tmp56;
 			tmp56 = *((unsigned char*) (&s[offset]));
@@ -827,7 +827,7 @@ public:
 			unsigned int tmp58;
 			tmp58 = *((unsigned int*) (&tmp57[0]));
 			
-			__sound_ranges.clear();
+			__soundRanges.clear();
 			for (unsigned int tmp59 = 0; tmp59 < tmp58; tmp59++)
 			{
 				ESoundIntensity tmp60;
@@ -842,16 +842,16 @@ public:
 				tmp61 = *((int*) (&s[offset]));
 				offset += sizeof(int);
 				
-				__sound_ranges[tmp60] = tmp61;
+				__soundRanges[tmp60] = tmp61;
 			}
 		}
 		
-		// deserialize max_cycles
-		__has_max_cycles = *((unsigned char*) (&s[offset]));
+		// deserialize maxCycles
+		__has_maxCycles = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_max_cycles)
+		if (__has_maxCycles)
 		{
-			__max_cycles = *((int*) (&s[offset]));
+			__maxCycles = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
@@ -1013,14 +1013,14 @@ class Bomb : public KSObject
 protected:
 
 	Position __position;
-	int __explosion_remaining_time;
-	int __planter_id;
-	int __defuser_id;
+	int __explosionRemainingTime;
+	int __planterId;
+	int __defuserId;
 
 	bool __has_position;
-	bool __has_explosion_remaining_time;
-	bool __has_planter_id;
-	bool __has_defuser_id;
+	bool __has_explosionRemainingTime;
+	bool __has_planterId;
+	bool __has_defuserId;
 
 
 public: // getters
@@ -1030,19 +1030,19 @@ public: // getters
 		return __position;
 	}
 	
-	inline int explosion_remaining_time() const
+	inline int explosionRemainingTime() const
 	{
-		return __explosion_remaining_time;
+		return __explosionRemainingTime;
 	}
 	
-	inline int planter_id() const
+	inline int planterId() const
 	{
-		return __planter_id;
+		return __planterId;
 	}
 	
-	inline int defuser_id() const
+	inline int defuserId() const
 	{
-		return __defuser_id;
+		return __defuserId;
 	}
 	
 
@@ -1053,19 +1053,19 @@ public: // reference getters
 		return (Position&) __position;
 	}
 	
-	inline int &ref_explosion_remaining_time() const
+	inline int &ref_explosionRemainingTime() const
 	{
-		return (int&) __explosion_remaining_time;
+		return (int&) __explosionRemainingTime;
 	}
 	
-	inline int &ref_planter_id() const
+	inline int &ref_planterId() const
 	{
-		return (int&) __planter_id;
+		return (int&) __planterId;
 	}
 	
-	inline int &ref_defuser_id() const
+	inline int &ref_defuserId() const
 	{
-		return (int&) __defuser_id;
+		return (int&) __defuserId;
 	}
 	
 
@@ -1077,22 +1077,22 @@ public: // setters
 		has_position(true);
 	}
 	
-	inline void explosion_remaining_time(const int &explosion_remaining_time)
+	inline void explosionRemainingTime(const int &explosionRemainingTime)
 	{
-		__explosion_remaining_time = explosion_remaining_time;
-		has_explosion_remaining_time(true);
+		__explosionRemainingTime = explosionRemainingTime;
+		has_explosionRemainingTime(true);
 	}
 	
-	inline void planter_id(const int &planter_id)
+	inline void planterId(const int &planterId)
 	{
-		__planter_id = planter_id;
-		has_planter_id(true);
+		__planterId = planterId;
+		has_planterId(true);
 	}
 	
-	inline void defuser_id(const int &defuser_id)
+	inline void defuserId(const int &defuserId)
 	{
-		__defuser_id = defuser_id;
-		has_defuser_id(true);
+		__defuserId = defuserId;
+		has_defuserId(true);
 	}
 	
 
@@ -1103,19 +1103,19 @@ public: // has_attribute getters
 		return __has_position;
 	}
 	
-	inline bool has_explosion_remaining_time() const
+	inline bool has_explosionRemainingTime() const
 	{
-		return __has_explosion_remaining_time;
+		return __has_explosionRemainingTime;
 	}
 	
-	inline bool has_planter_id() const
+	inline bool has_planterId() const
 	{
-		return __has_planter_id;
+		return __has_planterId;
 	}
 	
-	inline bool has_defuser_id() const
+	inline bool has_defuserId() const
 	{
-		return __has_defuser_id;
+		return __has_defuserId;
 	}
 	
 
@@ -1126,19 +1126,19 @@ public: // has_attribute setters
 		__has_position = has_position;
 	}
 	
-	inline void has_explosion_remaining_time(const bool &has_explosion_remaining_time)
+	inline void has_explosionRemainingTime(const bool &has_explosionRemainingTime)
 	{
-		__has_explosion_remaining_time = has_explosion_remaining_time;
+		__has_explosionRemainingTime = has_explosionRemainingTime;
 	}
 	
-	inline void has_planter_id(const bool &has_planter_id)
+	inline void has_planterId(const bool &has_planterId)
 	{
-		__has_planter_id = has_planter_id;
+		__has_planterId = has_planterId;
 	}
 	
-	inline void has_defuser_id(const bool &has_defuser_id)
+	inline void has_defuserId(const bool &has_defuserId)
 	{
-		__has_defuser_id = has_defuser_id;
+		__has_defuserId = has_defuserId;
 	}
 	
 
@@ -1147,9 +1147,9 @@ public:
 	Bomb()
 	{
 		has_position(false);
-		has_explosion_remaining_time(false);
-		has_planter_id(false);
-		has_defuser_id(false);
+		has_explosionRemainingTime(false);
+		has_planterId(false);
+		has_defuserId(false);
 	}
 	
 	static inline const std::string nameStatic()
@@ -1173,29 +1173,29 @@ public:
 			s += __position.serialize();
 		}
 		
-		// serialize explosion_remaining_time
-		s += __has_explosion_remaining_time;
-		if (__has_explosion_remaining_time)
+		// serialize explosionRemainingTime
+		s += __has_explosionRemainingTime;
+		if (__has_explosionRemainingTime)
 		{
-			int tmp70 = __explosion_remaining_time;
+			int tmp70 = __explosionRemainingTime;
 			auto tmp71 = reinterpret_cast<char*>(&tmp70);
 			s += std::string(tmp71, sizeof(int));
 		}
 		
-		// serialize planter_id
-		s += __has_planter_id;
-		if (__has_planter_id)
+		// serialize planterId
+		s += __has_planterId;
+		if (__has_planterId)
 		{
-			int tmp73 = __planter_id;
+			int tmp73 = __planterId;
 			auto tmp74 = reinterpret_cast<char*>(&tmp73);
 			s += std::string(tmp74, sizeof(int));
 		}
 		
-		// serialize defuser_id
-		s += __has_defuser_id;
-		if (__has_defuser_id)
+		// serialize defuserId
+		s += __has_defuserId;
+		if (__has_defuserId)
 		{
-			int tmp76 = __defuser_id;
+			int tmp76 = __defuserId;
 			auto tmp77 = reinterpret_cast<char*>(&tmp76);
 			s += std::string(tmp77, sizeof(int));
 		}
@@ -1213,30 +1213,30 @@ public:
 			offset = __position.deserialize(s, offset);
 		}
 		
-		// deserialize explosion_remaining_time
-		__has_explosion_remaining_time = *((unsigned char*) (&s[offset]));
+		// deserialize explosionRemainingTime
+		__has_explosionRemainingTime = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_explosion_remaining_time)
+		if (__has_explosionRemainingTime)
 		{
-			__explosion_remaining_time = *((int*) (&s[offset]));
+			__explosionRemainingTime = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize planter_id
-		__has_planter_id = *((unsigned char*) (&s[offset]));
+		// deserialize planterId
+		__has_planterId = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_planter_id)
+		if (__has_planterId)
 		{
-			__planter_id = *((int*) (&s[offset]));
+			__planterId = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize defuser_id
-		__has_defuser_id = *((unsigned char*) (&s[offset]));
+		// deserialize defuserId
+		__has_defuserId = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_defuser_id)
+		if (__has_defuserId)
 		{
-			__defuser_id = *((int*) (&s[offset]));
+			__defuserId = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
@@ -1252,15 +1252,15 @@ protected:
 
 	int __id;
 	Position __position;
-	int __planting_remaining_time;
-	std::vector<ESoundIntensity> __footstep_sounds;
-	bool __is_dead;
+	int __plantingRemainingTime;
+	std::vector<ESoundIntensity> __footstepSounds;
+	bool __isDead;
 
 	bool __has_id;
 	bool __has_position;
-	bool __has_planting_remaining_time;
-	bool __has_footstep_sounds;
-	bool __has_is_dead;
+	bool __has_plantingRemainingTime;
+	bool __has_footstepSounds;
+	bool __has_isDead;
 
 
 public: // getters
@@ -1275,19 +1275,19 @@ public: // getters
 		return __position;
 	}
 	
-	inline int planting_remaining_time() const
+	inline int plantingRemainingTime() const
 	{
-		return __planting_remaining_time;
+		return __plantingRemainingTime;
 	}
 	
-	inline std::vector<ESoundIntensity> footstep_sounds() const
+	inline std::vector<ESoundIntensity> footstepSounds() const
 	{
-		return __footstep_sounds;
+		return __footstepSounds;
 	}
 	
-	inline bool is_dead() const
+	inline bool isDead() const
 	{
-		return __is_dead;
+		return __isDead;
 	}
 	
 
@@ -1303,19 +1303,19 @@ public: // reference getters
 		return (Position&) __position;
 	}
 	
-	inline int &ref_planting_remaining_time() const
+	inline int &ref_plantingRemainingTime() const
 	{
-		return (int&) __planting_remaining_time;
+		return (int&) __plantingRemainingTime;
 	}
 	
-	inline std::vector<ESoundIntensity> &ref_footstep_sounds() const
+	inline std::vector<ESoundIntensity> &ref_footstepSounds() const
 	{
-		return (std::vector<ESoundIntensity>&) __footstep_sounds;
+		return (std::vector<ESoundIntensity>&) __footstepSounds;
 	}
 	
-	inline bool &ref_is_dead() const
+	inline bool &ref_isDead() const
 	{
-		return (bool&) __is_dead;
+		return (bool&) __isDead;
 	}
 	
 
@@ -1333,22 +1333,22 @@ public: // setters
 		has_position(true);
 	}
 	
-	inline void planting_remaining_time(const int &planting_remaining_time)
+	inline void plantingRemainingTime(const int &plantingRemainingTime)
 	{
-		__planting_remaining_time = planting_remaining_time;
-		has_planting_remaining_time(true);
+		__plantingRemainingTime = plantingRemainingTime;
+		has_plantingRemainingTime(true);
 	}
 	
-	inline void footstep_sounds(const std::vector<ESoundIntensity> &footstep_sounds)
+	inline void footstepSounds(const std::vector<ESoundIntensity> &footstepSounds)
 	{
-		__footstep_sounds = footstep_sounds;
-		has_footstep_sounds(true);
+		__footstepSounds = footstepSounds;
+		has_footstepSounds(true);
 	}
 	
-	inline void is_dead(const bool &is_dead)
+	inline void isDead(const bool &isDead)
 	{
-		__is_dead = is_dead;
-		has_is_dead(true);
+		__isDead = isDead;
+		has_isDead(true);
 	}
 	
 
@@ -1364,19 +1364,19 @@ public: // has_attribute getters
 		return __has_position;
 	}
 	
-	inline bool has_planting_remaining_time() const
+	inline bool has_plantingRemainingTime() const
 	{
-		return __has_planting_remaining_time;
+		return __has_plantingRemainingTime;
 	}
 	
-	inline bool has_footstep_sounds() const
+	inline bool has_footstepSounds() const
 	{
-		return __has_footstep_sounds;
+		return __has_footstepSounds;
 	}
 	
-	inline bool has_is_dead() const
+	inline bool has_isDead() const
 	{
-		return __has_is_dead;
+		return __has_isDead;
 	}
 	
 
@@ -1392,19 +1392,19 @@ public: // has_attribute setters
 		__has_position = has_position;
 	}
 	
-	inline void has_planting_remaining_time(const bool &has_planting_remaining_time)
+	inline void has_plantingRemainingTime(const bool &has_plantingRemainingTime)
 	{
-		__has_planting_remaining_time = has_planting_remaining_time;
+		__has_plantingRemainingTime = has_plantingRemainingTime;
 	}
 	
-	inline void has_footstep_sounds(const bool &has_footstep_sounds)
+	inline void has_footstepSounds(const bool &has_footstepSounds)
 	{
-		__has_footstep_sounds = has_footstep_sounds;
+		__has_footstepSounds = has_footstepSounds;
 	}
 	
-	inline void has_is_dead(const bool &has_is_dead)
+	inline void has_isDead(const bool &has_isDead)
 	{
-		__has_is_dead = has_is_dead;
+		__has_isDead = has_isDead;
 	}
 	
 
@@ -1414,9 +1414,9 @@ public:
 	{
 		has_id(false);
 		has_position(false);
-		has_planting_remaining_time(false);
-		has_footstep_sounds(false);
-		has_is_dead(false);
+		has_plantingRemainingTime(false);
+		has_footstepSounds(false);
+		has_isDead(false);
 	}
 	
 	static inline const std::string nameStatic()
@@ -1449,21 +1449,21 @@ public:
 			s += __position.serialize();
 		}
 		
-		// serialize planting_remaining_time
-		s += __has_planting_remaining_time;
-		if (__has_planting_remaining_time)
+		// serialize plantingRemainingTime
+		s += __has_plantingRemainingTime;
+		if (__has_plantingRemainingTime)
 		{
-			int tmp82 = __planting_remaining_time;
+			int tmp82 = __plantingRemainingTime;
 			auto tmp83 = reinterpret_cast<char*>(&tmp82);
 			s += std::string(tmp83, sizeof(int));
 		}
 		
-		// serialize footstep_sounds
-		s += __has_footstep_sounds;
-		if (__has_footstep_sounds)
+		// serialize footstepSounds
+		s += __has_footstepSounds;
+		if (__has_footstepSounds)
 		{
 			std::string tmp84 = "";
-			unsigned int tmp86 = __footstep_sounds.size();
+			unsigned int tmp86 = __footstepSounds.size();
 			auto tmp87 = reinterpret_cast<char*>(&tmp86);
 			tmp84 += std::string(tmp87, sizeof(unsigned int));
 			while (tmp84.size() && tmp84.back() == 0)
@@ -1473,7 +1473,7 @@ public:
 			s += std::string(tmp90, sizeof(unsigned char));
 			s += tmp84;
 			
-			for (auto &tmp91 : __footstep_sounds)
+			for (auto &tmp91 : __footstepSounds)
 			{
 				s += '\x01';
 				char tmp93 = (char) tmp91;
@@ -1482,11 +1482,11 @@ public:
 			}
 		}
 		
-		// serialize is_dead
-		s += __has_is_dead;
-		if (__has_is_dead)
+		// serialize isDead
+		s += __has_isDead;
+		if (__has_isDead)
 		{
-			bool tmp96 = __is_dead;
+			bool tmp96 = __isDead;
 			auto tmp97 = reinterpret_cast<char*>(&tmp96);
 			s += std::string(tmp97, sizeof(bool));
 		}
@@ -1513,19 +1513,19 @@ public:
 			offset = __position.deserialize(s, offset);
 		}
 		
-		// deserialize planting_remaining_time
-		__has_planting_remaining_time = *((unsigned char*) (&s[offset]));
+		// deserialize plantingRemainingTime
+		__has_plantingRemainingTime = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_planting_remaining_time)
+		if (__has_plantingRemainingTime)
 		{
-			__planting_remaining_time = *((int*) (&s[offset]));
+			__plantingRemainingTime = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize footstep_sounds
-		__has_footstep_sounds = *((unsigned char*) (&s[offset]));
+		// deserialize footstepSounds
+		__has_footstepSounds = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_footstep_sounds)
+		if (__has_footstepSounds)
 		{
 			unsigned char tmp98;
 			tmp98 = *((unsigned char*) (&s[offset]));
@@ -1537,7 +1537,7 @@ public:
 			unsigned int tmp100;
 			tmp100 = *((unsigned int*) (&tmp99[0]));
 			
-			__footstep_sounds.clear();
+			__footstepSounds.clear();
 			for (unsigned int tmp101 = 0; tmp101 < tmp100; tmp101++)
 			{
 				ESoundIntensity tmp102;
@@ -1546,16 +1546,16 @@ public:
 				tmp103 = *((char*) (&s[offset]));
 				offset += sizeof(char);
 				tmp102 = (ESoundIntensity) tmp103;
-				__footstep_sounds.push_back(tmp102);
+				__footstepSounds.push_back(tmp102);
 			}
 		}
 		
-		// deserialize is_dead
-		__has_is_dead = *((unsigned char*) (&s[offset]));
+		// deserialize isDead
+		__has_isDead = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_is_dead)
+		if (__has_isDead)
 		{
-			__is_dead = *((bool*) (&s[offset]));
+			__isDead = *((bool*) (&s[offset]));
 			offset += sizeof(bool);
 		}
 		
@@ -1571,17 +1571,17 @@ protected:
 
 	int __id;
 	Position __position;
-	int __defusion_remaining_time;
-	std::vector<ESoundIntensity> __footstep_sounds;
-	std::vector<int> __bomb_sounds;
-	bool __is_visible;
+	int __defusionRemainingTime;
+	std::vector<ESoundIntensity> __footstepSounds;
+	std::vector<ESoundIntensity> __bombSounds;
+	bool __isVisible;
 
 	bool __has_id;
 	bool __has_position;
-	bool __has_defusion_remaining_time;
-	bool __has_footstep_sounds;
-	bool __has_bomb_sounds;
-	bool __has_is_visible;
+	bool __has_defusionRemainingTime;
+	bool __has_footstepSounds;
+	bool __has_bombSounds;
+	bool __has_isVisible;
 
 
 public: // getters
@@ -1596,24 +1596,24 @@ public: // getters
 		return __position;
 	}
 	
-	inline int defusion_remaining_time() const
+	inline int defusionRemainingTime() const
 	{
-		return __defusion_remaining_time;
+		return __defusionRemainingTime;
 	}
 	
-	inline std::vector<ESoundIntensity> footstep_sounds() const
+	inline std::vector<ESoundIntensity> footstepSounds() const
 	{
-		return __footstep_sounds;
+		return __footstepSounds;
 	}
 	
-	inline std::vector<int> bomb_sounds() const
+	inline std::vector<ESoundIntensity> bombSounds() const
 	{
-		return __bomb_sounds;
+		return __bombSounds;
 	}
 	
-	inline bool is_visible() const
+	inline bool isVisible() const
 	{
-		return __is_visible;
+		return __isVisible;
 	}
 	
 
@@ -1629,24 +1629,24 @@ public: // reference getters
 		return (Position&) __position;
 	}
 	
-	inline int &ref_defusion_remaining_time() const
+	inline int &ref_defusionRemainingTime() const
 	{
-		return (int&) __defusion_remaining_time;
+		return (int&) __defusionRemainingTime;
 	}
 	
-	inline std::vector<ESoundIntensity> &ref_footstep_sounds() const
+	inline std::vector<ESoundIntensity> &ref_footstepSounds() const
 	{
-		return (std::vector<ESoundIntensity>&) __footstep_sounds;
+		return (std::vector<ESoundIntensity>&) __footstepSounds;
 	}
 	
-	inline std::vector<int> &ref_bomb_sounds() const
+	inline std::vector<ESoundIntensity> &ref_bombSounds() const
 	{
-		return (std::vector<int>&) __bomb_sounds;
+		return (std::vector<ESoundIntensity>&) __bombSounds;
 	}
 	
-	inline bool &ref_is_visible() const
+	inline bool &ref_isVisible() const
 	{
-		return (bool&) __is_visible;
+		return (bool&) __isVisible;
 	}
 	
 
@@ -1664,28 +1664,28 @@ public: // setters
 		has_position(true);
 	}
 	
-	inline void defusion_remaining_time(const int &defusion_remaining_time)
+	inline void defusionRemainingTime(const int &defusionRemainingTime)
 	{
-		__defusion_remaining_time = defusion_remaining_time;
-		has_defusion_remaining_time(true);
+		__defusionRemainingTime = defusionRemainingTime;
+		has_defusionRemainingTime(true);
 	}
 	
-	inline void footstep_sounds(const std::vector<ESoundIntensity> &footstep_sounds)
+	inline void footstepSounds(const std::vector<ESoundIntensity> &footstepSounds)
 	{
-		__footstep_sounds = footstep_sounds;
-		has_footstep_sounds(true);
+		__footstepSounds = footstepSounds;
+		has_footstepSounds(true);
 	}
 	
-	inline void bomb_sounds(const std::vector<int> &bomb_sounds)
+	inline void bombSounds(const std::vector<ESoundIntensity> &bombSounds)
 	{
-		__bomb_sounds = bomb_sounds;
-		has_bomb_sounds(true);
+		__bombSounds = bombSounds;
+		has_bombSounds(true);
 	}
 	
-	inline void is_visible(const bool &is_visible)
+	inline void isVisible(const bool &isVisible)
 	{
-		__is_visible = is_visible;
-		has_is_visible(true);
+		__isVisible = isVisible;
+		has_isVisible(true);
 	}
 	
 
@@ -1701,24 +1701,24 @@ public: // has_attribute getters
 		return __has_position;
 	}
 	
-	inline bool has_defusion_remaining_time() const
+	inline bool has_defusionRemainingTime() const
 	{
-		return __has_defusion_remaining_time;
+		return __has_defusionRemainingTime;
 	}
 	
-	inline bool has_footstep_sounds() const
+	inline bool has_footstepSounds() const
 	{
-		return __has_footstep_sounds;
+		return __has_footstepSounds;
 	}
 	
-	inline bool has_bomb_sounds() const
+	inline bool has_bombSounds() const
 	{
-		return __has_bomb_sounds;
+		return __has_bombSounds;
 	}
 	
-	inline bool has_is_visible() const
+	inline bool has_isVisible() const
 	{
-		return __has_is_visible;
+		return __has_isVisible;
 	}
 	
 
@@ -1734,24 +1734,24 @@ public: // has_attribute setters
 		__has_position = has_position;
 	}
 	
-	inline void has_defusion_remaining_time(const bool &has_defusion_remaining_time)
+	inline void has_defusionRemainingTime(const bool &has_defusionRemainingTime)
 	{
-		__has_defusion_remaining_time = has_defusion_remaining_time;
+		__has_defusionRemainingTime = has_defusionRemainingTime;
 	}
 	
-	inline void has_footstep_sounds(const bool &has_footstep_sounds)
+	inline void has_footstepSounds(const bool &has_footstepSounds)
 	{
-		__has_footstep_sounds = has_footstep_sounds;
+		__has_footstepSounds = has_footstepSounds;
 	}
 	
-	inline void has_bomb_sounds(const bool &has_bomb_sounds)
+	inline void has_bombSounds(const bool &has_bombSounds)
 	{
-		__has_bomb_sounds = has_bomb_sounds;
+		__has_bombSounds = has_bombSounds;
 	}
 	
-	inline void has_is_visible(const bool &has_is_visible)
+	inline void has_isVisible(const bool &has_isVisible)
 	{
-		__has_is_visible = has_is_visible;
+		__has_isVisible = has_isVisible;
 	}
 	
 
@@ -1761,10 +1761,10 @@ public:
 	{
 		has_id(false);
 		has_position(false);
-		has_defusion_remaining_time(false);
-		has_footstep_sounds(false);
-		has_bomb_sounds(false);
-		has_is_visible(false);
+		has_defusionRemainingTime(false);
+		has_footstepSounds(false);
+		has_bombSounds(false);
+		has_isVisible(false);
 	}
 	
 	static inline const std::string nameStatic()
@@ -1797,21 +1797,21 @@ public:
 			s += __position.serialize();
 		}
 		
-		// serialize defusion_remaining_time
-		s += __has_defusion_remaining_time;
-		if (__has_defusion_remaining_time)
+		// serialize defusionRemainingTime
+		s += __has_defusionRemainingTime;
+		if (__has_defusionRemainingTime)
 		{
-			int tmp108 = __defusion_remaining_time;
+			int tmp108 = __defusionRemainingTime;
 			auto tmp109 = reinterpret_cast<char*>(&tmp108);
 			s += std::string(tmp109, sizeof(int));
 		}
 		
-		// serialize footstep_sounds
-		s += __has_footstep_sounds;
-		if (__has_footstep_sounds)
+		// serialize footstepSounds
+		s += __has_footstepSounds;
+		if (__has_footstepSounds)
 		{
 			std::string tmp110 = "";
-			unsigned int tmp112 = __footstep_sounds.size();
+			unsigned int tmp112 = __footstepSounds.size();
 			auto tmp113 = reinterpret_cast<char*>(&tmp112);
 			tmp110 += std::string(tmp113, sizeof(unsigned int));
 			while (tmp110.size() && tmp110.back() == 0)
@@ -1821,7 +1821,7 @@ public:
 			s += std::string(tmp116, sizeof(unsigned char));
 			s += tmp110;
 			
-			for (auto &tmp117 : __footstep_sounds)
+			for (auto &tmp117 : __footstepSounds)
 			{
 				s += '\x01';
 				char tmp119 = (char) tmp117;
@@ -1830,12 +1830,12 @@ public:
 			}
 		}
 		
-		// serialize bomb_sounds
-		s += __has_bomb_sounds;
-		if (__has_bomb_sounds)
+		// serialize bombSounds
+		s += __has_bombSounds;
+		if (__has_bombSounds)
 		{
 			std::string tmp121 = "";
-			unsigned int tmp123 = __bomb_sounds.size();
+			unsigned int tmp123 = __bombSounds.size();
 			auto tmp124 = reinterpret_cast<char*>(&tmp123);
 			tmp121 += std::string(tmp124, sizeof(unsigned int));
 			while (tmp121.size() && tmp121.back() == 0)
@@ -1845,20 +1845,20 @@ public:
 			s += std::string(tmp127, sizeof(unsigned char));
 			s += tmp121;
 			
-			for (auto &tmp128 : __bomb_sounds)
+			for (auto &tmp128 : __bombSounds)
 			{
 				s += '\x01';
-				int tmp130 = tmp128;
+				char tmp130 = (char) tmp128;
 				auto tmp131 = reinterpret_cast<char*>(&tmp130);
-				s += std::string(tmp131, sizeof(int));
+				s += std::string(tmp131, sizeof(char));
 			}
 		}
 		
-		// serialize is_visible
-		s += __has_is_visible;
-		if (__has_is_visible)
+		// serialize isVisible
+		s += __has_isVisible;
+		if (__has_isVisible)
 		{
-			bool tmp133 = __is_visible;
+			bool tmp133 = __isVisible;
 			auto tmp134 = reinterpret_cast<char*>(&tmp133);
 			s += std::string(tmp134, sizeof(bool));
 		}
@@ -1885,19 +1885,19 @@ public:
 			offset = __position.deserialize(s, offset);
 		}
 		
-		// deserialize defusion_remaining_time
-		__has_defusion_remaining_time = *((unsigned char*) (&s[offset]));
+		// deserialize defusionRemainingTime
+		__has_defusionRemainingTime = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_defusion_remaining_time)
+		if (__has_defusionRemainingTime)
 		{
-			__defusion_remaining_time = *((int*) (&s[offset]));
+			__defusionRemainingTime = *((int*) (&s[offset]));
 			offset += sizeof(int);
 		}
 		
-		// deserialize footstep_sounds
-		__has_footstep_sounds = *((unsigned char*) (&s[offset]));
+		// deserialize footstepSounds
+		__has_footstepSounds = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_footstep_sounds)
+		if (__has_footstepSounds)
 		{
 			unsigned char tmp135;
 			tmp135 = *((unsigned char*) (&s[offset]));
@@ -1909,7 +1909,7 @@ public:
 			unsigned int tmp137;
 			tmp137 = *((unsigned int*) (&tmp136[0]));
 			
-			__footstep_sounds.clear();
+			__footstepSounds.clear();
 			for (unsigned int tmp138 = 0; tmp138 < tmp137; tmp138++)
 			{
 				ESoundIntensity tmp139;
@@ -1918,14 +1918,14 @@ public:
 				tmp140 = *((char*) (&s[offset]));
 				offset += sizeof(char);
 				tmp139 = (ESoundIntensity) tmp140;
-				__footstep_sounds.push_back(tmp139);
+				__footstepSounds.push_back(tmp139);
 			}
 		}
 		
-		// deserialize bomb_sounds
-		__has_bomb_sounds = *((unsigned char*) (&s[offset]));
+		// deserialize bombSounds
+		__has_bombSounds = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_bomb_sounds)
+		if (__has_bombSounds)
 		{
 			unsigned char tmp141;
 			tmp141 = *((unsigned char*) (&s[offset]));
@@ -1937,23 +1937,25 @@ public:
 			unsigned int tmp143;
 			tmp143 = *((unsigned int*) (&tmp142[0]));
 			
-			__bomb_sounds.clear();
+			__bombSounds.clear();
 			for (unsigned int tmp144 = 0; tmp144 < tmp143; tmp144++)
 			{
-				int tmp145;
+				ESoundIntensity tmp145;
 				offset++;
-				tmp145 = *((int*) (&s[offset]));
-				offset += sizeof(int);
-				__bomb_sounds.push_back(tmp145);
+				char tmp146;
+				tmp146 = *((char*) (&s[offset]));
+				offset += sizeof(char);
+				tmp145 = (ESoundIntensity) tmp146;
+				__bombSounds.push_back(tmp145);
 			}
 		}
 		
-		// deserialize is_visible
-		__has_is_visible = *((unsigned char*) (&s[offset]));
+		// deserialize isVisible
+		__has_isVisible = *((unsigned char*) (&s[offset]));
 		offset += sizeof(unsigned char);
-		if (__has_is_visible)
+		if (__has_isVisible)
 		{
-			__is_visible = *((bool*) (&s[offset]));
+			__isVisible = *((bool*) (&s[offset]));
 			offset += sizeof(bool);
 		}
 		
@@ -2241,55 +2243,55 @@ public:
 		s += __has_width;
 		if (__has_width)
 		{
-			int tmp147 = __width;
-			auto tmp148 = reinterpret_cast<char*>(&tmp147);
-			s += std::string(tmp148, sizeof(int));
+			int tmp148 = __width;
+			auto tmp149 = reinterpret_cast<char*>(&tmp148);
+			s += std::string(tmp149, sizeof(int));
 		}
 		
 		// serialize height
 		s += __has_height;
 		if (__has_height)
 		{
-			int tmp150 = __height;
-			auto tmp151 = reinterpret_cast<char*>(&tmp150);
-			s += std::string(tmp151, sizeof(int));
+			int tmp151 = __height;
+			auto tmp152 = reinterpret_cast<char*>(&tmp151);
+			s += std::string(tmp152, sizeof(int));
 		}
 		
 		// serialize board
 		s += __has_board;
 		if (__has_board)
 		{
-			std::string tmp152 = "";
-			unsigned int tmp154 = __board.size();
-			auto tmp155 = reinterpret_cast<char*>(&tmp154);
-			tmp152 += std::string(tmp155, sizeof(unsigned int));
-			while (tmp152.size() && tmp152.back() == 0)
-				tmp152.pop_back();
-			unsigned char tmp157 = tmp152.size();
-			auto tmp158 = reinterpret_cast<char*>(&tmp157);
-			s += std::string(tmp158, sizeof(unsigned char));
-			s += tmp152;
+			std::string tmp153 = "";
+			unsigned int tmp155 = __board.size();
+			auto tmp156 = reinterpret_cast<char*>(&tmp155);
+			tmp153 += std::string(tmp156, sizeof(unsigned int));
+			while (tmp153.size() && tmp153.back() == 0)
+				tmp153.pop_back();
+			unsigned char tmp158 = tmp153.size();
+			auto tmp159 = reinterpret_cast<char*>(&tmp158);
+			s += std::string(tmp159, sizeof(unsigned char));
+			s += tmp153;
 			
-			for (auto &tmp159 : __board)
+			for (auto &tmp160 : __board)
 			{
 				s += '\x01';
-				std::string tmp160 = "";
-				unsigned int tmp162 = tmp159.size();
-				auto tmp163 = reinterpret_cast<char*>(&tmp162);
-				tmp160 += std::string(tmp163, sizeof(unsigned int));
-				while (tmp160.size() && tmp160.back() == 0)
-					tmp160.pop_back();
-				unsigned char tmp165 = tmp160.size();
-				auto tmp166 = reinterpret_cast<char*>(&tmp165);
-				s += std::string(tmp166, sizeof(unsigned char));
-				s += tmp160;
+				std::string tmp161 = "";
+				unsigned int tmp163 = tmp160.size();
+				auto tmp164 = reinterpret_cast<char*>(&tmp163);
+				tmp161 += std::string(tmp164, sizeof(unsigned int));
+				while (tmp161.size() && tmp161.back() == 0)
+					tmp161.pop_back();
+				unsigned char tmp166 = tmp161.size();
+				auto tmp167 = reinterpret_cast<char*>(&tmp166);
+				s += std::string(tmp167, sizeof(unsigned char));
+				s += tmp161;
 				
-				for (auto &tmp167 : tmp159)
+				for (auto &tmp168 : tmp160)
 				{
 					s += '\x01';
-					char tmp169 = (char) tmp167;
-					auto tmp170 = reinterpret_cast<char*>(&tmp169);
-					s += std::string(tmp170, sizeof(char));
+					char tmp170 = (char) tmp168;
+					auto tmp171 = reinterpret_cast<char*>(&tmp170);
+					s += std::string(tmp171, sizeof(char));
 				}
 			}
 		}
@@ -2298,37 +2300,37 @@ public:
 		s += __has_scores;
 		if (__has_scores)
 		{
-			std::string tmp171 = "";
-			unsigned int tmp173 = __scores.size();
-			auto tmp174 = reinterpret_cast<char*>(&tmp173);
-			tmp171 += std::string(tmp174, sizeof(unsigned int));
-			while (tmp171.size() && tmp171.back() == 0)
-				tmp171.pop_back();
-			unsigned char tmp176 = tmp171.size();
-			auto tmp177 = reinterpret_cast<char*>(&tmp176);
-			s += std::string(tmp177, sizeof(unsigned char));
-			s += tmp171;
+			std::string tmp172 = "";
+			unsigned int tmp174 = __scores.size();
+			auto tmp175 = reinterpret_cast<char*>(&tmp174);
+			tmp172 += std::string(tmp175, sizeof(unsigned int));
+			while (tmp172.size() && tmp172.back() == 0)
+				tmp172.pop_back();
+			unsigned char tmp177 = tmp172.size();
+			auto tmp178 = reinterpret_cast<char*>(&tmp177);
+			s += std::string(tmp178, sizeof(unsigned char));
+			s += tmp172;
 			
-			for (auto &tmp178 : __scores)
+			for (auto &tmp179 : __scores)
 			{
 				s += '\x01';
-				std::string tmp179 = "";
-				unsigned int tmp181 = tmp178.first.size();
-				auto tmp182 = reinterpret_cast<char*>(&tmp181);
-				tmp179 += std::string(tmp182, sizeof(unsigned int));
-				while (tmp179.size() && tmp179.back() == 0)
-					tmp179.pop_back();
-				unsigned char tmp184 = tmp179.size();
-				auto tmp185 = reinterpret_cast<char*>(&tmp184);
-				s += std::string(tmp185, sizeof(unsigned char));
-				s += tmp179;
+				std::string tmp180 = "";
+				unsigned int tmp182 = tmp179.first.size();
+				auto tmp183 = reinterpret_cast<char*>(&tmp182);
+				tmp180 += std::string(tmp183, sizeof(unsigned int));
+				while (tmp180.size() && tmp180.back() == 0)
+					tmp180.pop_back();
+				unsigned char tmp185 = tmp180.size();
+				auto tmp186 = reinterpret_cast<char*>(&tmp185);
+				s += std::string(tmp186, sizeof(unsigned char));
+				s += tmp180;
 				
-				s += tmp178.first;
+				s += tmp179.first;
 				
 				s += '\x01';
-				float tmp187 = tmp178.second;
-				auto tmp188 = reinterpret_cast<char*>(&tmp187);
-				s += std::string(tmp188, sizeof(float));
+				float tmp188 = tmp179.second;
+				auto tmp189 = reinterpret_cast<char*>(&tmp188);
+				s += std::string(tmp189, sizeof(float));
 			}
 		}
 		
@@ -2336,21 +2338,21 @@ public:
 		s += __has_bombs;
 		if (__has_bombs)
 		{
-			std::string tmp189 = "";
-			unsigned int tmp191 = __bombs.size();
-			auto tmp192 = reinterpret_cast<char*>(&tmp191);
-			tmp189 += std::string(tmp192, sizeof(unsigned int));
-			while (tmp189.size() && tmp189.back() == 0)
-				tmp189.pop_back();
-			unsigned char tmp194 = tmp189.size();
-			auto tmp195 = reinterpret_cast<char*>(&tmp194);
-			s += std::string(tmp195, sizeof(unsigned char));
-			s += tmp189;
+			std::string tmp190 = "";
+			unsigned int tmp192 = __bombs.size();
+			auto tmp193 = reinterpret_cast<char*>(&tmp192);
+			tmp190 += std::string(tmp193, sizeof(unsigned int));
+			while (tmp190.size() && tmp190.back() == 0)
+				tmp190.pop_back();
+			unsigned char tmp195 = tmp190.size();
+			auto tmp196 = reinterpret_cast<char*>(&tmp195);
+			s += std::string(tmp196, sizeof(unsigned char));
+			s += tmp190;
 			
-			for (auto &tmp196 : __bombs)
+			for (auto &tmp197 : __bombs)
 			{
 				s += '\x01';
-				s += tmp196.serialize();
+				s += tmp197.serialize();
 			}
 		}
 		
@@ -2358,21 +2360,21 @@ public:
 		s += __has_terrorists;
 		if (__has_terrorists)
 		{
-			std::string tmp197 = "";
-			unsigned int tmp199 = __terrorists.size();
-			auto tmp200 = reinterpret_cast<char*>(&tmp199);
-			tmp197 += std::string(tmp200, sizeof(unsigned int));
-			while (tmp197.size() && tmp197.back() == 0)
-				tmp197.pop_back();
-			unsigned char tmp202 = tmp197.size();
-			auto tmp203 = reinterpret_cast<char*>(&tmp202);
-			s += std::string(tmp203, sizeof(unsigned char));
-			s += tmp197;
+			std::string tmp198 = "";
+			unsigned int tmp200 = __terrorists.size();
+			auto tmp201 = reinterpret_cast<char*>(&tmp200);
+			tmp198 += std::string(tmp201, sizeof(unsigned int));
+			while (tmp198.size() && tmp198.back() == 0)
+				tmp198.pop_back();
+			unsigned char tmp203 = tmp198.size();
+			auto tmp204 = reinterpret_cast<char*>(&tmp203);
+			s += std::string(tmp204, sizeof(unsigned char));
+			s += tmp198;
 			
-			for (auto &tmp204 : __terrorists)
+			for (auto &tmp205 : __terrorists)
 			{
 				s += '\x01';
-				s += tmp204.serialize();
+				s += tmp205.serialize();
 			}
 		}
 		
@@ -2380,21 +2382,21 @@ public:
 		s += __has_polices;
 		if (__has_polices)
 		{
-			std::string tmp205 = "";
-			unsigned int tmp207 = __polices.size();
-			auto tmp208 = reinterpret_cast<char*>(&tmp207);
-			tmp205 += std::string(tmp208, sizeof(unsigned int));
-			while (tmp205.size() && tmp205.back() == 0)
-				tmp205.pop_back();
-			unsigned char tmp210 = tmp205.size();
-			auto tmp211 = reinterpret_cast<char*>(&tmp210);
-			s += std::string(tmp211, sizeof(unsigned char));
-			s += tmp205;
+			std::string tmp206 = "";
+			unsigned int tmp208 = __polices.size();
+			auto tmp209 = reinterpret_cast<char*>(&tmp208);
+			tmp206 += std::string(tmp209, sizeof(unsigned int));
+			while (tmp206.size() && tmp206.back() == 0)
+				tmp206.pop_back();
+			unsigned char tmp211 = tmp206.size();
+			auto tmp212 = reinterpret_cast<char*>(&tmp211);
+			s += std::string(tmp212, sizeof(unsigned char));
+			s += tmp206;
 			
-			for (auto &tmp212 : __polices)
+			for (auto &tmp213 : __polices)
 			{
 				s += '\x01';
-				s += tmp212.serialize();
+				s += tmp213.serialize();
 			}
 		}
 		
@@ -2433,43 +2435,43 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_board)
 		{
-			unsigned char tmp213;
-			tmp213 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp214;
+			tmp214 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp214 = std::string(&s[offset], tmp213);
-			offset += tmp213;
-			while (tmp214.size() < sizeof(unsigned int))
-				tmp214 += '\x00';
-			unsigned int tmp215;
-			tmp215 = *((unsigned int*) (&tmp214[0]));
+			std::string tmp215 = std::string(&s[offset], tmp214);
+			offset += tmp214;
+			while (tmp215.size() < sizeof(unsigned int))
+				tmp215 += '\x00';
+			unsigned int tmp216;
+			tmp216 = *((unsigned int*) (&tmp215[0]));
 			
 			__board.clear();
-			for (unsigned int tmp216 = 0; tmp216 < tmp215; tmp216++)
+			for (unsigned int tmp217 = 0; tmp217 < tmp216; tmp217++)
 			{
-				std::vector<ECell> tmp217;
+				std::vector<ECell> tmp218;
 				offset++;
-				unsigned char tmp218;
-				tmp218 = *((unsigned char*) (&s[offset]));
+				unsigned char tmp219;
+				tmp219 = *((unsigned char*) (&s[offset]));
 				offset += sizeof(unsigned char);
-				std::string tmp219 = std::string(&s[offset], tmp218);
-				offset += tmp218;
-				while (tmp219.size() < sizeof(unsigned int))
-					tmp219 += '\x00';
-				unsigned int tmp220;
-				tmp220 = *((unsigned int*) (&tmp219[0]));
+				std::string tmp220 = std::string(&s[offset], tmp219);
+				offset += tmp219;
+				while (tmp220.size() < sizeof(unsigned int))
+					tmp220 += '\x00';
+				unsigned int tmp221;
+				tmp221 = *((unsigned int*) (&tmp220[0]));
 				
-				tmp217.clear();
-				for (unsigned int tmp221 = 0; tmp221 < tmp220; tmp221++)
+				tmp218.clear();
+				for (unsigned int tmp222 = 0; tmp222 < tmp221; tmp222++)
 				{
-					ECell tmp222;
+					ECell tmp223;
 					offset++;
-					char tmp223;
-					tmp223 = *((char*) (&s[offset]));
+					char tmp224;
+					tmp224 = *((char*) (&s[offset]));
 					offset += sizeof(char);
-					tmp222 = (ECell) tmp223;
-					tmp217.push_back(tmp222);
+					tmp223 = (ECell) tmp224;
+					tmp218.push_back(tmp223);
 				}
-				__board.push_back(tmp217);
+				__board.push_back(tmp218);
 			}
 		}
 		
@@ -2478,40 +2480,40 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_scores)
 		{
-			unsigned char tmp224;
-			tmp224 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp225;
+			tmp225 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp225 = std::string(&s[offset], tmp224);
-			offset += tmp224;
-			while (tmp225.size() < sizeof(unsigned int))
-				tmp225 += '\x00';
-			unsigned int tmp226;
-			tmp226 = *((unsigned int*) (&tmp225[0]));
+			std::string tmp226 = std::string(&s[offset], tmp225);
+			offset += tmp225;
+			while (tmp226.size() < sizeof(unsigned int))
+				tmp226 += '\x00';
+			unsigned int tmp227;
+			tmp227 = *((unsigned int*) (&tmp226[0]));
 			
 			__scores.clear();
-			for (unsigned int tmp227 = 0; tmp227 < tmp226; tmp227++)
+			for (unsigned int tmp228 = 0; tmp228 < tmp227; tmp228++)
 			{
-				std::string tmp228;
+				std::string tmp229;
 				offset++;
-				unsigned char tmp230;
-				tmp230 = *((unsigned char*) (&s[offset]));
+				unsigned char tmp231;
+				tmp231 = *((unsigned char*) (&s[offset]));
 				offset += sizeof(unsigned char);
-				std::string tmp231 = std::string(&s[offset], tmp230);
-				offset += tmp230;
-				while (tmp231.size() < sizeof(unsigned int))
-					tmp231 += '\x00';
-				unsigned int tmp232;
-				tmp232 = *((unsigned int*) (&tmp231[0]));
+				std::string tmp232 = std::string(&s[offset], tmp231);
+				offset += tmp231;
+				while (tmp232.size() < sizeof(unsigned int))
+					tmp232 += '\x00';
+				unsigned int tmp233;
+				tmp233 = *((unsigned int*) (&tmp232[0]));
 				
-				tmp228 = s.substr(offset, tmp232);
-				offset += tmp232;
+				tmp229 = s.substr(offset, tmp233);
+				offset += tmp233;
 				
-				float tmp229;
+				float tmp230;
 				offset++;
-				tmp229 = *((float*) (&s[offset]));
+				tmp230 = *((float*) (&s[offset]));
 				offset += sizeof(float);
 				
-				__scores[tmp228] = tmp229;
+				__scores[tmp229] = tmp230;
 			}
 		}
 		
@@ -2520,23 +2522,23 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_bombs)
 		{
-			unsigned char tmp233;
-			tmp233 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp234;
+			tmp234 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp234 = std::string(&s[offset], tmp233);
-			offset += tmp233;
-			while (tmp234.size() < sizeof(unsigned int))
-				tmp234 += '\x00';
-			unsigned int tmp235;
-			tmp235 = *((unsigned int*) (&tmp234[0]));
+			std::string tmp235 = std::string(&s[offset], tmp234);
+			offset += tmp234;
+			while (tmp235.size() < sizeof(unsigned int))
+				tmp235 += '\x00';
+			unsigned int tmp236;
+			tmp236 = *((unsigned int*) (&tmp235[0]));
 			
 			__bombs.clear();
-			for (unsigned int tmp236 = 0; tmp236 < tmp235; tmp236++)
+			for (unsigned int tmp237 = 0; tmp237 < tmp236; tmp237++)
 			{
-				Bomb tmp237;
+				Bomb tmp238;
 				offset++;
-				offset = tmp237.deserialize(s, offset);
-				__bombs.push_back(tmp237);
+				offset = tmp238.deserialize(s, offset);
+				__bombs.push_back(tmp238);
 			}
 		}
 		
@@ -2545,23 +2547,23 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_terrorists)
 		{
-			unsigned char tmp238;
-			tmp238 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp239;
+			tmp239 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp239 = std::string(&s[offset], tmp238);
-			offset += tmp238;
-			while (tmp239.size() < sizeof(unsigned int))
-				tmp239 += '\x00';
-			unsigned int tmp240;
-			tmp240 = *((unsigned int*) (&tmp239[0]));
+			std::string tmp240 = std::string(&s[offset], tmp239);
+			offset += tmp239;
+			while (tmp240.size() < sizeof(unsigned int))
+				tmp240 += '\x00';
+			unsigned int tmp241;
+			tmp241 = *((unsigned int*) (&tmp240[0]));
 			
 			__terrorists.clear();
-			for (unsigned int tmp241 = 0; tmp241 < tmp240; tmp241++)
+			for (unsigned int tmp242 = 0; tmp242 < tmp241; tmp242++)
 			{
-				Terrorist tmp242;
+				Terrorist tmp243;
 				offset++;
-				offset = tmp242.deserialize(s, offset);
-				__terrorists.push_back(tmp242);
+				offset = tmp243.deserialize(s, offset);
+				__terrorists.push_back(tmp243);
 			}
 		}
 		
@@ -2570,23 +2572,23 @@ public:
 		offset += sizeof(unsigned char);
 		if (__has_polices)
 		{
-			unsigned char tmp243;
-			tmp243 = *((unsigned char*) (&s[offset]));
+			unsigned char tmp244;
+			tmp244 = *((unsigned char*) (&s[offset]));
 			offset += sizeof(unsigned char);
-			std::string tmp244 = std::string(&s[offset], tmp243);
-			offset += tmp243;
-			while (tmp244.size() < sizeof(unsigned int))
-				tmp244 += '\x00';
-			unsigned int tmp245;
-			tmp245 = *((unsigned int*) (&tmp244[0]));
+			std::string tmp245 = std::string(&s[offset], tmp244);
+			offset += tmp244;
+			while (tmp245.size() < sizeof(unsigned int))
+				tmp245 += '\x00';
+			unsigned int tmp246;
+			tmp246 = *((unsigned int*) (&tmp245[0]));
 			
 			__polices.clear();
-			for (unsigned int tmp246 = 0; tmp246 < tmp245; tmp246++)
+			for (unsigned int tmp247 = 0; tmp247 < tmp246; tmp247++)
 			{
-				Police tmp247;
+				Police tmp248;
 				offset++;
-				offset = tmp247.deserialize(s, offset);
-				__polices.push_back(tmp247);
+				offset = tmp248.deserialize(s, offset);
+				__polices.push_back(tmp248);
 			}
 		}
 		
