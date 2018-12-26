@@ -5,7 +5,7 @@ from ..ks.models import Position
 
 
 # performs a depth limited search with no specific goal position.
-def compute_visions_dls(position, limit, world):
+def calculate_visions_dls(position, limit, world):
     limit += 1
     sentinel = Position(None, None)
     position_stack = [position]
@@ -35,7 +35,7 @@ def compute_visions_dls(position, limit, world):
     return path
 
 
-def compute_visions_square(position, limit, world):
+def calculate_visions_square(position, limit, world):
     visions = []
     for x in range(position.x - limit, position.x + limit + 1):
         if _is_valid_position(x, world.width):

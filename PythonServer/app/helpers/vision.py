@@ -7,9 +7,9 @@ from . import vision_calculator
 
 def compute_agent_vision(strategy, position, limit, world):
     if strategy == 'dls':
-        return _join_visions(vision_calculator.compute_visions_dls(position, limit, world))
+        return _join_visions(vision_calculator.calculate_visions_dls(position, limit, world))
     if strategy == 'square':
-        return vision_calculator.compute_visions_square(position, limit, world)
+        return vision_calculator.calculate_visions_square(position, limit, world)
 
 
 # computes all polices visions and converts them into one list.

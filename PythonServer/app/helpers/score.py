@@ -14,22 +14,20 @@ class OperationType(Enum):
     KillTerrorist = 3
 
 
-def increase_score(operation_type, world, bomb_position=None):
-    if operation_type == OperationType.Plant:
-        _increase_terrorist_score(world, bomb_position, world.constants.bomb_planting_score)
-    if operation_type == OperationType.Explode:
-        _increase_terrorist_score(world, bomb_position, world.constants.bomb_explosion_score)
+def increase_police_score(operation_type, world):
     if operation_type == OperationType.Defuse:
-        _increase_police_score(world, world.constants.bomb_defusion_score)
+        world.scores['Police'] += world.constants.bomb_defusion_score
     if operation_type == OperationType.KillTerrorist:
-        _increase_police_score(world, world.constants.terrorist_death_score)
+        world.scores['Police'] += world.constants.terrorist_death_score
 
 
-def _increase_police_score(world, score):
-        world.scores['Police'] += score
+def increase_terrorist_score(operation_type, world, bomb_position):
+    score = 0
+    if operation_type == OperationType.Plant:
+        score = world.constants.bomb_planting_score
+    if operation_type == OperationType.Explode:
+        score = world.constants.bomb_explosion_score
 
-
-def _increase_terrorist_score(world, bomb_position, score):
     score_coefficients = {
         ECell.SmallBombSite: world.constants.score_coefficient_small_bomb_site,
         ECell.MediumBombSite: world.constants.score_coefficient_medium_bomb_site,
