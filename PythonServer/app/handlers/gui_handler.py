@@ -74,7 +74,9 @@ class GuiHandler:
                 bombs_events['planted'].append(event.payload)
             if event.type == GuiEventType.ExplodeBomb:
                 bombs_events['exploded'].append(event.payload)
-            if event.type == GuiEventType.CancelBombOp:
+            if event.type == GuiEventType.CancelPlant:
+                bombs_op_canceled.append(event.payload)
+            if event.type == GuiEventType.CancelDefuse:
                 bombs_op_canceled.append(event.payload)
             if event.type == GuiEventType.TerroristDeath:
                 agents_dead["Terrorist"].append(event.payload)
