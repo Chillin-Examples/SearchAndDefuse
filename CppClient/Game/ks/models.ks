@@ -30,6 +30,14 @@ _def = enum <byte>
     }
 
 
+[AgentStatus]
+_def = enum <byte>
+    {
+        Alive,
+        Dead
+    }
+
+
 [Constants]
 _def = class
 bomb_planting_time = int
@@ -44,6 +52,7 @@ score_coefficient_large_bomb_site = float
 score_coefficient_vast_bomb_site = float
 terrorist_vision_distance = int
 terrorist_death_score = int
+police_death_score = int
 police_vision_distance = int
 sound_ranges = map<ESoundIntensity, int>
 max_cycles = int
@@ -69,7 +78,7 @@ id = int
 position = Position
 planting_remaining_time = int
 footstep_sounds = list<int>
-is_dead = boolean
+status = AgentStatus
 
 
 [Police]
@@ -79,7 +88,7 @@ position = Position
 defusion_remaining_time = int
 footstep_sounds = list<int>
 bomb_sounds = list<int>
-is_visible = boolean
+status = AgentStatus
 
 
 [World]

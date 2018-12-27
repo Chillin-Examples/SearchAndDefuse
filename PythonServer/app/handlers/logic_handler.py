@@ -6,7 +6,7 @@ from copy import deepcopy
 # project imports
 from ..helpers.timers import bomb_timer
 from ..helpers import vision
-from ..ks.models import ECell
+from ..ks.models import ECell, AgentStatus
 
 
 class LogicHandler:
@@ -41,21 +41,31 @@ class LogicHandler:
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
+
+        # check death terrorist
+        for terrorist in self.world.terrorists:
+            if terrorist.status == AgentStatus.Alive:
+                if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
+                    gui_events += terrorist.die(self.world)
+
         return gui_events
 
     def get_client_world(self, side_name):
         client_world = deepcopy(self.world)
+
         if side_name == 'Police':
             client_world.terrorists = []
-            for vision_position in self.world.visions[side_name]:
-                for terrorist in self.world.terrorists:
-                    if terrorist.position == vision_position:
-                        client_world.terrorists.append(terrorist)
+            client_world.bombs = []
+            for vision_position in self.world.visions['Police']:
+                for bomb in self.world.bombs:
+                    if bomb.position == vision_position:
+                        client_world.bombs.append(bomb)
+
             return client_world
 
         elif side_name == 'Terrorist':
             client_world.polices = []
-            for vision_position in self.world.visions[side_name]:
+            for vision_position in self.world.visions['Terrorist']:
                 for police in self.world.polices:
                     if police.position == vision_position:
                         client_world.polices.append(police)
@@ -63,38 +73,36 @@ class LogicHandler:
 
     def check_end_game(self, current_cycle):
         end_game = False
+        winner_sidename = None
 
-        # times up!
+        # times up
         if current_cycle > self.world.constants.max_cycles:
-            end_game = True
-
-        # TODO this condition should be changed.
-        # all bombs exploded
-        if all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                            ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
-            end_game = True
-
-        winner_sidename = ''
-        details = {}
-
-        # Game Statuses Should Be Cached In Details too.
-        if end_game:
             if self.world.scores['Terrorist'] > self.world.scores['Police']:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
                 winner_sidename = 'Police'
-            elif ECell.SmallBombSite not in self.world.board or ECell.MediumBombSite not in self.world.board or \
-                    ECell.LargeBombSite not in self.world.board or ECell.VastBombSite not in self.world.board:
-                winner_sidename = 'Terrorist'
 
-            else:
-                winner_sidename = None
+        # all bombs exploded
+        elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
+                              ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
+            end_game = True
+            winner_sidename = 'Terrorist'
 
-            details = {
-                'Scores': {
-                    'Police': str(self.world.scores['Police']),
-                    'Terrorist': str(self.world.scores['Terrorist'])
-                }
+        # all terrorists are dead
+        elif all(terrorist.status == AgentStatus.Dead for terrorist in self.world.terrorists):
+            end_game = True
+            winner_sidename = 'Police'
+
+        # all polices are dead
+        elif all(police.status == AgentStatus.Dead for police in self.world.polices):
+            end_game = True
+            winner_sidename = 'Terrorist'
+
+        details = {
+            'Scores': {
+                'Police': str(self.world.scores['Police']),
+                'Terrorist': str(self.world.scores['Terrorist'])
             }
+        }
 
         return end_game, winner_sidename, details

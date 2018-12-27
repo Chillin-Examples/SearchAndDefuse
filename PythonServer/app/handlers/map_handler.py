@@ -46,6 +46,7 @@ class MapHandler:
         world.constants.score_coefficient_vast_bomb_site = constants_config["score_coefficient_vast_bomb_site"]
         world.constants.terrorist_vision_distance = constants_config["terrorist_vision_distance"]
         world.constants.terrorist_death_score = constants_config["terrorist_death_score"]
+        world.constants.police_death_score = constants_config["police_death_score"]
         world.constants.police_vision_distance = constants_config["police_vision_distance"]
         world.constants.max_cycles = constants_config["max_cycles"]
 
@@ -64,7 +65,7 @@ class MapHandler:
                     new_police.defusion_remaining_time = -1
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
-                    new_police.is_visible = False
+                    new_police.status = AgentStatus.Alive
                     world.polices.append(new_police)
                 if side == 'Terrorist':
                     new_terrorist = Terrorist()
@@ -72,7 +73,7 @@ class MapHandler:
                     new_terrorist.position = player_position
                     new_terrorist.planting_remaining_time = -1
                     new_terrorist.footstep_sounds = []
-                    new_terrorist.is_dead = False
+                    new_terrorist.status = AgentStatus.Alive
                     world.terrorists.append(new_terrorist)
 
     def load_map(self, config):

@@ -45,7 +45,7 @@
     ],
     "Police": [
       {
-        "position": [2, 3]
+        "position": [1, 22]
       },
       {
         "position": [3, 2]
@@ -71,7 +71,8 @@
     "score_coefficient_vast_bomb_site" : 10,
     "terrorist_vision_distance" : 5,
     "terrorist_death_score" : 4,
-    "police_vision_distance" : 6,
+    "police_death_score" : 4,
+    "police_vision_distance" : 2,
     "max_cycles" : 100
   }
 }
