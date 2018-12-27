@@ -28,7 +28,7 @@
   "player": {
     "Terrorist": [
       {
-        "position": [19, 19]
+        "position": [3, 7]
       },
       {
         "position": [20, 18]
@@ -71,6 +71,7 @@
     "score_coefficient_vast_bomb_site" : 10,
     "terrorist_vision_distance" : 3,
     "terrorist_death_score" : 4,
+    "police_death_score" : 4,
     "police_vision_distance" : 2,
     "max_cycles" : 100
   }

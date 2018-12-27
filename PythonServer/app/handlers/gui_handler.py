@@ -28,6 +28,9 @@ class GuiHandler:
         self._img_refs = {side: {} for side in self._sides}
         self.statusbar = []
         self._fog_refs = []
+        self._img_refs = {side: {} for side in self._sides}
+        self._dead_img_refs = {side: {} for side in self._sides}
+        self._fog_refs = []
 
 
     def initialize(self):
@@ -48,12 +51,13 @@ class GuiHandler:
 
         self._initialize_board(canvas)
         self._initialize_fogs(canvas)
-
+        self._update_fogs()
         self._initialize_statusbar()
 
     def update(self, gui_events, statusbar):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
+        agents_dead = {"Terrorist": [], "Police": []}
 
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
@@ -72,6 +76,10 @@ class GuiHandler:
                 bombs_events['exploded'].append(event.payload)
             if event.type == GuiEventType.CancelBombOp:
                 bombs_op_canceled.append(event.payload)
+            if event.type == GuiEventType.TerroristDeath:
+                agents_dead["Terrorist"].append(event.payload)
+            if event.type == GuiEventType.PoliceDeath:
+                agents_dead["Police"].append(event.payload)
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             self._update_board_on_move(moving_terrorists, moving_polices)
@@ -93,6 +101,12 @@ class GuiHandler:
 
         if len(bombs_op_canceled) != 0:
             self._update_board_on_bomb_cancel(bombs_op_canceled)
+
+        if len(agents_dead["Terrorist"]) != 0:
+            self._update_on_death_terrorist(agents_dead)
+
+        if len(agents_dead["Police"]) != 0:
+            self._update_on_death_police(agents_dead)
 
         self._update_statusbar(statusbar)
         self._update_fogs()
@@ -442,6 +456,31 @@ class GuiHandler:
             self._canvas.edit_image(self._fog_refs[index], 5000, 5000,
                                     scale_type=ScaleType.ScaleToWidth,
                                     scale_value=self._cell_size)
+
+    def _update_on_death_terrorist(self, dead_agents):
+        # for side in dead_agents:
+        for agent in dead_agents["Terrorist"]:
+            canvas_pos = self._utils.get_canvas_position(agent['position'])
+
+            self._canvas.edit_image(self._img_refs["Terrorist"][agent['terrorist_id']],
+                                    6000, 6000,
+                                    center_origin=True)
+            self._canvas.edit_image(self._dead_img_refs["Terrorist"][agent['terrorist_id']],
+                                    canvas_pos['x'], canvas_pos['y'],
+                                    center_origin=True)
+
+    def _update_on_death_police(self, dead_agents):
+        # for side in dead_agents:
+        for agent in dead_agents["Police"]:
+            canvas_pos = self._utils.get_canvas_position(agent['position'])
+
+            self._canvas.edit_image(self._img_refs["Police"][agent['police_id']],
+                                    6000, 6000,
+                                    center_origin=True)
+            self._canvas.edit_image(self._dead_img_refs["Police"][agent['police_id']],
+                                    canvas_pos['x'], canvas_pos['y'],
+                                    center_origin=True)
+
 
 
 class GuiUtils:

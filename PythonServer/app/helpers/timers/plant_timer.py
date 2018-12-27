@@ -40,18 +40,34 @@ def _update_plant_timer_on_cycle(bomb, world, statusbar):
         world.terrorists[bomb.planter_id].planting_remaining_time = -1
         print('Bomb planted.')
         bomb.explosion_remaining_time = world.constants.bomb_explosion_time
-        score.increase_score('plant', world, bomb.position)
-        return [GuiEvent(GuiEventType.PlantedBomb, bomb_position=bomb.position)] # show timer on gui later
+        score.increase_plant_score(world, bomb.position)
+        return [GuiEvent(GuiEventType.PlantedBomb, bomb_position=bomb.position)]  # show timer on gui later
 
     # when bomb explodes
     elif bomb.explosion_remaining_time == 0:
+        explosion_events = []
         print('Bomb exploded.')
         bomb_position = bomb.position
-        score.increase_score('explode', world, bomb.position)
+        score.increase_explode_bomb_score(world, bomb.position)
         world.bombs.remove(bomb)
         statusbar.update_exploded_number()
         world.board[bomb_position.y][bomb_position.x] = ECell.Empty
-        return [GuiEvent(GuiEventType.ExplodeBomb, bomb_position=bomb_position)]
+        explosion_events.append(GuiEvent(GuiEventType.ExplodeBomb, bomb_position=bomb_position))
+
+        # eliminate nearby agents
+        for terrorist in world.terrorists:
+            if terrorist.status == AgentStatus.Alive and bomb.position.is_neighbour(terrorist.position):
+                terrorist.status = AgentStatus.Dead
+                explosion_events.append(GuiEvent(GuiEventType.TerroristDeath,
+                                                 terrorist_id=terrorist.id, position=terrorist.position))
+        for police in world.polices:
+            if police.status == AgentStatus.Alive and bomb.position.is_neighbour(police.position):
+                police.status = AgentStatus.Dead
+                explosion_events.append(GuiEvent(GuiEventType.PoliceDeath,
+                                                 police_id=police.id, position=police.position))
+                score.increase_eliminate_police_score(world)
+
+        return explosion_events
 
     # bomb is not exploded yet
     else:

@@ -29,7 +29,9 @@
     "images": {
       "Background": "images/background.png",
       "Terrorist": "images/terrorist.png",
+      "DeadTerrorist": "images/dead_terrorist.png",
       "Police": "images/police.png",
+      "DeadPolice": "images/dead_police.png",
       "PlantingBomb": "images/planting_bomb.png",
       "PlantedBomb": "images/planted_bomb.png",
       "DefusingBomb": "images/defusing_bomb.png",
