@@ -45,7 +45,7 @@
     ],
     "Police": [
       {
-        "position": [2, 3]
+        "position": [1, 22]
       },
       {
         "position": [3, 2]
@@ -72,7 +72,7 @@
     "terrorist_vision_distance" : 5,
     "terrorist_death_score" : 4,
     "police_death_score" : 4,
-    "police_vision_distance" : 6,
+    "police_vision_distance" : 2,
     "max_cycles" : 100
   }
 }

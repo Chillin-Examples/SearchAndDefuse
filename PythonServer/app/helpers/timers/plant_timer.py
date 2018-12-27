@@ -61,7 +61,7 @@ def _update_plant_timer_on_cycle(bomb, world):
             if police.status == AgentStatus.Alive and bomb.position.is_neighbour(police.position):
                 police.status = AgentStatus.Dead
                 explosion_events.append(GuiEvent(GuiEventType.PoliceDeath,
-                                                 terrorist_id=police.id, position=police.position))
+                                                 police_id=police.id, position=police.position))
                 score.increase_eliminate_police_score(world)
 
         return explosion_events

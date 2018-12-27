@@ -30,14 +30,15 @@ class AI(RealtimeAI):
 
         if self.my_side == 'Police':
             # direction = ECommandDirection.Down
-            for i in range(0, 4):
-                direction = random.choice([
-                    ECommandDirection.Up,
-                    ECommandDirection.Right,
-                    ECommandDirection.Down,
-                    ECommandDirection.Left
-                ])
-                self.send_command(Move(id=i, direction=direction))
+            # for i in range(0, 4):
+            #     direction = random.choice([
+            #         ECommandDirection.Up,
+            #         ECommandDirection.Right,
+            #         ECommandDirection.Down,
+            #         ECommandDirection.Left
+            #     ])
+            if self.world.polices[0].position.x != 20:
+                self.send_command(Move(id=0, direction=ECommandDirection.Right))
             # if not self.done:
             #     self.send_command(DefuseBomb(id=2, direction=direction))
             #     self.done = True
