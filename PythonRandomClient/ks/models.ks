@@ -77,13 +77,8 @@ _def = class
 id = int
 position = Position
 planting_remaining_time = int
-<<<<<<< HEAD
 footstep_sounds = list<ESoundIntensity>
-is_dead = boolean
-=======
-footstep_sounds = list<int>
 status = AgentStatus
->>>>>>> dev
 
 
 [Police]
@@ -91,15 +86,9 @@ _def = class
 id = int
 position = Position
 defusion_remaining_time = int
-<<<<<<< HEAD
 footstep_sounds = list<ESoundIntensity>
 bomb_sounds = list<ESoundIntensity>
-is_visible = boolean
-=======
-footstep_sounds = list<int>
-bomb_sounds = list<int>
 status = AgentStatus
->>>>>>> dev
 
 
 [World]
