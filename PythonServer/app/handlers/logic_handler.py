@@ -38,7 +38,6 @@ class LogicHandler:
         self._last_cycle_commands = {side: {} for side in self._sides}
 
     def process(self, current_cycle):
-        bombbeep.update_police_bomb_sounds(self.world)
 
         gui_events = []
         gui_events += bomb_timer.update_bombs_timings(self.world)
@@ -51,6 +50,8 @@ class LogicHandler:
             if terrorist.status == AgentStatus.Alive:
                 if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
                     gui_events += terrorist.die(self.world)
+
+        bombbeep.update_police_bomb_sounds(self.world)
 
         return gui_events
 

@@ -2,12 +2,8 @@
 
 # project imports
 from ..ks.commands import *
-from ..gui_events import GuiEvent, GuiEventType
-from .agent import directions
-from ..ks.models import World
-from ..helpers import vision
 from ..ks.models import World, AgentStatus
-from ..helpers import vision, score
+from ..helpers import vision
 
 
 def apply_command(self, side_name, command):
