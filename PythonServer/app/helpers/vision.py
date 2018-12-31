@@ -2,22 +2,23 @@
 
 # project imports
 from ..ks.models import *
-from . import vision_compute
+from . import vision_calculator
 
 
 def compute_agent_vision(strategy, position, limit, world):
     if strategy == 'dls':
-        return _join_visions(vision_compute.compute_visions_dls(position, limit, world))
+        return _join_visions(vision_calculator.calculate_visions_dls(position, limit, world))
     if strategy == 'square':
-        return vision_compute.compute_visions_square(position, limit, world)
+        return vision_calculator.calculate_visions_square(position, limit, world)
 
 
 # computes all polices visions and converts them into one list.
 def compute_polices_visions(world):
     vision_positions = []
     for police in world.polices:
-        vision_positions += compute_agent_vision('dls', police.position,
-                                                 world.constants.police_vision_distance, world)
+        if police.status == AgentStatus.Alive:
+            vision_positions += compute_agent_vision('dls', police.position,
+                                                     world.constants.police_vision_distance, world)
     return _join_visions(vision_positions)
 
 
@@ -25,8 +26,9 @@ def compute_polices_visions(world):
 def compute_terrorists_visions(world):
     vision_positions = []
     for terrorist in world.terrorists:
-        vision_positions += compute_agent_vision('dls', terrorist.position,
-                                                 world.constants.terrorist_vision_distance, world)
+        if terrorist.status == AgentStatus.Alive:
+            vision_positions += compute_agent_vision('dls', terrorist.position,
+                                                     world.constants.terrorist_vision_distance, world)
     return _join_visions(vision_positions)
 
 

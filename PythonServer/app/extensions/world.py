@@ -6,6 +6,8 @@ from ..gui_events import GuiEvent, GuiEventType
 from .agent import directions
 from ..ks.models import World
 from ..helpers import vision
+from ..ks.models import World, AgentStatus
+from ..helpers import vision, score
 
 
 def apply_command(self, side_name, command):
@@ -14,17 +16,19 @@ def apply_command(self, side_name, command):
     # Read Commands
     if command.name() == Move.name():
         move_events = []
+        terrorist_death_events = []
         agent = agents[side_name][command.id]
-        if not agent.can_move(side_name, self, command):
-            return []
-        move_events += agent.move(self, command)
+        if agent.status == AgentStatus.Alive:
+            if not agent.can_move(side_name, self, command):
+                return []
+            move_events += agent.move(self, command)
 
-        # update world visions
-        if side_name == 'Police':
-            self.visions[side_name] = vision.compute_polices_visions(self)
-        if side_name == 'Terrorist':
-            self.visions[side_name] = vision.compute_terrorists_visions(self)
-
+            # update world visions
+            if side_name == 'Police':
+                self.visions[side_name] = vision.compute_polices_visions(self)
+            if side_name == 'Terrorist':
+                self.visions[side_name] = vision.compute_terrorists_visions(self)
+        move_events += terrorist_death_events
         return move_events
 
     if command.name() == PlantBomb.name():
@@ -33,11 +37,11 @@ def apply_command(self, side_name, command):
         # Only terrorists can plan
         if side_name == "Police":
             return []
-
         terrorist = agents["Terrorist"][command.id]
-        if not terrorist.can_plant_bomb(self, command):
-            return []
-        plant_events += terrorist.plant_bomb(self, command)
+        if terrorist.status == AgentStatus.Alive:
+            if not terrorist.can_plant_bomb(self, command):
+                return []
+            plant_events += terrorist.plant_bomb(self, command)
 
         return plant_events
 
@@ -49,9 +53,10 @@ def apply_command(self, side_name, command):
             return []
 
         police = agents["Police"][command.id]
-        if not police.can_defuse_bomb(self, command):
-            return []
-        defuse_events += police.defuse_bomb(self, command)
+        if police.status == AgentStatus.Alive:
+            if not police.can_defuse_bomb(self, command):
+                return []
+            defuse_events += police.defuse_bomb(self, command)
 
         return defuse_events
 
