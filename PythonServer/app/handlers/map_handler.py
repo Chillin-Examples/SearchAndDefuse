@@ -49,9 +49,9 @@ class MapHandler:
         world.constants.police_death_score = constants_config["police_death_score"]
         world.constants.police_vision_distance = constants_config["police_vision_distance"]
         world.constants.sound_ranges = {
-            constants_config['max_weak_sound_bomb']: ESoundIntensity.Weak,
-            constants_config['max_normal_sound_bomb']: ESoundIntensity.Normal,
-            constants_config['max_strong_sound_bomb']: ESoundIntensity.Strong,
+            ESoundIntensity.Weak: constants_config['max_weak_sound_bomb'],
+            ESoundIntensity.Normal: constants_config['max_normal_sound_bomb'],
+            ESoundIntensity.Strong: constants_config['max_strong_sound_bomb']
         }
         world.constants.max_cycles = constants_config["max_cycles"]
 

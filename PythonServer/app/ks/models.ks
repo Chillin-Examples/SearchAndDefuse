@@ -54,7 +54,7 @@ terrorist_vision_distance = int
 terrorist_death_score = int
 police_death_score = int
 police_vision_distance = int
-sound_ranges = map<int, ESoundIntensity>
+sound_ranges = map<ESoundIntensity, int>
 max_cycles = int
 
 
