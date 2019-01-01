@@ -15,7 +15,7 @@ def calculate_distance(point_a, point_b):
     return math.sqrt(math.pow(point_a.x - point_b.y, 2) + math.pow(point_a.y - point_b.y, 2))
 
 
-def map_to_enum(intensity, max_intensities_dict):
+def int_to_intensity(intensity, max_intensities_dict):
     tmp = {val: key for (key, val) in max_intensities_dict.items()}
     max_weak = next(iter(tmp))
     if max_weak > intensity:
