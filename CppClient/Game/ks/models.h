@@ -83,7 +83,7 @@ protected:
 	int __terroristDeathScore;
 	int __policeDeathScore;
 	int __policeVisionDistance;
-	std::map<int, ESoundIntensity> __soundRanges;
+	std::map<ESoundIntensity, int> __soundRanges;
 	int __maxCycles;
 
 	bool __has_bombPlantingTime;
@@ -176,7 +176,7 @@ public: // getters
 		return __policeVisionDistance;
 	}
 	
-	inline std::map<int, ESoundIntensity> soundRanges() const
+	inline std::map<ESoundIntensity, int> soundRanges() const
 	{
 		return __soundRanges;
 	}
@@ -259,9 +259,9 @@ public: // reference getters
 		return (int&) __policeVisionDistance;
 	}
 	
-	inline std::map<int, ESoundIntensity> &ref_soundRanges() const
+	inline std::map<ESoundIntensity, int> &ref_soundRanges() const
 	{
-		return (std::map<int, ESoundIntensity>&) __soundRanges;
+		return (std::map<ESoundIntensity, int>&) __soundRanges;
 	}
 	
 	inline int &ref_maxCycles() const
@@ -356,7 +356,7 @@ public: // setters
 		has_policeVisionDistance(true);
 	}
 	
-	inline void soundRanges(const std::map<int, ESoundIntensity> &soundRanges)
+	inline void soundRanges(const std::map<ESoundIntensity, int> &soundRanges)
 	{
 		__soundRanges = soundRanges;
 		has_soundRanges(true);
@@ -715,14 +715,14 @@ public:
 			for (auto &tmp49 : __soundRanges)
 			{
 				s += '\x01';
-				int tmp51 = tmp49.first;
+				char tmp51 = (char) tmp49.first;
 				auto tmp52 = reinterpret_cast<char*>(&tmp51);
-				s += std::string(tmp52, sizeof(int));
+				s += std::string(tmp52, sizeof(char));
 				
 				s += '\x01';
-				char tmp54 = (char) tmp49.second;
+				int tmp54 = tmp49.second;
 				auto tmp55 = reinterpret_cast<char*>(&tmp54);
-				s += std::string(tmp55, sizeof(char));
+				s += std::string(tmp55, sizeof(int));
 			}
 		}
 		
@@ -884,17 +884,17 @@ public:
 			__soundRanges.clear();
 			for (unsigned int tmp62 = 0; tmp62 < tmp61; tmp62++)
 			{
-				int tmp63;
-				offset++;
-				tmp63 = *((int*) (&s[offset]));
-				offset += sizeof(int);
-				
-				ESoundIntensity tmp64;
+				ESoundIntensity tmp63;
 				offset++;
 				char tmp65;
 				tmp65 = *((char*) (&s[offset]));
 				offset += sizeof(char);
-				tmp64 = (ESoundIntensity) tmp65;
+				tmp63 = (ESoundIntensity) tmp65;
+				
+				int tmp64;
+				offset++;
+				tmp64 = *((int*) (&s[offset]));
+				offset += sizeof(int);
 				
 				__soundRanges[tmp63] = tmp64;
 			}
