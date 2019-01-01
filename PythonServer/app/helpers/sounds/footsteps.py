@@ -21,5 +21,3 @@ def _update_agent_sound_intensity(agent, opponent_agents, max_intensities_dict):
         intensity = utils.calculate_intensity(distance)
         sounds.append(utils.map_to_enum(intensity, max_intensities_dict))
     return sounds
-
-
