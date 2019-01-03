@@ -18,7 +18,7 @@ def update_police_bomb_sounds(world):
 
         for police in world.polices:
             distance = utils.calculate_distance(bomb.position, police.position)
-            value = int(bomb_sound*0.1 + distance*0.9)
+            value = int(bomb_sound*0.0 + distance*1.0)
             police.bomb_sounds.append(utils.int_to_intensity(value, world.constants.sound_ranges))
 
 
