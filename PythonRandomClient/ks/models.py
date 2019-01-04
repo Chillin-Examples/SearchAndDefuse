@@ -524,7 +524,7 @@ class Terrorist(object):
 			for tmp34 in self.footstep_sounds:
 				s += b'\x00' if tmp34 is None else b'\x01'
 				if tmp34 is not None:
-					s += struct.pack('i', tmp34)
+					s += struct.pack('b', tmp34.value)
 		
 		# serialize self.status
 		s += b'\x00' if self.status is None else b'\x01'
@@ -578,8 +578,9 @@ class Terrorist(object):
 				tmp44 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
 				if tmp44:
-					tmp43 = struct.unpack('i', s[offset:offset + 4])[0]
-					offset += 4
+					tmp45 = struct.unpack('b', s[offset:offset + 1])[0]
+					offset += 1
+					tmp43 = ESoundIntensity(tmp45)
 				else:
 					tmp43 = None
 				self.footstep_sounds.append(tmp43)
@@ -587,12 +588,12 @@ class Terrorist(object):
 			self.footstep_sounds = None
 		
 		# deserialize self.status
-		tmp45 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp46 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp45:
-			tmp46 = struct.unpack('b', s[offset:offset + 1])[0]
+		if tmp46:
+			tmp47 = struct.unpack('b', s[offset:offset + 1])[0]
 			offset += 1
-			self.status = AgentStatus(tmp46)
+			self.status = AgentStatus(tmp47)
 		else:
 			self.status = None
 		
@@ -640,32 +641,32 @@ class Police(object):
 		# serialize self.footstep_sounds
 		s += b'\x00' if self.footstep_sounds is None else b'\x01'
 		if self.footstep_sounds is not None:
-			tmp47 = b''
-			tmp47 += struct.pack('I', len(self.footstep_sounds))
-			while len(tmp47) and tmp47[-1] == b'\x00'[0]:
-				tmp47 = tmp47[:-1]
-			s += struct.pack('B', len(tmp47))
-			s += tmp47
+			tmp48 = b''
+			tmp48 += struct.pack('I', len(self.footstep_sounds))
+			while len(tmp48) and tmp48[-1] == b'\x00'[0]:
+				tmp48 = tmp48[:-1]
+			s += struct.pack('B', len(tmp48))
+			s += tmp48
 			
-			for tmp48 in self.footstep_sounds:
-				s += b'\x00' if tmp48 is None else b'\x01'
-				if tmp48 is not None:
-					s += struct.pack('i', tmp48)
+			for tmp49 in self.footstep_sounds:
+				s += b'\x00' if tmp49 is None else b'\x01'
+				if tmp49 is not None:
+					s += struct.pack('b', tmp49.value)
 		
 		# serialize self.bomb_sounds
 		s += b'\x00' if self.bomb_sounds is None else b'\x01'
 		if self.bomb_sounds is not None:
-			tmp49 = b''
-			tmp49 += struct.pack('I', len(self.bomb_sounds))
-			while len(tmp49) and tmp49[-1] == b'\x00'[0]:
-				tmp49 = tmp49[:-1]
-			s += struct.pack('B', len(tmp49))
-			s += tmp49
+			tmp50 = b''
+			tmp50 += struct.pack('I', len(self.bomb_sounds))
+			while len(tmp50) and tmp50[-1] == b'\x00'[0]:
+				tmp50 = tmp50[:-1]
+			s += struct.pack('B', len(tmp50))
+			s += tmp50
 			
-			for tmp50 in self.bomb_sounds:
-				s += b'\x00' if tmp50 is None else b'\x01'
-				if tmp50 is not None:
-					s += struct.pack('i', tmp50)
+			for tmp51 in self.bomb_sounds:
+				s += b'\x00' if tmp51 is None else b'\x01'
+				if tmp51 is not None:
+					s += struct.pack('b', tmp51.value)
 		
 		# serialize self.status
 		s += b'\x00' if self.status is None else b'\x01'
@@ -677,87 +678,89 @@ class Police(object):
 
 	def deserialize(self, s, offset=0):
 		# deserialize self.id
-		tmp51 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp52 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp51:
+		if tmp52:
 			self.id = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
 			self.id = None
 		
 		# deserialize self.position
-		tmp52 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp53 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp52:
+		if tmp53:
 			self.position = Position()
 			offset = self.position.deserialize(s, offset)
 		else:
 			self.position = None
 		
 		# deserialize self.defusion_remaining_time
-		tmp53 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp54 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp53:
+		if tmp54:
 			self.defusion_remaining_time = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
 			self.defusion_remaining_time = None
 		
 		# deserialize self.footstep_sounds
-		tmp54 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp55 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp54:
-			tmp55 = struct.unpack('B', s[offset:offset + 1])[0]
+		if tmp55:
+			tmp56 = struct.unpack('B', s[offset:offset + 1])[0]
 			offset += 1
-			tmp56 = s[offset:offset + tmp55]
-			offset += tmp55
-			tmp56 += b'\x00' * (4 - tmp55)
-			tmp57 = struct.unpack('I', tmp56)[0]
+			tmp57 = s[offset:offset + tmp56]
+			offset += tmp56
+			tmp57 += b'\x00' * (4 - tmp56)
+			tmp58 = struct.unpack('I', tmp57)[0]
 			
 			self.footstep_sounds = []
-			for tmp58 in range(tmp57):
-				tmp60 = struct.unpack('B', s[offset:offset + 1])[0]
+			for tmp59 in range(tmp58):
+				tmp61 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp60:
-					tmp59 = struct.unpack('i', s[offset:offset + 4])[0]
-					offset += 4
+				if tmp61:
+					tmp62 = struct.unpack('b', s[offset:offset + 1])[0]
+					offset += 1
+					tmp60 = ESoundIntensity(tmp62)
 				else:
-					tmp59 = None
-				self.footstep_sounds.append(tmp59)
+					tmp60 = None
+				self.footstep_sounds.append(tmp60)
 		else:
 			self.footstep_sounds = None
 		
 		# deserialize self.bomb_sounds
-		tmp61 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp63 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp61:
-			tmp62 = struct.unpack('B', s[offset:offset + 1])[0]
+		if tmp63:
+			tmp64 = struct.unpack('B', s[offset:offset + 1])[0]
 			offset += 1
-			tmp63 = s[offset:offset + tmp62]
-			offset += tmp62
-			tmp63 += b'\x00' * (4 - tmp62)
-			tmp64 = struct.unpack('I', tmp63)[0]
+			tmp65 = s[offset:offset + tmp64]
+			offset += tmp64
+			tmp65 += b'\x00' * (4 - tmp64)
+			tmp66 = struct.unpack('I', tmp65)[0]
 			
 			self.bomb_sounds = []
-			for tmp65 in range(tmp64):
-				tmp67 = struct.unpack('B', s[offset:offset + 1])[0]
+			for tmp67 in range(tmp66):
+				tmp69 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp67:
-					tmp66 = struct.unpack('i', s[offset:offset + 4])[0]
-					offset += 4
+				if tmp69:
+					tmp70 = struct.unpack('b', s[offset:offset + 1])[0]
+					offset += 1
+					tmp68 = ESoundIntensity(tmp70)
 				else:
-					tmp66 = None
-				self.bomb_sounds.append(tmp66)
+					tmp68 = None
+				self.bomb_sounds.append(tmp68)
 		else:
 			self.bomb_sounds = None
 		
 		# deserialize self.status
-		tmp68 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp71 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp68:
-			tmp69 = struct.unpack('b', s[offset:offset + 1])[0]
+		if tmp71:
+			tmp72 = struct.unpack('b', s[offset:offset + 1])[0]
 			offset += 1
-			self.status = AgentStatus(tmp69)
+			self.status = AgentStatus(tmp72)
 		else:
 			self.status = None
 		
@@ -802,97 +805,97 @@ class World(object):
 		# serialize self.board
 		s += b'\x00' if self.board is None else b'\x01'
 		if self.board is not None:
-			tmp70 = b''
-			tmp70 += struct.pack('I', len(self.board))
-			while len(tmp70) and tmp70[-1] == b'\x00'[0]:
-				tmp70 = tmp70[:-1]
-			s += struct.pack('B', len(tmp70))
-			s += tmp70
+			tmp73 = b''
+			tmp73 += struct.pack('I', len(self.board))
+			while len(tmp73) and tmp73[-1] == b'\x00'[0]:
+				tmp73 = tmp73[:-1]
+			s += struct.pack('B', len(tmp73))
+			s += tmp73
 			
-			for tmp71 in self.board:
-				s += b'\x00' if tmp71 is None else b'\x01'
-				if tmp71 is not None:
-					tmp72 = b''
-					tmp72 += struct.pack('I', len(tmp71))
-					while len(tmp72) and tmp72[-1] == b'\x00'[0]:
-						tmp72 = tmp72[:-1]
-					s += struct.pack('B', len(tmp72))
-					s += tmp72
+			for tmp74 in self.board:
+				s += b'\x00' if tmp74 is None else b'\x01'
+				if tmp74 is not None:
+					tmp75 = b''
+					tmp75 += struct.pack('I', len(tmp74))
+					while len(tmp75) and tmp75[-1] == b'\x00'[0]:
+						tmp75 = tmp75[:-1]
+					s += struct.pack('B', len(tmp75))
+					s += tmp75
 					
-					for tmp73 in tmp71:
-						s += b'\x00' if tmp73 is None else b'\x01'
-						if tmp73 is not None:
-							s += struct.pack('b', tmp73.value)
+					for tmp76 in tmp74:
+						s += b'\x00' if tmp76 is None else b'\x01'
+						if tmp76 is not None:
+							s += struct.pack('b', tmp76.value)
 		
 		# serialize self.scores
 		s += b'\x00' if self.scores is None else b'\x01'
 		if self.scores is not None:
-			tmp74 = b''
-			tmp74 += struct.pack('I', len(self.scores))
-			while len(tmp74) and tmp74[-1] == b'\x00'[0]:
-				tmp74 = tmp74[:-1]
-			s += struct.pack('B', len(tmp74))
-			s += tmp74
-			
-			for tmp75 in self.scores:
-				s += b'\x00' if tmp75 is None else b'\x01'
-				if tmp75 is not None:
-					tmp76 = b''
-					tmp76 += struct.pack('I', len(tmp75))
-					while len(tmp76) and tmp76[-1] == b'\x00'[0]:
-						tmp76 = tmp76[:-1]
-					s += struct.pack('B', len(tmp76))
-					s += tmp76
-					
-					s += tmp75.encode('ISO-8859-1') if PY3 else tmp75
-				s += b'\x00' if self.scores[tmp75] is None else b'\x01'
-				if self.scores[tmp75] is not None:
-					s += struct.pack('f', self.scores[tmp75])
-		
-		# serialize self.bombs
-		s += b'\x00' if self.bombs is None else b'\x01'
-		if self.bombs is not None:
 			tmp77 = b''
-			tmp77 += struct.pack('I', len(self.bombs))
+			tmp77 += struct.pack('I', len(self.scores))
 			while len(tmp77) and tmp77[-1] == b'\x00'[0]:
 				tmp77 = tmp77[:-1]
 			s += struct.pack('B', len(tmp77))
 			s += tmp77
 			
-			for tmp78 in self.bombs:
+			for tmp78 in self.scores:
 				s += b'\x00' if tmp78 is None else b'\x01'
 				if tmp78 is not None:
-					s += tmp78.serialize()
+					tmp79 = b''
+					tmp79 += struct.pack('I', len(tmp78))
+					while len(tmp79) and tmp79[-1] == b'\x00'[0]:
+						tmp79 = tmp79[:-1]
+					s += struct.pack('B', len(tmp79))
+					s += tmp79
+					
+					s += tmp78.encode('ISO-8859-1') if PY3 else tmp78
+				s += b'\x00' if self.scores[tmp78] is None else b'\x01'
+				if self.scores[tmp78] is not None:
+					s += struct.pack('f', self.scores[tmp78])
+		
+		# serialize self.bombs
+		s += b'\x00' if self.bombs is None else b'\x01'
+		if self.bombs is not None:
+			tmp80 = b''
+			tmp80 += struct.pack('I', len(self.bombs))
+			while len(tmp80) and tmp80[-1] == b'\x00'[0]:
+				tmp80 = tmp80[:-1]
+			s += struct.pack('B', len(tmp80))
+			s += tmp80
+			
+			for tmp81 in self.bombs:
+				s += b'\x00' if tmp81 is None else b'\x01'
+				if tmp81 is not None:
+					s += tmp81.serialize()
 		
 		# serialize self.terrorists
 		s += b'\x00' if self.terrorists is None else b'\x01'
 		if self.terrorists is not None:
-			tmp79 = b''
-			tmp79 += struct.pack('I', len(self.terrorists))
-			while len(tmp79) and tmp79[-1] == b'\x00'[0]:
-				tmp79 = tmp79[:-1]
-			s += struct.pack('B', len(tmp79))
-			s += tmp79
+			tmp82 = b''
+			tmp82 += struct.pack('I', len(self.terrorists))
+			while len(tmp82) and tmp82[-1] == b'\x00'[0]:
+				tmp82 = tmp82[:-1]
+			s += struct.pack('B', len(tmp82))
+			s += tmp82
 			
-			for tmp80 in self.terrorists:
-				s += b'\x00' if tmp80 is None else b'\x01'
-				if tmp80 is not None:
-					s += tmp80.serialize()
+			for tmp83 in self.terrorists:
+				s += b'\x00' if tmp83 is None else b'\x01'
+				if tmp83 is not None:
+					s += tmp83.serialize()
 		
 		# serialize self.polices
 		s += b'\x00' if self.polices is None else b'\x01'
 		if self.polices is not None:
-			tmp81 = b''
-			tmp81 += struct.pack('I', len(self.polices))
-			while len(tmp81) and tmp81[-1] == b'\x00'[0]:
-				tmp81 = tmp81[:-1]
-			s += struct.pack('B', len(tmp81))
-			s += tmp81
+			tmp84 = b''
+			tmp84 += struct.pack('I', len(self.polices))
+			while len(tmp84) and tmp84[-1] == b'\x00'[0]:
+				tmp84 = tmp84[:-1]
+			s += struct.pack('B', len(tmp84))
+			s += tmp84
 			
-			for tmp82 in self.polices:
-				s += b'\x00' if tmp82 is None else b'\x01'
-				if tmp82 is not None:
-					s += tmp82.serialize()
+			for tmp85 in self.polices:
+				s += b'\x00' if tmp85 is None else b'\x01'
+				if tmp85 is not None:
+					s += tmp85.serialize()
 		
 		# serialize self.constants
 		s += b'\x00' if self.constants is None else b'\x01'
@@ -904,177 +907,177 @@ class World(object):
 
 	def deserialize(self, s, offset=0):
 		# deserialize self.width
-		tmp83 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp86 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp83:
+		if tmp86:
 			self.width = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
 			self.width = None
 		
 		# deserialize self.height
-		tmp84 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp87 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp84:
+		if tmp87:
 			self.height = struct.unpack('i', s[offset:offset + 4])[0]
 			offset += 4
 		else:
 			self.height = None
 		
 		# deserialize self.board
-		tmp85 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp88 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp85:
-			tmp86 = struct.unpack('B', s[offset:offset + 1])[0]
+		if tmp88:
+			tmp89 = struct.unpack('B', s[offset:offset + 1])[0]
 			offset += 1
-			tmp87 = s[offset:offset + tmp86]
-			offset += tmp86
-			tmp87 += b'\x00' * (4 - tmp86)
-			tmp88 = struct.unpack('I', tmp87)[0]
+			tmp90 = s[offset:offset + tmp89]
+			offset += tmp89
+			tmp90 += b'\x00' * (4 - tmp89)
+			tmp91 = struct.unpack('I', tmp90)[0]
 			
 			self.board = []
-			for tmp89 in range(tmp88):
-				tmp91 = struct.unpack('B', s[offset:offset + 1])[0]
+			for tmp92 in range(tmp91):
+				tmp94 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp91:
-					tmp92 = struct.unpack('B', s[offset:offset + 1])[0]
+				if tmp94:
+					tmp95 = struct.unpack('B', s[offset:offset + 1])[0]
 					offset += 1
-					tmp93 = s[offset:offset + tmp92]
-					offset += tmp92
-					tmp93 += b'\x00' * (4 - tmp92)
-					tmp94 = struct.unpack('I', tmp93)[0]
+					tmp96 = s[offset:offset + tmp95]
+					offset += tmp95
+					tmp96 += b'\x00' * (4 - tmp95)
+					tmp97 = struct.unpack('I', tmp96)[0]
 					
-					tmp90 = []
-					for tmp95 in range(tmp94):
-						tmp97 = struct.unpack('B', s[offset:offset + 1])[0]
+					tmp93 = []
+					for tmp98 in range(tmp97):
+						tmp100 = struct.unpack('B', s[offset:offset + 1])[0]
 						offset += 1
-						if tmp97:
-							tmp98 = struct.unpack('b', s[offset:offset + 1])[0]
+						if tmp100:
+							tmp101 = struct.unpack('b', s[offset:offset + 1])[0]
 							offset += 1
-							tmp96 = ECell(tmp98)
+							tmp99 = ECell(tmp101)
 						else:
-							tmp96 = None
-						tmp90.append(tmp96)
+							tmp99 = None
+						tmp93.append(tmp99)
 				else:
-					tmp90 = None
-				self.board.append(tmp90)
+					tmp93 = None
+				self.board.append(tmp93)
 		else:
 			self.board = None
 		
 		# deserialize self.scores
-		tmp99 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp102 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp99:
-			tmp100 = struct.unpack('B', s[offset:offset + 1])[0]
+		if tmp102:
+			tmp103 = struct.unpack('B', s[offset:offset + 1])[0]
 			offset += 1
-			tmp101 = s[offset:offset + tmp100]
-			offset += tmp100
-			tmp101 += b'\x00' * (4 - tmp100)
-			tmp102 = struct.unpack('I', tmp101)[0]
+			tmp104 = s[offset:offset + tmp103]
+			offset += tmp103
+			tmp104 += b'\x00' * (4 - tmp103)
+			tmp105 = struct.unpack('I', tmp104)[0]
 			
 			self.scores = {}
-			for tmp103 in range(tmp102):
-				tmp106 = struct.unpack('B', s[offset:offset + 1])[0]
+			for tmp106 in range(tmp105):
+				tmp109 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp106:
-					tmp107 = struct.unpack('B', s[offset:offset + 1])[0]
+				if tmp109:
+					tmp110 = struct.unpack('B', s[offset:offset + 1])[0]
 					offset += 1
-					tmp108 = s[offset:offset + tmp107]
-					offset += tmp107
-					tmp108 += b'\x00' * (4 - tmp107)
-					tmp109 = struct.unpack('I', tmp108)[0]
+					tmp111 = s[offset:offset + tmp110]
+					offset += tmp110
+					tmp111 += b'\x00' * (4 - tmp110)
+					tmp112 = struct.unpack('I', tmp111)[0]
 					
-					tmp104 = s[offset:offset + tmp109].decode('ISO-8859-1') if PY3 else s[offset:offset + tmp109]
-					offset += tmp109
+					tmp107 = s[offset:offset + tmp112].decode('ISO-8859-1') if PY3 else s[offset:offset + tmp112]
+					offset += tmp112
 				else:
-					tmp104 = None
-				tmp110 = struct.unpack('B', s[offset:offset + 1])[0]
+					tmp107 = None
+				tmp113 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp110:
-					tmp105 = struct.unpack('f', s[offset:offset + 4])[0]
+				if tmp113:
+					tmp108 = struct.unpack('f', s[offset:offset + 4])[0]
 					offset += 4
 				else:
-					tmp105 = None
-				self.scores[tmp104] = tmp105
+					tmp108 = None
+				self.scores[tmp107] = tmp108
 		else:
 			self.scores = None
 		
 		# deserialize self.bombs
-		tmp111 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp114 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp111:
-			tmp112 = struct.unpack('B', s[offset:offset + 1])[0]
+		if tmp114:
+			tmp115 = struct.unpack('B', s[offset:offset + 1])[0]
 			offset += 1
-			tmp113 = s[offset:offset + tmp112]
-			offset += tmp112
-			tmp113 += b'\x00' * (4 - tmp112)
-			tmp114 = struct.unpack('I', tmp113)[0]
+			tmp116 = s[offset:offset + tmp115]
+			offset += tmp115
+			tmp116 += b'\x00' * (4 - tmp115)
+			tmp117 = struct.unpack('I', tmp116)[0]
 			
 			self.bombs = []
-			for tmp115 in range(tmp114):
-				tmp117 = struct.unpack('B', s[offset:offset + 1])[0]
+			for tmp118 in range(tmp117):
+				tmp120 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp117:
-					tmp116 = Bomb()
-					offset = tmp116.deserialize(s, offset)
+				if tmp120:
+					tmp119 = Bomb()
+					offset = tmp119.deserialize(s, offset)
 				else:
-					tmp116 = None
-				self.bombs.append(tmp116)
+					tmp119 = None
+				self.bombs.append(tmp119)
 		else:
 			self.bombs = None
 		
 		# deserialize self.terrorists
-		tmp118 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp121 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp118:
-			tmp119 = struct.unpack('B', s[offset:offset + 1])[0]
+		if tmp121:
+			tmp122 = struct.unpack('B', s[offset:offset + 1])[0]
 			offset += 1
-			tmp120 = s[offset:offset + tmp119]
-			offset += tmp119
-			tmp120 += b'\x00' * (4 - tmp119)
-			tmp121 = struct.unpack('I', tmp120)[0]
+			tmp123 = s[offset:offset + tmp122]
+			offset += tmp122
+			tmp123 += b'\x00' * (4 - tmp122)
+			tmp124 = struct.unpack('I', tmp123)[0]
 			
 			self.terrorists = []
-			for tmp122 in range(tmp121):
-				tmp124 = struct.unpack('B', s[offset:offset + 1])[0]
+			for tmp125 in range(tmp124):
+				tmp127 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp124:
-					tmp123 = Terrorist()
-					offset = tmp123.deserialize(s, offset)
+				if tmp127:
+					tmp126 = Terrorist()
+					offset = tmp126.deserialize(s, offset)
 				else:
-					tmp123 = None
-				self.terrorists.append(tmp123)
+					tmp126 = None
+				self.terrorists.append(tmp126)
 		else:
 			self.terrorists = None
 		
 		# deserialize self.polices
-		tmp125 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp128 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp125:
-			tmp126 = struct.unpack('B', s[offset:offset + 1])[0]
+		if tmp128:
+			tmp129 = struct.unpack('B', s[offset:offset + 1])[0]
 			offset += 1
-			tmp127 = s[offset:offset + tmp126]
-			offset += tmp126
-			tmp127 += b'\x00' * (4 - tmp126)
-			tmp128 = struct.unpack('I', tmp127)[0]
+			tmp130 = s[offset:offset + tmp129]
+			offset += tmp129
+			tmp130 += b'\x00' * (4 - tmp129)
+			tmp131 = struct.unpack('I', tmp130)[0]
 			
 			self.polices = []
-			for tmp129 in range(tmp128):
-				tmp131 = struct.unpack('B', s[offset:offset + 1])[0]
+			for tmp132 in range(tmp131):
+				tmp134 = struct.unpack('B', s[offset:offset + 1])[0]
 				offset += 1
-				if tmp131:
-					tmp130 = Police()
-					offset = tmp130.deserialize(s, offset)
+				if tmp134:
+					tmp133 = Police()
+					offset = tmp133.deserialize(s, offset)
 				else:
-					tmp130 = None
-				self.polices.append(tmp130)
+					tmp133 = None
+				self.polices.append(tmp133)
 		else:
 			self.polices = None
 		
 		# deserialize self.constants
-		tmp132 = struct.unpack('B', s[offset:offset + 1])[0]
+		tmp135 = struct.unpack('B', s[offset:offset + 1])[0]
 		offset += 1
-		if tmp132:
+		if tmp135:
 			self.constants = Constants()
 			offset = self.constants.deserialize(s, offset)
 		else:

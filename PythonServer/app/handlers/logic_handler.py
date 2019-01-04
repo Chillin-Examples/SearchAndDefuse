@@ -6,6 +6,8 @@ from copy import deepcopy
 # project imports
 from ..helpers.timers import bomb_timer
 from ..helpers import vision
+from ..ks.models import ECell
+from ..helpers.sounds import bombbeep
 from ..ks.models import ECell, AgentStatus
 
 
@@ -47,6 +49,8 @@ class LogicHandler:
             if terrorist.status == AgentStatus.Alive:
                 if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
                     gui_events += terrorist.die(self.world)
+
+        bombbeep.update_police_bomb_sounds(self.world)
 
         return gui_events
 

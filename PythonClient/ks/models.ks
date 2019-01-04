@@ -77,7 +77,7 @@ _def = class
 id = int
 position = Position
 planting_remaining_time = int
-footstep_sounds = list<int>
+footstep_sounds = list<ESoundIntensity>
 status = AgentStatus
 
 
@@ -86,8 +86,8 @@ _def = class
 id = int
 position = Position
 defusion_remaining_time = int
-footstep_sounds = list<int>
-bomb_sounds = list<int>
+footstep_sounds = list<ESoundIntensity>
+bomb_sounds = list<ESoundIntensity>
 status = AgentStatus
 
 
