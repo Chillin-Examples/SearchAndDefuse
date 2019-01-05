@@ -11,7 +11,7 @@ def update_police_bomb_sounds(world):
     for bomb in world.bombs:
         bomb_sound = 0
         if bomb.explosion_remaining_time != -1:
-            for sound_range in range(0, len(world.constants.sound_ranges)):
+            for sound_range in range(1, len(world.constants.sound_ranges)):
                 if (sound_range*explosion_time/sound_range) <= bomb.explosion_remaining_time < ((sound_range+1)*explosion_time/sound_range):
                     bomb_sound = (sound_range+1)
                     break
