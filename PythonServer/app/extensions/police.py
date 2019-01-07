@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import Police, AgentStatus
+from ..ks.models import Police
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
-from ..helpers.sounds import footsteps
-from ..helpers import score, vision
+from ..helpers.logic.sounds import footsteps
 
 
 def move(self, world, command):

@@ -4,10 +4,10 @@
 from copy import deepcopy
 
 # project imports
-from ..helpers.timers import bomb_timer
-from ..helpers import vision
+from ..helpers.logic.timers import bomb_timer
+from ..helpers.logic import vision
 from ..ks.models import ECell
-from ..helpers.sounds import bombbeep
+from ..helpers.logic.sounds import bombbeep
 from ..ks.models import ECell, AgentStatus
 
 
