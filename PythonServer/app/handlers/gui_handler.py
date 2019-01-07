@@ -8,9 +8,8 @@ from chillin_server.gui.canvas_elements import ScaleType
 
 # project imports
 from ..ks.commands import *
-from ..ks.models import *
 from ..gui_events import GuiEventType
-from ..helpers.gui import fog, death, bomb
+from ..helpers.gui import fog, death, bomb, initializer
 
 
 class GuiHandler:
@@ -28,7 +27,6 @@ class GuiHandler:
         self.utils = GuiUtils(self.cell_size)
         self.img_refs = {side: {} for side in self.sides}
         self.dead_img_refs = {side: {} for side in self.sides}
-
         self.fog_refs = []
 
     def initialize(self):
@@ -47,7 +45,7 @@ class GuiHandler:
             ECommandDirection.Left.name: 0
         }
 
-        self._initialize_board(canvas)
+        initializer.initialize_board(self, canvas)
         fog.initialize_fogs(self, canvas)
         fog.update_fogs(self)
 
@@ -118,57 +116,6 @@ class GuiHandler:
                 self.canvas.edit_image(self.img_refs[side][move['agent_id']],
                                         canvas_pos['x'], canvas_pos['y'],
                                         center_origin=True)
-
-    def _initialize_board(self, canvas):
-        for y in range(self.world.height):
-            for x in range(self.world.width):
-                cell = self.world.board[y][x]
-                canvas_pos = self.utils.get_canvas_position(Position(x=x, y=y), center_origin=False)
-
-                # Draw non-player cells
-                if cell == ECell.Empty:
-                    canvas.create_image('Empty', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
-                elif cell == ECell.Wall:
-                    canvas.create_image('Wall', canvas_pos['x'], canvas_pos['y'],
-                                        scale_type=ScaleType.ScaleToWidth, scale_value=self.cell_size)
-                elif cell == ECell.SmallBombSite:
-                    self.small_bomb_ref = canvas.create_image('SmallBomb', canvas_pos['x'], canvas_pos['y'],
-                                                              scale_type=ScaleType.ScaleToWidth,
-                                                              scale_value=self.cell_size)
-                elif cell == ECell.MediumBombSite:
-                    self.medium_bomb_ref = canvas.create_image('MediumBomb', canvas_pos['x'], canvas_pos['y'],
-                                                               scale_type=ScaleType.ScaleToWidth,
-                                                               scale_value=self.cell_size)
-                elif cell == ECell.LargeBombSite:
-                    self.large_bomb_ref = canvas.create_image('LargeBomb', canvas_pos['x'], canvas_pos['y'],
-                                                              scale_type=ScaleType.ScaleToWidth,
-                                                              scale_value=self.cell_size)
-                elif cell == ECell.VastBombSite:
-                    self.vast_bomb_ref = canvas.create_image('VastBomb', canvas_pos['x'], canvas_pos['y'],
-                                                             scale_type=ScaleType.ScaleToWidth,
-                                                             scale_value=self.cell_size)
-
-        # Draw Agents
-        for side in self.sides:
-            agents = self.world.polices if side == 'Police' else self.world.terrorists
-            dead_img_name = 'DeadPolice' if side == 'Police' else 'DeadTerrorist'
-
-            for agent in agents:
-                position = agent.position
-
-                canvas_pos = self.utils.get_canvas_position(agent.position)
-                agent.angle = self.angle[EDirection.Left.name]
-                agent.img_ref = canvas.create_image(side, canvas_pos['x'], canvas_pos['y'],
-                                                    center_origin=True, scale_type=ScaleType.ScaleToWidth,
-                                                    scale_value=self.cell_size)
-                self.img_refs[side][agent.id] = agent.img_ref
-
-                self.dead_img_refs[side][agent.id] = self.canvas.create_image(dead_img_name, 7000, 7000,
-                                                                                scale_type=ScaleType.ScaleToWidth,
-                                                                                scale_value=self.cell_size,
-                                                                                center_origin=True)
-
 
 
 class GuiUtils:
