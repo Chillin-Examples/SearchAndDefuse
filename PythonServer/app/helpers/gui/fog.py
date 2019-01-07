@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# python imports
-import math
-
 # chillin imports
 from chillin_server.gui.canvas_elements import ScaleType
 
 # project imports
-from ...ks.commands import *
 from ...ks.models import *
-from ...gui_events import GuiEventType
 
 
 def initialize_fogs(handler, canvas):

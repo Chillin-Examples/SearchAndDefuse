@@ -10,7 +10,7 @@ from chillin_server.gui.canvas_elements import ScaleType
 from ..ks.commands import *
 from ..ks.models import *
 from ..gui_events import GuiEventType
-from ..helpers.gui import fog
+from ..helpers.gui import fog, death
 
 class GuiHandler:
 
@@ -101,10 +101,10 @@ class GuiHandler:
             self._update_board_on_bomb_cancel(bombs_op_canceled)
 
         if len(agents_dead["Terrorist"]) != 0:
-            self._update_on_death_terrorist(agents_dead)
+            death.update_on_death_terrorist(self, agents_dead)
 
         if len(agents_dead["Police"]) != 0:
-            self._update_on_death_police(agents_dead)
+            death.update_on_death_police(self, agents_dead)
 
         fog.update_fogs(self)
 
@@ -298,29 +298,6 @@ class GuiHandler:
                                                                                 scale_value=self.cell_size,
                                                                                 center_origin=True)
 
-    def _update_on_death_terrorist(self, dead_agents):
-        # for side in dead_agents:
-        for agent in dead_agents["Terrorist"]:
-            canvas_pos = self.utils.get_canvas_position(agent['position'])
-
-            self.canvas.edit_image(self.img_refs["Terrorist"][agent['terrorist_id']],
-                                    6000, 6000,
-                                    center_origin=True)
-            self.canvas.edit_image(self.dead_img_refs["Terrorist"][agent['terrorist_id']],
-                                    canvas_pos['x'], canvas_pos['y'],
-                                    center_origin=True)
-
-    def _update_on_death_police(self, dead_agents):
-        # for side in dead_agents:
-        for agent in dead_agents["Police"]:
-            canvas_pos = self.utils.get_canvas_position(agent['position'])
-
-            self.canvas.edit_image(self.img_refs["Police"][agent['police_id']],
-                                    6000, 6000,
-                                    center_origin=True)
-            self.canvas.edit_image(self.dead_img_refs["Police"][agent['police_id']],
-                                    canvas_pos['x'], canvas_pos['y'],
-                                    center_origin=True)
 
 
 class GuiUtils:
