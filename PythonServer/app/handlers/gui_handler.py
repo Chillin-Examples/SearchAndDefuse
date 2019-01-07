@@ -9,7 +9,7 @@ from chillin_server.gui.canvas_elements import ScaleType
 # project imports
 from ..ks.commands import *
 from ..gui_events import GuiEventType
-from ..helpers.gui import fog, death, bomb, initializer, utils
+from ..helpers.gui import fog, death, bomb, move, initializer, utils
 
 
 class GuiHandler:
@@ -79,7 +79,7 @@ class GuiHandler:
                 agents_dead["Police"].append(event.payload)
 
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
-            self._update_board_on_move(moving_terrorists, moving_polices)
+            move.update_board_on_move(self, moving_terrorists, moving_polices)
 
         if len(bombs_events['planting']) != 0:
             bomb.update_board_on_planting(self, bombs_events['planting'])
@@ -106,13 +106,3 @@ class GuiHandler:
             death.update_on_death_police(self, agents_dead)
 
         fog.update_fogs(self)
-
-    def _update_board_on_move(self, terrorists_move, polices_move):
-        for side in self.sides:
-            moves = polices_move if side == 'Police' else terrorists_move
-            for move in moves:
-                canvas_pos = self.utils.get_canvas_position(move['agent_position'])
-                # terrorist.angle = self.angle[EDirection.Left.name]
-                self.canvas.edit_image(self.img_refs[side][move['agent_id']],
-                                        canvas_pos['x'], canvas_pos['y'],
-                                        center_origin=True)
