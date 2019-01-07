@@ -2,8 +2,8 @@
 
 # project imports
 from .. import score
-from ...gui_events import GuiEvent, GuiEventType
-from ...ks.models import *
+from ....gui_events import GuiEvent, GuiEventType
+from ....ks.models import *
 
 
 def update_plant_timings(world):

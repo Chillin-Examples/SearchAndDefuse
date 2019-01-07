@@ -4,7 +4,7 @@
 import math
 
 # project imports
-from ...ks.models import ESoundIntensity
+from ....ks.models import ESoundIntensity
 
 
 def calculate_intensity(distance):
