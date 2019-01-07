@@ -9,7 +9,7 @@ from chillin_server.gui.canvas_elements import ScaleType
 # project imports
 from ..ks.commands import *
 from ..gui_events import GuiEventType
-from ..helpers.gui import fog, death, bomb, initializer
+from ..helpers.gui import fog, death, bomb, initializer, utils
 
 
 class GuiHandler:
@@ -24,7 +24,7 @@ class GuiHandler:
         self._scale_percent = math.ceil(self.scale_factor * 100)
         self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
         self.font_size = int(self.cell_size / 2)
-        self.utils = GuiUtils(self.cell_size)
+        self.utils = utils.GuiUtils(self.cell_size)
         self.img_refs = {side: {} for side in self.sides}
         self.dead_img_refs = {side: {} for side in self.sides}
         self.fog_refs = []
@@ -116,27 +116,3 @@ class GuiHandler:
                 self.canvas.edit_image(self.img_refs[side][move['agent_id']],
                                         canvas_pos['x'], canvas_pos['y'],
                                         center_origin=True)
-
-
-class GuiUtils:
-
-    def __init__(self, cell_size):
-        self.cell_size = cell_size
-
-    def get_canvas_position(self, position, center_origin=True):
-        addition = int(self.cell_size / 2) if center_origin else 0
-        return {
-            'x': position.x * self.cell_size + addition,
-            'y': position.y * self.cell_size + addition
-        }
-
-    def _get_line_xys(self, agent, curr_val, max_val, offset):
-        canvas_pos = self.get_canvas_position(agent.position.x, agent.position.y)
-        y1 = y2 = canvas_pos['y'] + int(self.cell_size / 2) - 10 + offset
-        x1 = canvas_pos['x'] - int(self.cell_size / 2) + 5
-        if curr_val == 0:
-            x2 = x1
-        else:
-            x2 = x1 + math.ceil((self.cell_size - 10) * (curr_val / max_val))
-
-        return x1, y1, x2, y2
