@@ -9,7 +9,7 @@ from chillin_server.gui.canvas_elements import ScaleType
 # project imports
 from ..ks.commands import *
 from ..gui_events import GuiEventType
-from ..helpers.gui import fog, death, bomb, move, initializer, utils
+from ..helpers.gui import fog, death, bomb, move, initializer, utils, status
 
 
 class GuiHandler:
@@ -20,14 +20,15 @@ class GuiHandler:
         self.sides = sides
         self.canvas = canvas
         self.config = config
-        self.scale_factor = canvas.width / (self.world.width * config['cell_size'])
-        self._scale_percent = math.ceil(self.scale_factor * 100)
+        self.scale_factor = int((canvas.width - 1000) / (self.world.width * config['cell_size']))
+        self.scale_percent = math.ceil(self.scale_factor * 100)
         self.cell_size = math.ceil(config['cell_size'] * self.scale_factor)
         self.font_size = int(self.cell_size / 2)
         self.utils = utils.GuiUtils(self.cell_size)
         self.img_refs = {side: {} for side in self.sides}
         self.dead_img_refs = {side: {} for side in self.sides}
         self.fog_refs = []
+        self.statusbar = []
 
     def initialize(self):
         canvas = self.canvas
@@ -46,10 +47,12 @@ class GuiHandler:
         }
 
         initializer.initialize_board(self, canvas)
+        status.initialize_statusbar(self)
+
         fog.initialize_fogs(self, canvas)
         fog.update_fogs(self)
 
-    def update(self, gui_events):
+    def update(self, gui_events, statusbar):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
         agents_dead = {"Terrorist": [], "Police": []}
@@ -72,7 +75,6 @@ class GuiHandler:
                 bombs_events['exploded'].append(event.payload)
             if event.type in [GuiEventType.CancelPlant, GuiEventType.CancelDefuse]:
                 bombs_op_canceled.append(event.payload)
-
             if event.type == GuiEventType.TerroristDeath:
                 agents_dead["Terrorist"].append(event.payload)
             if event.type == GuiEventType.PoliceDeath:
@@ -106,3 +108,4 @@ class GuiHandler:
             death.update_on_death_police(self, agents_dead)
 
         fog.update_fogs(self)
+        status.update_statusbar(self, statusbar)
