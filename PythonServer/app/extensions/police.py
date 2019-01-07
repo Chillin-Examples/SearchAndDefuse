@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import Police, AgentStatus
+from ..ks.models import Police
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
-from ..helpers import score, vision
+from ..helpers.logic.sounds import footsteps
 
 
 def move(self, world, command):
@@ -13,6 +13,8 @@ def move(self, world, command):
         gui_events += self.cancel_defuse(world)
 
     base_move(self, world, command)
+    footsteps.update_terrorist_intensities(world)
+
     gui_events += [GuiEvent(GuiEventType.MovePolice, agent_id=self.id, agent_position=self.position)]
     return gui_events
 

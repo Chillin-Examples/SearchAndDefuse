@@ -4,7 +4,8 @@
 from ..ks.models import Terrorist, Bomb, ECell, AgentStatus
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
-from ..helpers import score, vision
+from ..helpers.logic.sounds import footsteps
+from ..helpers.logic import score, vision
 
 
 def move(self, world, command):
@@ -13,6 +14,7 @@ def move(self, world, command):
         gui_events += self.cancel_plant(world)
 
     base_move(self, world, command)
+    footsteps.update_police_intensities(world)
     gui_events += [GuiEvent(GuiEventType.MoveTerrorist, agent_id=self.id, agent_position=self.position)]
     return gui_events
 

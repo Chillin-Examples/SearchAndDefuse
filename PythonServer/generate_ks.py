@@ -3,10 +3,14 @@
 
 # python imports
 from shutil import copy
+from shutil import copyfile
 
 # chillin imports
 from koala_serializer import generate
 
+
+commands_relative_dir = '/ks/commands.ks'
+models_relative_dir = '/ks/models.ks'
 all_args = [('python', 'app/ks', 'snake_case'),
             ('python', '../PythonClient/ks', 'snake_case'),
             ('python', '../PythonRandomClient/ks', 'snake_case'),

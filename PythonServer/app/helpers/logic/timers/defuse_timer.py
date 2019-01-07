@@ -2,7 +2,7 @@
 
 # project imports
 from .. import score
-from ...gui_events import GuiEvent, GuiEventType
+from ....gui_events import GuiEvent, GuiEventType
 
 
 def update_defuse_timings(world, statusbar):

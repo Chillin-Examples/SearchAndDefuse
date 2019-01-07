@@ -4,9 +4,9 @@
 from copy import deepcopy
 
 # project imports
-from ..helpers.timers import bomb_timer
-from ..helpers.statusbar import StatusBar
-from ..helpers import vision
+from ..helpers.logic.timers import bomb_timer
+from ..helpers.logic import vision, statusbar
+from ..helpers.logic.sounds import bombbeep
 from ..ks.models import ECell, AgentStatus
 
 
@@ -16,7 +16,7 @@ class LogicHandler:
         self.world = world
         self._sides = sides
         self._last_cycle_commands = {side: {} for side in self._sides}
-        self.statusbar = StatusBar()
+        self.statusbar = statusbar.StatusBar()
 
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
@@ -50,6 +50,8 @@ class LogicHandler:
             if terrorist.status == AgentStatus.Alive:
                 if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
                     gui_events += terrorist.die(self.world)
+
+        bombbeep.update_police_bomb_sounds(self.world)
 
         return gui_events
 

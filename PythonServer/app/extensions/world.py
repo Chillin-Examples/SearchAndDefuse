@@ -3,7 +3,7 @@
 # project imports
 from ..ks.commands import *
 from ..ks.models import World, AgentStatus
-from ..helpers import vision, score
+from ..helpers.logic import vision
 
 
 def apply_command(self, side_name, command):
