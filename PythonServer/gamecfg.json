@@ -24,7 +24,7 @@
     "save_replay": true,
     "replay_dir": "replays",
     "replay_filename": null,
-    "width": 1874,
+    "width": 2874,
     "height": 1874,
     "images": {
       "Background": "images/background.png",
@@ -42,7 +42,9 @@
       "MediumBomb": "images/small_bomb.png",
       "LargeBomb": "images/small_bomb.png",
       "VastBomb": "images/small_bomb.png",
-      "Empty": "images/background.png"
+      "Empty": "images/background.png",
+      "TerroristLogo": "images/terrorist_icon.png",
+      "PoliceLogo": "images/police_icon.png"
     }
 
   },
@@ -65,7 +67,8 @@
     "auto_change_turn_sequence": ["Police", "Terrorist"],
     "": "my configs",
     "cell_size": 6,
-    "show_statuses": false,
+    "show_statuses": true,
+    "statusbar_width": 800,
     "map": "maps/revolution909.json"
   }
 }

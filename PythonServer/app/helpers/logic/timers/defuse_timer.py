@@ -2,10 +2,10 @@
 
 # project imports
 from .. import score
-from ...gui_events import GuiEvent, GuiEventType
+from ....gui_events import GuiEvent, GuiEventType
 
 
-def update_defuse_timings(world):
+def update_defuse_timings(world, statusbar):
 
     for bomb in world.bombs:
 
@@ -29,6 +29,7 @@ def update_defuse_timings(world):
                         bomb_position = bomb.position
                         score.increase_defuse_score(world)
                         world.bombs.remove(bomb)
+                        statusbar.update_defused_number()
                         return [GuiEvent(GuiEventType.DefusedBomb, bomb_position=bomb_position)]
     return []
 
