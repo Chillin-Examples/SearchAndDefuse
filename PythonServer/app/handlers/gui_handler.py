@@ -9,7 +9,8 @@ from chillin_server.gui.canvas_elements import ScaleType
 # project imports
 from ..ks.commands import *
 from ..gui_events import GuiEventType
-from ..helpers.gui import fog, death, bomb, move, initializer, utils, status
+from ..helpers.gui import fog, death, bomb, move, initializer, utils
+from ..helpers.gui.game_status import GameStatus
 
 
 class GuiHandler:
@@ -28,7 +29,7 @@ class GuiHandler:
         self.img_refs = {side: {} for side in self.sides}
         self.dead_img_refs = {side: {} for side in self.sides}
         self.fog_refs = []
-        self.statusbar = []
+        self._game_status = GameStatus(self.world, self.canvas, self.font_size, self.cell_size)
 
     def initialize(self):
         canvas = self.canvas
@@ -47,12 +48,12 @@ class GuiHandler:
         }
 
         initializer.initialize_board(self, canvas)
-        status.initialize_statusbar(self)
+        self._game_status.initialize()
 
         fog.initialize_fogs(self, canvas)
         fog.update_fogs(self)
 
-    def update(self, gui_events, statusbar):
+    def update(self, current_cycle, gui_events):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
         bombs_events = {"planting": [], "planted": [], "exploded": []}
         agents_dead = {"Terrorist": [], "Police": []}
@@ -64,15 +65,16 @@ class GuiHandler:
                 moving_terrorists.append(event.payload)
             if event.type == GuiEventType.DefusingBomb:
                 bombs_defusing.append(event.payload)
-                print(len(bombs_defusing))
             if event.type == GuiEventType.DefusedBomb:
                 bombs_defused.append(event.payload)
+                self._game_status.update_defused_number()
             if event.type == GuiEventType.PlantingBomb:
                 bombs_events['planting'].append(event.payload)
             if event.type == GuiEventType.PlantedBomb:
                 bombs_events['planted'].append(event.payload)
             if event.type == GuiEventType.ExplodeBomb:
                 bombs_events['exploded'].append(event.payload)
+                self._game_status.update_exploded_number()
             if event.type in [GuiEventType.CancelPlant, GuiEventType.CancelDefuse]:
                 bombs_op_canceled.append(event.payload)
             if event.type == GuiEventType.TerroristDeath:
@@ -108,4 +110,4 @@ class GuiHandler:
             death.update_on_death_police(self, agents_dead)
 
         fog.update_fogs(self)
-        status.update_statusbar(self, statusbar)
+        self._game_status.update(current_cycle)
