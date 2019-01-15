@@ -16,9 +16,9 @@ for row in map_data:
 
     for char in row:
         if char == 'p':
-            data['player']['Terrorist'].append({'position': [row_number, col_num]})
+            data['player']['Police'].append({'position': [col_num, row_number]})
         elif char == 't':
-            data['player']['Police'].append({'position': [row_number, col_num]})
+            data['player']['Terrorist'].append({'position': [col_num, row_number]})
 
         col_num += 1
     col_num = 0
