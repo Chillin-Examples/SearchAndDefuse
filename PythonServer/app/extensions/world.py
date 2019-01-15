@@ -17,9 +17,13 @@ def apply_command(self, side_name, command):
 
         if agent.status == AgentStatus.Alive:
 
+            # check if agent is planting/defusing.
             if side_name == 'Terrorist':
                 if agent.planting_remaining_time != -1:
                     move_events += agent.cancel_plant(self)
+            if side_name == 'Police':
+                if agent.defusion_remaining_time != -1:
+                    move_events += agent.cancel_defuse(self)
 
             if not agent.can_move(side_name, self, command):
                 return move_events
