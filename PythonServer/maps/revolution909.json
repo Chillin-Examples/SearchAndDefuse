@@ -28,54 +28,81 @@
   "player": {
     "Terrorist": [
       {
-        "position": [3, 7]
+        "position": [
+          3,
+          7
+        ]
       },
       {
-        "position": [20, 18]
+        "position": [
+          20,
+          18
+        ]
       },
       {
-        "position": [20, 20]
+        "position": [
+          20,
+          20
+        ]
       },
       {
-        "position": [21, 19]
+        "position": [
+          21,
+          19
+        ]
       },
       {
-        "position": [20, 19]
+        "position": [
+          20,
+          19
+        ]
       }
     ],
     "Police": [
       {
-        "position": [2, 3]
+        "position": [
+          2,
+          3
+        ]
       },
       {
-        "position": [3, 2]
+        "position": [
+          3,
+          2
+        ]
       },
       {
-        "position": [3, 4]
+        "position": [
+          3,
+          4
+        ]
       },
       {
-        "position": [4, 3]
+        "position": [
+          4,
+          3
+        ]
       }
     ]
   },
-  "constants":{
-    "bomb_planting_time" : 7,
-    "bomb_defusion_time" : 10,
-    "bomb_explosion_time" : 15,
-    "bomb_planting_score" : 2,
-    "bomb_defusion_score" : 1,
-    "bomb_explosion_score" : 2,
-    "score_coefficient_small_bomb_site" : 2.5,
-    "score_coefficient_medium_bomb_site" : 5,
-    "score_coefficient_large_bomb_site" : 7.5,
-    "score_coefficient_vast_bomb_site" : 10,
-    "police_vision_distance" : 2,
-    "terrorist_vision_distance" : 3,
-    "terrorist_death_score" : 4,
+  "constants": {
+    "bomb_planting_time": 7,
+    "bomb_defusion_time": 10,
+    "bomb_explosion_time": 15,
+    "bomb_planting_score": 2,
+    "bomb_defusion_score": 1,
+    "bomb_explosion_score": 2,
+    "score_coefficient_small_bomb_site": 2.5,
+    "score_coefficient_medium_bomb_site": 5,
+    "score_coefficient_large_bomb_site": 7.5,
+    "score_coefficient_vast_bomb_site": 10,
+    "police_vision_distance": 2,
+    "terrorist_vision_distance": 3,
+    "terrorist_death_score": 4,
     "max_weak_sound_bomb": 15,
     "max_normal_sound_bomb": 20,
     "max_strong_sound_bomb": 30,
-    "police_death_score" : 4,
-    "max_cycles" : 100
+    "police_death_score": 4,
+    "max_cycles": 100
   }
 }
