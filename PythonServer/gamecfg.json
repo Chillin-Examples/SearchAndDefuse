@@ -69,6 +69,6 @@
     "cell_size": 6,
     "show_statuses": true,
     "statusbar_width": 800,
-    "map": "maps/revolution909.json"
+    "map": "maps/revolution909_test_bomb.json"
   }
 }
