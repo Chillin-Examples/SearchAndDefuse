@@ -9,6 +9,7 @@ from ...ks.models import *
 def update_plant_timings(world):
     for bomb in world.bombs:
         if bomb.planter_id != -1:
+
             # bomb has been planted in this cycle and is not exploding.
             if world.terrorists[bomb.planter_id].planting_remaining_time == -1 and bomb.explosion_remaining_time == -1:
                 print("Terrorist {} commanded plant.".format(bomb.planter_id))

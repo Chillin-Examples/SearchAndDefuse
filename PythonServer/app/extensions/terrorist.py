@@ -65,12 +65,20 @@ def can_plant_bomb(self, world, command):
 
 
 def die(self, world):
+    gui_events = []
     self.status = AgentStatus.Dead
     score.increase_eliminate_terrorist_score(world)
+
+    # check if terrorist was planting
+    if self.planting_remaining_time != -1:
+        if next((bomb for bomb in world.bombs if bomb.planter_id == self.id), None):
+            gui_events += self.cancel_plant(world)
+
     world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
-    return [GuiEvent(GuiEventType.TerroristDeath,
-                     terrorist_id=self.id,
-                     position=self.position)]
+    gui_events += [GuiEvent(GuiEventType.TerroristDeath,
+                            terrorist_id=self.id,
+                            position=self.position)]
+    return gui_events
 
 
 Terrorist.plant_bomb = plant_bomb
