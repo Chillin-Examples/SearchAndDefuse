@@ -82,7 +82,8 @@ class LogicHandler:
         winner_sidename = None
 
         # times up
-        if current_cycle > self.world.constants.max_cycles:
+        if current_cycle > self.world.constants.max_cycles - 1:
+            end_game = True
             if self.world.scores['Terrorist'] > self.world.scores['Police']:
                 winner_sidename = 'Terrorist'
             elif self.world.scores['Police'] > self.world.scores['Terrorist']:
