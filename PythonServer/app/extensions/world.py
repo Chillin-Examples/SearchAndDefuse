@@ -14,9 +14,15 @@ def apply_command(self, side_name, command):
         move_events = []
         terrorist_death_events = []
         agent = agents[side_name][command.id]
+
         if agent.status == AgentStatus.Alive:
+
+            if side_name == 'Terrorist':
+                if agent.planting_remaining_time != -1:
+                    move_events += agent.cancel_plant(self)
+
             if not agent.can_move(side_name, self, command):
-                return []
+                return move_events
             move_events += agent.move(self, command)
 
             # update world visions
