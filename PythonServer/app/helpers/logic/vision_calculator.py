@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import Position
+from ...ks.models import Position
 
 
 # performs a depth limited search with no specific goal position.

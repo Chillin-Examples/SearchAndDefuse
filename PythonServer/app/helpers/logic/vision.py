@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import *
+from ...ks.models import *
 from . import vision_calculator
 
 

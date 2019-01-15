@@ -10,6 +10,7 @@ from ..ks.models import *
 class MapHandler:
 
     def __init__(self, sides):
+
         self._sides = sides
 
     def _fill_board(self, world, char_board):
@@ -91,6 +92,7 @@ class MapHandler:
         world.width = len(char_board[0])
         world.height = len(char_board)
         world.scores = {side: 0 for side in self._sides}
+        world.statusbar_width = config['statusbar_width']
         world.bombs = []
         world.visions = {side: [] for side in self._sides}
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import ECell
+from ...ks.models import ECell
 
 
 def increase_defuse_score(world):
