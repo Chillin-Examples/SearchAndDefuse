@@ -96,13 +96,13 @@
     "score_coefficient_medium_bomb_site": 5,
     "score_coefficient_large_bomb_site": 7.5,
     "score_coefficient_vast_bomb_site": 10,
-    "police_vision_distance": 2,
     "terrorist_vision_distance": 3,
+    "police_vision_distance": 2,
     "terrorist_death_score": 4,
-    "max_weak_sound_bomb": 15,
-    "max_normal_sound_bomb": 20,
-    "max_strong_sound_bomb": 30,
     "police_death_score": 4,
+    "strong_intensity_max_distance": 15,
+    "normal_intensity_max_distance": 20,
+    "weak_intensity_max_distance": 30,
     "max_cycles": 100
   }
 }

@@ -18,6 +18,7 @@ def _update_agent_sound_intensity(agent, opponent_agents, max_intensities_dict):
     sounds = []
     for opponent_agent in opponent_agents:
         distance = utils.calculate_distance(agent.position, opponent_agent.position)
-        intensity = utils.calculate_intensity(distance)
-        sounds.append(utils.int_to_intensity(intensity, max_intensities_dict))
+        intensity = utils.int_to_intensity(int(distance), max_intensities_dict)
+        if intensity != None:
+                sounds.append(intensity)
     return sounds

@@ -10,8 +10,9 @@ def update_police_bomb_sounds(world):
     for bomb in world.bombs:
         for police in world.polices:
             distance = utils.calculate_distance(bomb.position, police.position)
-            value = int(distance)
-            police.bomb_sounds.append(utils.int_to_intensity(value, world.constants.sound_ranges))
+            intensity = utils.int_to_intensity(int(distance), world.constants.sound_ranges)
+            if intensity != None:
+                police.bomb_sounds.append(intensity)
 
 
 def _empty_polices_bomb_sound_list(polices):

@@ -15,7 +15,7 @@ def move(self, world, command):
     base_move(self, world, command)
     footsteps.update_terrorist_intensities(world)
 
-    gui_events += [GuiEvent(GuiEventType.MovePolice, agent_id=self.id, agent_position=self.position)]
+    gui_events += [GuiEvent(GuiEventType.MovePolice, agent_id=self.id, agent_position=self.position, direction=command.direction)]
     return gui_events
 
 
