@@ -56,7 +56,7 @@ class GuiHandler:
             ECommandDirection.Down.name:  180,
             ECommandDirection.Left.name:  -90
         }
-        self.FOW_Y = 1.5
+        self.FOW_Y = 10
         self.TOTAL_SKINS_MATERIALS = 4
 
         self.POLICE_SKINS = ['MaleSWAT', 'FemaleFBI', 'FemaleShirt', 'MaleFBI']
@@ -79,15 +79,18 @@ class GuiHandler:
 
 
     def _init_light(self):
-        reference = self._rm.new()
-
+        main_light = self._rm.new()
         self._scene.add_action(scene_actions.CreateBasicObject(
-            ref = reference,
+            ref = main_light,
             type = scene_actions.EBasicObjectType.Light
         ))
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = reference,
-            rotation = scene_actions.Vector3(x=50, y=-30, z=0)
+            ref = main_light,
+            rotation = scene_actions.Vector3(x=90, y=0, z=0)
+        ))
+        self._scene.add_action(scene_actions.ChangeLight(
+            ref = main_light,
+            shadow_strength = 0.7
         ))
 
 
@@ -101,8 +104,8 @@ class GuiHandler:
             field_of_view = fov,
             min_position = scene_actions.Vector3(x=(self.X_OFFSET + extra_camera_boundry), y=1, z=(self.Z_OFFSET + extra_camera_boundry)),
             max_position = scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=100, z=-(self.Z_OFFSET + extra_camera_boundry)),
-            min_zoom = 50,
-            max_zoom = 100
+            min_zoom = fov - 20,
+            max_zoom = fov + 40
         ))
         self._scene.add_action(scene_actions.ChangeTransform(
             ref = self._rm.get('MainCamera'),
