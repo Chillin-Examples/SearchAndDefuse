@@ -8,7 +8,7 @@ from chillin_client import RealtimeAI
 
 # project imports
 from ks.models import (World, Police, Terrorist, Bomb, Position, Constants,
-                       ESoundIntensity, EDirection, ECell)
+                       ESoundIntensity, ECell)
 from ks.commands import DefuseBomb, PlantBomb, Move, ECommandDirection
 
 

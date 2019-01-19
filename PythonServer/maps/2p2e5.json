@@ -28,54 +28,30 @@
   "player": {
     "Terrorist": [
       {
-        "position": [
-          10,
-          19
-        ]
+        "position": [10, 19],
+        "direction": "Up"
       },
       {
-        "position": [
-          12,
-          19
-        ]
+        "position": [12, 19],
+        "direction": "Up"
       },
       {
-        "position": [
-          10,
-          20
-        ]
-      },
-      {
-        "position": [
-          11,
-          20
-        ]
-      },
-      {
-        "position": [
-          12,
-          20
-        ]
+        "position": [10, 20],
+        "direction": "Up"
       }
     ],
     "Police": [
       {
-        "position": [
-          10,
-          1
-        ]
+        "position": [10, 1],
+        "direction": "Down"
       },
       {
-        "position": [
-          11,
-          1
-        ]
+        "position": [11, 1],
+        "direction": "Down"
       },
       {
-        "position": [
-          12,
-          1
-        ]
+        "position": [12, 1],
+        "direction": "Down"
       }
     ]
   },

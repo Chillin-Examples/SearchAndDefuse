@@ -6,18 +6,7 @@ _def = enum <byte>
         MediumBombSite,
         LargeBombSite,
         VastBombSite,
-        ExplodedBombSite,
         Wall
-    }
-
-
-[EDirection]
-_def = enum <byte>
-    {
-        Up,
-        Right,
-        Down,
-        Left
     }
 
 

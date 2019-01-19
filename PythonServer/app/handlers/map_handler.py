@@ -5,6 +5,7 @@ import json
 
 # project imports
 from ..ks.models import *
+from ..ks.commands import ECommandDirection
 
 
 class MapHandler:
@@ -72,6 +73,7 @@ class MapHandler:
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
                     new_police.status = AgentStatus.Alive
+                    new_police.init_direction = ECommandDirection[player["direction"]]
                     world.polices.append(new_police)
                 if side == 'Terrorist':
                     new_terrorist = Terrorist()
@@ -80,6 +82,7 @@ class MapHandler:
                     new_terrorist.planting_remaining_time = -1
                     new_terrorist.footstep_sounds = []
                     new_terrorist.status = AgentStatus.Alive
+                    new_terrorist.init_direction = ECommandDirection[player["direction"]]
                     world.terrorists.append(new_terrorist)
 
     def load_map(self, config):

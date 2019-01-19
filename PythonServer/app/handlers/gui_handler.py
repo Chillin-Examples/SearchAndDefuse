@@ -49,6 +49,7 @@ class GuiHandler:
         self.CELL_SIZE = config['cell_size']
         self.X_OFFSET = -self._world.width / 2.0 * self.CELL_SIZE
         self.Z_OFFSET = -self._world.height / 2.0 * self.CELL_SIZE
+        self.FOW_Y = 10
 
         self.DIR_TO_ANGLE = {
             ECommandDirection.Up.name:    0,
@@ -56,7 +57,37 @@ class GuiHandler:
             ECommandDirection.Down.name:  180,
             ECommandDirection.Left.name:  -90
         }
-        self.FOW_Y = 10
+
+        self.TURN_DURATION = 0.3
+        self.MOVE_DURATION = 0.5
+        self.STOP_DURATION = 0.2
+        self.BEFORE_FIRE_DURATION = 0.5
+        self.BEFORE_DEATH_DURATION = 1
+        self.DEATH_Y = -2
+
+        self.RIFLE_TRANSFORM = {
+            'Police': {
+                'default': {
+                    'position': {'x': 11.8, 'y': 5.6, 'z': -0.5},
+                    'rotation': {'x': -21.869, 'y': 97.065, 'z': 263.517}
+                },
+                'fire': {
+                    'position': {'x': 9.8, 'y': 7.1, 'z': -2.2},
+                    'rotation': {'x': 10.032, 'y': 80.775, 'z': 260.71}
+                }
+            },
+            'Terrorist': {
+                'default': {
+                    'position': {'x': 10.5, 'y': 5.4, 'z': -2.6},
+                    'rotation': {'x': -17.88, 'y': 93.76501, 'z': 266.088}
+                },
+                'fire': {
+                    'position': {'x': 10.3, 'y': 5.4, 'z': -1.6},
+                    'rotation': {'x': 9.580001, 'y': 83.952, 'z': 272.559}
+                }
+            }
+        }
+
         self.TOTAL_SKINS_MATERIALS = 4
 
         self.POLICE_SKINS = ['MaleSWAT', 'FemaleFBI', 'FemaleShirt', 'MaleFBI']
@@ -74,6 +105,7 @@ class GuiHandler:
 
     def _init_variables(self):
         self._agents_ref = {side: {} for side in self._sides}
+        self._agents_direction = {side: {} for side in self._sides}
         self._fows_ref = {}
         self._hidden_fows_pos = [] # fog of wars that are hidden because of the visions
 
@@ -232,19 +264,18 @@ class GuiHandler:
                         is_active = True
                     ))
 
-                gun = 'Rifle' if side == 'Police' else 'Pistol'
                 self._scene.add_action(scene_actions.ChangeIsActive(
                     ref = reference,
-                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/{0}'.format(gun),
+                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/{0}'.format(side + 'Rifle'),
                     is_active = True
                 ))
 
                 # set position
-                direction = ECommandDirection.Right if side == 'Police' else ECommandDirection.Left
+                self._agents_direction[side][agent.id] = agent.init_direction
                 self._scene.add_action(scene_actions.ChangeTransform(
                     ref = reference,
                     position = scene_actions.Vector3(x=pos['x'], z=pos['z']),
-                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[direction.name])
+                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[agent.init_direction.name])
                 ))
 
 
@@ -335,19 +366,40 @@ class GuiHandler:
                 agents_dead["Police"].append(event.payload)
 
         # Updates
+        # Moves
         if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
             for side in self._sides:
                 moves = moving_polices if side == 'Police' else moving_terrorists
+
                 for move in moves:
+                    agent = self._world.polices[move['agent_id']] if side == 'Police' else self._world.terrorists[move['agent_id']]
+                    curr_direction = self._agents_direction[side][move['agent_id']]
                     pos = self._get_scene_position(move['agent_position'])
                     reference = self._agents_ref[side][move['agent_id']]
 
+                    # Animations
+                    # Turn
+                    turn_animation, need_to_turn = self._get_turn_animation(curr_direction, move['direction'])
+                    self._change_animator_state(reference, 0, turn_animation)
+                    if need_to_turn:
+                        self._scene.add_action(scene_actions.ChangeTransform(
+                            ref = reference,
+                            cycle = self.TURN_DURATION,
+                            rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[move['direction'].name])
+                        ))
+                    # Move
                     self._scene.add_action(scene_actions.ChangeTransform(
                         ref = reference,
                         duration_cycles = 1,
-                        position = scene_actions.Vector3(x=pos['x'], z=pos['z']),
-                        rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[move['direction'].name])
+                        position = scene_actions.Vector3(x=pos['x'], z=pos['z'])
                     ))
+                    self._change_animator_state(reference, self.TURN_DURATION, 'Move')
+                    # Stop
+                    self._change_animator_state(reference, self.TURN_DURATION + self.MOVE_DURATION, 'MoveToIdle')
+                    self._change_animator_state(reference, 1, 'Idle')
+
+                    # Store new direction
+                    self._agents_direction[side][move['agent_id']] = move['direction']
 
         # if len(bombs_events['planting']) != 0:
         #     bomb.update_board_on_planting(self, bombs_events['planting'])
@@ -374,6 +426,28 @@ class GuiHandler:
         #     death.update_on_death_police(self, agents_dead)
 
         self._scene.add_action(scene_actions.EndCycle())
+
+
+    def _change_animator_state(self, reference, cycle, state_name):
+        self._scene.add_action(scene_actions.ChangeAnimatorState(
+            ref = reference,
+            cycle = cycle,
+            state_name = state_name
+        ))
+
+
+    def _get_turn_animation(self, curr_direction, new_direction):
+        diff = new_direction.value - curr_direction.value
+
+        # return (animation, need to turn)
+        if diff == 0:
+            return 'IdleToMove', False
+        if abs(diff) == 2:
+            return 'TurnBack', True
+        if diff == 1 or diff == -3:
+            return 'TurnRight', True
+        if diff == -1 or diff == 3:
+            return 'TurnLeft', True
 
 
     def _get_scene_position(self, position):

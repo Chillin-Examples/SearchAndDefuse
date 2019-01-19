@@ -14,15 +14,7 @@ class ECell(Enum):
 	MediumBombSite = 2
 	LargeBombSite = 3
 	VastBombSite = 4
-	ExplodedBombSite = 5
-	Wall = 6
-
-
-class EDirection(Enum):
-	Up = 0
-	Right = 1
-	Down = 2
-	Left = 3
+	Wall = 5
 
 
 class ESoundIntensity(Enum):
