@@ -20,10 +20,9 @@ def update_defuse_timings(world):
             if world.polices[bomb.defuser_id].defusion_remaining_time == 0:
                 print("bomb defused.")
                 world.polices[bomb.defuser_id].defusion_remaining_time = -1
-                bomb_position = bomb.position
                 score.increase_defuse_score(world)
                 bombs_to_remove.append(bomb)
-                defuse_events += [GuiEvent(GuiEventType.DefusedBomb, bomb_position=bomb_position)]
+                defuse_events += [GuiEvent(GuiEventType.DefusedBomb, bomb=bomb)]
 
     for bomb in bombs_to_remove:
         world.bombs.remove(bomb)

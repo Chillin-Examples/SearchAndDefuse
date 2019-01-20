@@ -114,9 +114,10 @@ class GuiHandler:
         self._agents_direction = {side: {} for side in self._sides}
         self._fows_ref = {}
         self._hidden_fows_pos = [] # fog of wars that are hidden because of the visions
-        self._bombsites_ref = {} # key: (x, y)
-        self._plantings_ref = {} # key: bombsite_ref, value: agent
+        self._bombsites_ref = {} # key: (x, y), value: reference
+        self._plantings_ref = {} # key: bombsite_ref, value: terrorist
         self._active_bombsites_ref = {} # key: bombsite_ref, value: bomb
+        self._defusings_ref = {} # key: bombsite_ref, value: police
 
 
     def _init_light(self):
@@ -365,7 +366,6 @@ class GuiHandler:
 
             if event.type == GuiEventType.DefusedBomb:
                 bombs_defused.append(event.payload)
-                self._game_status.increase_defused_number()
 
             if event.type == GuiEventType.ExplodeBomb:
                 bombs_exploded.append(event.payload)
@@ -441,10 +441,6 @@ class GuiHandler:
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, False)
                 # update agent
                 self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = self._agents_ref['Terrorist'][planter.id],
-                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[self._agents_direction['Terrorist'][planter.id].name])
-                ))
 
         # Bombs Planted
         if len(bombs_planted) != 0:
@@ -458,10 +454,62 @@ class GuiHandler:
                 self._active_bombsites_ref[bombsite_ref] = bomb
                 del self._plantings_ref[bombsite_ref]
                 # Update bombsite
+                self._add_bomb(bombsite_ref)
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, False)
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, True)
                 # update agent
                 self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
+
+        # Defusing Bomb
+        if len(bombs_defusing) != 0:
+            for defusing in bombs_defusing:
+                bomb = defusing['bomb']
+                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+                defuser = self._world.polices[defusing['agent_id']]
+                # update status dictionaries
+                self._defusings_ref[bombsite_ref] = defuser
+                # Update bombsite
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, True)
+                # update agent
+                self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'BombAction')
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = self._agents_ref['Police'][defuser.id],
+                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[defusing['direction'].name])
+                ))
+
+        # Cancel Defusing
+        if len(cancel_defusing) != 0:
+            for canceled in cancel_defusing:
+                bomb = canceled['bomb']
+                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+                defuser = self._defusings_ref[bombsite_ref]
+                # update status dictionaries
+                del self._defusings_ref[bombsite_ref]
+                # Update bombsite
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, False)
+                # update agent
+                self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = self._agents_ref['Police'][defuser.id],
+                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[self._agents_direction['Police'][defuser.id].name])
+                ))
+
+        # Bombs Defused
+        if len(bombs_defused) != 0:
+            for defused in bombs_defused:
+                bomb = defused['bomb']
+                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+                defuser = self._defusings_ref[bombsite_ref]
+                # increase counter
+                self._game_status.increase_defused_number()
+                # update status dictionaries
+                del self._defusings_ref[bombsite_ref]
+                # Update bombsite
+                self._remove_bomb(bombsite_ref)
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, False)
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, False)
+                # update agent
+                self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
 
         # Bombs Exploded
         if len(bombs_exploded) != 0:
@@ -473,12 +521,14 @@ class GuiHandler:
                 # update status dictionaries
                 del self._active_bombsites_ref[bombsite_ref]
                 # Update bombsite
+                self._remove_bomb(bombsite_ref)
                 self._change_is_active(bombsite_ref, 'Canvas', 0, False)
                 self._change_animator_state(bombsite_ref, 0, 'Explosion')
                 self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
 
         # Update bombsites canvas
         self._update_planting_bombsites()
+        self._update_defusing_bombsites()
         self._update_bombsites_timer()
 
         # Add EndCycle
@@ -529,10 +579,30 @@ class GuiHandler:
             self._change_text(bombsite_ref, 'Canvas/Panel/Planting/Text', None, str(agent.planting_remaining_time))
 
 
+    def _update_defusing_bombsites(self):
+        for bombsite_ref in self._defusings_ref:
+            agent = self._defusings_ref[bombsite_ref]
+            self._change_text(bombsite_ref, 'Canvas/Panel/Defusing/Text', None, str(agent.defusion_remaining_time))
+
+
     def _update_bombsites_timer(self):
         for bombsite_ref in self._active_bombsites_ref:
             bomb = self._active_bombsites_ref[bombsite_ref]
             self._change_text(bombsite_ref, 'Canvas/Panel/Timer/Text', None, str(bomb.explosion_remaining_time))
+
+
+    def _add_bomb(self, bombsite_ref):
+        self._scene.add_action(scene_actions.ChangeIsActive(
+            ref = bombsite_ref, child_ref = 'BombPosition',
+            is_active = True
+        ))
+
+
+    def _remove_bomb(self, bombsite_ref):
+        self._scene.add_action(scene_actions.ChangeIsActive(
+            ref = bombsite_ref, child_ref = 'BombPosition',
+            is_active = False
+        ))
 
 
     def _deep_down(self, reference, cycle):

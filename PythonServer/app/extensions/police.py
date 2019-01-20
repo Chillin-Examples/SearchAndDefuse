@@ -26,13 +26,15 @@ def defuse_bomb(self, world, command):
 
     self.defusion_remaining_time = world.constants.bomb_defusion_time
     bomb_position = self.position + directions[command.direction.name]
+    defusing_bomb = None
     for bomb in world.bombs:
         if bomb.position == bomb_position:
+            defusing_bomb = bomb
             bomb.defuser_id = self.id
             break
 
     event_type = GuiEventType.DefusingBomb
-    gui_events += [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+    gui_events += [GuiEvent(event_type, agent_id=self.id, bomb=defusing_bomb, direction=command.direction)]
     return gui_events
 
 
@@ -41,7 +43,7 @@ def cancel_defuse(self, world):
     bomb.defuser_id = -1
     self.defusion_remaining_time = -1
     event_type = GuiEventType.CancelDefuse
-    return [GuiEvent(event_type, bomb_position=bomb.position)]
+    return [GuiEvent(event_type, bomb=bomb)]
 
 
 def can_defuse_bomb(self, world, command):
