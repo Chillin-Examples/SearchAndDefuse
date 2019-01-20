@@ -20,23 +20,27 @@
     "wewewwweeweeeeewwwweweew",
     "weeeeeweewwewweeeeeeeeew",
     "wewewwwweeeeewewwweewwww",
-    "weeeweeeweeeeweeeweeweew",
-    "wewewwwweewwwwewwweeeeew",
-    "weeeeweeeeeeeeeeweeewesw",
+    "weeeeeeeeeeeeeeeeeeeeeew",
+    "weeeeeeeeeeeeeeeeeeeeeew",
+    "wseeeemeeeeeleeeeveeeeew",
     "wwwwwwwwwwwwwwwwwwwwwwww"
   ],
   "player": {
     "Terrorist": [
       {
-        "position": [10, 19],
+        "position": [2, 22],
         "direction": "Up"
       },
       {
-        "position": [12, 19],
+        "position": [7, 22],
         "direction": "Up"
       },
       {
-        "position": [10, 20],
+        "position": [13, 22],
+        "direction": "Up"
+      },
+      {
+        "position": [18, 22],
         "direction": "Up"
       }
     ],
