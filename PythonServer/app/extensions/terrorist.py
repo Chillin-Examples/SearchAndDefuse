@@ -31,18 +31,17 @@ def plant_bomb(self, world, command):
     world.bombs.append(new_bomb)
 
     event_type = GuiEventType.PlantingBomb
-    gui_events += [GuiEvent(event_type, agent_id=self.id, bomb_position=self.position.add(directions[command.direction.name]), direction=command.direction)]
+    gui_events += [GuiEvent(event_type, agent_id=self.id, bomb=new_bomb, direction=command.direction)]
     return gui_events
 
 
 def cancel_plant(self, world):
     bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id), None)
     if bomb != None:
-        bomb_position = bomb.position
         world.bombs.remove(bomb)
         self.planting_remaining_time = -1
         event_type = GuiEventType.CancelPlant
-        return [GuiEvent(event_type, agent_id=self.id, bomb_position=bomb_position)]
+        return [GuiEvent(event_type, agent_id=self.id, bomb=bomb)]
 
 
 def can_plant_bomb(self, world, command):
