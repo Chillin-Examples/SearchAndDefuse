@@ -58,12 +58,14 @@ class GuiHandler:
             ECommandDirection.Left.name:  -90
         }
 
-        self.TURN_DURATION = 0.3
-        self.MOVE_DURATION = 0.5
-        self.STOP_DURATION = 0.2
-        self.BEFORE_FIRE_DURATION = 0.5
-        self.BEFORE_DEATH_DURATION = 1
-        self.DEATH_Y = -2
+        self.TURN_CYCLES = 0.3
+        self.MOVE_CYCLES = 0.5
+        self.STOP_CYCLES = 0.2
+        self.BEFORE_FIRE_CYCLES = 0.5
+        self.BEFORE_DEATH_CYCLES = 1
+        self.AFTER_DEATH_CYCLES = 5
+        self.AFTER_DEATH_Y = -5
+        self.EXPLOSION_CYCLES = 4
 
         self.RIFLE_TRANSFORM = {
             'Police': {
@@ -87,6 +89,9 @@ class GuiHandler:
                 }
             }
         }
+
+        self.WATER_Y = -2
+        self.BEACH_SCALE_FACTOR = 0.1
 
         self.TOTAL_SKINS_MATERIALS = 4
 
@@ -151,54 +156,53 @@ class GuiHandler:
 
 
     def _draw_board(self):
+        ground_ref = self._rm.new()
+        self._scene.add_action(scene_actions.InstantiateBundleAsset(
+            ref = ground_ref,
+            asset = scene_actions.Asset(bundle_name='main', asset_name='Ground')
+        ))
+        self._scene.add_action(scene_actions.ChangeTransform(
+            ref = ground_ref, child_ref = 'Beach',
+            scale = scene_actions.Vector3(
+                x = self._world.width * self.CELL_SIZE * self.BEACH_SCALE_FACTOR,
+                z = self._world.height * self.CELL_SIZE * self.BEACH_SCALE_FACTOR
+            )
+        ))
+
+        water_ref = self._rm.new()
+        self._scene.add_action(scene_actions.InstantiateBundleAsset(
+            ref = water_ref,
+            asset = scene_actions.Asset(bundle_name='main', asset_name='Water')
+        ))
+        self._scene.add_action(scene_actions.ChangeTransform(
+            ref = water_ref,
+            position = scene_actions.Vector3(y=self.WATER_Y)
+        ))
+
+        # Draw non-player cells
         for y in range(self._world.height):
             for x in range(self._world.width):
                 cell = self._world.board[y][x]
-                pos = self._get_scene_position(Position(x=x, y=y))
-                reference = self._rm.new()
 
-                # Draw non-player cells
                 if cell == ECell.Empty:
-                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Floor1')
-                    ))
-
-                elif cell == ECell.Wall:
-                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Wall')
-                    ))
-
-                elif cell == ECell.SmallBombSite:
-                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Floor2')
-                    ))
-
-                elif cell == ECell.MediumBombSite:
-                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Floor2')
-                    ))
-
-                elif cell == ECell.LargeBombSite:
-                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Floor2')
-                    ))
-
-                elif cell == ECell.VastBombSite:
-                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Floor2')
-                    ))
-
-                else:
-                    self._rm.remove(reference)
                     continue
 
+                reference = self._rm.new()
+
+                if cell == ECell.Wall:
+                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
+                        ref = reference,
+                        asset = scene_actions.Asset(bundle_name='main', asset_name='Barrier')
+                    ))
+
+                elif cell in [ECell.SmallBombSite, ECell.MediumBombSite, ECell.LargeBombSite, ECell.VastBombSite]:
+                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
+                        ref = reference,
+                        asset = scene_actions.Asset(bundle_name='main', asset_name=cell.name)
+                    ))
+
                 # Set Position
+                pos = self._get_scene_position(Position(x=x, y=y))
                 self._scene.add_action(scene_actions.ChangeTransform(
                     ref = reference,
                     position = scene_actions.Vector3(x=pos['x'], z=pos['z'])
@@ -384,7 +388,7 @@ class GuiHandler:
                     if need_to_turn:
                         self._scene.add_action(scene_actions.ChangeTransform(
                             ref = reference,
-                            cycle = self.TURN_DURATION,
+                            cycle = self.TURN_CYCLES,
                             rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[move['direction'].name])
                         ))
                     # Move
@@ -393,9 +397,9 @@ class GuiHandler:
                         duration_cycles = 1,
                         position = scene_actions.Vector3(x=pos['x'], z=pos['z'])
                     ))
-                    self._change_animator_state(reference, self.TURN_DURATION, 'Move')
+                    self._change_animator_state(reference, self.TURN_CYCLES, 'Move')
                     # Stop
-                    self._change_animator_state(reference, self.TURN_DURATION + self.MOVE_DURATION, 'MoveToIdle')
+                    self._change_animator_state(reference, self.TURN_CYCLES + self.MOVE_CYCLES, 'MoveToIdle')
                     self._change_animator_state(reference, 1, 'Idle')
 
                     # Store new direction

@@ -84,10 +84,11 @@ class GameStatus:
                 self._update_agent(agents_ref[agent.id], agent, side)
 
 
-    def _set_text(self, child_ref, text, reference=None):
+    def _set_text(self, child_ref, text, reference=None, cycle=None):
         reference = reference if reference != None else self._top_panel_ref
         self._scene.add_action(scene_actions.ChangeText(
             ref = reference,
+            cycle = cycle,
             child_ref = child_ref,
             text = text
         ))
@@ -107,11 +108,12 @@ class GameStatus:
 
     def _set_position_text(self, agent_ref, agent):
         text = '{:d}, {:d}'.format(agent.position.x, agent.position.y) if agent.status == AgentStatus.Alive else '<color=red>Dead</color>'
-        self._set_text('Stats/Position', text, agent_ref)
+        self._set_text('Stats/Position', text, agent_ref, 1)
 
 
     def _set_bomb_text(self, agent_ref, agent, side):
-        text = str(agent.defusion_remaining_time) if side == 'Police' else str(agent.planting_remaining_time)
+        value = agent.defusion_remaining_time if side == 'Police' else agent.planting_remaining_time
+        text = '<color=red>{:d}</color>'.format(value) if value >= 0 else '-'
         self._set_text('Stats/BombText', text, agent_ref)
 
 
