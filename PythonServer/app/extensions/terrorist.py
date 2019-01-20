@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # project imports
-from ..ks.models import Terrorist, Bomb, ECell, AgentStatus
+from ..ks.models import Terrorist, Bomb, ECell, EAgentStatus
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
 from ..helpers.logic.sounds import footsteps
@@ -24,23 +24,25 @@ def plant_bomb(self, world, command):
     if self.planting_remaining_time != -1:
         gui_events += self.cancel_plant(world)
 
+    self.planting_remaining_time = world.constants.bomb_planting_time
     bomb_position = self.position + directions[command.direction.name]
     new_bomb = Bomb(position=bomb_position, explosion_remaining_time=-1,
                     planter_id=self.id, defuser_id=-1)
     world.bombs.append(new_bomb)
 
     event_type = GuiEventType.PlantingBomb
-    gui_events += [GuiEvent(event_type, bomb_position=self.position.add(directions[command.direction.name]))]
+    gui_events += [GuiEvent(event_type, agent_id=self.id, bomb_position=self.position.add(directions[command.direction.name]), direction=command.direction)]
     return gui_events
 
 
 def cancel_plant(self, world):
-    bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id))
-    bomb_position = bomb.position
-    world.bombs.remove(bomb)
-    self.planting_remaining_time = -1
-    event_type = GuiEventType.CancelPlant
-    return [GuiEvent(event_type, bomb_position=bomb_position)]
+    bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id), None)
+    if bomb != None:
+        bomb_position = bomb.position
+        world.bombs.remove(bomb)
+        self.planting_remaining_time = -1
+        event_type = GuiEventType.CancelPlant
+        return [GuiEvent(event_type, agent_id=self.id, bomb_position=bomb_position)]
 
 
 def can_plant_bomb(self, world, command):
@@ -66,13 +68,12 @@ def can_plant_bomb(self, world, command):
 
 def die(self, world):
     gui_events = []
-    self.status = AgentStatus.Dead
+    self.status = EAgentStatus.Dead
     score.increase_eliminate_terrorist_score(world)
 
     # check if terrorist was planting
     if self.planting_remaining_time != -1:
-        if next((bomb for bomb in world.bombs if bomb.planter_id == self.id), None):
-            gui_events += self.cancel_plant(world)
+        gui_events += self.cancel_plant(world)
 
     world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
     gui_events += [GuiEvent(GuiEventType.TerroristDeath,

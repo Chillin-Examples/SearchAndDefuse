@@ -7,7 +7,7 @@ from copy import deepcopy
 from ..helpers.logic.timers import bomb_timer
 from ..helpers.logic import vision
 from ..helpers.logic.sounds import bombbeep
-from ..ks.models import ECell, AgentStatus
+from ..ks.models import ECell, EAgentStatus
 
 
 class LogicHandler:
@@ -17,6 +17,7 @@ class LogicHandler:
         self._sides = sides
         self._last_cycle_commands = {side: {} for side in self._sides}
 
+
     def store_command(self, side_name, command):
         agents = self.world.polices if side_name == 'Police' else self.world.terrorists
 
@@ -25,33 +26,59 @@ class LogicHandler:
             print('Invalid id in command: %s %i' % (side_name, command.id))
             return
 
+        # Dead Agents can't send command
+        if agents[command.id].status == EAgentStatus.Dead:
+            print('%s(%i) is dead so can\'t send command' % (side_name, command.id))
+            return
+
         print('command: %s(%i)' % (side_name, command.id))
         self._last_cycle_commands[side_name][command.id] = command
+
 
     def initialize(self):
         # initialize world vision
         self.world.visions['Police'] = vision.compute_polices_visions(self.world)
         self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
 
+
     def clear_commands(self):
         self._last_cycle_commands = {side: {} for side in self._sides}
 
+
     def process(self, current_cycle):
         gui_events = []
+
+        # Check timers
         gui_events += bomb_timer.update_bombs_timings(self.world)
+
+        # Check commands
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
 
-        # check death terrorist
+        # update polices visions
+        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
+
+        # check death terrorist that are in police visions
         for terrorist in self.world.terrorists:
-            if terrorist.status == AgentStatus.Alive:
+            if terrorist.status == EAgentStatus.Alive:
                 if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
                     gui_events += terrorist.die(self.world)
 
+        # update bombs sound
         bombbeep.update_police_bomb_sounds(self.world)
 
+        # update terrorists visions
+        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
+
         return gui_events
+
+
+    def _update_visions(self):
+        # update world visions
+        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
+        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
+
 
     def get_client_world(self, side_name):
         client_world = deepcopy(self.world)
@@ -93,12 +120,12 @@ class LogicHandler:
             winner_sidename = 'Terrorist'
 
         # all terrorists are dead
-        elif all(terrorist.status == AgentStatus.Dead for terrorist in self.world.terrorists):
+        elif all(terrorist.status == EAgentStatus.Dead for terrorist in self.world.terrorists):
             end_game = True
             winner_sidename = 'Police'
 
         # all polices are dead
-        elif all(police.status == AgentStatus.Dead for police in self.world.polices):
+        elif all(police.status == EAgentStatus.Dead for police in self.world.polices):
             end_game = True
             winner_sidename = 'Terrorist'
 

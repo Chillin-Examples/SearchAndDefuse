@@ -24,6 +24,7 @@ def defuse_bomb(self, world, command):
     if self.defusion_remaining_time != -1:
         gui_events += self.cancel_defuse(world)
 
+    self.defusion_remaining_time = world.constants.bomb_defusion_time
     bomb_position = self.position + directions[command.direction.name]
     for bomb in world.bombs:
         if bomb.position == bomb_position:
@@ -58,18 +59,8 @@ def can_defuse_bomb(self, world, command):
     return False
 
 
-# def kill_terrorist(self, world, terrorist):
-#     terrorist.status = AgentStatus.Dead
-#     score.increase_score(score.OperationType.KillTerrorist, world)
-#     world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
-#     return GuiEvent(GuiEventType.TerroristDeath,
-#                     terrorist_id=terrorist.id,
-#                     position=terrorist.position)
-
-
 Police.defuse_bomb = defuse_bomb
 Police.move = move
 Police.cancel_defuse = cancel_defuse
 Police.can_defuse_bomb = can_defuse_bomb
 Police.can_move = base_can_move
-# Police.kill_terrorist = kill_terrorist

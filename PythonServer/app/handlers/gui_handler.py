@@ -64,7 +64,8 @@ class GuiHandler:
         self.BEFORE_FIRE_CYCLES = 0.5
         self.BEFORE_DEATH_CYCLES = 1
         self.AFTER_DEATH_CYCLES = 5
-        self.AFTER_DEATH_Y = -5
+        self.DEEP_DOWN_Y = -5
+        self.DEEP_DOWN_CYCLES = 5
         self.EXPLOSION_CYCLES = 4
 
         self.RIFLE_TRANSFORM = {
@@ -113,6 +114,9 @@ class GuiHandler:
         self._agents_direction = {side: {} for side in self._sides}
         self._fows_ref = {}
         self._hidden_fows_pos = [] # fog of wars that are hidden because of the visions
+        self._bombsites_ref = {} # key: (x, y)
+        self._plantings_ref = {} # key: bombsite_ref, value: agent
+        self._active_bombsites_ref = {} # key: bombsite_ref, value: bomb
 
 
     def _init_light(self):
@@ -140,7 +144,7 @@ class GuiHandler:
             is_orthographic = False,
             field_of_view = fov,
             min_position = scene_actions.Vector3(x=(self.X_OFFSET + extra_camera_boundry), y=1, z=(self.Z_OFFSET + extra_camera_boundry)),
-            max_position = scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=100, z=-(self.Z_OFFSET + extra_camera_boundry)),
+            max_position = scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=20, z=-(self.Z_OFFSET + extra_camera_boundry)),
             min_zoom = fov - 20,
             max_zoom = fov + 40
         ))
@@ -196,6 +200,7 @@ class GuiHandler:
                     ))
 
                 elif cell in [ECell.SmallBombSite, ECell.MediumBombSite, ECell.LargeBombSite, ECell.VastBombSite]:
+                    self._bombsites_ref[(x, y)] = reference
                     self._scene.add_action(scene_actions.InstantiateBundleAsset(
                         ref = reference,
                         asset = scene_actions.Asset(bundle_name='main', asset_name=cell.name)
@@ -329,8 +334,8 @@ class GuiHandler:
 
     def update(self, current_cycle, gui_events):
         moving_terrorists, moving_polices, bombs_defusing, bombs_defused, bombs_op_canceled = [], [], [], [], []
-        bombs_events = {"planting": [], "planted": [], "exploded": []}
-        agents_dead = {"Terrorist": [], "Police": []}
+        bombs_events = {'planting': [], 'planted': [], 'exploded': []}
+        agents_dead = {'Terrorist': [], 'Police': []}
 
         self._game_status.update(current_cycle)
         self._update_fow()
@@ -342,36 +347,34 @@ class GuiHandler:
             if event.type == GuiEventType.MoveTerrorist:
                 moving_terrorists.append(event.payload)
 
-            if event.type == GuiEventType.DefusingBomb:
-                bombs_defusing.append(event.payload)
-
             if event.type == GuiEventType.PlantingBomb:
                 bombs_events['planting'].append(event.payload)
+
+            if event.type == GuiEventType.PlantedBomb:
+                bombs_events['planted'].append(event.payload)
+
+            if event.type == GuiEventType.ExplodeBomb:
+                bombs_events['exploded'].append(event.payload)
+
+            if event.type == GuiEventType.DefusingBomb:
+                bombs_defusing.append(event.payload)
 
             if event.type == GuiEventType.DefusedBomb:
                 bombs_defused.append(event.payload)
                 self._game_status.increase_defused_number()
 
-            if event.type == GuiEventType.PlantedBomb:
-                bombs_events['planted'].append(event.payload)
-                self._game_status.increase_planted_number()
-
-            if event.type == GuiEventType.ExplodeBomb:
-                bombs_events['exploded'].append(event.payload)
-                self._game_status.increase_exploded_number()
-
             if event.type in [GuiEventType.CancelPlant, GuiEventType.CancelDefuse]:
                 bombs_op_canceled.append(event.payload)
 
             if event.type == GuiEventType.TerroristDeath:
-                agents_dead["Terrorist"].append(event.payload)
+                agents_dead['Terrorist'].append(event.payload)
 
             if event.type == GuiEventType.PoliceDeath:
-                agents_dead["Police"].append(event.payload)
+                agents_dead['Police'].append(event.payload)
 
         # Updates
         # Moves
-        if (len(moving_terrorists) != 0) or (len(moving_polices) != 0):
+        if len(moving_terrorists) != 0 or len(moving_polices) != 0:
             for side in self._sides:
                 moves = moving_polices if side == 'Police' else moving_terrorists
 
@@ -405,14 +408,51 @@ class GuiHandler:
                     # Store new direction
                     self._agents_direction[side][move['agent_id']] = move['direction']
 
-        # if len(bombs_events['planting']) != 0:
-        #     bomb.update_board_on_planting(self, bombs_events['planting'])
+        # Planting Bomb
+        if len(bombs_events['planting']) != 0:
+            for plant in bombs_events['planting']:
+                agent = self._world.terrorists[plant['agent_id']]
+                bombsite_ref = self._bombsites_ref[(plant['bomb_position'].x, plant['bomb_position'].y)]
+                self._plantings_ref[bombsite_ref] = agent
+                # Update bombsite
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, True)
+                # update agent
+                self._change_animator_state(self._agents_ref['Terrorist'][agent.id], 0, 'BombAction')
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = self._agents_ref['Terrorist'][agent.id],
+                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[plant['direction'].name])
+                ))
 
-        # if len(bombs_events['planted']) != 0:
-        #     bomb.update_board_on_planted(self, bombs_events['planted'])
+        # Bombs Planted
+        if len(bombs_events['planted']) != 0:
+            for planted in bombs_events['planted']:
+                bomb = planted['bomb']
+                # increase counter
+                self._game_status.increase_planted_number()
+                # update status dictionaries
+                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+                self._active_bombsites_ref[bombsite_ref] = bomb
+                planter = self._plantings_ref[bombsite_ref]
+                del self._plantings_ref[bombsite_ref]
+                # Update bombsite
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, False)
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, True)
+                # update agent
+                self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
 
-        # if len(bombs_events['exploded']) != 0:
-        #     bomb.update_board_on_explode(self, bombs_events['exploded'])
+        # Bombs Exploded
+        if len(bombs_events['exploded']) != 0:
+            for exploded in bombs_events['exploded']:
+                bomb = exploded['bomb']
+                # increase counter
+                self._game_status.increase_exploded_number()
+                # update status dictionaries
+                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+                del self._active_bombsites_ref[bombsite_ref]
+                # Update bombsite
+                self._change_is_active(bombsite_ref, 'Canvas', 0, False)
+                self._change_animator_state(bombsite_ref, 0, 'Explosion')
+                self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
 
         # if len(bombs_defusing) != 0:
         #     bomb.update_board_on_defusing(self, bombs_defusing)
@@ -423,12 +463,17 @@ class GuiHandler:
         # if len(bombs_op_canceled) != 0:
         #     bomb.update_board_on_bomb_cancel(self, bombs_op_canceled)
 
-        # if len(agents_dead["Terrorist"]) != 0:
+        # if len(agents_dead['Terrorist']) != 0:
         #     death.update_on_death_terrorist(self, agents_dead)
 
-        # if len(agents_dead["Police"]) != 0:
+        # if len(agents_dead['Police']) != 0:
         #     death.update_on_death_police(self, agents_dead)
 
+        # Update bombsites
+        self._update_planting_bombsites()
+        self._update_bombsites_timer()
+
+        # Add EndCycle
         self._scene.add_action(scene_actions.EndCycle())
 
 
@@ -452,6 +497,43 @@ class GuiHandler:
             return 'TurnRight', True
         if diff == -1 or diff == 3:
             return 'TurnLeft', True
+
+
+    def _change_is_active(self, reference, child_ref, cycle, is_active):
+        self._scene.add_action(scene_actions.ChangeIsActive(
+            ref = reference, child_ref = child_ref,
+            cycle = cycle,
+            is_active = is_active
+        ))
+
+
+    def _change_text(self, reference, child_ref, cycle, text):
+        self._scene.add_action(scene_actions.ChangeText(
+            ref = reference, child_ref = child_ref,
+            cycle = cycle,
+            text = text
+        ))
+
+
+    def _update_planting_bombsites(self):
+        for bombsite_ref in self._plantings_ref:
+            agent = self._plantings_ref[bombsite_ref]
+            self._change_text(bombsite_ref, 'Canvas/Panel/Planting/Text', None, str(agent.planting_remaining_time))
+
+
+    def _update_bombsites_timer(self):
+        for bombsite_ref in self._active_bombsites_ref:
+            bomb = self._active_bombsites_ref[bombsite_ref]
+            self._change_text(bombsite_ref, 'Canvas/Panel/Timer/Text', None, str(bomb.explosion_remaining_time))
+
+
+    def _deep_down(self, reference, cycle):
+        self._scene.add_action(scene_actions.ChangeTransform(
+            ref = reference,
+            cycle = cycle,
+            duration_cycles = self.DEEP_DOWN_CYCLES,
+            position = scene_actions.Vector3(y=self.DEEP_DOWN_Y)
+        ))
 
 
     def _get_scene_position(self, position):

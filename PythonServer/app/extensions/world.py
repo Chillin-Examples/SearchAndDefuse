@@ -2,67 +2,57 @@
 
 # project imports
 from ..ks.commands import *
-from ..ks.models import World, AgentStatus
-from ..helpers.logic import vision
+from ..ks.models import World, EAgentStatus
 
 
 def apply_command(self, side_name, command):
-    agents = {'Police': self.polices, 'Terrorist': self.terrorists}
+    agent = self.polices[command.id] if side_name == 'Police' else self.terrorists[command.id]
+
+    if agent.status == EAgentStatus.Dead:
+        return []
 
     # Read Commands
+    # Move
     if command.name() == Move.name():
         move_events = []
-        terrorist_death_events = []
-        agent = agents[side_name][command.id]
 
-        if agent.status == AgentStatus.Alive:
+        # check if agent is planting/defusing.
+        if side_name == 'Terrorist':
+            if agent.planting_remaining_time != -1:
+                move_events += agent.cancel_plant(self)
+        if side_name == 'Police':
+            if agent.defusion_remaining_time != -1:
+                move_events += agent.cancel_defuse(self)
 
-            # check if agent is planting/defusing.
-            if side_name == 'Terrorist':
-                if agent.planting_remaining_time != -1:
-                    move_events += agent.cancel_plant(self)
-            if side_name == 'Police':
-                if agent.defusion_remaining_time != -1:
-                    move_events += agent.cancel_defuse(self)
+        if not agent.can_move(side_name, self, command):
+            return move_events
+        move_events += agent.move(self, command)
 
-            if not agent.can_move(side_name, self, command):
-                return move_events
-            move_events += agent.move(self, command)
-
-            # update world visions
-            if side_name == 'Police':
-                self.visions[side_name] = vision.compute_polices_visions(self)
-            if side_name == 'Terrorist':
-                self.visions[side_name] = vision.compute_terrorists_visions(self)
-        move_events += terrorist_death_events
         return move_events
 
+    # Plant
     if command.name() == PlantBomb.name():
-        plant_events = []
-
-        # Only terrorists can plan
+        # Only terrorists can plant
         if side_name == "Police":
             return []
-        terrorist = agents["Terrorist"][command.id]
-        if terrorist.status == AgentStatus.Alive:
-            if not terrorist.can_plant_bomb(self, command):
-                return []
-            plant_events += terrorist.plant_bomb(self, command)
+
+        plant_events = []
+
+        if agent.can_plant_bomb(self, command):
+            plant_events += agent.plant_bomb(self, command)
 
         return plant_events
 
+    # Defuse
     if command.name() == DefuseBomb.name():
-        defuse_events = []
-
-        # Only terrorists can plan
+        # Only polices can defuse
         if side_name == "Terrorist":
             return []
 
-        police = agents["Police"][command.id]
-        if police.status == AgentStatus.Alive:
-            if not police.can_defuse_bomb(self, command):
-                return []
-            defuse_events += police.defuse_bomb(self, command)
+        defuse_events = []
+
+        if agent.can_defuse_bomb(self, command):
+            defuse_events += agent.defuse_bomb(self, command)
 
         return defuse_events
 

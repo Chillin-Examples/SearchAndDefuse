@@ -72,7 +72,7 @@ class MapHandler:
                     new_police.defusion_remaining_time = -1
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
-                    new_police.status = AgentStatus.Alive
+                    new_police.status = EAgentStatus.Alive
                     new_police.init_direction = ECommandDirection[player["direction"]]
                     world.polices.append(new_police)
                 if side == 'Terrorist':
@@ -81,7 +81,7 @@ class MapHandler:
                     new_terrorist.position = player_position
                     new_terrorist.planting_remaining_time = -1
                     new_terrorist.footstep_sounds = []
-                    new_terrorist.status = AgentStatus.Alive
+                    new_terrorist.status = EAgentStatus.Alive
                     new_terrorist.init_direction = ECommandDirection[player["direction"]]
                     world.terrorists.append(new_terrorist)
 

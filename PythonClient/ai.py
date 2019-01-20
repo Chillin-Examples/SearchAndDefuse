@@ -25,10 +25,14 @@ class AI(RealtimeAI):
         print('decide')
         my_agents = self.world.polices if self.my_side == 'Police' else self.world.terrorists
         for agent in my_agents:
-            direction = random.choice([
-                ECommandDirection.Up,
-                ECommandDirection.Right,
-                ECommandDirection.Down,
-                ECommandDirection.Left
-            ])
-            self.send_command(Move(id=agent.id, direction=direction))
+            if self.my_side == 'Terrorist':
+                if self.current_cycle == 0:
+                    print 'Plant'
+                    self.send_command(PlantBomb(id=agent.id, direction=ECommandDirection.Left))
+        #     direction = random.choice([
+        #         ECommandDirection.Up,
+        #         ECommandDirection.Right,
+        #         ECommandDirection.Down,
+        #         ECommandDirection.Left
+        #     ])
+        #     self.send_command(Move(id=agent.id, direction=direction))

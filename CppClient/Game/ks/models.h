@@ -47,7 +47,7 @@ enum class ESoundIntensity
 };
 
 
-enum class AgentStatus
+enum class EAgentStatus
 {
 	Alive = 0,
 	Dead = 1,
@@ -1298,7 +1298,7 @@ protected:
 	Position __position;
 	int __plantingRemainingTime;
 	std::vector<ESoundIntensity> __footstepSounds;
-	AgentStatus __status;
+	EAgentStatus __status;
 
 	bool __has_id;
 	bool __has_position;
@@ -1329,7 +1329,7 @@ public: // getters
 		return __footstepSounds;
 	}
 	
-	inline AgentStatus status() const
+	inline EAgentStatus status() const
 	{
 		return __status;
 	}
@@ -1357,9 +1357,9 @@ public: // reference getters
 		return (std::vector<ESoundIntensity>&) __footstepSounds;
 	}
 	
-	inline AgentStatus &ref_status() const
+	inline EAgentStatus &ref_status() const
 	{
-		return (AgentStatus&) __status;
+		return (EAgentStatus&) __status;
 	}
 	
 
@@ -1389,7 +1389,7 @@ public: // setters
 		has_footstepSounds(true);
 	}
 	
-	inline void status(const AgentStatus &status)
+	inline void status(const EAgentStatus &status)
 	{
 		__status = status;
 		has_status(true);
@@ -1602,7 +1602,7 @@ public:
 			char tmp107;
 			tmp107 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__status = (AgentStatus) tmp107;
+			__status = (EAgentStatus) tmp107;
 		}
 		
 		return offset;
@@ -1620,7 +1620,7 @@ protected:
 	int __defusionRemainingTime;
 	std::vector<ESoundIntensity> __footstepSounds;
 	std::vector<ESoundIntensity> __bombSounds;
-	AgentStatus __status;
+	EAgentStatus __status;
 
 	bool __has_id;
 	bool __has_position;
@@ -1657,7 +1657,7 @@ public: // getters
 		return __bombSounds;
 	}
 	
-	inline AgentStatus status() const
+	inline EAgentStatus status() const
 	{
 		return __status;
 	}
@@ -1690,9 +1690,9 @@ public: // reference getters
 		return (std::vector<ESoundIntensity>&) __bombSounds;
 	}
 	
-	inline AgentStatus &ref_status() const
+	inline EAgentStatus &ref_status() const
 	{
-		return (AgentStatus&) __status;
+		return (EAgentStatus&) __status;
 	}
 	
 
@@ -1728,7 +1728,7 @@ public: // setters
 		has_bombSounds(true);
 	}
 	
-	inline void status(const AgentStatus &status)
+	inline void status(const EAgentStatus &status)
 	{
 		__status = status;
 		has_status(true);
@@ -2004,7 +2004,7 @@ public:
 			char tmp151;
 			tmp151 = *((char*) (&s[offset]));
 			offset += sizeof(char);
-			__status = (AgentStatus) tmp151;
+			__status = (EAgentStatus) tmp151;
 		}
 		
 		return offset;

@@ -4,7 +4,7 @@
 from chillin_server.gui import scene_actions
 
 # project imports
-from ..ks.models import AgentStatus, ESoundIntensity
+from ..ks.models import EAgentStatus, ESoundIntensity
 
 
 class GameStatus:
@@ -107,8 +107,9 @@ class GameStatus:
 
 
     def _set_position_text(self, agent_ref, agent):
-        text = '{:d}, {:d}'.format(agent.position.x, agent.position.y) if agent.status == AgentStatus.Alive else '<color=red>Dead</color>'
-        self._set_text('Stats/Position', text, agent_ref, 1)
+        text = '{:d}, {:d}'.format(agent.position.x, agent.position.y) if agent.status == EAgentStatus.Alive else '<color=red>Dead</color>'
+        cycle = 1 if agent.status == EAgentStatus.Alive else 0
+        self._set_text('Stats/Position', text, agent_ref, cycle)
 
 
     def _set_bomb_text(self, agent_ref, agent, side):

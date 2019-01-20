@@ -23,7 +23,7 @@ class ESoundIntensity(Enum):
 	Strong = 2
 
 
-class AgentStatus(Enum):
+class EAgentStatus(Enum):
 	Alive = 0
 	Dead = 1
 
@@ -585,7 +585,7 @@ class Terrorist(object):
 		if tmp46:
 			tmp47 = struct.unpack('b', s[offset:offset + 1])[0]
 			offset += 1
-			self.status = AgentStatus(tmp47)
+			self.status = EAgentStatus(tmp47)
 		else:
 			self.status = None
 		
@@ -752,7 +752,7 @@ class Police(object):
 		if tmp71:
 			tmp72 = struct.unpack('b', s[offset:offset + 1])[0]
 			offset += 1
-			self.status = AgentStatus(tmp72)
+			self.status = EAgentStatus(tmp72)
 		else:
 			self.status = None
 		
