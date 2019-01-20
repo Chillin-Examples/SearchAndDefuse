@@ -105,29 +105,33 @@ class LogicHandler:
         end_game = False
         winner_sidename = None
 
+        # count active bombs
+        num_active_bombs = 0
+        for bomb in self.world.bombs:
+            if bomb.explosion_remaining_time != -1:
+                num_active_bombs += 1
+
         # times up
         if current_cycle > self.world.constants.max_cycles - 1:
             end_game = True
-            if self.world.scores['Terrorist'] > self.world.scores['Police']:
-                winner_sidename = 'Terrorist'
-            elif self.world.scores['Police'] > self.world.scores['Terrorist']:
-                winner_sidename = 'Police'
 
-        # all bombs exploded
+        # all bombsites exploded
         elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
                               ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
             end_game = True
-            winner_sidename = 'Terrorist'
 
-        # all terrorists are dead
-        elif all(terrorist.status == EAgentStatus.Dead for terrorist in self.world.terrorists):
+        # all terrorists are dead and there is no active bomb
+        elif num_active_bombs == 0 and all(terrorist.status == EAgentStatus.Dead for terrorist in self.world.terrorists):
             end_game = True
-            winner_sidename = 'Police'
 
-        # all polices are dead
-        elif all(police.status == EAgentStatus.Dead for police in self.world.polices):
+        # all polices are dead and there is no active bomb
+        elif num_active_bombs == 0 and all(police.status == EAgentStatus.Dead for police in self.world.polices):
             end_game = True
-            winner_sidename = 'Terrorist'
+
+        if self.world.scores['Police'] == self.world.scores['Terrorist']:
+            winner_sidename = None
+        else:
+            winner_sidename = 'Police' if self.world.scores['Police'] > self.world.scores['Terrorist'] else 'Terrorist'
 
         details = {
             'Scores': {
