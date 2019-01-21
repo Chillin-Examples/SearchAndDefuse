@@ -691,6 +691,11 @@ class GuiHandler:
             ref = bombsite_ref, child_ref = 'BombPosition',
             is_active = True
         ))
+        self._scene.add_action(scene_actions.ChangeAnimatorState(
+            ref = bombsite_ref, child_ref = 'BombPosition/Bomb',
+            state_name = 'BombBeep',
+            normalized_time = 0
+        ))
 
 
     def _remove_bomb(self, bombsite_ref):
