@@ -30,7 +30,6 @@ class GuiHandler:
         # draw
         self._init_light()
         self._init_camera()
-        self._init_sounds()
         self._draw_board()
         self._draw_agents()
         self._init_fow()
@@ -59,6 +58,8 @@ class GuiHandler:
         }
 
         self.ANGLE_BETWEEN_OFFSET = -90
+
+        self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES = 3
 
         self.TURN_CYCLES = 0.3
         self.MOVE_CYCLES = 0.5
@@ -166,10 +167,6 @@ class GuiHandler:
             position = scene_actions.Vector3(x=0, y=10, z=(self.Z_OFFSET + extra_camera_boundry)),
             rotation = scene_actions.Vector3(x=30, y=0, z=0)
         ))
-
-
-    def _init_sounds(self):
-        pass
 
 
     def _draw_board(self):
@@ -465,6 +462,9 @@ class GuiHandler:
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, True)
                 # update agent
                 self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
+                # Update sounds
+                self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_planted_sfx')
+                self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
 
         # Defusing Bomb
         if len(bombs_defusing) != 0:
@@ -511,6 +511,9 @@ class GuiHandler:
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, False)
                 # update agent
                 self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
+                # Update sounds
+                self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_defused_sfx')
+                self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
 
         # Bombs Exploded
         if len(bombs_exploded) != 0:
@@ -524,6 +527,8 @@ class GuiHandler:
                 # Update bombsite
                 self._remove_bomb(bombsite_ref)
                 self._add_explosion(bombsite_ref)
+                self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_explosion_sfx')
+                self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_CYCLES)
                 self._change_is_active(bombsite_ref, 'Canvas', 0, False)
                 self._change_animator_state(bombsite_ref, 0, 'Explosion')
                 self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
@@ -581,6 +586,9 @@ class GuiHandler:
                 # Update gun position
                 self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Police', 'Fire')
                 self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Police', 'Default')
+                # Update sounds
+                self._play_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES)
+                self._pause_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES)
 
         # Update bombsites canvas
         self._update_planting_bombsites()
@@ -704,11 +712,6 @@ class GuiHandler:
             duration_cycles = self.DEEP_DOWN_CYCLES,
             position = scene_actions.Vector3(y=self.DEEP_DOWN_Y)
         ))
-        self._scene.add_action(scene_actions.ChangeIsActive(
-            ref = reference,
-            cycle = cycle + self.DEEP_DOWN_CYCLES,
-            is_active = False
-        ))
 
 
     def _change_rifle_transform(self, reference, cycle, side, state):
@@ -718,6 +721,28 @@ class GuiHandler:
             cycle = cycle,
             position = self.RIFLE_TRANSFORM[side][state]['position'],
             rotation = self.RIFLE_TRANSFORM[side][state]['rotation']
+        ))
+
+
+    def _play_sound(self, reference, child_ref, cycle, sound_name=None):
+        clip_asset = None
+        if sound_name != None:
+            clip_asset = scene_actions.Asset(bundle_name='main', asset_name=sound_name)
+
+        self._scene.add_action(scene_actions.ChangeAudioSource(
+            ref = reference, child_ref = child_ref,
+            cycle = cycle,
+            play = True,
+            time = 0,
+            audio_clip_asset = clip_asset
+        ))
+
+
+    def _pause_sound(self, reference, child_ref, cycle):
+        self._scene.add_action(scene_actions.ChangeAudioSource(
+            ref = reference, child_ref = child_ref,
+            cycle = cycle,
+            play = False
         ))
 
 
