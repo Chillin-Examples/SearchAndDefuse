@@ -6,7 +6,7 @@ from copy import deepcopy
 # project imports
 from ..helpers.logic.timers import bomb_timer
 from ..helpers.logic import vision
-from ..helpers.logic.sounds import bombbeep
+from ..helpers.logic.sounds import bombbeep, footsteps
 from ..ks.models import ECell, EAgentStatus
 from ..gui_events import GuiEventType, GuiEvent
 
@@ -49,6 +49,9 @@ class LogicHandler:
     def process(self, current_cycle):
         gui_events = []
 
+        # Reset agents is moving
+        self._reset_agents_is_moving()
+
         # Check timers
         gui_events += bomb_timer.update_bombs_timings(self.world)
 
@@ -90,7 +93,19 @@ class LogicHandler:
         # update terrorists visions
         self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
 
+        # Update footsounds
+        footsteps.update_police_intensities(self.world)
+        footsteps.update_terrorist_intensities(self.world)
+
         return gui_events
+
+
+    def _reset_agents_is_moving(self):
+        for side in self._sides:
+            agents = self.world.polices if side == 'Police' else self.world.terrorists
+
+            for agent in agents:
+                agent.is_moving = False
 
 
     def get_client_world(self, side_name):

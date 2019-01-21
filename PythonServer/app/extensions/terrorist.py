@@ -4,7 +4,6 @@
 from ..ks.models import Terrorist, Bomb, ECell, EAgentStatus
 from .agent import directions, can_move as base_can_move, move as base_move
 from ..gui_events import GuiEventType, GuiEvent
-from ..helpers.logic.sounds import footsteps
 from ..helpers.logic import score, vision
 
 
@@ -14,7 +13,6 @@ def move(self, world, command):
         gui_events += self.cancel_plant(world)
 
     base_move(self, world, command)
-    footsteps.update_police_intensities(world)
     gui_events += [GuiEvent(GuiEventType.MoveTerrorist, agent_id=self.id, agent_position=self.position, direction=command.direction)]
     return gui_events
 
@@ -74,7 +72,6 @@ def die(self, world, killer):
     if self.planting_remaining_time != -1:
         gui_events += self.cancel_plant(world)
 
-    world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
     gui_events += [GuiEvent(GuiEventType.TerroristShooted, agent=self, killer=killer)]
     return gui_events
 

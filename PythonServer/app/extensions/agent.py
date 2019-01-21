@@ -7,6 +7,7 @@ from ..ks.models import *
 
 def move(self, world, command):
     self.position = self.position + directions[command.direction.name]
+    self.is_moving = True
 
 
 def can_move(self, side_name, world, command):
