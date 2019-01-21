@@ -43,8 +43,8 @@ def add_vector(self, vector_angle, vector_length):
     radians = math.radians(vector_angle)
 
     return Position(
-        x = self.x + math.sin(radians) * vector_length,
-        y = self.y + math.cos(radians) * vector_length
+        x = self.x + math.cos(radians) * vector_length,
+        y = self.y + math.sin(radians) * vector_length
     )
 
 
