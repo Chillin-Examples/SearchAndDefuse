@@ -220,7 +220,7 @@ class GuiHandler:
                     floor_ref = self._rm.new()
                     self._scene.add_action(scene_actions.InstantiateBundleAsset(
                         ref = floor_ref,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Floor2')
+                        asset = scene_actions.Asset(bundle_name='main', asset_name='BombFloor')
                     ))
                     self._move_xz(floor_ref, None, None, Position(x=x, y=y))
 
