@@ -22,13 +22,10 @@ def _update_agents_footsteps_intensity(world, side):
             agent.footstep_sounds = _get_agent_footsteps_intensity(agent, opponent_agents, world.constants.sound_ranges)
 
 
-def _get_agent_footsteps_intensity(agent, opponent_agents, max_intensities_dict):
-    sounds = []
+def _get_agent_footsteps_intensity(agent, opponent_agents, sound_ranges):
+    distances = []
     for opponent_agent in opponent_agents:
         if opponent_agent.status == EAgentStatus.Alive and opponent_agent.is_moving:
-            distance = utils.calculate_distance(agent.position, opponent_agent.position)
-            intensity = utils.int_to_intensity(int(distance), max_intensities_dict)
-            if intensity != None:
-                sounds.append(intensity)
+            distances.append(int(utils.calculate_distance(agent.position, opponent_agent.position)))
 
-    return sounds
+    return utils.distances_to_intensities(distances, sound_ranges)

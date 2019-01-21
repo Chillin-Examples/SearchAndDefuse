@@ -9,8 +9,8 @@ def update_police_bomb_sounds(world):
     for police in world.polices:
         police.bomb_sounds = []
         if police.status == EAgentStatus.Alive:
+            distances = []
             for bomb in world.bombs:
-                distance = utils.calculate_distance(bomb.position, police.position)
-                intensity = utils.int_to_intensity(int(distance), world.constants.sound_ranges)
-                if intensity != None:
-                    police.bomb_sounds.append(intensity)
+                distances.append(int(utils.calculate_distance(bomb.position, police.position)))
+
+            police.bomb_sounds = utils.distances_to_intensities(distances, world.constants.sound_ranges)
