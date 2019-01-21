@@ -523,6 +523,7 @@ class GuiHandler:
                 del self._active_bombsites_ref[bombsite_ref]
                 # Update bombsite
                 self._remove_bomb(bombsite_ref)
+                self._add_explosion(bombsite_ref)
                 self._change_is_active(bombsite_ref, 'Canvas', 0, False)
                 self._change_animator_state(bombsite_ref, 0, 'Explosion')
                 self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
@@ -684,6 +685,13 @@ class GuiHandler:
         self._scene.add_action(scene_actions.ChangeIsActive(
             ref = bombsite_ref, child_ref = 'BombPosition',
             is_active = False
+        ))
+
+
+    def _add_explosion(self, bombsite_ref):
+        self._scene.add_action(scene_actions.ChangeIsActive(
+            ref = bombsite_ref, child_ref = 'Explosion',
+            is_active = True
         ))
 
 
