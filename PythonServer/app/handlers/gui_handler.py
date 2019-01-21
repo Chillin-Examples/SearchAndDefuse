@@ -218,10 +218,14 @@ class GuiHandler:
                         ref = reference,
                         asset = scene_actions.Asset(bundle_name='main', asset_name=cell.name)
                     ))
+
+                    # Add floor
+                    floor_ref = self._rm.new()
                     self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = self._rm.new(),
+                        ref = floor_ref,
                         asset = scene_actions.Asset(bundle_name='main', asset_name='Floor2')
                     ))
+                    self._move_xz(floor_ref, None, None, Position(x=x, y=y))
 
                 # Set Position
                 self._move_xz(reference, None, None, Position(x=x, y=y))
