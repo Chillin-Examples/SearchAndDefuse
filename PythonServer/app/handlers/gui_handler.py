@@ -561,15 +561,9 @@ class GuiHandler:
                 self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeDeath')
                 self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Death')
                 # Update gun position
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = reference,
-                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/TerroristRifle',
-                    cycle = self.SHOOT_OFFSET_CYCLES,
-                    position = self.RIFLE_TRANSFORM['Terrorist']['Fire']['position'],
-                    rotation = self.RIFLE_TRANSFORM['Terrorist']['Fire']['rotation']
-                ))
+                self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Terrorist', 'Fire')
 
-
+        # Shoot Terrorists
         if len(shoot_terrorists) != 0:
             for shoot in shoot_terrorists:
                 police = shoot['police']
@@ -584,20 +578,8 @@ class GuiHandler:
                 self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Fire')
                 self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Idle')
                 # Update gun position
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = reference,
-                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/PoliceRifle',
-                    cycle = self.SHOOT_OFFSET_CYCLES,
-                    position = self.RIFLE_TRANSFORM['Police']['Fire']['position'],
-                    rotation = self.RIFLE_TRANSFORM['Police']['Fire']['rotation']
-                ))
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = reference,
-                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/PoliceRifle',
-                    cycle = self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES,
-                    position = self.RIFLE_TRANSFORM['Police']['Default']['position'],
-                    rotation = self.RIFLE_TRANSFORM['Police']['Default']['rotation']
-                ))
+                self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Police', 'Fire')
+                self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Police', 'Default')
 
         # Update bombsites canvas
         self._update_planting_bombsites()
@@ -718,6 +700,16 @@ class GuiHandler:
             ref = reference,
             cycle = cycle + self.DEEP_DOWN_CYCLES,
             is_active = False
+        ))
+
+
+    def _change_rifle_transform(self, reference, cycle, side, state):
+        self._scene.add_action(scene_actions.ChangeTransform(
+            ref = reference,
+            child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/{}Rifle'.format(side),
+            cycle = cycle,
+            position = self.RIFLE_TRANSFORM[side][state]['position'],
+            rotation = self.RIFLE_TRANSFORM[side][state]['rotation']
         ))
 
 
