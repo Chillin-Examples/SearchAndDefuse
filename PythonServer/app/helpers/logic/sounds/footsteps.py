@@ -20,6 +20,8 @@ def _update_agents_footsteps_intensity(world, side):
     for agent in agents:
         if agent.status == EAgentStatus.Alive:
             agent.footstep_sounds = _get_agent_footsteps_intensity(agent, opponent_agents, world.constants.sound_ranges)
+        else:
+            agent.footstep_sounds = []
 
 
 def _get_agent_footsteps_intensity(agent, opponent_agents, sound_ranges):
