@@ -12,10 +12,11 @@ class GuiEventType(Enum):
     DefusingBomb = 4
     DefusedBomb = 5
     ExplodeBomb = 6
-    TerroristDeath = 7
-    PoliceDeath = 8
-    CancelPlant = 9
-    CancelDefuse = 10
+    BombDeath = 7
+    CancelPlant = 8
+    CancelDefuse = 9
+    TerroristShooted = 10 # shooted by police
+    ShootTerrorist = 11
 
 
 class GuiEvent(object):

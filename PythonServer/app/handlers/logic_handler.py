@@ -8,6 +8,7 @@ from ..helpers.logic.timers import bomb_timer
 from ..helpers.logic import vision
 from ..helpers.logic.sounds import bombbeep
 from ..ks.models import ECell, EAgentStatus
+from ..gui_events import GuiEventType, GuiEvent
 
 
 class LogicHandler:
@@ -60,10 +61,28 @@ class LogicHandler:
         self.world.visions['Police'] = vision.compute_polices_visions(self.world)
 
         # check death terrorist that are in police visions
+        for police in self.world.polices:
+            if police.status == EAgentStatus.Alive:
+                police.is_shooting = False
         for terrorist in self.world.terrorists:
             if terrorist.status == EAgentStatus.Alive:
-                if any(terrorist.position == vision_position for vision_position in self.world.visions['Police']):
-                    gui_events += terrorist.die(self.world)
+                not_shooting_police = None
+                any_police = None
+
+                # Find a police that see the terrorist
+                for police in self.world.polices:
+                    if police.status == EAgentStatus.Alive and any(terrorist.position == vision_position for vision_position in police.visions):
+                        if any_police == None:
+                            any_police = police
+                        if not police.is_shooting:
+                            police.is_shooting = True
+                            not_shooting_police = police
+                            gui_events.append(GuiEvent(GuiEventType.ShootTerrorist, police=police, terrorist=terrorist))
+                            break
+
+                if any_police != None:
+                    killer = not_shooting_police if not_shooting_police != None else any_police
+                    gui_events += terrorist.die(self.world, killer)
 
         # update bombs sound
         bombbeep.update_police_bomb_sounds(self.world)
@@ -72,12 +91,6 @@ class LogicHandler:
         self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
 
         return gui_events
-
-
-    def _update_visions(self):
-        # update world visions
-        self.world.visions['Police'] = vision.compute_polices_visions(self.world)
-        self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
 
 
     def get_client_world(self, side_name):
@@ -100,6 +113,7 @@ class LogicHandler:
                     if police.position == vision_position:
                         client_world.polices.append(police)
             return client_world
+
 
     def check_end_game(self, current_cycle):
         end_game = False

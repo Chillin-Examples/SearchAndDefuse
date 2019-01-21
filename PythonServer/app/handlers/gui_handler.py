@@ -58,35 +58,47 @@ class GuiHandler:
             ECommandDirection.Left.name:  -90
         }
 
+        self.ANGLE_BETWEEN_OFFSET = -90
+
         self.TURN_CYCLES = 0.3
         self.MOVE_CYCLES = 0.5
         self.STOP_CYCLES = 0.2
-        self.BEFORE_FIRE_CYCLES = 0.5
-        self.BEFORE_DEATH_CYCLES = 1
-        self.AFTER_DEATH_CYCLES = 5
+
+        self.EXPLOSION_CYCLES = 4
+        self.EXPLOSION_THROWBACK = 5
+        self.EXPLOSION_THROWBACK_CYCLES = 2
+        self.EXPLOSION_THROWBACK = 5
+        self.EXPLOSION_THROWBACK_CYCLES = 1
+
+        self.SHOOT_OFFSET_CYCLES = 1
+        self.BEFORE_SHOOT_CYCLES = 1
+        self.SHOOT_CYCLES = 1
+        self.SHOOT_THROWBACK_CYCLES = 1
+        self.SHOOT_THROWBACK = 2
+        self.SHOOT_ANGLE_BETWEEN_OFFSET = self.ANGLE_BETWEEN_OFFSET - 6
+
         self.DEEP_DOWN_Y = -5
         self.DEEP_DOWN_CYCLES = 5
-        self.EXPLOSION_CYCLES = 4
 
         self.RIFLE_TRANSFORM = {
             'Police': {
-                'default': {
-                    'position': {'x': 11.8, 'y': 5.6, 'z': -0.5},
-                    'rotation': {'x': -21.869, 'y': 97.065, 'z': 263.517}
+                'Default': {
+                    'position': scene_actions.Vector3(x=11.8, y=5.6, z=-0.5),
+                    'rotation': scene_actions.Vector3(x=-21.869, y=97.065, z=263.517),
                 },
-                'fire': {
-                    'position': {'x': 9.8, 'y': 7.1, 'z': -2.2},
-                    'rotation': {'x': 10.032, 'y': 80.775, 'z': 260.71}
+                'Fire': {
+                    'position': scene_actions.Vector3(x=9.8, y=7.1, z=-2.2),
+                    'rotation': scene_actions.Vector3(x=10.032, y=80.775, z=260.71),
                 }
             },
             'Terrorist': {
-                'default': {
-                    'position': {'x': 10.5, 'y': 5.4, 'z': -2.6},
-                    'rotation': {'x': -17.88, 'y': 93.76501, 'z': 266.088}
+                'Default': {
+                    'position': scene_actions.Vector3(x=10.5, y=5.4, z=-2.6),
+                    'rotation': scene_actions.Vector3(x=-17.88, y=93.76501, z=266.088),
                 },
-                'fire': {
-                    'position': {'x': 10.3, 'y': 5.4, 'z': -1.6},
-                    'rotation': {'x': 9.580001, 'y': 83.952, 'z': 272.559}
+                'Fire': {
+                    'position': scene_actions.Vector3(x=10.3, y=5.4, z=-1.6),
+                    'rotation': scene_actions.Vector3(x=9.580001, y=83.952, z=272.559),
                 }
             }
         }
@@ -138,7 +150,7 @@ class GuiHandler:
 
     def _init_camera(self):
         fov = 60 # TODO: calculate
-        extra_camera_boundry = -5
+        extra_camera_boundry = -10
 
         self._scene.add_action(scene_actions.ChangeCamera(
             ref = self._rm.get('MainCamera'),
@@ -206,13 +218,13 @@ class GuiHandler:
                         ref = reference,
                         asset = scene_actions.Asset(bundle_name='main', asset_name=cell.name)
                     ))
+                    self._scene.add_action(scene_actions.InstantiateBundleAsset(
+                        ref = self._rm.new(),
+                        asset = scene_actions.Asset(bundle_name='main', asset_name='Floor2')
+                    ))
 
                 # Set Position
-                pos = self._get_scene_position(Position(x=x, y=y))
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = reference,
-                    position = scene_actions.Vector3(x=pos['x'], z=pos['z'])
-                ))
+                self._move_xz(reference, None, None, Position(x=x, y=y))
 
 
     def _draw_agents(self):
@@ -224,7 +236,6 @@ class GuiHandler:
             items = self.POLICE_ITEMS if side == 'Police' else self.TERRORIST_ITEMS
 
             for agent in agents:
-                pos = self._get_scene_position(agent.position)
                 reference = self._rm.new()
                 self._agents_ref[side][agent.id] = reference
 
@@ -282,11 +293,8 @@ class GuiHandler:
 
                 # set position
                 self._agents_direction[side][agent.id] = agent.init_direction
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = reference,
-                    position = scene_actions.Vector3(x=pos['x'], z=pos['z']),
-                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[agent.init_direction.name])
-                ))
+                self._move_xz(reference, None, None, agent.position)
+                self._turn_y(reference, None, None, self.DIR_TO_ANGLE[agent.init_direction.name])
 
 
     def _init_fow(self):
@@ -334,13 +342,14 @@ class GuiHandler:
 
 
     def update(self, current_cycle, gui_events):
+        self._game_status.update(current_cycle)
+        self._update_fow()
+
+        # Store events
         moving_terrorists, moving_polices = [], []
         bombs_defusing, bombs_defused, cancel_defusing = [], [], []
         bombs_planting, bombs_planted, bombs_exploded, cancel_planting = [], [], [], []
-        polices_dead, terrorists_dead = [], []
-
-        self._game_status.update(current_cycle)
-        self._update_fow()
+        bombs_death, terrorists_shooted, shoot_terrorists = [], [], []
 
         for event in gui_events:
             if event.type == GuiEventType.MovePolice:
@@ -370,13 +379,16 @@ class GuiHandler:
             if event.type == GuiEventType.ExplodeBomb:
                 bombs_exploded.append(event.payload)
 
-            if event.type == GuiEventType.TerroristDeath:
-                terrorists_dead.append(event.payload)
+            if event.type == GuiEventType.BombDeath:
+                bombs_death.append(event.payload)
 
-            if event.type == GuiEventType.PoliceDeath:
-                polices_dead.append(event.payload)
+            if event.type == GuiEventType.TerroristShooted:
+                terrorists_shooted.append(event.payload)
 
-        # Updates
+            if event.type == GuiEventType.ShootTerrorist:
+                shoot_terrorists.append(event.payload)
+
+        # Process events
         # Moves
         if len(moving_terrorists) != 0 or len(moving_polices) != 0:
             for side in self._sides:
@@ -385,7 +397,6 @@ class GuiHandler:
                 for move in moves:
                     agent = self._world.polices[move['agent_id']] if side == 'Police' else self._world.terrorists[move['agent_id']]
                     curr_direction = self._agents_direction[side][move['agent_id']]
-                    pos = self._get_scene_position(move['agent_position'])
                     reference = self._agents_ref[side][move['agent_id']]
 
                     # Animations
@@ -393,17 +404,9 @@ class GuiHandler:
                     turn_animation, need_to_turn = self._get_turn_animation(curr_direction, move['direction'])
                     self._change_animator_state(reference, 0, turn_animation)
                     if need_to_turn:
-                        self._scene.add_action(scene_actions.ChangeTransform(
-                            ref = reference,
-                            cycle = self.TURN_CYCLES,
-                            rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[move['direction'].name])
-                        ))
+                        self._turn_y(reference, self.TURN_CYCLES, None, self.DIR_TO_ANGLE[move['direction'].name])
                     # Move
-                    self._scene.add_action(scene_actions.ChangeTransform(
-                        ref = reference,
-                        duration_cycles = 1,
-                        position = scene_actions.Vector3(x=pos['x'], z=pos['z'])
-                    ))
+                    self._move_xz(reference, None, 1, move['agent_position'])
                     self._change_animator_state(reference, self.TURN_CYCLES, 'Move')
                     # Stop
                     self._change_animator_state(reference, self.TURN_CYCLES + self.MOVE_CYCLES, 'MoveToIdle')
@@ -414,20 +417,19 @@ class GuiHandler:
 
         # Planting Bomb
         if len(bombs_planting) != 0:
-            for plant in bombs_planting:
-                bomb = plant['bomb']
+            for planting in bombs_planting:
+                bomb = planting['bomb']
                 bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                planter = self._world.terrorists[plant['agent_id']]
+                planter = self._world.terrorists[planting['agent_id']]
                 # update status dictionaries
                 self._plantings_ref[bombsite_ref] = planter
                 # Update bombsite
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, True)
                 # update agent
                 self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'BombAction')
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = self._agents_ref['Terrorist'][planter.id],
-                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[plant['direction'].name])
-                ))
+                self._turn_y(self._agents_ref['Terrorist'][planter.id], None, None, self.DIR_TO_ANGLE[planting['direction'].name])
+                # Store new direction
+                self._agents_direction['Terrorist'][planter.id] = planting['direction']
 
         # Cancel Planting
         if len(cancel_planting) != 0:
@@ -472,10 +474,9 @@ class GuiHandler:
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, True)
                 # update agent
                 self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'BombAction')
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = self._agents_ref['Police'][defuser.id],
-                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[defusing['direction'].name])
-                ))
+                self._turn_y(self._agents_ref['Police'][defuser.id], None, None, self.DIR_TO_ANGLE[defusing['direction'].name])
+                # Store new direction
+                self._agents_direction['Police'][defuser.id] = defusing['direction']
 
         # Cancel Defusing
         if len(cancel_defusing) != 0:
@@ -489,10 +490,6 @@ class GuiHandler:
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, False)
                 # update agent
                 self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
-                self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = self._agents_ref['Police'][defuser.id],
-                    rotation = scene_actions.Vector3(y=self.DIR_TO_ANGLE[self._agents_direction['Police'][defuser.id].name])
-                ))
 
         # Bombs Defused
         if len(bombs_defused) != 0:
@@ -526,6 +523,78 @@ class GuiHandler:
                 self._change_animator_state(bombsite_ref, 0, 'Explosion')
                 self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
 
+        # Bombs Death
+        if len(bombs_death) != 0:
+            for bomb_death in bombs_death:
+                side = bomb_death['side']
+                agent = bomb_death['agent']
+                reference = self._agents_ref[side][agent.id]
+                bomb = bomb_death['bomb']
+                # turn toward bomb
+                turn_angle = agent.position.angle_between(bomb.position)
+                self._turn_y(reference, None, None, turn_angle + self.ANGLE_BETWEEN_OFFSET)
+                # throwback and deep down
+                end_position = agent.position.add_vector(turn_angle, self.EXPLOSION_THROWBACK)
+                self._move_xz(reference, None, self.EXPLOSION_THROWBACK_CYCLES, end_position)
+                self._deep_down(reference, self.EXPLOSION_THROWBACK_CYCLES)
+                # update animation
+                self._change_animator_state(reference, 0, 'Death')
+
+        # Terrorists Shooted
+        if len(terrorists_shooted) != 0:
+            for shooted in terrorists_shooted:
+                agent = shooted['agent']
+                reference = self._agents_ref['Terrorist'][agent.id]
+                killer = shooted['killer']
+                # turn toward killer
+                turn_angle = agent.position.angle_between(killer.position)
+                self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)
+                # throwback and deep down
+                end_position = agent.position.add_vector(turn_angle, self.SHOOT_THROWBACK)
+                self._move_xz(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, self.SHOOT_THROWBACK_CYCLES, end_position)
+                self._deep_down(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_THROWBACK_CYCLES)
+                # update animation
+                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeDeath')
+                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Death')
+                # Update gun position
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = reference,
+                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/TerroristRifle',
+                    cycle = self.SHOOT_OFFSET_CYCLES,
+                    position = self.RIFLE_TRANSFORM['Terrorist']['Fire']['position'],
+                    rotation = self.RIFLE_TRANSFORM['Terrorist']['Fire']['rotation']
+                ))
+
+
+        if len(shoot_terrorists) != 0:
+            for shoot in shoot_terrorists:
+                police = shoot['police']
+                reference = self._agents_ref['Police'][police.id]
+                terrorist = shoot['terrorist']
+                # turn toward terrorist
+                turn_angle = police.position.angle_between(terrorist.position)
+                self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET) # turn toward terrorist
+                self._turn_y(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, None, self.DIR_TO_ANGLE[self._agents_direction['Police'][police.id].name]) # back start rotation
+                # update animation
+                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeFire')
+                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Fire')
+                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Idle')
+                # Update gun position
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = reference,
+                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/PoliceRifle',
+                    cycle = self.SHOOT_OFFSET_CYCLES,
+                    position = self.RIFLE_TRANSFORM['Police']['Fire']['position'],
+                    rotation = self.RIFLE_TRANSFORM['Police']['Fire']['rotation']
+                ))
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = reference,
+                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/PoliceRifle',
+                    cycle = self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES,
+                    position = self.RIFLE_TRANSFORM['Police']['Default']['position'],
+                    rotation = self.RIFLE_TRANSFORM['Police']['Default']['rotation']
+                ))
+
         # Update bombsites canvas
         self._update_planting_bombsites()
         self._update_defusing_bombsites()
@@ -533,6 +602,9 @@ class GuiHandler:
 
         # Add EndCycle
         self._scene.add_action(scene_actions.EndCycle())
+        if len(shoot_terrorists) != 0:
+            for _ in range(self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES):
+                self._scene.add_action(scene_actions.EndCycle())
 
 
     def _change_animator_state(self, reference, cycle, state_name):
@@ -555,6 +627,25 @@ class GuiHandler:
             return 'TurnRight', True
         if diff == -1 or diff == 3:
             return 'TurnLeft', True
+
+
+    def _turn_y(self, reference, cycle, duration_cycles, angle):
+        self._scene.add_action(scene_actions.ChangeTransform(
+            ref = reference,
+            cycle = cycle,
+            duration_cycles = duration_cycles,
+            rotation = scene_actions.Vector3(y=angle)
+        ))
+
+
+    def _move_xz(self, reference, cycle, duration_cycles, position):
+        scene_position = self._get_scene_position(position)
+        self._scene.add_action(scene_actions.ChangeTransform(
+            ref = reference,
+            cycle = cycle,
+            duration_cycles = duration_cycles,
+            position = scene_actions.Vector3(x=scene_position['x'], z=scene_position['z'])
+        ))
 
 
     def _change_is_active(self, reference, child_ref, cycle, is_active):
@@ -606,11 +697,18 @@ class GuiHandler:
 
 
     def _deep_down(self, reference, cycle):
+        cycle = cycle if cycle != None else 0
+
         self._scene.add_action(scene_actions.ChangeTransform(
             ref = reference,
             cycle = cycle,
             duration_cycles = self.DEEP_DOWN_CYCLES,
             position = scene_actions.Vector3(y=self.DEEP_DOWN_Y)
+        ))
+        self._scene.add_action(scene_actions.ChangeIsActive(
+            ref = reference,
+            cycle = cycle + self.DEEP_DOWN_CYCLES,
+            is_active = False
         ))
 
 

@@ -65,7 +65,7 @@ def can_plant_bomb(self, world, command):
     return True
 
 
-def die(self, world):
+def die(self, world, killer):
     gui_events = []
     self.status = EAgentStatus.Dead
     score.increase_eliminate_terrorist_score(world)
@@ -75,9 +75,7 @@ def die(self, world):
         gui_events += self.cancel_plant(world)
 
     world.visions["Terrorist"] = vision.compute_terrorists_visions(world)
-    gui_events += [GuiEvent(GuiEventType.TerroristDeath,
-                            terrorist_id=self.id,
-                            position=self.position)]
+    gui_events += [GuiEvent(GuiEventType.TerroristShooted, agent=self, killer=killer)]
     return gui_events
 
 

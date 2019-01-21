@@ -12,16 +12,11 @@ def update_plant_timings(world):
 
     for bomb in world.bombs:
         if bomb.planter_id != -1:
-            is_bomb_planted = True
-
             # planting timer is not zero yet, terrorist should keep planting
-            if bomb.explosion_remaining_time == -1 and world.terrorists[bomb.planter_id].planting_remaining_time > 0:
+            if bomb.explosion_remaining_time == -1 and world.terrorists[bomb.planter_id].planting_remaining_time > 1:
                 print("Terrorist {} is planting.".format(bomb.planter_id))
                 world.terrorists[bomb.planter_id].planting_remaining_time -= 1
-                if world.terrorists[bomb.planter_id].planting_remaining_time > 0:
-                    is_bomb_planted = False
-
-            if is_bomb_planted:
+            else:
                 new_plant_events, remove_bomb = _update_plant_timer_on_cycle(bomb, world)
                 plant_events += new_plant_events
                 if remove_bomb:
@@ -59,16 +54,16 @@ def _update_plant_timer_on_cycle(bomb, world):
     explosion_events.append(GuiEvent(GuiEventType.ExplodeBomb, bomb=bomb))
 
     # eliminate nearby agents
-    for terrorist in world.terrorists:
-        if terrorist.status == EAgentStatus.Alive and bomb.position.is_neighbour(terrorist.position):
-            terrorist.status = EAgentStatus.Dead
-            explosion_events.append(GuiEvent(GuiEventType.TerroristDeath,
-                                                terrorist_id=terrorist.id, position=terrorist.position))
-    for police in world.polices:
-        if police.status == EAgentStatus.Alive and bomb.position.is_neighbour(police.position):
-            police.status = EAgentStatus.Dead
-            explosion_events.append(GuiEvent(GuiEventType.PoliceDeath,
-                                                police_id=police.id, position=police.position))
-            score.increase_eliminate_police_score(world)
+    for side in ['Police', 'Terrorist']:
+        agents = world.polices if side == 'Police' else world.terrorists
+        event_type = GuiEventType.BombDeath
+
+        for agent in agents:
+            if agent.status == EAgentStatus.Alive and bomb.position.is_neighbour(agent.position):
+                agent.status = EAgentStatus.Dead
+                explosion_events.append(GuiEvent(event_type, side=side, agent=agent, bomb=bomb))
+
+                if side == 'Police':
+                    score.increase_eliminate_police_score(world)
 
     return explosion_events, True

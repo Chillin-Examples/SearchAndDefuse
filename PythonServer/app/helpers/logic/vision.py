@@ -7,7 +7,7 @@ from . import vision_calculator
 
 def _compute_agent_vision(strategy, position, limit, world):
     if strategy == 'dls':
-        return _join_visions(vision_calculator.calculate_visions_dls(position, limit, world))
+        return vision_calculator.calculate_visions_dls(position, limit, world)
     if strategy == 'square':
         return vision_calculator.calculate_visions_square(position, limit, world)
 
@@ -27,10 +27,12 @@ def _compute_agents_visions(world, side):
                     bomb = next((bomb for bomb in world.bombs if bomb.planter_id == agent.id
                                  and bomb.explosion_remaining_time == -1))
 
-                vision_positions += [Position(x=agent.position.x, y=agent.position.y),
-                                     Position(bomb.position.x, bomb.position.y)]
+                agent.visions = [Position(x=agent.position.x, y=agent.position.y),
+                                 Position(bomb.position.x, bomb.position.y)]
             else:
-                vision_positions += _compute_agent_vision('dls', agent.position, vision_distance, world)
+                agent.visions = _compute_agent_vision('dls', agent.position, vision_distance, world)
+
+            vision_positions += agent.visions
 
     return _join_visions(vision_positions)
 
