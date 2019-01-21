@@ -141,7 +141,7 @@ class LogicHandler:
                 num_active_bombs += 1
 
         # times up
-        if current_cycle > self.world.constants.max_cycles - 1:
+        if current_cycle >= self.world.constants.max_cycles - 1:
             end_game = True
 
         # all bombsites exploded
