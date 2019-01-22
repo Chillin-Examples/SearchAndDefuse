@@ -438,6 +438,8 @@ class GuiHandler:
                 # update agent
                 self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'BombAction')
                 self._turn_y(self._agents_ref['Terrorist'][planter.id], None, None, self.DIR_TO_ANGLE[planting['direction'].name])
+                # Update gun position
+                self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Fire')
                 # Store new direction
                 self._agents_direction['Terrorist'][planter.id] = planting['direction']
 
@@ -453,6 +455,8 @@ class GuiHandler:
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, False)
                 # update agent
                 self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
+                # Update gun position
+                self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
 
         # Bombs Planted
         if len(bombs_planted) != 0:
@@ -474,6 +478,8 @@ class GuiHandler:
                 # Update sounds
                 self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_planted_sfx')
                 self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
+                # Update gun position
+                self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
 
         # Defusing Bomb
         if len(bombs_defusing) != 0:
@@ -488,6 +494,8 @@ class GuiHandler:
                 # update agent
                 self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'BombAction')
                 self._turn_y(self._agents_ref['Police'][defuser.id], None, None, self.DIR_TO_ANGLE[defusing['direction'].name])
+                # Update gun position
+                self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Fire')
                 # Store new direction
                 self._agents_direction['Police'][defuser.id] = defusing['direction']
 
@@ -503,6 +511,8 @@ class GuiHandler:
                 self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, False)
                 # update agent
                 self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
+                # Update gun position
+                self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
 
         # Bombs Defused
         if len(bombs_defused) != 0:
@@ -523,6 +533,8 @@ class GuiHandler:
                 # Update sounds
                 self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_defused_sfx')
                 self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
+                # Update gun position
+                self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
 
         # Bombs Exploded
         if len(bombs_exploded) != 0:
