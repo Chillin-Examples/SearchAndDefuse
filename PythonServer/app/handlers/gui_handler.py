@@ -63,8 +63,8 @@ class GuiHandler:
         self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES = 1.5
 
         self.TURN_CYCLES = 0.3
-        self.MOVE_CYCLES = 0.5
-        self.STOP_CYCLES = 0.2
+        self.MOVE_CYCLES = 0.4
+        self.STOP_CYCLES = 0.3
 
         self.EXPLOSION_CYCLES = 3
         self.EXPLOSION_SOUND_CYCLES = 2
