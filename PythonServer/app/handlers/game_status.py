@@ -115,7 +115,8 @@ class GameStatus:
 
     def _set_bomb_text(self, agent_ref, agent, side):
         value = agent.defusion_remaining_time if side == 'Police' else agent.planting_remaining_time
-        text = '<color=red>{:d}</color>'.format(value) if value >= 0 else '-'
+        color = 'green' if side == 'Police' else 'red'
+        text = '<color={}>{:d}</color>'.format(color, value) if value >= 0 else '-'
         self._set_text('Stats/BombText', text, agent_ref)
 
 
