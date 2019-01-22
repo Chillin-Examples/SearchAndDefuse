@@ -76,7 +76,7 @@ class GuiHandler:
         self.BEFORE_SHOOT_CYCLES = 1
         self.SHOOT_CYCLES = 1
         self.SHOOT_THROWBACK_CYCLES = 2
-        self.SHOOT_THROWBACK = 2
+        self.SHOOT_THROWBACK = 0.5
         self.SHOOT_ANGLE_BETWEEN_OFFSET = self.ANGLE_BETWEEN_OFFSET - 6
 
         self.DEEP_DOWN_Y = -5
