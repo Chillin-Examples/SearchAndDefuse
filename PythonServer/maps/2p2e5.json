@@ -18,8 +18,8 @@
     "wewewwweewwwweewwwweweew",
     "weeeweeeeweeeeeeewewewew",
     "wewewwweeweeeeewwwweweew",
-    "weeeeeweewwewweeeeeeeeew",
-    "wewewwwweeeeewewwweewwww",
+    "weeeeeeeeeeeeeeeeeeeeeew",
+    "weeeeeeeeeeeeeeeeeeeeeew",
     "weeeeeeeeeeeeeeeeeeeeeew",
     "weeeeeeeeeeeeeeeeeeeeeew",
     "wseeeemeeeeeleeeeveeeeew",
@@ -46,22 +46,26 @@
     ],
     "Police": [
       {
-        "position": [10, 1],
+        "position": [1, 18],
         "direction": "Down"
       },
       {
-        "position": [11, 1],
+        "position": [6, 18],
         "direction": "Down"
       },
       {
-        "position": [12, 1],
+        "position": [12, 18],
+        "direction": "Down"
+      },
+      {
+        "position": [17, 18],
         "direction": "Down"
       }
     ]
   },
   "constants": {
-    "bomb_planting_time": 7,
-    "bomb_defusion_time": 10,
+    "bomb_planting_time": 5,
+    "bomb_defusion_time": 5,
     "bomb_explosion_time": 15,
     "bomb_planting_score": 2,
     "bomb_defusion_score": 1,
