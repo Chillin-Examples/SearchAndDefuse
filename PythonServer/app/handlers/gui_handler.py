@@ -76,7 +76,7 @@ class GuiHandler:
         self.BEFORE_SHOOT_CYCLES = 1
         self.SHOOT_CYCLES = 1
         self.SHOOT_THROWBACK_CYCLES = 2
-        self.SHOOT_THROWBACK = 0.5
+        self.SHOOT_THROWBACK = 1
         self.SHOOT_ANGLE_BETWEEN_OFFSET = self.ANGLE_BETWEEN_OFFSET - 6
 
         self.DEEP_DOWN_Y = -5
@@ -554,7 +554,7 @@ class GuiHandler:
                 self._turn_y(reference, None, None, turn_angle + self.ANGLE_BETWEEN_OFFSET)
                 # throwback and deep down
                 end_position = agent.position.add_vector(turn_angle, self.EXPLOSION_THROWBACK)
-                self._move_xz(reference, None, self.EXPLOSION_THROWBACK_CYCLES, end_position)
+                self._move_xz(reference, None, self.EXPLOSION_THROWBACK_CYCLES / 2, end_position)
                 self._deep_down(reference, self.EXPLOSION_THROWBACK_CYCLES)
                 # update animation
                 self._change_animator_state(reference, 0, 'Death')
@@ -572,7 +572,7 @@ class GuiHandler:
                 self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)
                 # throwback and deep down
                 end_position = agent.position.add_vector(turn_angle, self.SHOOT_THROWBACK)
-                self._move_xz(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, self.SHOOT_THROWBACK_CYCLES, end_position)
+                self._move_xz(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, self.SHOOT_THROWBACK_CYCLES / 2, end_position)
                 self._deep_down(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_THROWBACK_CYCLES)
                 # update animation
                 self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeDeath')
