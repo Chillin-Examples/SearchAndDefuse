@@ -158,7 +158,7 @@ class GuiHandler:
             is_orthographic = False,
             field_of_view = fov,
             min_position = scene_actions.Vector3(x=(self.X_OFFSET + extra_camera_boundry), y=1, z=(self.Z_OFFSET + extra_camera_boundry)),
-            max_position = scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=20, z=-(self.Z_OFFSET + extra_camera_boundry)),
+            max_position = scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=100, z=-(self.Z_OFFSET + extra_camera_boundry)),
             min_zoom = fov - 20,
             max_zoom = fov + 40
         ))
@@ -556,6 +556,8 @@ class GuiHandler:
                 agent = shooted['agent']
                 reference = self._agents_ref['Terrorist'][agent.id]
                 killer = shooted['killer']
+                # increase counter
+                self._game_status.increase_terrorists_killed()
                 # turn toward killer
                 turn_angle = agent.position.angle_between(killer.position)
                 self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)

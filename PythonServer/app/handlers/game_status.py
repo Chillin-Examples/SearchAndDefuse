@@ -20,12 +20,14 @@ class GameStatus:
         self._num_bombs_exploded = 0
         self._num_bombs_defused = 0
         self._num_bombs_planted = 0
+        self._num_terrorists_killed = 0
 
         self._top_panel_ref = self._rm.new()
         self._cycle_text_ref = 'Statuses/CycleText'
         self._police_score_ref = 'Statuses/Scores/PoliceScore'
         self._terrorist_score_ref = 'Statuses/Scores/TerroristScore'
         self._planted_bombs_ref = 'Statuses/Stats/PlantedBombs/Text'
+        self._terrorists_killed_ref = 'Statuses/Stats/TerroristsKilled/Text'
         self._exploded_bombs_ref = 'Statuses/Stats/ExplodedBombs/Text'
         self._defused_bombs_ref = 'Statuses/Stats/DefusedBombs/Text'
         self._polices_table_ref = 'Polices'
@@ -159,3 +161,7 @@ class GameStatus:
     def increase_planted_number(self):
         self._num_bombs_planted += 1
         self._set_text(self._planted_bombs_ref, str(self._num_bombs_planted))
+
+    def increase_terrorists_killed(self):
+        self._num_terrorists_killed += 1
+        self._set_text(self._terrorists_killed_ref, str(self._num_terrorists_killed))
