@@ -63,10 +63,12 @@ class LogicHandler:
         # update polices visions
         self.world.visions['Police'] = vision.compute_polices_visions(self.world)
 
-        # check death terrorist that are in police visions
+        # reset is_shooting
         for police in self.world.polices:
             if police.status == EAgentStatus.Alive:
                 police.is_shooting = False
+
+        # check death terrorist that are in police visions
         for terrorist in self.world.terrorists:
             if terrorist.status == EAgentStatus.Alive:
                 not_shooting_police = None
@@ -116,7 +118,7 @@ class LogicHandler:
             client_world.bombs = []
             for vision_position in self.world.visions['Police']:
                 for bomb in self.world.bombs:
-                    if bomb.position == vision_position:
+                    if bomb.explosion_remaining_time != -1 and bomb.position == vision_position:
                         client_world.bombs.append(bomb)
 
             return client_world
