@@ -28,6 +28,7 @@ class GuiHandler:
         self._init_variables()
 
         # draw
+        self._init_render_settings()
         self._init_light()
         self._init_camera()
         self._draw_board()
@@ -133,6 +134,13 @@ class GuiHandler:
         self._defusings_ref = {} # key: bombsite_ref, value: police
 
 
+    def _init_render_settings(self):
+        self._scene.add_action(scene_actions.ChangeRenderSettings(
+            skybox_asset = scene_actions.Asset(bundle_name='main', asset_name='Skybox'),
+            ambient_intensity=1.5
+        ))
+
+
     def _init_light(self):
         main_light = self._rm.new()
         self._scene.add_action(scene_actions.CreateBasicObject(
@@ -145,7 +153,7 @@ class GuiHandler:
         ))
         self._scene.add_action(scene_actions.ChangeLight(
             ref = main_light,
-            shadow_strength = 0.7
+            shadow_strength = 0.4
         ))
 
 
@@ -157,10 +165,11 @@ class GuiHandler:
             ref = self._rm.get('MainCamera'),
             is_orthographic = False,
             field_of_view = fov,
-            min_position = scene_actions.Vector3(x=(self.X_OFFSET + extra_camera_boundry), y=1, z=(self.Z_OFFSET + extra_camera_boundry)),
+            min_position = scene_actions.Vector3(x=(self.X_OFFSET + extra_camera_boundry), y=2, z=(self.Z_OFFSET + extra_camera_boundry)),
             max_position = scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=100, z=-(self.Z_OFFSET + extra_camera_boundry)),
             min_zoom = fov - 20,
-            max_zoom = fov + 40
+            max_zoom = fov + 40,
+            post_process_profile_asset = scene_actions.Asset(bundle_name='main', asset_name='PostProcess'),
         ))
         self._scene.add_action(scene_actions.ChangeTransform(
             ref = self._rm.get('MainCamera'),
