@@ -60,17 +60,17 @@ class GuiHandler:
 
         self.ANGLE_BETWEEN_OFFSET = -90
 
-        self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES = 3
+        self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES = 1.5
 
         self.TURN_CYCLES = 0.3
         self.MOVE_CYCLES = 0.5
         self.STOP_CYCLES = 0.2
 
-        self.EXPLOSION_CYCLES = 4
+        self.EXPLOSION_CYCLES = 3
+        self.EXPLOSION_SOUND_CYCLES = 2
         self.EXPLOSION_THROWBACK = 5
         self.EXPLOSION_THROWBACK_CYCLES = 2
         self.EXPLOSION_THROWBACK = 5
-        self.EXPLOSION_THROWBACK_CYCLES = 1
 
         self.SHOOT_OFFSET_CYCLES = 1
         self.BEFORE_SHOOT_CYCLES = 1
@@ -80,7 +80,7 @@ class GuiHandler:
         self.SHOOT_ANGLE_BETWEEN_OFFSET = self.ANGLE_BETWEEN_OFFSET - 6
 
         self.DEEP_DOWN_Y = -5
-        self.DEEP_DOWN_CYCLES = 5
+        self.DEEP_DOWN_CYCLES = 3
 
         self.RIFLE_TRANSFORM = {
             'Police': {
@@ -537,7 +537,7 @@ class GuiHandler:
                 self._remove_bomb(bombsite_ref)
                 self._add_explosion(bombsite_ref)
                 self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_explosion_sfx')
-                self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_CYCLES)
+                self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_SOUND_CYCLES)
                 self._change_is_active(bombsite_ref, 'Canvas', 0, False)
                 self._change_animator_state(bombsite_ref, 0, 'Explosion')
                 self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)

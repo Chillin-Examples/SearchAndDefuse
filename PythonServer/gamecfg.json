@@ -24,7 +24,7 @@
     "save_replay": true,
     "replay_dir": "replays",
     "replay_filename": null,
-    "cycle_duration": 0.5,
+    "cycle_duration": 1.0,
     "side_colors": {
       "Police": "#010080",
       "Terrorist": "#FE0000"
