@@ -87,7 +87,7 @@ class LogicHandler:
 
                 if any_police != None:
                     killer = not_shooting_police if not_shooting_police != None else any_police
-                    gui_events += terrorist.die(self.world, killer)
+                    gui_events += terrorist.shooted(self.world, killer)
 
         # update bombs sound
         bombbeep.update_police_bomb_sounds(self.world)

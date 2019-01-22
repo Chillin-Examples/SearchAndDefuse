@@ -33,13 +33,13 @@ def plant_bomb(self, world, command):
     return gui_events
 
 
-def cancel_plant(self, world):
+def cancel_plant(self, world, is_alive=True):
     bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id), None)
     if bomb != None:
         world.bombs.remove(bomb)
         self.planting_remaining_time = -1
         event_type = GuiEventType.CancelPlant
-        return [GuiEvent(event_type, agent_id=self.id, bomb=bomb)]
+        return [GuiEvent(event_type, agent_id=self.id, bomb=bomb, is_alive=is_alive)]
 
 
 def can_plant_bomb(self, world, command):
@@ -63,16 +63,27 @@ def can_plant_bomb(self, world, command):
     return True
 
 
-def die(self, world, killer):
+def _base_die(self, world):
     gui_events = []
     self.status = EAgentStatus.Dead
-    score.increase_eliminate_terrorist_score(world)
 
     # check if terrorist was planting
     if self.planting_remaining_time != -1:
-        gui_events += self.cancel_plant(world)
+        gui_events += self.cancel_plant(world, False)
 
-    gui_events += [GuiEvent(GuiEventType.TerroristShooted, agent=self, killer=killer)]
+    return gui_events
+
+
+def bomb_die(self, world, bomb):
+    gui_events = self._base_die(world)
+    gui_events.append(GuiEvent(GuiEventType.BombDeath, side='Terrorist', agent=self, bomb=bomb))
+    return gui_events
+
+
+def shooted(self, world, killer):
+    score.increase_eliminate_terrorist_score(world)
+    gui_events = self._base_die(world)
+    gui_events.append(GuiEvent(GuiEventType.TerroristShooted, agent=self, killer=killer))
     return gui_events
 
 
@@ -81,4 +92,6 @@ Terrorist.move = move
 Terrorist.cancel_plant = cancel_plant
 Terrorist.can_plant_bomb = can_plant_bomb
 Terrorist.can_move = base_can_move
-Terrorist.die = die
+Terrorist._base_die = _base_die
+Terrorist.bomb_die = bomb_die
+Terrorist.shooted = shooted

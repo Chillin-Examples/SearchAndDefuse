@@ -452,9 +452,10 @@ class GuiHandler:
                 # update status dictionaries
                 del self._plantings_ref[bombsite_ref]
                 # Update bombsite
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, False)
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', None, False)
                 # update agent
-                self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
+                if canceled['is_alive']:
+                    self._change_animator_state(self._agents_ref['Terrorist'][planter.id], None, 'Idle')
                 # Update gun position
                 self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
 
@@ -508,9 +509,10 @@ class GuiHandler:
                 # update status dictionaries
                 del self._defusings_ref[bombsite_ref]
                 # Update bombsite
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, False)
+                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', None, False)
                 # update agent
-                self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
+                if canceled['is_alive']:
+                    self._change_animator_state(self._agents_ref['Police'][defuser.id], None, 'Idle')
                 # Update gun position
                 self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
 

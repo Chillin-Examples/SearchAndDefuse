@@ -56,14 +56,9 @@ def _update_plant_timer_on_cycle(bomb, world):
     # eliminate nearby agents
     for side in ['Police', 'Terrorist']:
         agents = world.polices if side == 'Police' else world.terrorists
-        event_type = GuiEventType.BombDeath
 
         for agent in agents:
             if agent.status == EAgentStatus.Alive and bomb.position.is_neighbour(agent.position):
-                agent.status = EAgentStatus.Dead
-                explosion_events.append(GuiEvent(event_type, side=side, agent=agent, bomb=bomb))
-
-                if side == 'Police':
-                    score.increase_eliminate_police_score(world)
+                explosion_events += agent.bomb_die(world, bomb)
 
     return explosion_events, True
