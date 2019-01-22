@@ -701,6 +701,7 @@ class GuiHandler:
 
 
     def _remove_bomb(self, bombsite_ref):
+        self._pause_sound(bombsite_ref, 'AudioSource', None)
         self._scene.add_action(scene_actions.ChangeIsActive(
             ref = bombsite_ref, child_ref = 'BombPosition',
             is_active = False
