@@ -16,7 +16,6 @@ class LogicHandler:
     def __init__(self, world, sides):
         self.world = world
         self._sides = sides
-        self._last_cycle_commands = {side: {} for side in self._sides}
 
 
     def store_command(self, side_name, command):
@@ -37,6 +36,8 @@ class LogicHandler:
 
 
     def initialize(self):
+        self._last_cycle_commands = {side: {} for side in self._sides}
+        self.BOMBSITES_ECELL = [ECell.SmallBombSite, ECell.MediumBombSite, ECell.LargeBombSite, ECell.VastBombSite]
         # initialize world vision
         self.world.visions['Police'] = vision.compute_polices_visions(self.world)
         self.world.visions['Terrorist'] = vision.compute_terrorists_visions(self.world)
@@ -52,13 +53,13 @@ class LogicHandler:
         # Reset agents is moving
         self._reset_agents_is_moving()
 
-        # Check timers
-        gui_events += bomb_timer.update_bombs_timings(self.world)
-
         # Check commands
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
                 gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
+
+        # Check timers
+        gui_events += bomb_timer.update_bombs_timings(self.world)
 
         # update polices visions
         self.world.visions['Police'] = vision.compute_polices_visions(self.world)
@@ -147,8 +148,7 @@ class LogicHandler:
             end_game = True
 
         # all bombsites exploded
-        elif all(cell not in [ECell.SmallBombSite, ECell.MediumBombSite,
-                              ECell.LargeBombSite, ECell.VastBombSite] for cell in sum(self.world.board, [])):
+        elif all(cell not in self.BOMBSITES_ECELL for cell in sum(self.world.board, [])):
             end_game = True
 
         # all terrorists are dead and there is no active bomb

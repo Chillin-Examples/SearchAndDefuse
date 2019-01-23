@@ -399,221 +399,62 @@ class GuiHandler:
                 shoot_terrorists.append(event.payload)
 
         # Process events
-        # Moves
-        if len(moving_terrorists) != 0 or len(moving_polices) != 0:
-            for side in self._sides:
-                moves = moving_polices if side == 'Police' else moving_terrorists
-
-                for move in moves:
-                    agent = self._world.polices[move['agent_id']] if side == 'Police' else self._world.terrorists[move['agent_id']]
-                    curr_direction = self._agents_direction[side][move['agent_id']]
-                    reference = self._agents_ref[side][move['agent_id']]
-
-                    # Animations
-                    # Turn
-                    turn_animation, need_to_turn = self._get_turn_animation(curr_direction, move['direction'])
-                    self._change_animator_state(reference, 0, turn_animation)
-                    if need_to_turn:
-                        self._turn_y(reference, self.TURN_CYCLES, None, self.DIR_TO_ANGLE[move['direction'].name])
-                    # Move
-                    self._move_xz(reference, None, 1, move['agent_position'])
-                    self._change_animator_state(reference, self.TURN_CYCLES, 'Move')
-                    # Stop
-                    self._change_animator_state(reference, self.TURN_CYCLES + self.MOVE_CYCLES, 'MoveToIdle')
-                    self._change_animator_state(reference, 1, 'Idle')
-
-                    # Store new direction
-                    self._agents_direction[side][move['agent_id']] = move['direction']
+        # Cancel Planting
+        if len(cancel_planting) != 0:
+            for canceled in cancel_planting:
+                self._on_cancel_planting(canceled)
 
         # Planting Bomb
         if len(bombs_planting) != 0:
             for planting in bombs_planting:
-                bomb = planting['bomb']
-                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                planter = self._world.terrorists[planting['agent_id']]
-                # update status dictionaries
-                self._plantings_ref[bombsite_ref] = planter
-                # Update bombsite
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, True)
-                # update agent
-                self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'BombAction')
-                self._turn_y(self._agents_ref['Terrorist'][planter.id], None, None, self.DIR_TO_ANGLE[planting['direction'].name])
-                # Update gun position
-                self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Fire')
-                # Store new direction
-                self._agents_direction['Terrorist'][planter.id] = planting['direction']
-
-        # Cancel Planting
-        if len(cancel_planting) != 0:
-            for canceled in cancel_planting:
-                bomb = canceled['bomb']
-                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                planter = self._plantings_ref[bombsite_ref]
-                # update status dictionaries
-                del self._plantings_ref[bombsite_ref]
-                # Update bombsite
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', None, False)
-                # update agent
-                if canceled['is_alive']:
-                    self._change_animator_state(self._agents_ref['Terrorist'][planter.id], None, 'Idle')
-                # Update gun position
-                self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
+                self._on_planting_bomb(planting)
 
         # Bombs Planted
         if len(bombs_planted) != 0:
             for planted in bombs_planted:
-                bomb = planted['bomb']
-                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                planter = self._plantings_ref[bombsite_ref]
-                # increase counter
-                self._game_status.increase_planted_number()
-                # update status dictionaries
-                self._active_bombsites_ref[bombsite_ref] = bomb
-                del self._plantings_ref[bombsite_ref]
-                # Update bombsite
-                self._add_bomb(bombsite_ref)
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, False)
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, True)
-                # update agent
-                self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
-                # Update sounds
-                self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_planted_sfx')
-                self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
-                # Update gun position
-                self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
-
-        # Defusing Bomb
-        if len(bombs_defusing) != 0:
-            for defusing in bombs_defusing:
-                bomb = defusing['bomb']
-                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                defuser = self._world.polices[defusing['agent_id']]
-                # update status dictionaries
-                self._defusings_ref[bombsite_ref] = defuser
-                # Update bombsite
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, True)
-                # update agent
-                self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'BombAction')
-                self._turn_y(self._agents_ref['Police'][defuser.id], None, None, self.DIR_TO_ANGLE[defusing['direction'].name])
-                # Update gun position
-                self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Fire')
-                # Store new direction
-                self._agents_direction['Police'][defuser.id] = defusing['direction']
+                self._on_bomb_planted(planted)
 
         # Cancel Defusing
         if len(cancel_defusing) != 0:
             for canceled in cancel_defusing:
-                bomb = canceled['bomb']
-                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                defuser = self._defusings_ref[bombsite_ref]
-                # update status dictionaries
-                del self._defusings_ref[bombsite_ref]
-                # Update bombsite
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', None, False)
-                # update agent
-                if canceled['is_alive']:
-                    self._change_animator_state(self._agents_ref['Police'][defuser.id], None, 'Idle')
-                # Update gun position
-                self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
+                self._on_cancel_defusing(canceled)
+
+        # Defusing Bomb
+        if len(bombs_defusing) != 0:
+            for defusing in bombs_defusing:
+                self._on_defusing_bomb(defusing)
 
         # Bombs Defused
         if len(bombs_defused) != 0:
             for defused in bombs_defused:
-                bomb = defused['bomb']
-                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                defuser = self._defusings_ref[bombsite_ref]
-                # increase counter
-                self._game_status.increase_defused_number()
-                # update status dictionaries
-                del self._defusings_ref[bombsite_ref]
-                # Update bombsite
-                self._remove_bomb(bombsite_ref)
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, False)
-                self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, False)
-                # update agent
-                self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
-                # Update sounds
-                self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_defused_sfx')
-                self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
-                # Update gun position
-                self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
+                self._on_bomb_defused(defused)
+
+        # Moves
+        if len(moving_terrorists) != 0 or len(moving_polices) != 0:
+            for side in self._sides:
+                moves = moving_polices if side == 'Police' else moving_terrorists
+                for move in moves:
+                    self._on_move(side, move)
 
         # Bombs Exploded
         if len(bombs_exploded) != 0:
             for exploded in bombs_exploded:
-                bomb = exploded['bomb']
-                bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-                # increase counter
-                self._game_status.increase_exploded_number()
-                # update status dictionaries
-                del self._active_bombsites_ref[bombsite_ref]
-                # Update bombsite
-                self._remove_bomb(bombsite_ref)
-                self._add_explosion(bombsite_ref)
-                self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_explosion_sfx')
-                self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_SOUND_CYCLES)
-                self._change_is_active(bombsite_ref, 'Canvas', 0, False)
-                self._change_animator_state(bombsite_ref, 0, 'Explosion')
-                self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
+                self._on_bomb_exploded(exploded)
 
         # Bombs Death
         if len(bombs_death) != 0:
             for bomb_death in bombs_death:
-                side = bomb_death['side']
-                agent = bomb_death['agent']
-                reference = self._agents_ref[side][agent.id]
-                bomb = bomb_death['bomb']
-                # turn toward bomb
-                turn_angle = agent.position.angle_between(bomb.position)
-                self._turn_y(reference, None, None, turn_angle + self.ANGLE_BETWEEN_OFFSET)
-                # throwback and deep down
-                end_position = agent.position.add_vector(turn_angle, self.EXPLOSION_THROWBACK)
-                self._move_xz(reference, None, self.EXPLOSION_THROWBACK_CYCLES / 2, end_position)
-                self._deep_down(reference, self.EXPLOSION_THROWBACK_CYCLES)
-                # update animation
-                self._change_animator_state(reference, 0, 'Death')
+                self._on_bomb_death(bomb_death)
 
         # Terrorists Shooted
         if len(terrorists_shooted) != 0:
             for shooted in terrorists_shooted:
-                agent = shooted['agent']
-                reference = self._agents_ref['Terrorist'][agent.id]
-                killer = shooted['killer']
-                # increase counter
-                self._game_status.increase_terrorists_killed()
-                # turn toward killer
-                turn_angle = agent.position.angle_between(killer.position)
-                self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)
-                # throwback and deep down
-                end_position = agent.position.add_vector(turn_angle, self.SHOOT_THROWBACK)
-                self._move_xz(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, self.SHOOT_THROWBACK_CYCLES / 2, end_position)
-                self._deep_down(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_THROWBACK_CYCLES)
-                # update animation
-                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeDeath')
-                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Death')
-                # Update gun position
-                self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Terrorist', 'Fire')
+                self._on_terrorist_shooted(shooted)
 
         # Shoot Terrorists
         if len(shoot_terrorists) != 0:
             for shoot in shoot_terrorists:
-                police = shoot['police']
-                reference = self._agents_ref['Police'][police.id]
-                terrorist = shoot['terrorist']
-                # turn toward terrorist
-                turn_angle = police.position.angle_between(terrorist.position)
-                self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET) # turn toward terrorist
-                self._turn_y(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, None, self.DIR_TO_ANGLE[self._agents_direction['Police'][police.id].name]) # back start rotation
-                # update animation
-                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeFire')
-                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Fire')
-                self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Idle')
-                # Update gun position
-                self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Police', 'Fire')
-                self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Police', 'Default')
-                # Update sounds
-                self._play_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES)
-                self._pause_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES)
+                self._on_shoot_terrorist(shoot)
 
         # Update bombsites canvas
         self._update_planting_bombsites()
@@ -625,6 +466,212 @@ class GuiHandler:
         if len(shoot_terrorists) != 0:
             for _ in range(self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES):
                 self._scene.add_action(scene_actions.EndCycle())
+
+
+    def _on_move(self, side, move):
+        agent = self._world.polices[move['agent_id']] if side == 'Police' else self._world.terrorists[move['agent_id']]
+        curr_direction = self._agents_direction[side][move['agent_id']]
+        reference = self._agents_ref[side][move['agent_id']]
+
+        # Animations
+        # Turn
+        turn_animation, need_to_turn = self._get_turn_animation(curr_direction, move['direction'])
+        self._change_animator_state(reference, 0, turn_animation)
+        if need_to_turn:
+            self._turn_y(reference, self.TURN_CYCLES, None, self.DIR_TO_ANGLE[move['direction'].name])
+        # Move
+        self._move_xz(reference, None, 1, move['agent_position'])
+        self._change_animator_state(reference, self.TURN_CYCLES, 'Move')
+        # Stop
+        self._change_animator_state(reference, self.TURN_CYCLES + self.MOVE_CYCLES, 'MoveToIdle')
+        self._change_animator_state(reference, 1, 'Idle')
+
+        # Store new direction
+        self._agents_direction[side][move['agent_id']] = move['direction']
+
+
+    def _on_planting_bomb(self, planting):
+        bomb = planting['bomb']
+        bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+        planter = self._world.terrorists[planting['agent_id']]
+        # update status dictionaries
+        self._plantings_ref[bombsite_ref] = planter
+        # Update bombsite
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, True)
+        # update agent
+        self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'BombAction')
+        self._turn_y(self._agents_ref['Terrorist'][planter.id], None, None, self.DIR_TO_ANGLE[planting['direction'].name])
+        # Update gun position
+        self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Fire')
+        # Store new direction
+        self._agents_direction['Terrorist'][planter.id] = planting['direction']
+
+
+    def _on_cancel_planting(self, canceled):
+        bomb = canceled['bomb']
+        bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+        if not self._plantings_ref.has_key(bombsite_ref):
+            return
+        planter = self._plantings_ref[bombsite_ref]
+        # update status dictionaries
+        del self._plantings_ref[bombsite_ref]
+        # Update bombsite
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', None, False)
+        # update agent
+        if canceled['is_alive']:
+            self._change_animator_state(self._agents_ref['Terrorist'][planter.id], None, 'Idle')
+        # Update gun position
+        self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
+
+
+    def _on_bomb_planted(self, planted):
+        bomb = planted['bomb']
+        bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+        planter = self._plantings_ref[bombsite_ref]
+        # increase counter
+        self._game_status.increase_planted_number()
+        # update status dictionaries
+        self._active_bombsites_ref[bombsite_ref] = bomb
+        del self._plantings_ref[bombsite_ref]
+        # Update bombsite
+        self._add_bomb(bombsite_ref)
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, False)
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, True)
+        # update agent
+        self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'Idle')
+        # Update sounds
+        self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_planted_sfx')
+        self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
+        # Update gun position
+        self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
+
+
+    def _on_defusing_bomb(self, defusing):
+        bomb = defusing['bomb']
+        bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+        defuser = self._world.polices[defusing['agent_id']]
+        # update status dictionaries
+        self._defusings_ref[bombsite_ref] = defuser
+        # Update bombsite
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, True)
+        # update agent
+        self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'BombAction')
+        self._turn_y(self._agents_ref['Police'][defuser.id], None, None, self.DIR_TO_ANGLE[defusing['direction'].name])
+        # Update gun position
+        self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Fire')
+        # Store new direction
+        self._agents_direction['Police'][defuser.id] = defusing['direction']
+
+
+    def _on_cancel_defusing(self, canceled):
+        bomb = canceled['bomb']
+        bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+        if not self._defusings_ref.has_key(bombsite_ref):
+            return
+        defuser = self._defusings_ref[bombsite_ref]
+        # update status dictionaries
+        del self._defusings_ref[bombsite_ref]
+        # Update bombsite
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', None, False)
+        # update agent
+        if canceled['is_alive']:
+            self._change_animator_state(self._agents_ref['Police'][defuser.id], None, 'Idle')
+        # Update gun position
+        self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
+
+
+    def _on_bomb_defused(self, defused):
+        bomb = defused['bomb']
+        bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+        defuser = self._defusings_ref[bombsite_ref]
+        # increase counter
+        self._game_status.increase_defused_number()
+        # update status dictionaries
+        del self._defusings_ref[bombsite_ref]
+        # Update bombsite
+        self._remove_bomb(bombsite_ref)
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Defusing', 0, False)
+        self._change_is_active(bombsite_ref, 'Canvas/Panel/Timer', 0, False)
+        # update agent
+        self._change_animator_state(self._agents_ref['Police'][defuser.id], 0, 'Idle')
+        # Update sounds
+        self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_defused_sfx')
+        self._pause_sound(bombsite_ref, 'AudioSource', self.BOMB_OPERATIONS_COMPLETED_SOUND_CYCLES)
+        # Update gun position
+        self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
+
+
+    def _on_bomb_exploded(self, exploded):
+        bomb = exploded['bomb']
+        bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
+        # increase counter
+        self._game_status.increase_exploded_number()
+        # update status dictionaries
+        del self._active_bombsites_ref[bombsite_ref]
+        # Update bombsite
+        self._remove_bomb(bombsite_ref)
+        self._add_explosion(bombsite_ref)
+        self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_explosion_sfx')
+        self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_SOUND_CYCLES)
+        self._change_is_active(bombsite_ref, 'Canvas', 0, False)
+        self._change_animator_state(bombsite_ref, 0, 'Explosion')
+        self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
+
+
+    def _on_bomb_death(self, bomb_death):
+        side = bomb_death['side']
+        agent = bomb_death['agent']
+        reference = self._agents_ref[side][agent.id]
+        bomb = bomb_death['bomb']
+        # turn toward bomb
+        turn_angle = agent.position.angle_between(bomb.position)
+        self._turn_y(reference, None, None, turn_angle + self.ANGLE_BETWEEN_OFFSET)
+        # throwback and deep down
+        end_position = agent.position.add_vector(turn_angle, self.EXPLOSION_THROWBACK)
+        self._move_xz(reference, None, self.EXPLOSION_THROWBACK_CYCLES / 2, end_position)
+        self._deep_down(reference, self.EXPLOSION_THROWBACK_CYCLES)
+        # update animation
+        self._change_animator_state(reference, 0, 'Death')
+
+
+    def _on_terrorist_shooted(self, shooted):
+        agent = shooted['agent']
+        reference = self._agents_ref['Terrorist'][agent.id]
+        killer = shooted['killer']
+        # increase counter
+        self._game_status.increase_terrorists_killed()
+        # turn toward killer
+        turn_angle = agent.position.angle_between(killer.position)
+        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)
+        # throwback and deep down
+        end_position = agent.position.add_vector(turn_angle, self.SHOOT_THROWBACK)
+        self._move_xz(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, self.SHOOT_THROWBACK_CYCLES / 2, end_position)
+        self._deep_down(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_THROWBACK_CYCLES)
+        # update animation
+        self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeDeath')
+        self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Death')
+        # Update gun position
+        self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Terrorist', 'Fire')
+
+
+    def _on_shoot_terrorist(self, shoot):
+        police = shoot['police']
+        reference = self._agents_ref['Police'][police.id]
+        terrorist = shoot['terrorist']
+        # turn toward terrorist
+        turn_angle = police.position.angle_between(terrorist.position)
+        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET) # turn toward terrorist
+        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, None, self.DIR_TO_ANGLE[self._agents_direction['Police'][police.id].name]) # back start rotation
+        # update animation
+        self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeFire')
+        self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Fire')
+        self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Idle')
+        # Update gun position
+        self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Police', 'Fire')
+        self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Police', 'Default')
+        # Update sounds
+        self._play_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES)
+        self._pause_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES)
 
 
     def _change_animator_state(self, reference, cycle, state_name):
