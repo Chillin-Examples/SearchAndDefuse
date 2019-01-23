@@ -2,7 +2,6 @@
 
 # python imports
 import random
-from copy import deepcopy
 
 # chillin imports
 from chillin_client import RealtimeAI
@@ -60,13 +59,23 @@ class AI(RealtimeAI):
             bombsite_direction = self._find_bombsite_direction(agent)
             if bombsite_direction == None:
                 self._agent_print(agent.id, 'Random Move')
-                self.send_command(Move(id=agent.id, direction=random.choice(self._directions)))
+                self.send_command(Move(id=agent.id, direction=random.choice(self._empty_directions(agent.position))))
             else:
                 self._agent_print(agent.id, 'Start Bomb Operation')
                 if self.my_side == 'Police':
                     self.send_command(DefuseBomb(id=agent.id, direction=bombsite_direction))
                 else:
                     self.send_command(PlantBomb(id=agent.id, direction=bombsite_direction))
+
+
+    def _empty_directions(self, position):
+        empty_directions = []
+
+        for direction in self._directions:
+            pos = self._sum_pos_tuples((position.x, position.y), self._dir_to_pos[direction])
+            if self.world.board[pos[1]][pos[0]] == ECell.Empty:
+                empty_directions.append(direction)
+        return empty_directions
 
 
     def _find_bombsite_direction(self, agent):
