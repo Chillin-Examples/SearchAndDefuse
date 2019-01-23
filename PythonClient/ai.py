@@ -20,21 +20,22 @@ class AI(RealtimeAI):
 
     def initialize(self):
         print('initialize')
-        self._directions = [
+
+        self.DIRECTIONS = [
             ECommandDirection.Up,
             ECommandDirection.Right,
             ECommandDirection.Down,
             ECommandDirection.Left,
         ]
 
-        self._dir_to_pos = {
+        self.DIR_TO_POS = {
             ECommandDirection.Up:    (+0, -1),
             ECommandDirection.Right: (+1, +0),
             ECommandDirection.Down:  (+0, +1),
             ECommandDirection.Left:  (-1, +0),
         }
 
-        self._bombsites_ecell = [
+        self.BOMBSITES_ECELL = [
             ECell.SmallBombSite,
             ECell.MediumBombSite,
             ECell.LargeBombSite,
@@ -71,17 +72,17 @@ class AI(RealtimeAI):
     def _empty_directions(self, position):
         empty_directions = []
 
-        for direction in self._directions:
-            pos = self._sum_pos_tuples((position.x, position.y), self._dir_to_pos[direction])
+        for direction in self.DIRECTIONS:
+            pos = self._sum_pos_tuples((position.x, position.y), self.DIR_TO_POS[direction])
             if self.world.board[pos[1]][pos[0]] == ECell.Empty:
                 empty_directions.append(direction)
         return empty_directions
 
 
     def _find_bombsite_direction(self, agent):
-        for direction in self._directions:
-            pos = self._sum_pos_tuples((agent.position.x, agent.position.y), self._dir_to_pos[direction])
-            if self.world.board[pos[1]][pos[0]] in self._bombsites_ecell:
+        for direction in self.DIRECTIONS:
+            pos = self._sum_pos_tuples((agent.position.x, agent.position.y), self.DIR_TO_POS[direction])
+            if self.world.board[pos[1]][pos[0]] in self.BOMBSITES_ECELL:
                 has_bomb = self._has_bomb(pos)
                 if (self.my_side == 'Police' and has_bomb) or (self.my_side == 'Terrorist' and not has_bomb):
                     return direction
