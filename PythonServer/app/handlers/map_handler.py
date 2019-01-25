@@ -5,6 +5,7 @@ import json
 
 # project imports
 from ..ks.models import *
+from ..ks.commands import ECommandDirection
 
 
 class MapHandler:
@@ -46,13 +47,13 @@ class MapHandler:
         world.constants.score_coefficient_large_bomb_site = constants_config["score_coefficient_large_bomb_site"]
         world.constants.score_coefficient_vast_bomb_site = constants_config["score_coefficient_vast_bomb_site"]
         world.constants.terrorist_vision_distance = constants_config["terrorist_vision_distance"]
+        world.constants.police_vision_distance = constants_config["police_vision_distance"]
         world.constants.terrorist_death_score = constants_config["terrorist_death_score"]
         world.constants.police_death_score = constants_config["police_death_score"]
-        world.constants.police_vision_distance = constants_config["police_vision_distance"]
         world.constants.sound_ranges = {
-            ESoundIntensity.Weak: constants_config['max_weak_sound_bomb'],
-            ESoundIntensity.Normal: constants_config['max_normal_sound_bomb'],
-            ESoundIntensity.Strong: constants_config['max_strong_sound_bomb']
+            ESoundIntensity.Strong: constants_config['strong_intensity_max_distance'],
+            ESoundIntensity.Normal: constants_config['normal_intensity_max_distance'],
+            ESoundIntensity.Weak: constants_config['weak_intensity_max_distance']
         }
         world.constants.max_cycles = constants_config["max_cycles"]
 
@@ -62,24 +63,26 @@ class MapHandler:
 
         # Create Polices and Terrorists
         for side in self._sides:
-            for player in player_config[side]:
+            for player_id, player in enumerate(player_config[side]):
                 player_position = Position(x=player['position'][0], y=player['position'][1])
                 if side == 'Police':
                     new_police = Police()
-                    new_police.id = len(world.polices)
+                    new_police.id = player_id
                     new_police.position = player_position
                     new_police.defusion_remaining_time = -1
                     new_police.footstep_sounds = []
                     new_police.bomb_sounds = []
-                    new_police.status = AgentStatus.Alive
+                    new_police.status = EAgentStatus.Alive
+                    new_police.init_direction = ECommandDirection[player["direction"]]
                     world.polices.append(new_police)
                 if side == 'Terrorist':
                     new_terrorist = Terrorist()
-                    new_terrorist.id = len(world.terrorists)
+                    new_terrorist.id = player_id
                     new_terrorist.position = player_position
                     new_terrorist.planting_remaining_time = -1
                     new_terrorist.footstep_sounds = []
-                    new_terrorist.status = AgentStatus.Alive
+                    new_terrorist.status = EAgentStatus.Alive
+                    new_terrorist.init_direction = ECommandDirection[player["direction"]]
                     world.terrorists.append(new_terrorist)
 
     def load_map(self, config):
@@ -92,7 +95,6 @@ class MapHandler:
         world.width = len(char_board[0])
         world.height = len(char_board)
         world.scores = {side: 0 for side in self._sides}
-        world.statusbar_width = config['statusbar_width']
         world.bombs = []
         world.visions = {side: [] for side in self._sides}
 

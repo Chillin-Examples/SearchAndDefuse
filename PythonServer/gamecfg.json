@@ -24,29 +24,11 @@
     "save_replay": true,
     "replay_dir": "replays",
     "replay_filename": null,
-    "width": 2874,
-    "height": 1874,
-    "images": {
-      "Background": "images/background.png",
-      "Terrorist": "images/terrorist.png",
-      "DeadTerrorist": "images/dead_terrorist.png",
-      "Police": "images/police.png",
-      "DeadPolice": "images/dead_police.png",
-      "PlantingBomb": "images/planting_bomb.png",
-      "PlantedBomb": "images/planted_bomb.png",
-      "DefusingBomb": "images/defusing_bomb.png",
-      "ExplodedBomb": "images/exploded_bomb.png",
-      "Fog": "images/fog.png",
-      "Wall": "images/wall.png",
-      "SmallBomb": "images/small_bomb.png",
-      "MediumBomb": "images/small_bomb.png",
-      "LargeBomb": "images/small_bomb.png",
-      "VastBomb": "images/small_bomb.png",
-      "Empty": "images/background.png",
-      "TerroristLogo": "images/terrorist_icon.png",
-      "PoliceLogo": "images/police_icon.png"
+    "cycle_duration": 1.0,
+    "side_colors": {
+      "Police": "#010080",
+      "Terrorist": "#FE0000"
     }
-
   },
   "sides": {
     "Police": ["0"],
@@ -62,13 +44,8 @@
     "max_total_commands": 200,
     "max_team_commands": 100,
     "max_agent_commands": 100,
-    "": "turnbased game handler configs",
-    "auto_change_turn": true,
-    "auto_change_turn_sequence": ["Police", "Terrorist"],
     "": "my configs",
-    "cell_size": 6,
-    "show_statuses": true,
-    "statusbar_width": 800,
+    "cell_size": 1,
     "map": "maps/2p2e5.json"
   }
 }

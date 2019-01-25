@@ -8,7 +8,7 @@ from chillin_client import RealtimeAI
 
 # project imports
 from ks.models import (World, Police, Terrorist, Bomb, Position, Constants,
-                       ESoundIntensity, EDirection, ECell)
+                       ESoundIntensity, ECell, EAgentStatus)
 from ks.commands import DefuseBomb, PlantBomb, Move, ECommandDirection
 
 
@@ -21,37 +21,84 @@ class AI(RealtimeAI):
     def initialize(self):
         print('initialize')
 
+        self.DIRECTIONS = [
+            ECommandDirection.Up,
+            ECommandDirection.Right,
+            ECommandDirection.Down,
+            ECommandDirection.Left,
+        ]
+
+        self.DIR_TO_POS = {
+            ECommandDirection.Up:    (+0, -1),
+            ECommandDirection.Right: (+1, +0),
+            ECommandDirection.Down:  (+0, +1),
+            ECommandDirection.Left:  (-1, +0),
+        }
+
+        self.BOMBSITES_ECELL = [
+            ECell.SmallBombSite,
+            ECell.MediumBombSite,
+            ECell.LargeBombSite,
+            ECell.VastBombSite,
+        ]
+
+
     def decide(self):
         print('decide')
-        # if self.my_side == 'Police':
-        #     direction = ECommandDirection.Down
-        #     for i in range(0, 4):
-        #         self.send_command(Move(id=i, direction=direction))
+        my_agents = self.world.polices if self.my_side == 'Police' else self.world.terrorists
 
-        if self.my_side == 'Police':
-            # direction = ECommandDirection.Down
-            # for i in range(0, 4):
-            #     direction = random.choice([
-            #         ECommandDirection.Up,
-            #         ECommandDirection.Right,
-            #         ECommandDirection.Down,
-            #         ECommandDirection.Left
-            #     ])
-            if self.world.polices[0].position.x != 20:
-                self.send_command(Move(id=0, direction=ECommandDirection.Right))
-            # if not self.done:
-            #     self.send_command(DefuseBomb(id=2, direction=direction))
-            #     self.done = True
-            # if self.current_cycle == 4:
-            #     direction = ECommandDirection.Down
-            #     self.send_command(DefuseBomb(id=2, direction=direction))
+        for agent in my_agents:
+            if agent.status == EAgentStatus.Dead:
+                continue
 
-        elif self.my_side == 'Terrorist':
-            direction = ECommandDirection.Down
-            # for i in range(0, 5):
-            if not self.done:
-                self.send_command(PlantBomb(id=2, direction=direction))
-                self.done = True
-            if self.current_cycle % 4 == 0 and self.current_cycle != 0:
-                direction = ECommandDirection.Down
-                self.send_command(Move(id=2, direction=direction))
+            doing_bomb_operation = agent.defusion_remaining_time != -1 if self.my_side == 'Police' else agent.planting_remaining_time != -1
+
+            if doing_bomb_operation:
+                self._agent_print(agent.id, 'Continue Bomb Operation')
+                continue
+
+            bombsite_direction = self._find_bombsite_direction(agent)
+            if bombsite_direction == None:
+                self._agent_print(agent.id, 'Random Move')
+                self.send_command(Move(id=agent.id, direction=random.choice(self._empty_directions(agent.position))))
+            else:
+                self._agent_print(agent.id, 'Start Bomb Operation')
+                if self.my_side == 'Police':
+                    self.send_command(DefuseBomb(id=agent.id, direction=bombsite_direction))
+                else:
+                    self.send_command(PlantBomb(id=agent.id, direction=bombsite_direction))
+
+
+    def _empty_directions(self, position):
+        empty_directions = []
+
+        for direction in self.DIRECTIONS:
+            pos = self._sum_pos_tuples((position.x, position.y), self.DIR_TO_POS[direction])
+            if self.world.board[pos[1]][pos[0]] == ECell.Empty:
+                empty_directions.append(direction)
+        return empty_directions
+
+
+    def _find_bombsite_direction(self, agent):
+        for direction in self.DIRECTIONS:
+            pos = self._sum_pos_tuples((agent.position.x, agent.position.y), self.DIR_TO_POS[direction])
+            if self.world.board[pos[1]][pos[0]] in self.BOMBSITES_ECELL:
+                has_bomb = self._has_bomb(pos)
+                if (self.my_side == 'Police' and has_bomb) or (self.my_side == 'Terrorist' and not has_bomb):
+                    return direction
+        return None
+
+
+    def _has_bomb(self, position):
+        for bomb in self.world.bombs:
+            if position[0] == bomb.position.x and position[1] == bomb.position.y:
+                return True
+        return False
+
+
+    def _sum_pos_tuples(self, t1, t2):
+        return (t1[0] + t2[0], t1[1] + t2[1])
+
+
+    def _agent_print(self, agent_id, text):
+        print('Agent[{}]: {}'.format(agent_id, text))

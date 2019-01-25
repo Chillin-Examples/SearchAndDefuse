@@ -18,70 +18,54 @@
     "wewewwweewwwweewwwweweew",
     "weeeweeeeweeeeeeewewewew",
     "wewewwweeweeeeewwwweweew",
-    "weeeeeweewwewweeeeeeeeew",
-    "wewewwwweeeeewewwweewwww",
-    "weeeweeeweeeeweeeweeweew",
-    "wewewwwweewwwwewwweeeeew",
-    "weeeeweeeeeeeeeeweeewesw",
+    "weeeeeeeeeeeeeeeeeeeeeew",
+    "weeeeeeeeeeeeeeeeeeeeeew",
+    "weeeeeeeeeeeeeeeeeeeeeew",
+    "weeeeeeeeeeeeeeeeeeeeeew",
+    "wseeeemeeeeeleeeeveeeeew",
     "wwwwwwwwwwwwwwwwwwwwwwww"
   ],
   "player": {
     "Terrorist": [
       {
-        "position": [
-          10,
-          19
-        ]
+        "position": [2, 22],
+        "direction": "Up"
       },
       {
-        "position": [
-          12,
-          19
-        ]
+        "position": [7, 22],
+        "direction": "Up"
       },
       {
-        "position": [
-          10,
-          20
-        ]
+        "position": [13, 22],
+        "direction": "Up"
       },
       {
-        "position": [
-          11,
-          20
-        ]
-      },
-      {
-        "position": [
-          12,
-          20
-        ]
+        "position": [18, 22],
+        "direction": "Up"
       }
     ],
     "Police": [
       {
-        "position": [
-          10,
-          1
-        ]
+        "position": [1, 18],
+        "direction": "Down"
       },
       {
-        "position": [
-          11,
-          1
-        ]
+        "position": [6, 18],
+        "direction": "Down"
       },
       {
-        "position": [
-          12,
-          1
-        ]
+        "position": [12, 18],
+        "direction": "Down"
+      },
+      {
+        "position": [17, 18],
+        "direction": "Down"
       }
     ]
   },
   "constants": {
-    "bomb_planting_time": 7,
-    "bomb_defusion_time": 10,
+    "bomb_planting_time": 5,
+    "bomb_defusion_time": 5,
     "bomb_explosion_time": 15,
     "bomb_planting_score": 2,
     "bomb_defusion_score": 1,
@@ -90,13 +74,13 @@
     "score_coefficient_medium_bomb_site": 5,
     "score_coefficient_large_bomb_site": 7.5,
     "score_coefficient_vast_bomb_site": 10,
-    "police_vision_distance": 2,
     "terrorist_vision_distance": 3,
+    "police_vision_distance": 2,
     "terrorist_death_score": 4,
-    "max_weak_sound_bomb": 15,
-    "max_normal_sound_bomb": 20,
-    "max_strong_sound_bomb": 30,
     "police_death_score": 4,
+    "strong_intensity_max_distance": 5,
+    "normal_intensity_max_distance": 10,
+    "weak_intensity_max_distance": 15,
     "max_cycles": 100
   }
 }

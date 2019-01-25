@@ -6,18 +6,7 @@ _def = enum <byte>
         MediumBombSite,
         LargeBombSite,
         VastBombSite,
-        ExplodedBombSite,
         Wall
-    }
-
-
-[EDirection]
-_def = enum <byte>
-    {
-        Up,
-        Right,
-        Down,
-        Left
     }
 
 
@@ -30,7 +19,7 @@ _def = enum <byte>
     }
 
 
-[AgentStatus]
+[EAgentStatus]
 _def = enum <byte>
     {
         Alive,
@@ -78,7 +67,7 @@ id = int
 position = Position
 planting_remaining_time = int
 footstep_sounds = list<ESoundIntensity>
-status = AgentStatus
+status = EAgentStatus
 
 
 [Police]
@@ -88,7 +77,7 @@ position = Position
 defusion_remaining_time = int
 footstep_sounds = list<ESoundIntensity>
 bomb_sounds = list<ESoundIntensity>
-status = AgentStatus
+status = EAgentStatus
 
 
 [World]

@@ -7,6 +7,7 @@ from ..ks.models import *
 
 def move(self, world, command):
     self.position = self.position + directions[command.direction.name]
+    self.is_moving = True
 
 
 def can_move(self, side_name, world, command):
@@ -25,7 +26,7 @@ def can_move(self, side_name, world, command):
         for teammate in teammates:
             if teammate == self:
                 continue
-            if teammate.position == new_position and teammate.status == AgentStatus.Alive:
+            if teammate.position == new_position and teammate.status == EAgentStatus.Alive:
                     return False
 
         return True
