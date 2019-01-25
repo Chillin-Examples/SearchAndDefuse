@@ -49,7 +49,7 @@ class GuiHandler:
         self.CELL_SIZE = config['cell_size']
         self.X_OFFSET = -self._world.width / 2.0 * self.CELL_SIZE
         self.Z_OFFSET = -self._world.height / 2.0 * self.CELL_SIZE
-        self.FOW_Y = 10
+        self.FOW_Y = 2.5
 
         self.DIR_TO_ANGLE = {
             ECommandDirection.Up.name:    0,
@@ -79,8 +79,8 @@ class GuiHandler:
         self.SHOOT_THROWBACK = 1
         self.SHOOT_ANGLE_BETWEEN_OFFSET = self.ANGLE_BETWEEN_OFFSET - 6
 
-        self.DEEP_DOWN_Y = -5
-        self.DEEP_DOWN_CYCLES = 3
+        self.DEEP_DOWN_Y = -7
+        self.DEEP_DOWN_CYCLES = 5
 
         self.RIFLE_TRANSFORM = {
             'Police': {
