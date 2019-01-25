@@ -49,7 +49,9 @@ class GuiHandler:
         self.CELL_SIZE = config['cell_size']
         self.X_OFFSET = -self._world.width / 2.0 * self.CELL_SIZE
         self.Z_OFFSET = -self._world.height / 2.0 * self.CELL_SIZE
+
         self.FOW_Y = 2.5
+        self.VISIONS_Y = 0
 
         self.DIR_TO_ANGLE = {
             ECommandDirection.Up.name:    0,
@@ -126,8 +128,14 @@ class GuiHandler:
     def _init_variables(self):
         self._agents_ref = {side: {} for side in self._sides}
         self._agents_direction = {side: {} for side in self._sides}
+
         self._fows_ref = {}
+        self._police_visions_ref = {}
+        self._terrorist_visions_ref = {}
         self._hidden_fows_pos = [] # fog of wars that are hidden because of the visions
+        self._visible_police_visions_pos = []
+        self._visible_terrorist_visions_pos = []
+
         self._bombsites_ref = {} # key: (x, y), value: reference
         self._plantings_ref = {} # key: bombsite_ref, value: terrorist
         self._active_bombsites_ref = {} # key: bombsite_ref, value: bomb
@@ -310,33 +318,70 @@ class GuiHandler:
     def _init_fow(self):
         for y in range(self._world.height):
             for x in range(self._world.width):
-                reference = self._rm.new()
-                self._fows_ref[(x, y)] = reference
+                fow_ref = self._rm.new()
+                police_vision_ref = self._rm.new()
+                terrorist_vision_ref = self._rm.new()
+                self._fows_ref[(x, y)] = fow_ref
+                self._police_visions_ref[(x, y)] = police_vision_ref
+                self._terrorist_visions_ref[(x, y)] = terrorist_vision_ref
+
                 pos = self._get_scene_position(Position(x=x, y=y))
 
                 self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                    ref = reference,
+                    ref = fow_ref,
                     asset = scene_actions.Asset(bundle_name='main', asset_name='FOW')
                 ))
                 self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = reference,
+                    ref = fow_ref,
                     position = scene_actions.Vector3(x=pos['x'], y=self.FOW_Y, z=pos['z'])
+                ))
+
+                self._scene.add_action(scene_actions.InstantiateBundleAsset(
+                    ref = police_vision_ref,
+                    asset = scene_actions.Asset(bundle_name='main', asset_name='PoliceVision')
+                ))
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = police_vision_ref,
+                    position = scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
+                ))
+
+                self._scene.add_action(scene_actions.InstantiateBundleAsset(
+                    ref = terrorist_vision_ref,
+                    asset = scene_actions.Asset(bundle_name='main', asset_name='TerroristVision')
+                ))
+                self._scene.add_action(scene_actions.ChangeTransform(
+                    ref = terrorist_vision_ref,
+                    position = scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
                 ))
 
 
     def _update_fow(self):
         new_hidden_fows_pos = []
+        new_visible_police_visions_pos = []
+        new_visible_terrorist_visions_pos = []
 
         for side in self._sides:
+            new_visible_visions_pos = new_visible_police_visions_pos if side == 'Police' else new_visible_terrorist_visions_pos
+            visible_visions_pos = self._visible_police_visions_pos if side == 'Police' else self._visible_terrorist_visions_pos
+            visions_ref = self._police_visions_ref if side == 'Police' else self._terrorist_visions_ref
+
             for visible_pos in self._world.visions[side]:
                 pos = (visible_pos.x, visible_pos.y)
                 new_hidden_fows_pos.append(pos)
+                new_visible_visions_pos.append(pos)
 
                 if not pos in self._hidden_fows_pos:
                     self._hidden_fows_pos.append(pos)
                     self._scene.add_action(scene_actions.ChangeIsActive(
                         ref = self._fows_ref[pos],
                         is_active = False
+                    ))
+                
+                if not pos in visible_visions_pos:
+                    visible_visions_pos.append(pos)
+                    self._scene.add_action(scene_actions.ChangeIsActive(
+                        ref = visions_ref[pos],
+                        is_active = True
                     ))
 
         must_remove_pos = []
@@ -349,6 +394,22 @@ class GuiHandler:
                 ref = self._fows_ref[pos],
                 is_active = True
             ))
+
+        for side in self._sides:
+            new_visible_visions_pos = new_visible_police_visions_pos if side == 'Police' else new_visible_terrorist_visions_pos
+            visible_visions_pos = self._visible_police_visions_pos if side == 'Police' else self._visible_terrorist_visions_pos
+            visions_ref = self._police_visions_ref if side == 'Police' else self._terrorist_visions_ref
+
+            must_remove_pos = []
+            for pos in visible_visions_pos:
+                if not pos in new_visible_visions_pos:
+                    must_remove_pos.append(pos)
+            for pos in must_remove_pos:
+                visible_visions_pos.remove(pos)
+                self._scene.add_action(scene_actions.ChangeIsActive(
+                    ref = visions_ref[pos],
+                    is_active = False
+                ))
 
 
     def update(self, current_cycle, gui_events):
