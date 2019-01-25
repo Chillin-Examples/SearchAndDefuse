@@ -68,6 +68,7 @@ class GuiHandler:
         self.MOVE_CYCLES = 0.4
         self.STOP_CYCLES = 0.3
 
+        self.EXPLOSION_OFFSET_CYCLES = 1
         self.EXPLOSION_CYCLES = 3
         self.EXPLOSION_SOUND_CYCLES = 2
         self.EXPLOSION_THROWBACK = 5
@@ -672,11 +673,10 @@ class GuiHandler:
         # Update bombsite
         self._remove_bomb(bombsite_ref)
         self._add_explosion(bombsite_ref)
-        self._play_sound(bombsite_ref, 'AudioSource', None, 'bomb_explosion_sfx')
-        self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_SOUND_CYCLES)
-        self._change_is_active(bombsite_ref, 'Canvas', 0, False)
-        self._change_animator_state(bombsite_ref, 0, 'Explosion')
-        self._deep_down(bombsite_ref, self.EXPLOSION_CYCLES)
+        self._change_text(bombsite_ref, 'Canvas/Panel/Timer/Text', None, '0')
+        self._change_is_active(bombsite_ref, 'Canvas', self.EXPLOSION_OFFSET_CYCLES, False)
+        self._change_animator_state(bombsite_ref, self.EXPLOSION_OFFSET_CYCLES, 'Explosion')
+        self._deep_down(bombsite_ref, self.EXPLOSION_OFFSET_CYCLES + self.EXPLOSION_CYCLES)
 
 
     def _on_bomb_death(self, bomb_death):
@@ -686,13 +686,13 @@ class GuiHandler:
         bomb = bomb_death['bomb']
         # turn toward bomb
         turn_angle = agent.position.angle_between(bomb.position)
-        self._turn_y(reference, None, None, turn_angle + self.ANGLE_BETWEEN_OFFSET)
+        self._turn_y(reference, self.EXPLOSION_OFFSET_CYCLES, None, turn_angle + self.ANGLE_BETWEEN_OFFSET)
         # throwback and deep down
         end_position = agent.position.add_vector(turn_angle, self.EXPLOSION_THROWBACK)
-        self._move_xz(reference, None, self.EXPLOSION_THROWBACK_CYCLES / 2, end_position)
-        self._deep_down(reference, self.EXPLOSION_THROWBACK_CYCLES)
+        self._move_xz(reference, self.EXPLOSION_OFFSET_CYCLES, self.EXPLOSION_THROWBACK_CYCLES / 2, end_position)
+        self._deep_down(reference, self.EXPLOSION_OFFSET_CYCLES + self.EXPLOSION_THROWBACK_CYCLES)
         # update animation
-        self._change_animator_state(reference, 0, 'Death')
+        self._change_animator_state(reference, self.EXPLOSION_OFFSET_CYCLES, 'Death')
 
 
     def _on_terrorist_shooted(self, shooted):
@@ -823,9 +823,10 @@ class GuiHandler:
 
 
     def _remove_bomb(self, bombsite_ref):
-        self._pause_sound(bombsite_ref, 'AudioSource', None)
+        self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_OFFSET_CYCLES)
         self._scene.add_action(scene_actions.ChangeIsActive(
             ref = bombsite_ref, child_ref = 'BombPosition',
+            cycle = self.EXPLOSION_OFFSET_CYCLES,
             is_active = False
         ))
 
@@ -833,8 +834,11 @@ class GuiHandler:
     def _add_explosion(self, bombsite_ref):
         self._scene.add_action(scene_actions.ChangeIsActive(
             ref = bombsite_ref, child_ref = 'Explosion',
+            cycle = self.EXPLOSION_OFFSET_CYCLES,
             is_active = True
         ))
+        self._play_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_OFFSET_CYCLES, 'bomb_explosion_sfx')
+        self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_OFFSET_CYCLES + self.EXPLOSION_SOUND_CYCLES)
 
 
     def _deep_down(self, reference, cycle):
