@@ -22,7 +22,6 @@ class GuiHandler:
         self._scene = scene
         self._rm = scene.rm
 
-
     def initialize(self, config):
         self._init_contants(config)
         self._init_variables()
@@ -44,7 +43,6 @@ class GuiHandler:
         # Add EndCycle
         self._scene.add_action(scene_actions.EndCycle())
 
-
     def _init_contants(self, config):
         self.CELL_SIZE = config['cell_size']
         self.X_OFFSET = -self._world.width / 2.0 * self.CELL_SIZE
@@ -54,10 +52,10 @@ class GuiHandler:
         self.VISIONS_Y = 0
 
         self.DIR_TO_ANGLE = {
-            ECommandDirection.Up.name:    0,
+            ECommandDirection.Up.name: 0,
             ECommandDirection.Right.name: 90,
-            ECommandDirection.Down.name:  180,
-            ECommandDirection.Left.name:  -90
+            ECommandDirection.Down.name: 180,
+            ECommandDirection.Left.name: -90
         }
 
         self.ANGLE_BETWEEN_OFFSET = -90
@@ -125,7 +123,6 @@ class GuiHandler:
                                 ['ManHair', 'Fox'], ['Hat'], ['ManHair', 'Hockey'], ['Paperbag']]
         self.TERRORIST_ITEMS = [[None]]
 
-
     def _init_variables(self):
         self._agents_ref = {side: {} for side in self._sides}
         self._agents_direction = {side: {} for side in self._sides}
@@ -133,82 +130,80 @@ class GuiHandler:
         self._fows_ref = {}
         self._police_visions_ref = {}
         self._terrorist_visions_ref = {}
-        self._hidden_fows_pos = [] # fog of wars that are hidden because of the visions
+        self._hidden_fows_pos = []  # fog of wars that are hidden because of the visions
         self._visible_police_visions_pos = []
         self._visible_terrorist_visions_pos = []
 
-        self._bombsites_ref = {} # key: (x, y), value: reference
-        self._plantings_ref = {} # key: bombsite_ref, value: terrorist
-        self._active_bombsites_ref = {} # key: bombsite_ref, value: bomb
-        self._defusings_ref = {} # key: bombsite_ref, value: police
-
+        self._bombsites_ref = {}  # key: (x, y), value: reference
+        self._plantings_ref = {}  # key: bombsite_ref, value: terrorist
+        self._active_bombsites_ref = {}  # key: bombsite_ref, value: bomb
+        self._defusings_ref = {}  # key: bombsite_ref, value: police
 
     def _init_render_settings(self):
         self._scene.add_action(scene_actions.ChangeRenderSettings(
-            skybox_asset = scene_actions.Asset(bundle_name='main', asset_name='Skybox'),
+            skybox_asset=scene_actions.Asset(bundle_name='main', asset_name='Skybox'),
             ambient_intensity=1.5
         ))
-
 
     def _init_light(self):
         main_light = self._rm.new()
         self._scene.add_action(scene_actions.CreateBasicObject(
-            ref = main_light,
-            type = scene_actions.EBasicObjectType.Light
+            ref=main_light,
+            type=scene_actions.EBasicObjectType.Light
         ))
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = main_light,
-            rotation = scene_actions.Vector3(x=90, y=0, z=0)
+            ref=main_light,
+            rotation=scene_actions.Vector3(x=90, y=0, z=0)
         ))
         self._scene.add_action(scene_actions.ChangeLight(
-            ref = main_light,
-            shadow_strength = 0.4
+            ref=main_light,
+            shadow_strength=0.4
         ))
 
-
     def _init_camera(self):
-        fov = 60 # TODO: calculate
+        fov = 60  # TODO: calculate
         extra_camera_boundry = -10
 
         self._scene.add_action(scene_actions.ChangeCamera(
-            ref = self._rm.get('MainCamera'),
-            is_orthographic = False,
-            field_of_view = fov,
-            min_position = scene_actions.Vector3(x=(self.X_OFFSET + extra_camera_boundry), y=2, z=(self.Z_OFFSET + extra_camera_boundry)),
-            max_position = scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=100, z=-(self.Z_OFFSET + extra_camera_boundry)),
-            min_zoom = fov - 20,
-            max_zoom = fov + 40,
-            post_process_profile_asset = scene_actions.Asset(bundle_name='main', asset_name='PostProcess'),
+            ref=self._rm.get('MainCamera'),
+            is_orthographic=False,
+            field_of_view=fov,
+            min_position=scene_actions.Vector3(x=(self.X_OFFSET + extra_camera_boundry), y=2,
+                                               z=(self.Z_OFFSET + extra_camera_boundry)),
+            max_position=scene_actions.Vector3(x=-(self.X_OFFSET + extra_camera_boundry), y=100,
+                                               z=-(self.Z_OFFSET + extra_camera_boundry)),
+            min_zoom=fov - 20,
+            max_zoom=fov + 40,
+            post_process_profile_asset=scene_actions.Asset(bundle_name='main', asset_name='PostProcess'),
         ))
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = self._rm.get('MainCamera'),
-            position = scene_actions.Vector3(x=0, y=10, z=(self.Z_OFFSET + extra_camera_boundry)),
-            rotation = scene_actions.Vector3(x=30, y=0, z=0)
+            ref=self._rm.get('MainCamera'),
+            position=scene_actions.Vector3(x=0, y=10, z=(self.Z_OFFSET + extra_camera_boundry)),
+            rotation=scene_actions.Vector3(x=30, y=0, z=0)
         ))
-
 
     def _draw_board(self):
         ground_ref = self._rm.new()
         self._scene.add_action(scene_actions.InstantiateBundleAsset(
-            ref = ground_ref,
-            asset = scene_actions.Asset(bundle_name='main', asset_name='Ground')
+            ref=ground_ref,
+            asset=scene_actions.Asset(bundle_name='main', asset_name='Ground')
         ))
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = ground_ref, child_ref = 'Beach',
-            scale = scene_actions.Vector3(
-                x = self._world.width * self.CELL_SIZE * self.BEACH_SCALE_FACTOR,
-                z = self._world.height * self.CELL_SIZE * self.BEACH_SCALE_FACTOR
+            ref=ground_ref, child_ref='Beach',
+            scale=scene_actions.Vector3(
+                x=self._world.width * self.CELL_SIZE * self.BEACH_SCALE_FACTOR,
+                z=self._world.height * self.CELL_SIZE * self.BEACH_SCALE_FACTOR
             )
         ))
 
         water_ref = self._rm.new()
         self._scene.add_action(scene_actions.InstantiateBundleAsset(
-            ref = water_ref,
-            asset = scene_actions.Asset(bundle_name='main', asset_name='Water')
+            ref=water_ref,
+            asset=scene_actions.Asset(bundle_name='main', asset_name='Water')
         ))
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = water_ref,
-            position = scene_actions.Vector3(y=self.WATER_Y)
+            ref=water_ref,
+            position=scene_actions.Vector3(y=self.WATER_Y)
         ))
 
         # Draw non-player cells
@@ -223,28 +218,27 @@ class GuiHandler:
 
                 if cell == ECell.Wall:
                     self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='Barrier')
+                        ref=reference,
+                        asset=scene_actions.Asset(bundle_name='main', asset_name='Barrier')
                     ))
 
                 elif cell in [ECell.SmallBombSite, ECell.MediumBombSite, ECell.LargeBombSite, ECell.VastBombSite]:
                     self._bombsites_ref[(x, y)] = reference
                     self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = reference,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name=cell.name)
+                        ref=reference,
+                        asset=scene_actions.Asset(bundle_name='main', asset_name=cell.name)
                     ))
 
                     # Add floor
                     floor_ref = self._rm.new()
                     self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                        ref = floor_ref,
-                        asset = scene_actions.Asset(bundle_name='main', asset_name='BombFloor')
+                        ref=floor_ref,
+                        asset=scene_actions.Asset(bundle_name='main', asset_name='BombFloor')
                     ))
                     self._move_xz(floor_ref, None, None, Position(x=x, y=y))
 
                 # Set Position
                 self._move_xz(reference, None, None, Position(x=x, y=y))
-
 
     def _draw_agents(self):
         for side in self._sides:
@@ -259,62 +253,64 @@ class GuiHandler:
                 self._agents_ref[side][agent.id] = reference
 
                 self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                    ref = reference,
-                    asset = scene_actions.Asset(bundle_name='main', asset_name=side)
+                    ref=reference,
+                    asset=scene_actions.Asset(bundle_name='main', asset_name=side)
                 ))
 
                 # set ID
                 self._scene.add_action(scene_actions.ChangeText(
-                    ref = reference,
-                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/Canvas/ID',
-                    text = str(agent.id)
+                    ref=reference,
+                    child_ref='Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/Canvas/ID',
+                    text=str(agent.id)
                 ))
 
                 # set appearance
                 skin = skins[agent.id % len(skins)]
                 self._scene.add_action(scene_actions.ChangeIsActive(
-                    ref = reference,
-                    child_ref = 'Skin/{0}'.format(skin),
-                    is_active = True
+                    ref=reference,
+                    child_ref='Skin/{0}'.format(skin),
+                    is_active=True
                 ))
 
-                material_num = (((agent.id // len(material_offsets)) + material_offsets[agent.id % len(material_offsets)]) % self.TOTAL_SKINS_MATERIALS) + 1
+                material_num = (((agent.id // len(material_offsets)) + material_offsets[
+                    agent.id % len(material_offsets)]) % self.TOTAL_SKINS_MATERIALS) + 1
                 self._scene.add_action(scene_actions.ChangeMaterial(
-                    ref = reference,
-                    child_ref = 'Skin/{0}'.format(skin),
-                    material_asset = scene_actions.Asset(bundle_name='main', asset_name='Material{:d}'.format(material_num)),
-                    index = 0
+                    ref=reference,
+                    child_ref='Skin/{0}'.format(skin),
+                    material_asset=scene_actions.Asset(bundle_name='main',
+                                                       asset_name='Material{:d}'.format(material_num)),
+                    index=0
                 ))
 
                 for head in heads[agent.id % len(heads)]:
                     if head == None:
                         continue
                     self._scene.add_action(scene_actions.ChangeIsActive(
-                        ref = reference,
-                        child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/HeadMask/{0}'.format(head),
-                        is_active = True
+                        ref=reference,
+                        child_ref='Root/Hips/Spine_01/Spine_02/Spine_03/Neck/Head/HeadMask/{0}'.format(head),
+                        is_active=True
                     ))
 
                 for item in items[agent.id % len(items)]:
                     if item == None:
                         continue
                     self._scene.add_action(scene_actions.ChangeIsActive(
-                        ref = reference,
-                        child_ref = 'Root/Hips/Items/{0}'.format(item),
-                        is_active = True
+                        ref=reference,
+                        child_ref='Root/Hips/Items/{0}'.format(item),
+                        is_active=True
                     ))
 
                 self._scene.add_action(scene_actions.ChangeIsActive(
-                    ref = reference,
-                    child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/{0}'.format(side + 'Rifle'),
-                    is_active = True
+                    ref=reference,
+                    child_ref='Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/{0}'.format(
+                        side + 'Rifle'),
+                    is_active=True
                 ))
 
                 # set position
                 self._agents_direction[side][agent.id] = agent.init_direction
                 self._move_xz(reference, None, None, agent.position)
                 self._turn_y(reference, None, None, self.DIR_TO_ANGLE[agent.init_direction.name])
-
 
     def _init_fow(self):
         for y in range(self._world.height):
@@ -329,32 +325,31 @@ class GuiHandler:
                 pos = self._get_scene_position(Position(x=x, y=y))
 
                 self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                    ref = fow_ref,
-                    asset = scene_actions.Asset(bundle_name='main', asset_name='FOW')
+                    ref=fow_ref,
+                    asset=scene_actions.Asset(bundle_name='main', asset_name='FOW')
                 ))
                 self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = fow_ref,
-                    position = scene_actions.Vector3(x=pos['x'], y=self.FOW_Y, z=pos['z'])
+                    ref=fow_ref,
+                    position=scene_actions.Vector3(x=pos['x'], y=self.FOW_Y, z=pos['z'])
                 ))
 
                 self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                    ref = police_vision_ref,
-                    asset = scene_actions.Asset(bundle_name='main', asset_name='PoliceVision')
+                    ref=police_vision_ref,
+                    asset=scene_actions.Asset(bundle_name='main', asset_name='PoliceVision')
                 ))
                 self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = police_vision_ref,
-                    position = scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
+                    ref=police_vision_ref,
+                    position=scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
                 ))
 
                 self._scene.add_action(scene_actions.InstantiateBundleAsset(
-                    ref = terrorist_vision_ref,
-                    asset = scene_actions.Asset(bundle_name='main', asset_name='TerroristVision')
+                    ref=terrorist_vision_ref,
+                    asset=scene_actions.Asset(bundle_name='main', asset_name='TerroristVision')
                 ))
                 self._scene.add_action(scene_actions.ChangeTransform(
-                    ref = terrorist_vision_ref,
-                    position = scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
+                    ref=terrorist_vision_ref,
+                    position=scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
                 ))
-
 
     def _update_fow(self):
         new_hidden_fows_pos = []
@@ -374,15 +369,15 @@ class GuiHandler:
                 if not pos in self._hidden_fows_pos:
                     self._hidden_fows_pos.append(pos)
                     self._scene.add_action(scene_actions.ChangeIsActive(
-                        ref = self._fows_ref[pos],
-                        is_active = False
+                        ref=self._fows_ref[pos],
+                        is_active=False
                     ))
-                
+
                 if not pos in visible_visions_pos:
                     visible_visions_pos.append(pos)
                     self._scene.add_action(scene_actions.ChangeIsActive(
-                        ref = visions_ref[pos],
-                        is_active = True
+                        ref=visions_ref[pos],
+                        is_active=True
                     ))
 
         must_remove_pos = []
@@ -392,8 +387,8 @@ class GuiHandler:
         for pos in must_remove_pos:
             self._hidden_fows_pos.remove(pos)
             self._scene.add_action(scene_actions.ChangeIsActive(
-                ref = self._fows_ref[pos],
-                is_active = True
+                ref=self._fows_ref[pos],
+                is_active=True
             ))
 
         for side in self._sides:
@@ -408,10 +403,9 @@ class GuiHandler:
             for pos in must_remove_pos:
                 visible_visions_pos.remove(pos)
                 self._scene.add_action(scene_actions.ChangeIsActive(
-                    ref = visions_ref[pos],
-                    is_active = False
+                    ref=visions_ref[pos],
+                    is_active=False
                 ))
-
 
     def update(self, current_cycle, gui_events):
         self._game_status.update(current_cycle)
@@ -529,7 +523,6 @@ class GuiHandler:
             for _ in range(self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES):
                 self._scene.add_action(scene_actions.EndCycle())
 
-
     def _on_move(self, side, move):
         agent = self._world.polices[move['agent_id']] if side == 'Police' else self._world.terrorists[move['agent_id']]
         curr_direction = self._agents_direction[side][move['agent_id']]
@@ -551,7 +544,6 @@ class GuiHandler:
         # Store new direction
         self._agents_direction[side][move['agent_id']] = move['direction']
 
-
     def _on_planting_bomb(self, planting):
         bomb = planting['bomb']
         bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
@@ -562,17 +554,17 @@ class GuiHandler:
         self._change_is_active(bombsite_ref, 'Canvas/Panel/Planting', 0, True)
         # update agent
         self._change_animator_state(self._agents_ref['Terrorist'][planter.id], 0, 'BombAction')
-        self._turn_y(self._agents_ref['Terrorist'][planter.id], None, None, self.DIR_TO_ANGLE[planting['direction'].name])
+        self._turn_y(self._agents_ref['Terrorist'][planter.id], None, None,
+                     self.DIR_TO_ANGLE[planting['direction'].name])
         # Update gun position
         self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Fire')
         # Store new direction
         self._agents_direction['Terrorist'][planter.id] = planting['direction']
 
-
     def _on_cancel_planting(self, canceled):
         bomb = canceled['bomb']
         bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-        if not self._plantings_ref.has_key(bombsite_ref):
+        if bombsite_ref not in self._plantings_ref:
             return
         planter = self._plantings_ref[bombsite_ref]
         # update status dictionaries
@@ -584,7 +576,6 @@ class GuiHandler:
             self._change_animator_state(self._agents_ref['Terrorist'][planter.id], None, 'Idle')
         # Update gun position
         self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
-
 
     def _on_bomb_planted(self, planted):
         bomb = planted['bomb']
@@ -607,7 +598,6 @@ class GuiHandler:
         # Update gun position
         self._change_rifle_transform(self._agents_ref['Terrorist'][planter.id], None, 'Terrorist', 'Default')
 
-
     def _on_defusing_bomb(self, defusing):
         bomb = defusing['bomb']
         bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
@@ -624,11 +614,10 @@ class GuiHandler:
         # Store new direction
         self._agents_direction['Police'][defuser.id] = defusing['direction']
 
-
     def _on_cancel_defusing(self, canceled):
         bomb = canceled['bomb']
         bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
-        if not self._defusings_ref.has_key(bombsite_ref):
+        if bombsite_ref not in self._defusings_ref:
             return
         defuser = self._defusings_ref[bombsite_ref]
         # update status dictionaries
@@ -640,7 +629,6 @@ class GuiHandler:
             self._change_animator_state(self._agents_ref['Police'][defuser.id], None, 'Idle')
         # Update gun position
         self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
-
 
     def _on_bomb_defused(self, defused):
         bomb = defused['bomb']
@@ -662,7 +650,6 @@ class GuiHandler:
         # Update gun position
         self._change_rifle_transform(self._agents_ref['Police'][defuser.id], None, 'Police', 'Default')
 
-
     def _on_bomb_exploded(self, exploded):
         bomb = exploded['bomb']
         bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
@@ -677,7 +664,6 @@ class GuiHandler:
         self._change_is_active(bombsite_ref, 'Canvas', self.EXPLOSION_OFFSET_CYCLES, False)
         self._change_animator_state(bombsite_ref, self.EXPLOSION_OFFSET_CYCLES, 'Explosion')
         self._deep_down(bombsite_ref, self.EXPLOSION_OFFSET_CYCLES + self.EXPLOSION_CYCLES)
-
 
     def _on_bomb_death(self, bomb_death):
         side = bomb_death['side']
@@ -694,7 +680,6 @@ class GuiHandler:
         # update animation
         self._change_animator_state(reference, self.EXPLOSION_OFFSET_CYCLES, 'Death')
 
-
     def _on_terrorist_shooted(self, shooted):
         agent = shooted['agent']
         reference = self._agents_ref['Terrorist'][agent.id]
@@ -703,10 +688,12 @@ class GuiHandler:
         self._game_status.increase_terrorists_killed()
         # turn toward killer
         turn_angle = agent.position.angle_between(killer.position)
-        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)
+        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES,
+                     turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)
         # throwback and deep down
         end_position = agent.position.add_vector(turn_angle, self.SHOOT_THROWBACK)
-        self._move_xz(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, self.SHOOT_THROWBACK_CYCLES / 2, end_position)
+        self._move_xz(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, self.SHOOT_THROWBACK_CYCLES / 2,
+                      end_position)
         self._deep_down(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_THROWBACK_CYCLES)
         # update animation
         self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeDeath')
@@ -714,34 +701,36 @@ class GuiHandler:
         # Update gun position
         self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Terrorist', 'Fire')
 
-
     def _on_shoot_terrorist(self, shoot):
         police = shoot['police']
         reference = self._agents_ref['Police'][police.id]
         terrorist = shoot['terrorist']
         # turn toward terrorist
         turn_angle = police.position.angle_between(terrorist.position)
-        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES, turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET) # turn toward terrorist
-        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, None, self.DIR_TO_ANGLE[self._agents_direction['Police'][police.id].name]) # back start rotation
+        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES, self.BEFORE_SHOOT_CYCLES,
+                     turn_angle + self.SHOOT_ANGLE_BETWEEN_OFFSET)  # turn toward terrorist
+        self._turn_y(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, None,
+                     self.DIR_TO_ANGLE[self._agents_direction['Police'][police.id].name])  # back start rotation
         # update animation
         self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES, 'BeforeFire')
         self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES, 'Fire')
-        self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Idle')
+        self._change_animator_state(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES,
+                                    'Idle')
         # Update gun position
         self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES, 'Police', 'Fire')
-        self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES, 'Police', 'Default')
+        self._change_rifle_transform(reference, self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES,
+                                     'Police', 'Default')
         # Update sounds
         self._play_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES)
-        self._pause_sound(reference, 'AudioSource', self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES)
-
+        self._pause_sound(reference, 'AudioSource',
+                          self.SHOOT_OFFSET_CYCLES + self.BEFORE_SHOOT_CYCLES + self.SHOOT_CYCLES)
 
     def _change_animator_state(self, reference, cycle, state_name):
         self._scene.add_action(scene_actions.ChangeAnimatorState(
-            ref = reference,
-            cycle = cycle,
-            state_name = state_name
+            ref=reference,
+            cycle=cycle,
+            state_name=state_name
         ))
-
 
     def _get_turn_animation(self, curr_direction, new_direction):
         diff = new_direction.value - curr_direction.value
@@ -756,111 +745,98 @@ class GuiHandler:
         if diff == -1 or diff == 3:
             return 'TurnLeft', True
 
-
     def _turn_y(self, reference, cycle, duration_cycles, angle):
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = reference,
-            cycle = cycle,
-            duration_cycles = duration_cycles,
-            rotation = scene_actions.Vector3(y=angle)
+            ref=reference,
+            cycle=cycle,
+            duration_cycles=duration_cycles,
+            rotation=scene_actions.Vector3(y=angle)
         ))
-
 
     def _move_xz(self, reference, cycle, duration_cycles, position):
         scene_position = self._get_scene_position(position)
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = reference,
-            cycle = cycle,
-            duration_cycles = duration_cycles,
-            position = scene_actions.Vector3(x=scene_position['x'], z=scene_position['z'])
+            ref=reference,
+            cycle=cycle,
+            duration_cycles=duration_cycles,
+            position=scene_actions.Vector3(x=scene_position['x'], z=scene_position['z'])
         ))
-
 
     def _change_is_active(self, reference, child_ref, cycle, is_active):
         self._scene.add_action(scene_actions.ChangeIsActive(
-            ref = reference, child_ref = child_ref,
-            cycle = cycle,
-            is_active = is_active
+            ref=reference, child_ref=child_ref,
+            cycle=cycle,
+            is_active=is_active
         ))
-
 
     def _change_text(self, reference, child_ref, cycle, text):
         self._scene.add_action(scene_actions.ChangeText(
-            ref = reference, child_ref = child_ref,
-            cycle = cycle,
-            text = text
+            ref=reference, child_ref=child_ref,
+            cycle=cycle,
+            text=text
         ))
-
 
     def _update_planting_bombsites(self):
         for bombsite_ref in self._plantings_ref:
             agent = self._plantings_ref[bombsite_ref]
             self._change_text(bombsite_ref, 'Canvas/Panel/Planting/Text', None, str(agent.planting_remaining_time))
 
-
     def _update_defusing_bombsites(self):
         for bombsite_ref in self._defusings_ref:
             agent = self._defusings_ref[bombsite_ref]
             self._change_text(bombsite_ref, 'Canvas/Panel/Defusing/Text', None, str(agent.defusion_remaining_time))
-
 
     def _update_bombsites_timer(self):
         for bombsite_ref in self._active_bombsites_ref:
             bomb = self._active_bombsites_ref[bombsite_ref]
             self._change_text(bombsite_ref, 'Canvas/Panel/Timer/Text', None, str(bomb.explosion_remaining_time))
 
-
     def _add_bomb(self, bombsite_ref):
         self._scene.add_action(scene_actions.ChangeIsActive(
-            ref = bombsite_ref, child_ref = 'BombPosition',
-            is_active = True
+            ref=bombsite_ref, child_ref='BombPosition',
+            is_active=True
         ))
         self._scene.add_action(scene_actions.ChangeAnimatorState(
-            ref = bombsite_ref, child_ref = 'BombPosition/Bomb',
-            state_name = 'BombBeep',
-            normalized_time = 0
+            ref=bombsite_ref, child_ref='BombPosition/Bomb',
+            state_name='BombBeep',
+            normalized_time=0
         ))
-
 
     def _remove_bomb(self, bombsite_ref):
         self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_OFFSET_CYCLES)
         self._scene.add_action(scene_actions.ChangeIsActive(
-            ref = bombsite_ref, child_ref = 'BombPosition',
-            cycle = self.EXPLOSION_OFFSET_CYCLES,
-            is_active = False
+            ref=bombsite_ref, child_ref='BombPosition',
+            cycle=self.EXPLOSION_OFFSET_CYCLES,
+            is_active=False
         ))
-
 
     def _add_explosion(self, bombsite_ref):
         self._scene.add_action(scene_actions.ChangeIsActive(
-            ref = bombsite_ref, child_ref = 'Explosion',
-            cycle = self.EXPLOSION_OFFSET_CYCLES,
-            is_active = True
+            ref=bombsite_ref, child_ref='Explosion',
+            cycle=self.EXPLOSION_OFFSET_CYCLES,
+            is_active=True
         ))
         self._play_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_OFFSET_CYCLES, 'bomb_explosion_sfx')
         self._pause_sound(bombsite_ref, 'AudioSource', self.EXPLOSION_OFFSET_CYCLES + self.EXPLOSION_SOUND_CYCLES)
-
 
     def _deep_down(self, reference, cycle):
         cycle = cycle if cycle != None else 0
 
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = reference,
-            cycle = cycle,
-            duration_cycles = self.DEEP_DOWN_CYCLES,
-            position = scene_actions.Vector3(y=self.DEEP_DOWN_Y)
+            ref=reference,
+            cycle=cycle,
+            duration_cycles=self.DEEP_DOWN_CYCLES,
+            position=scene_actions.Vector3(y=self.DEEP_DOWN_Y)
         ))
-
 
     def _change_rifle_transform(self, reference, cycle, side, state):
         self._scene.add_action(scene_actions.ChangeTransform(
-            ref = reference,
-            child_ref = 'Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/{}Rifle'.format(side),
-            cycle = cycle,
-            position = self.RIFLE_TRANSFORM[side][state]['position'],
-            rotation = self.RIFLE_TRANSFORM[side][state]['rotation']
+            ref=reference,
+            child_ref='Root/Hips/Spine_01/Spine_02/Spine_03/Clavicle_R/Shoulder_R/Elbow_R/Hand_R/{}Rifle'.format(side),
+            cycle=cycle,
+            position=self.RIFLE_TRANSFORM[side][state]['position'],
+            rotation=self.RIFLE_TRANSFORM[side][state]['rotation']
         ))
-
 
     def _play_sound(self, reference, child_ref, cycle, sound_name=None):
         clip_asset = None
@@ -868,21 +844,19 @@ class GuiHandler:
             clip_asset = scene_actions.Asset(bundle_name='main', asset_name=sound_name)
 
         self._scene.add_action(scene_actions.ChangeAudioSource(
-            ref = reference, child_ref = child_ref,
-            cycle = cycle,
-            play = True,
-            time = 0,
-            audio_clip_asset = clip_asset
+            ref=reference, child_ref=child_ref,
+            cycle=cycle,
+            play=True,
+            time=0,
+            audio_clip_asset=clip_asset
         ))
-
 
     def _pause_sound(self, reference, child_ref, cycle):
         self._scene.add_action(scene_actions.ChangeAudioSource(
-            ref = reference, child_ref = child_ref,
-            cycle = cycle,
-            play = False
+            ref=reference, child_ref=child_ref,
+            cycle=cycle,
+            play=False
         ))
-
 
     def _get_scene_position(self, position):
         addition = self.CELL_SIZE / 2
