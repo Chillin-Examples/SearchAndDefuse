@@ -22,7 +22,7 @@ def plant_bomb(self, world, command):
     if self.planting_remaining_time != -1:
         gui_events += self.cancel_plant(world)
 
-    self.planting_remaining_time = world.constants.bomb_planting_time
+    self.planting_remaining_time = world.constants.bomb_planting_time + 1
     bomb_position = self.position + directions[command.direction.name]
     new_bomb = Bomb(position=bomb_position, explosion_remaining_time=-1,
                     planter_id=self.id, defuser_id=-1)
