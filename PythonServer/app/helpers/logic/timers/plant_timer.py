@@ -58,7 +58,7 @@ def _update_plant_timer_on_cycle(bomb, world):
         agents = world.polices if side == 'Police' else world.terrorists
 
         for agent in agents:
-            if agent.status == EAgentStatus.Alive and bomb.position.is_neighbour(agent.position):
+            if agent.status == EAgentStatus.Alive and bomb.position.is_neighbour(agent.position, world):
                 explosion_events += agent.bomb_die(world, bomb)
 
     return explosion_events, True

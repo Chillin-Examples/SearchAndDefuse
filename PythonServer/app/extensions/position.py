@@ -26,13 +26,18 @@ def __add__(self, position):
     return self.add(position)
 
 
-def get_neighbours(self):
-    return [Position(x=self.x - 1, y=self.y), Position(x=self.x + 1, y=self.y),
-            Position(x=self.x, y=self.y - 1), Position(x=self.x, y=self.y + 1)]
+def get_neighbours(self, world):
+    neighbours = [Position(x=self.x - 1, y=self.y), Position(x=self.x + 1, y=self.y),
+                  Position(x=self.x, y=self.y - 1), Position(x=self.x, y=self.y + 1)]
+    valid_neighbours = []
+    for neighbour in neighbours:
+        if 0 <= neighbour.x < world.width and 0 <= neighbour.y < world.height:
+            valid_neighbours.append(neighbour)
+    return valid_neighbours
 
 
-def is_neighbour(self, position):
-    return any(self == neighbour for neighbour in get_neighbours(position))
+def is_neighbour(self, position, world):
+    return any(self == neighbour for neighbour in position.get_neighbours(world))
 
 
 def angle_between(self, position):
@@ -48,6 +53,10 @@ def add_vector(self, vector_angle, vector_length):
     )
 
 
+def __repr__(self):
+    return 'Position: {}, {}'.format(self.x, self.y)
+
+
 Position.is_equal = is_equal
 Position.__eq__ = __eq__
 Position.add = add
@@ -56,3 +65,4 @@ Position.get_neighbours = get_neighbours
 Position.is_neighbour = is_neighbour
 Position.angle_between = angle_between
 Position.add_vector = add_vector
+Position.__repr__ = __repr__

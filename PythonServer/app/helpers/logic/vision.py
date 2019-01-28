@@ -2,14 +2,7 @@
 
 # project imports
 from ...ks.models import *
-from . import vision_calculator
-
-
-def _compute_agent_vision(strategy, position, limit, world):
-    if strategy == 'dls':
-        return vision_calculator.calculate_visions_dls(position, limit, world)
-    if strategy == 'square':
-        return vision_calculator.calculate_visions_square(position, limit, world)
+from .dls import dls
 
 
 def _compute_agents_visions(world, side):
@@ -30,7 +23,7 @@ def _compute_agents_visions(world, side):
                 agent.visions = [Position(x=agent.position.x, y=agent.position.y),
                                  Position(bomb.position.x, bomb.position.y)]
             else:
-                agent.visions = _compute_agent_vision('dls', agent.position, vision_distance, world)
+                _, agent.visions = dls(world, agent.position, vision_distance, None)
 
             vision_positions += agent.visions
 
