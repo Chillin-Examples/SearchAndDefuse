@@ -24,11 +24,6 @@ class AI(RealtimeAI):
 
     def decide(self):
         print('decide')
-        my_agents = self.world.polices if self.my_side == 'Police' else self.world.terrorists
-
-        for agent in my_agents:
-            if agent.status == EAgentStatus.Dead:
-                continue
 
 
     def plant(self, agent_id, bombsite_direction):
