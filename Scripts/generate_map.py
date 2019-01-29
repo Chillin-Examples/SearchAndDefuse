@@ -1,7 +1,8 @@
 # script imports
 import json, sys
+name = 'valleybeyond'
+map_file = open('maps/{}.txt'.format(name))
 
-map_file = open('maps/{}.txt'.format(sys.argv[1]))
 map_data = map_file.readlines()
 data = {'char_board': [], 'player': {'Terrorist': [], 'Police': []}}
 data['constants'] = {
@@ -44,5 +45,5 @@ data['constants']['terrorist_death_score'] = 4
 data['constants']['police_vision_distance'] = 6
 data['constants']['max_cycles'] = 100
 
-with open('generated_maps/{}.json'.format(sys.argv[1]), 'w') as outfile:
+with open('generated_maps/{}.json'.format(name), 'w') as outfile:
     json.dump(data, outfile)
