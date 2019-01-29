@@ -31,13 +31,13 @@ class AI(RealtimeAI):
                 continue
 
 
-    def plant(self, agent, bombsite_direction):
-        self.send_command(PlantBomb(id=agent.id, direction=bombsite_direction))
+    def plant(self, agent_id, bombsite_direction):
+        self.send_command(PlantBomb(id=agent_id, direction=bombsite_direction))
 
 
-    def defuse(self, agent, bombsite_direction):
-        self.send_command(DefuseBomb(id=agent.id, direction=bombsite_direction))
+    def defuse(self, agent_id, bombsite_direction):
+        self.send_command(DefuseBomb(id=agent_id, direction=bombsite_direction))
 
 
-    def move(self, agent, move_direction):
-        self.send_command(Move(id=agent.id, direction=move_direction))
+    def move(self, agent_id, move_direction):
+        self.send_command(Move(id=agent_id, direction=move_direction))
