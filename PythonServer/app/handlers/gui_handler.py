@@ -341,6 +341,10 @@ class GuiHandler:
                     ref=police_vision_ref,
                     position=scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
                 ))
+                self._scene.add_action(scene_actions.ChangeIsActive(
+                    ref=police_vision_ref,
+                    is_active=False
+                ))
 
                 self._scene.add_action(scene_actions.InstantiateBundleAsset(
                     ref=terrorist_vision_ref,
@@ -349,6 +353,10 @@ class GuiHandler:
                 self._scene.add_action(scene_actions.ChangeTransform(
                     ref=terrorist_vision_ref,
                     position=scene_actions.Vector3(x=pos['x'], y=self.VISIONS_Y, z=pos['z'])
+                ))
+                self._scene.add_action(scene_actions.ChangeIsActive(
+                    ref=terrorist_vision_ref,
+                    is_active=False
                 ))
 
     def _update_fow(self):
