@@ -20,6 +20,10 @@ public:
     void initialize();
     void decide();
     void sendCommand(ks::KSObject *command);
+
+    void move(int agentId, ks::commands::ECommandDirection moveDirection);
+    void plant(int agentId, ks::commands::ECommandDirection bombsiteDirection);
+    void defuse(int agentId, ks::commands::ECommandDirection bombsiteDirection);
 };
 
 #endif // AI_H
