@@ -16,7 +16,7 @@ code_base_directory = configs["code_base_directory"]
 class RunMonitor(threading.Thread):
     def run(self):
         print("Running Monitor...")
-        os.system('cd {} && ChillinMonitor.exe'.format(monitor_directory))
+        os.system('cd {} && ChillinMonitor2.exe'.format(monitor_directory))
 
 
 class RunServer(threading.Thread):
