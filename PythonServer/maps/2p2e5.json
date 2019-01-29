@@ -31,37 +31,43 @@
         "position": [
           10,
           19
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           11,
           19
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           12,
           19
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           10,
           20
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           11,
           20
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           12,
           20
-        ]
+        ],
+        "direction": "Up"
       }
     ],
     "Police": [
@@ -69,31 +75,35 @@
         "position": [
           10,
           1
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           11,
           1
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           12,
           1
-        ]
+        ],
+        "direction": "Up"
       },
       {
         "position": [
           11,
           2
-        ]
+        ],
+        "direction": "Up"
       }
     ]
   },
   "constants": {
-    "bomb_planting_time": 7,
-    "bomb_defusion_time": 10,
+    "bomb_planting_time": 5,
+    "bomb_defusion_time": 5,
     "bomb_explosion_time": 15,
     "bomb_planting_score": 2,
     "bomb_defusion_score": 1,
@@ -102,9 +112,13 @@
     "score_coefficient_medium_bomb_site": 5,
     "score_coefficient_large_bomb_site": 7.5,
     "score_coefficient_vast_bomb_site": 10,
-    "terrorist_vision_distance": 5,
+    "terrorist_vision_distance": 3,
+    "police_vision_distance": 2,
     "terrorist_death_score": 4,
-    "police_vision_distance": 6,
+    "police_death_score": 4,
+    "strong_intensity_max_distance": 5,
+    "normal_intensity_max_distance": 10,
+    "weak_intensity_max_distance": 15,
     "max_cycles": 100
   }
 }

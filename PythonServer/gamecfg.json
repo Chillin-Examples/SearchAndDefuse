@@ -46,6 +46,6 @@
     "max_agent_commands": 100,
     "": "my configs",
     "cell_size": 1,
-    "map": "maps/revolution909.json"
+    "map": "maps/valleybeyond.json"
   }
 }
