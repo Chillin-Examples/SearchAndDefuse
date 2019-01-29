@@ -64,23 +64,23 @@
     ]
   },
   "constants": {
-    "bomb_planting_time": 5,
-    "bomb_defusion_time": 5,
+    "bomb_planting_time": 7,
+    "bomb_defusion_time": 7,
     "bomb_explosion_time": 15,
-    "bomb_planting_score": 2,
-    "bomb_defusion_score": 1,
-    "bomb_explosion_score": 2,
+    "bomb_planting_score": 10,
+    "bomb_defusion_score": 15,
+    "bomb_explosion_score": 20,
     "score_coefficient_small_bomb_site": 2.5,
     "score_coefficient_medium_bomb_site": 5,
     "score_coefficient_large_bomb_site": 7.5,
     "score_coefficient_vast_bomb_site": 10,
-    "terrorist_vision_distance": 3,
-    "police_vision_distance": 2,
-    "terrorist_death_score": 4,
-    "police_death_score": 4,
+    "terrorist_vision_distance": 5,
+    "police_vision_distance": 3,
+    "terrorist_death_score": 5,
+    "police_death_score": 10,
     "strong_intensity_max_distance": 5,
     "normal_intensity_max_distance": 10,
     "weak_intensity_max_distance": 15,
-    "max_cycles": 100
+    "max_cycles": 200
   }
 }
