@@ -60,13 +60,25 @@ class AI(RealtimeAI):
             bombsite_direction = self._find_bombsite_direction(agent)
             if bombsite_direction == None:
                 self._agent_print(agent.id, 'Random Move')
-                self.send_command(Move(id=agent.id, direction=random.choice(self._empty_directions(agent.position))))
+                self.move(agent.id, random.choice(self._empty_directions(agent.position)))
             else:
                 self._agent_print(agent.id, 'Start Bomb Operation')
                 if self.my_side == 'Police':
-                    self.send_command(DefuseBomb(id=agent.id, direction=bombsite_direction))
+                    self.defuse(agent.id, bombsite_direction)
                 else:
-                    self.send_command(PlantBomb(id=agent.id, direction=bombsite_direction))
+                    self.plant(agent.id, bombsite_direction)
+
+
+    def plant(self, agent_id, bombsite_direction):
+        self.send_command(PlantBomb(id=agent_id, direction=bombsite_direction))
+
+
+    def defuse(self, agent_id, bombsite_direction):
+        self.send_command(DefuseBomb(id=agent_id, direction=bombsite_direction))
+
+
+    def move(self, agent_id, move_direction):
+        self.send_command(Move(id=agent_id, direction=move_direction))
 
 
     def _empty_directions(self, position):
