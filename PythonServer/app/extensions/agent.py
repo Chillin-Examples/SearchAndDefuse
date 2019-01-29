@@ -31,7 +31,7 @@ def can_move(self, side_name, world, command):
     for teammate in teammates:
         if teammate == self:
             continue
-        if teammate.position == new_position and teammate.status == EAgentStatus.Alive:
+        if teammate.status == EAgentStatus.Alive and teammate.position == new_position:
             return ECanMoveStatus.TeammateBlock
 
     return ECanMoveStatus.Can

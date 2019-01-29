@@ -140,23 +140,29 @@ class LogicHandler:
     def get_client_world(self, side_name):
         client_world = deepcopy(self.world)
 
+        # Police
         if side_name == 'Police':
             client_world.terrorists = []
             client_world.bombs = []
-            for vision_position in self.world.visions['Police']:
-                for bomb in self.world.bombs:
-                    if bomb.explosion_remaining_time != -1 and bomb.position == vision_position:
+            for bomb in self.world.bombs:
+                if bomb.explosion_remaining_time == -1:
+                    continue
+                for vision_position in self.world.visions['Police']:
+                    if bomb.position == vision_position:
                         client_world.bombs.append(bomb)
-
-            return client_world
-
+                        break
+        # Terrorist
         elif side_name == 'Terrorist':
             client_world.polices = []
             for vision_position in self.world.visions['Terrorist']:
                 for police in self.world.polices:
                     if police.position == vision_position:
                         client_world.polices.append(police)
-            return client_world
+                # See all polices, nothing to search
+                if len(client_world.polices) == len(self.world.polices):
+                    break
+
+        return client_world
 
 
     def check_end_game(self, current_cycle):
