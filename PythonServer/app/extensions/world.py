@@ -3,6 +3,7 @@
 # project imports
 from ..ks.commands import *
 from ..ks.models import World, EAgentStatus
+from .agent import ECanMoveStatus
 
 
 def apply_command(self, side_name, command):
@@ -24,11 +25,17 @@ def apply_command(self, side_name, command):
             if agent.defusion_remaining_time != -1:
                 move_events += agent.cancel_defuse(self)
 
-        if not agent.can_move(side_name, self, command):
-            return move_events
-        move_events += agent.move(self, command)
-
-        return move_events
+        can_move_status = agent.can_move(side_name, self, command)
+        # Can Move
+        if can_move_status == ECanMoveStatus.Can:
+            move_events += agent.move(self, command)
+            return move_events, None
+        # Cant Move
+        if can_move_status == ECanMoveStatus.Cant:
+            return move_events, None
+        # Teammate Block
+        if can_move_status == ECanMoveStatus.TeammateBlock:
+            return move_events, (agent, side_name, command)
 
     # Plant
     if command.name() == PlantBomb.name():

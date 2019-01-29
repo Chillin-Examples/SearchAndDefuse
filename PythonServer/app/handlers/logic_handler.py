@@ -8,7 +8,9 @@ from ..helpers.logic.timers import bomb_timer
 from ..helpers.logic import vision
 from ..helpers.logic.sounds import bombbeep, footsteps
 from ..ks.models import ECell, EAgentStatus
+from ..ks.commands import Move
 from ..gui_events import GuiEventType, GuiEvent
+from ..extensions.agent import ECanMoveStatus
 
 
 class LogicHandler:
@@ -54,9 +56,33 @@ class LogicHandler:
         self._reset_agents_is_moving()
 
         # Check commands
+        teamblock_moves = []
+
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
-                gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
+                command = self._last_cycle_commands[side][command_id]
+                if command.name() == Move.name():
+                    new_gui_events, teamblock_move = self.world.apply_command(side, command)
+                    if not teamblock_move is None:
+                        teamblock_moves.append(teamblock_move)
+                else:
+                    new_gui_events = self.world.apply_command(side, command)
+
+                gui_events += new_gui_events
+
+        # Check teamblock moves
+        has_new_move = True
+        while has_new_move and len(teamblock_moves) > 0:
+            has_new_move = False
+            remaining_teamblock_moves = []
+            for teamblock_move in teamblock_moves:
+                agent, side_name, command = teamblock_move
+                if agent.can_move(side_name, self.world, command) == ECanMoveStatus.Can:
+                    has_new_move = True
+                    gui_events += agent.move(self.world, command)
+                else:
+                    remaining_teamblock_moves.append(teamblock_move)
+            teamblock_moves = remaining_teamblock_moves
 
         # Check timers
         gui_events += bomb_timer.update_bombs_timings(self.world)
