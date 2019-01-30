@@ -556,6 +556,8 @@ class GuiHandler:
         bomb = planting['bomb']
         bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
         planter = self._world.terrorists[planting['agent_id']]
+        if planter.status == EAgentStatus.Dead:
+            return
         # update status dictionaries
         self._plantings_ref[bombsite_ref] = planter
         # Update bombsite
@@ -610,6 +612,8 @@ class GuiHandler:
         bomb = defusing['bomb']
         bombsite_ref = self._bombsites_ref[(bomb.position.x, bomb.position.y)]
         defuser = self._world.polices[defusing['agent_id']]
+        if defuser.status == EAgentStatus.Dead:
+            return
         # update status dictionaries
         self._defusings_ref[bombsite_ref] = defuser
         # Update bombsite
