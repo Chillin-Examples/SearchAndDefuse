@@ -26,6 +26,12 @@ def can_move(self, side_name, world, command):
     if world.board[new_position.y][new_position.x] != ECell.Empty:
         return ECanMoveStatus.Cant
 
+    # Check opponent block
+    opponents = world.terrorists if side_name == 'Police' else world.polices
+    for opponent in opponents:
+        if opponent.status == EAgentStatus.Alive and opponent.position == new_position:
+            return ECanMoveStatus.Cant
+
     # Check No Teammate Is There
     teammates = world.polices if side_name == 'Police' else world.terrorists
     for teammate in teammates:
