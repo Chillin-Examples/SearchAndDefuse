@@ -1,4 +1,7 @@
 {
   "code_base_directory": "../",
-  "monitor_directory": "../../Chillin-Monitor-2-Windows64bit-2.0.0/"
+  "monitor_directory": "../../Chillin-Monitor-2-Windows64bit-2.0.0/",
+  "run_monitor": true,
+  "run_python_client": true,
+  "run_python_random_client": true
 }

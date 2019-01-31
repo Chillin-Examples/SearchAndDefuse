@@ -60,8 +60,11 @@ if __name__ == '__main__':
 
     run_server.start()
     time.sleep(1)
-    run_monitor.start()
-    time.sleep(2)
-    run_client.start()
-    time.sleep(1)
-    run_random_client.start()
+    if configs["run_monitor"]:
+        run_monitor.start()
+        time.sleep(2)
+    if configs["run_python_client"]:
+        run_client.start()
+        time.sleep(1)
+    if configs["run_python_random_client"]:
+        run_random_client.start()
