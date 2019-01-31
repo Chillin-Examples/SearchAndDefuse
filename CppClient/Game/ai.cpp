@@ -27,11 +27,6 @@ void AI::decide()
     cout << "decide" << endl;
 }
 
-void AI::sendCommand(ks::KSObject *command)
-{
-    BaseAI::sendCommand(command);
-}
-
 void AI::move(int agentId, ECommandDirection moveDirection)
 {
     Move cmd;

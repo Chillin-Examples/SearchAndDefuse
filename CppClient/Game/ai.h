@@ -15,7 +15,6 @@ public:
 
     void initialize();
     void decide();
-    void sendCommand(ks::KSObject *command);
 
     void move(int agentId, ks::commands::ECommandDirection moveDirection);
     void plant(int agentId, ks::commands::ECommandDirection bombsiteDirection);
