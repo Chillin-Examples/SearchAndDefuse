@@ -23,7 +23,7 @@ def defuse_bomb(self, world, command):
     if self.defusion_remaining_time != -1:
         gui_events += self.cancel_defuse(world)
 
-    self.defusion_remaining_time = world.constants.bomb_defusion_time + 1
+    self.defusion_remaining_time = world.constants.bomb_defusion_time
     bomb_position = self.position + directions[command.direction.name]
     defusing_bomb = None
     for bomb in world.bombs:

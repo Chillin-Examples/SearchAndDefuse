@@ -25,15 +25,15 @@ class LogicHandler:
 
         # Dead Agents Should Not Be Removed From Agents List.
         if command.id < 0 or command.id >= len(agents):
-            print('Invalid id in command: %s %i' % (side_name, command.id))
+            # print('Invalid id in command: %s %i' % (side_name, command.id))
             return
 
         # Dead Agents can't send command
         if agents[command.id].status == EAgentStatus.Dead:
-            print('%s(%i) is dead so can\'t send command' % (side_name, command.id))
+            # print('%s(%i) is dead so can\'t send command' % (side_name, command.id))
             return
 
-        print('command: %s(%i)' % (side_name, command.id))
+        # print('command: %s(%i)' % (side_name, command.id))
         self._last_cycle_commands[side_name][command.id] = command
 
 
