@@ -1,71 +1,64 @@
 {
   "char_board": [
     "wwwwwwwwwwwwwwwwwwwwwwww",
-    "wvwwewwweweeewewwweewwww",
-    "weeweweeeeeeeeeeewewwvew",
-    "weeeewwewewwweewwwewewew",
-    "weweeeeeweeeeeeeeeeeeeew",
-    "wwweeeeeeeeweeeeeeewewew",
-    "weeewwwewewwweewwwewewew",
-    "weweweeeeeeweeeeeeeeeeew",
-    "weweeeeeeeeeeeeweeeeewew",
-    "weeewwwewewwweewwwewewew",
-    "weweeeeeeeeeeeeeeemeeeew",
-    "wewwwwweeewwweewwwewwwew",
-    "weelweeeeeeeeeeeeweeewew",
-    "wewewwweewwewwewwweewwew",
-    "weeeeeweeeeeeeeweeeeeeew",
-    "wwwwwwweewwwweewwwweweew",
-    "weeeeeeeeweeeeeeewewewew",
-    "wewewwweeweeeeewwwweweew",
-    "weeeeeweewwewweeeeeeeeew",
-    "wewewwwweeeeewewwweewwww",
-    "weeeweeeweeeeweeeweeweew",
-    "wewewwwweewwwwewwweeeeew",
-    "weeesweeeeeeeeeeweeewesw",
+    "weeewwwwwwwwwwwwwwwwwelw",
+    "wewewwwwwwwwwsweewwwweww",
+    "weeeeeewwwwweeeeewweeeww",
+    "wwwewwewwwweeeewwwweeeww",
+    "wwwewwewwweewweewwwweeww",
+    "wwweeeeeweewweewwweeeeew",
+    "wwwwwweeeewweewwwwwewwew",
+    "wwwwwwweeeeeewwweewewwew",
+    "wwwwwweeeewwewwweeweweew",
+    "wwwwweewweeeeeewweweeeww",
+    "wwwweewweeewweewweeeewww",
+    "wwweewweeeewweewweeewwww",
+    "wwweeeeewweeeeeeeeewwwww",
+    "wwweeeewwwewwweweewwwwww",
+    "wweewewwwmewweewewwwwwww",
+    "wwsewwwwwwwwweeeeewwwwww",
+    "wwwwwwwweweeeeeweeeeewww",
+    "wwwwwwwweweeeewwwewwewww",
+    "wwweeweeeweeeewwwewwewww",
+    "wwweeeewweeeweeweeeeeeew",
+    "wweeeeewweewweeeewwwewew",
+    "wlewwweeeewwwwevwwwweeew",
     "wwwwwwwwwwwwwwwwwwwwwwww"
   ],
   "player": {
     "Terrorist": [
       {
         "position": [
-          10,
-          19
+          1,
+          1
         ],
         "direction": "Up"
       },
       {
         "position": [
-          11,
-          19
+          2,
+          1
         ],
         "direction": "Up"
       },
       {
         "position": [
-          12,
-          19
+          3,
+          1
         ],
         "direction": "Up"
       },
       {
         "position": [
-          10,
-          20
+          1,
+          2
         ],
         "direction": "Up"
       },
       {
         "position": [
-          11,
-          20
-        ],
-        "direction": "Up"
-      },
-      {
-        "position": [
-          12,
-          20
+          1,
+          3
         ],
         "direction": "Up"
       }
@@ -73,29 +66,22 @@
     "Police": [
       {
         "position": [
-          10,
-          1
+          22,
+          21
         ],
         "direction": "Up"
       },
       {
         "position": [
-          11,
-          1
+          21,
+          22
         ],
         "direction": "Up"
       },
       {
         "position": [
-          12,
-          1
-        ],
-        "direction": "Up"
-      },
-      {
-        "position": [
-          11,
-          2
+          22,
+          22
         ],
         "direction": "Up"
       }

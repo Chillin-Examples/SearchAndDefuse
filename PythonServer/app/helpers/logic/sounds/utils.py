@@ -5,10 +5,19 @@ import math
 
 # project imports
 from ....ks.models import ESoundIntensity
+from ..dls import dls
+from ....ks.models import ECell
 
 
-def calculate_distance(point_a, point_b):
-    return math.sqrt(math.pow(point_a.x - point_b.x, 2) + math.pow(point_a.y - point_b.y, 2))
+
+_sound_pass_ecells = [ECell.Empty, ECell.SmallBombSite, ECell.MediumBombSite, ECell.LargeBombSite, ECell.VastBombSite]
+
+
+def calculate_distance(world, point_a, point_b):
+    distance, _ = dls(world, point_a, world.constants.sound_ranges[ESoundIntensity.Weak], point_b, _sound_pass_ecells)
+    if distance == None:
+        distance = world.constants.sound_ranges[ESoundIntensity.Weak] + 1
+    return distance
 
 
 def _int_to_intensity(intensity, sound_ranges):

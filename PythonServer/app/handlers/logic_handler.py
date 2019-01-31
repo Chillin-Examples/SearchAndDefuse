@@ -8,7 +8,9 @@ from ..helpers.logic.timers import bomb_timer
 from ..helpers.logic import vision
 from ..helpers.logic.sounds import bombbeep, footsteps
 from ..ks.models import ECell, EAgentStatus
+from ..ks.commands import Move
 from ..gui_events import GuiEventType, GuiEvent
+from ..extensions.agent import ECanMoveStatus
 
 
 class LogicHandler:
@@ -23,15 +25,15 @@ class LogicHandler:
 
         # Dead Agents Should Not Be Removed From Agents List.
         if command.id < 0 or command.id >= len(agents):
-            print('Invalid id in command: %s %i' % (side_name, command.id))
+            # print('Invalid id in command: %s %i' % (side_name, command.id))
             return
 
         # Dead Agents can't send command
         if agents[command.id].status == EAgentStatus.Dead:
-            print('%s(%i) is dead so can\'t send command' % (side_name, command.id))
+            # print('%s(%i) is dead so can\'t send command' % (side_name, command.id))
             return
 
-        print('command: %s(%i)' % (side_name, command.id))
+        # print('command: %s(%i)' % (side_name, command.id))
         self._last_cycle_commands[side_name][command.id] = command
 
 
@@ -54,9 +56,33 @@ class LogicHandler:
         self._reset_agents_is_moving()
 
         # Check commands
+        teamblock_moves = []
+
         for side in self._sides:
             for command_id in self._last_cycle_commands[side]:
-                gui_events += self.world.apply_command(side, self._last_cycle_commands[side][command_id])
+                command = self._last_cycle_commands[side][command_id]
+                if command.name() == Move.name():
+                    new_gui_events, teamblock_move = self.world.apply_command(side, command)
+                    if not teamblock_move is None:
+                        teamblock_moves.append(teamblock_move)
+                else:
+                    new_gui_events = self.world.apply_command(side, command)
+
+                gui_events += new_gui_events
+
+        # Check teamblock moves
+        has_new_move = True
+        while has_new_move and len(teamblock_moves) > 0:
+            has_new_move = False
+            remaining_teamblock_moves = []
+            for teamblock_move in teamblock_moves:
+                agent, side_name, command = teamblock_move
+                if agent.can_move(side_name, self.world, command) == ECanMoveStatus.Can:
+                    has_new_move = True
+                    gui_events += agent.move(self.world, command)
+                else:
+                    remaining_teamblock_moves.append(teamblock_move)
+            teamblock_moves = remaining_teamblock_moves
 
         # Check timers
         gui_events += bomb_timer.update_bombs_timings(self.world)
@@ -114,23 +140,29 @@ class LogicHandler:
     def get_client_world(self, side_name):
         client_world = deepcopy(self.world)
 
+        # Police
         if side_name == 'Police':
             client_world.terrorists = []
             client_world.bombs = []
-            for vision_position in self.world.visions['Police']:
-                for bomb in self.world.bombs:
-                    if bomb.explosion_remaining_time != -1 and bomb.position == vision_position:
+            for bomb in self.world.bombs:
+                if bomb.explosion_remaining_time == -1:
+                    continue
+                for vision_position in self.world.visions['Police']:
+                    if bomb.position == vision_position:
                         client_world.bombs.append(bomb)
-
-            return client_world
-
+                        break
+        # Terrorist
         elif side_name == 'Terrorist':
             client_world.polices = []
             for vision_position in self.world.visions['Terrorist']:
                 for police in self.world.polices:
                     if police.position == vision_position:
                         client_world.polices.append(police)
-            return client_world
+                # See all polices, nothing to search
+                if len(client_world.polices) == len(self.world.polices):
+                    break
+
+        return client_world
 
 
     def check_end_game(self, current_cycle):

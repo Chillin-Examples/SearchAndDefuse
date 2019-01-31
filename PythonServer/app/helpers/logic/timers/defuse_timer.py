@@ -14,11 +14,11 @@ def update_defuse_timings(world):
         if bomb.defuser_id != -1:
             # defusing timer is not zero yet,police should keep defusing
             if world.polices[bomb.defuser_id].defusion_remaining_time > 1:
-                print("police {} is defusing.".format(bomb.defuser_id))
+                # print("police {} is defusing.".format(bomb.defuser_id))
                 world.polices[bomb.defuser_id].defusion_remaining_time -= 1
             # end of defusing
             else:
-                print("bomb defused.")
+                # print("bomb defused.")
                 world.polices[bomb.defuser_id].defusion_remaining_time = -1
                 score.increase_defuse_score(world)
                 bombs_to_remove.append(bomb)

@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
 
+# python imports
+from enum import Enum
+
 # project imports
 from ..ks.commands import *
 from ..ks.models import *
+
+
+class ECanMoveStatus(Enum):
+    Can = 0
+    Cant = 1
+    TeammateBlock = 2
 
 
 def move(self, world, command):
@@ -14,24 +23,24 @@ def can_move(self, side_name, world, command):
     new_position = self.position + directions[command.direction.name]
 
     # Check new cell is empty
-    if world.board[new_position.y][new_position.x] == ECell.Empty:
+    if world.board[new_position.y][new_position.x] != ECell.Empty:
+        return ECanMoveStatus.Cant
 
-        # check no bombs are being exploded.
-        for bomb in world.bombs:
-            if bomb.position == new_position and bomb.explosion_remaining_time > 0:
-                return False
+    # Check opponent block
+    opponents = world.terrorists if side_name == 'Police' else world.polices
+    for opponent in opponents:
+        if opponent.status == EAgentStatus.Alive and opponent.position == new_position:
+            return ECanMoveStatus.Cant
 
-        # Check No Teammate Is There
-        teammates = world.polices if side_name == 'Police' else world.terrorists
-        for teammate in teammates:
-            if teammate == self:
-                continue
-            if teammate.position == new_position and teammate.status == EAgentStatus.Alive:
-                    return False
+    # Check No Teammate Is There
+    teammates = world.polices if side_name == 'Police' else world.terrorists
+    for teammate in teammates:
+        if teammate == self:
+            continue
+        if teammate.status == EAgentStatus.Alive and teammate.position == new_position:
+            return ECanMoveStatus.TeammateBlock
 
-        return True
-
-    return False
+    return ECanMoveStatus.Can
 
 
 directions = {

@@ -45,12 +45,12 @@ class GameManager(RealtimeGameHandler):
 
 
     def on_update_clients(self):
-        print('update clients')
+        # print('update clients')
         for side_name in self.sides:
             self.send_snapshot(self._logic_handler.get_client_world(side_name), side_name=side_name)
 
 
     def on_update_gui(self):
-        print('update gui')
+        # print('update gui')
         self._gui_handler.update(self.current_cycle, self._gui_events)
         self.scene.apply_actions()

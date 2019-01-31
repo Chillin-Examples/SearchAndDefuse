@@ -14,7 +14,7 @@ def update_plant_timings(world):
         if bomb.planter_id != -1:
             # planting timer is not zero yet, terrorist should keep planting
             if bomb.explosion_remaining_time == -1 and world.terrorists[bomb.planter_id].planting_remaining_time > 1:
-                print("Terrorist {} is planting.".format(bomb.planter_id))
+                # print("Terrorist {} is planting.".format(bomb.planter_id))
                 world.terrorists[bomb.planter_id].planting_remaining_time -= 1
             else:
                 new_plant_events, remove_bomb = _update_plant_timer_on_cycle(bomb, world)
@@ -34,7 +34,7 @@ def _update_plant_timer_on_cycle(bomb, world):
     if bomb.explosion_remaining_time == -1:
         # reset plant remaining time
         world.terrorists[bomb.planter_id].planting_remaining_time = -1
-        print('Bomb planted.')
+        # print('Bomb planted.')
         bomb.explosion_remaining_time = world.constants.bomb_explosion_time
         score.increase_plant_score(world, bomb.position)
         return [GuiEvent(GuiEventType.PlantedBomb, bomb=bomb)], False
@@ -42,12 +42,12 @@ def _update_plant_timer_on_cycle(bomb, world):
         bomb.explosion_remaining_time -= 1
 
     if bomb.explosion_remaining_time > 0:
-        print('Bomb is exploding...')
+        # print('Bomb is exploding...')
         return [], False
 
     # when bomb explodes
     explosion_events = []
-    print('Bomb exploded.')
+    # print('Bomb exploded.')
     bomb_position = bomb.position
     score.increase_explode_bomb_score(world, bomb.position)
     world.board[bomb_position.y][bomb_position.x] = ECell.Empty
@@ -58,7 +58,7 @@ def _update_plant_timer_on_cycle(bomb, world):
         agents = world.polices if side == 'Police' else world.terrorists
 
         for agent in agents:
-            if agent.status == EAgentStatus.Alive and bomb.position.is_neighbour(agent.position):
+            if agent.status == EAgentStatus.Alive and bomb.position.is_neighbour(agent.position, world):
                 explosion_events += agent.bomb_die(world, bomb)
 
     return explosion_events, True
