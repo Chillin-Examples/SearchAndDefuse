@@ -66,4 +66,5 @@ if __name__ == '__main__':
     if configs["run_python_client"]:
         run_client.start()
         time.sleep(1)
-    run_random_client.start()
+    if configs["run_python_random_client"]:
+        run_random_client.start()
