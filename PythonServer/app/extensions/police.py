@@ -38,7 +38,7 @@ def defuse_bomb(self, world, command):
 
 
 def cancel_defuse(self, world, is_alive=True):
-    bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id))
+    bomb = next((bomb for bomb in world.bombs if bomb.defuser_id == self.id), None)
     if bomb != None:
         bomb.defuser_id = -1
         self.defusion_remaining_time = -1
