@@ -34,7 +34,8 @@ def plant_bomb(self, world, command):
 
 
 def cancel_plant(self, world, is_alive=True):
-    bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id), None)
+    bomb = next((bomb for bomb in world.bombs if bomb.planter_id == self.id
+                 and bomb.explosion_remaining_time == -1), None)
     if bomb != None:
         world.bombs.remove(bomb)
         self.planting_remaining_time = -1
