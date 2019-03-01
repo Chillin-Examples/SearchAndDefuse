@@ -1,0 +1,64 @@
+{
+  "char_board": [
+    "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeewvweeeweeeeeewmweeeeeeseeewmweeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "wwwweeewwwwewwwweeeeewwwwewwwweeewwww",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeewlweeeweeeeeewsweeeeeeseeewmweeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "wwwweeewwwwewwwweeeeewwwwewwwweeewwww",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeewlweeemeeeeeewsweeeeeeseeewmweeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "wwwweeewwwwewwwweeeeewwwwewwwweeewwww",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeewlweeeweeeeeewmweeeeeeweeewlweeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "weeeeeeeeeweeeeeeeeeeeeeeeweeeeeeeeew",
+    "wwwwwmwwwwweeeeeeeeeeeeeeewwwwwwwwwww",
+    "weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeew",
+    "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+  ],
+  "player": {
+    "Terrorist": [
+      { "position": [32, 25], "direction": "Left" },
+      { "position": [33, 25], "direction": "Left" },
+      { "position": [34, 25], "direction": "Left" },
+      { "position": [35, 25], "direction": "Left" }
+    ],
+    "Police": [
+      { "position": [3, 25], "direction": "Right" },
+      { "position": [2, 25], "direction": "Right" },
+      { "position": [1, 25], "direction": "Right" }
+    ]
+  },
+  "constants": {
+    "bomb_planting_time": 7,
+    "bomb_defusion_time": 5,
+    "bomb_explosion_time": 25,
+    "bomb_planting_score": 3,
+    "bomb_defusion_score": 15,
+    "bomb_explosion_score": 5,
+    "score_coefficient_small_bomb_site": 1,
+    "score_coefficient_medium_bomb_site": 2,
+    "score_coefficient_large_bomb_site": 4,
+    "score_coefficient_vast_bomb_site": 5,
+    "terrorist_vision_distance": 4,
+    "police_vision_distance": 2,
+    "terrorist_death_score": 30,
+    "police_death_score": 30,
+    "strong_intensity_max_distance": 6,
+    "normal_intensity_max_distance": 9,
+    "weak_intensity_max_distance": 14,
+    "max_cycles": 200
+  }
+}
