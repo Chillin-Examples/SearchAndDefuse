@@ -1,0 +1,66 @@
+{
+  "char_board": [
+    "wwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+    "wveeleeeeeeeeeeeeeeeeeeewewww",
+    "weeeeweeeeeeeeeeeeeeeeeweeeww",
+    "weeeeeweeeewwwswwweeeeweeeeew",
+    "wleeeeeeewweeeeeeewweeeeeeeww",
+    "weweeeeeweeeeeeeeeeeweeeeewew",
+    "weeweeeeeeeeeeeeeeeeeeeeeweew",
+    "weeeeeeeeeeeewmweeeeeeeeeeeew",
+    "weeeeweeeeewweeewweeeeeweeeew",
+    "weeeeweeeeweeeeeeeweeeeweeeew",
+    "weeeweeeemeeeeeeeeemeeeeweeew",
+    "weeeweeeweeeewmweeeeweeeweeew",
+    "weeweeeeweeewwewweeeweeeeweew",
+    "weeweeeweeewwevewweeeweeeweew",
+    "weeseeemeeemevvvemeeemeeeseew",
+    "weeweeeweeewwevewweeeweeeweew",
+    "weeweeeeweeewwewweeeweeeeweew",
+    "weeeweeeweeeewmweeeeweeeweeew",
+    "weeeweeeemeeeeeeeeemeeeeweeew",
+    "weeeeweeeeweeeeeeeweeeeweeeew",
+    "weeeeweeeeewweeewweeeeeweeeew",
+    "weeeeeeeeeeeewmweeeeeeeeeeeew",
+    "weeweeeeeeeeeeeeeeeeeeeeeweew",
+    "weweeeeeweeeeeeeeeeeweeeeewew",
+    "wleeeeeeewweeeeeeewweeeeeeeww",
+    "weeeeeweeeewwwswwweeeeweeeeww",
+    "weeeeweeeeeeeeeeeeeeeeeweewww",
+    "wveeleeeeeeeeeeeeeeeeeeewwwww",
+    "wwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+  ],
+  "player": {
+    "Terrorist": [
+      { "position": [25, 24], "direction": "Left" },
+      { "position": [24, 25], "direction": "Left" },
+      { "position": [26, 25], "direction": "Left" },
+      { "position": [25, 26], "direction": "Left" }
+    ],
+    "Police": [
+      { "position": [25, 1], "direction": "Left" },
+      { "position": [26, 2], "direction": "Left" },
+      { "position": [27, 3], "direction": "Left" }
+    ]
+  },
+  "constants": {
+    "bomb_planting_time": 7,
+    "bomb_defusion_time": 5,
+    "bomb_explosion_time": 25,
+    "bomb_planting_score": 10,
+    "bomb_defusion_score": 15,
+    "bomb_explosion_score": 20,
+    "score_coefficient_small_bomb_site": 1.0,
+    "score_coefficient_medium_bomb_site": 1.5,
+    "score_coefficient_large_bomb_site": 2.0,
+    "score_coefficient_vast_bomb_site": 2.5,
+    "terrorist_vision_distance": 4,
+    "police_vision_distance": 2,
+    "terrorist_death_score": 90,
+    "police_death_score": 90,
+    "strong_intensity_max_distance": 6,
+    "normal_intensity_max_distance": 9,
+    "weak_intensity_max_distance": 14,
+    "max_cycles": 300
+  }
+}
