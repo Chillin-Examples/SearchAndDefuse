@@ -274,12 +274,11 @@ class GuiHandler:
 
                 material_num = (((agent.id // len(material_offsets)) + material_offsets[
                     agent.id % len(material_offsets)]) % self.TOTAL_SKINS_MATERIALS) + 1
-                self._scene.add_action(scene_actions.ChangeMaterial(
+                self._scene.add_action(scene_actions.ChangeRenderer(
                     ref=reference,
                     child_ref='Skin/{0}'.format(skin),
                     material_asset=scene_actions.Asset(bundle_name='main',
                                                        asset_name='Material{:d}'.format(material_num)),
-                    index=0
                 ))
 
                 for head in heads[agent.id % len(heads)]:
