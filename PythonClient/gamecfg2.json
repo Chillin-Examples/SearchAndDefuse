@@ -1,9 +1,9 @@
 {
 	"general": {
-	"command_files": [
-		"ks/commands"
-	],
-	"offline_mode": true
+		"command_files": [
+			"ks/commands"
+		],
+		"offline_mode": true
 	},
 
 	"net": {
@@ -18,7 +18,7 @@
 		"": "creating a new decision thread each time a snapshot of game is received from server",
 		"create_new_thread": true,
 		"agent_name": "0",
-		"team_nickname": "BabyKnight2",
-		"token": "team_id1-xx"
+		"team_nickname": "Team2",
+		"token": "team_id2-xx"
 	}
 }

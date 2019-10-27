@@ -9,30 +9,34 @@ from shutil import copyfile
 from koala_serializer import generate
 
 
-commands_reletive_path = 'ks/commands.ks'
-models_reletive_path = 'ks/models.ks'
+ks_rel_dir = "app/ks"
+commands_ksfile = "commands.ks"
+models_ksfile = "models.ks"
+
 destinations = [
-    '../PythonClient',
-    '../PythonRandomClient',
-    '../CppClient/Game',
-    '../JavaClient/src'
+    "../PythonClient/ks",
+    "../PythonRandomClient/ks",
+    "../CppClient/Game/ks",
+    "../JavaClient/src/ks",
+    "../CSharpClient/Game/KS"
 ]
 
 for dest in destinations:
-    for rel_path in [commands_reletive_path, models_reletive_path]:
-        path = os.path.join(dest, rel_path)
+    for ksfile in [commands_ksfile, models_ksfile]:
+        path = os.path.join(dest, ksfile)
         if not os.path.exists(os.path.dirname(path)):
             os.mkdir(os.path.dirname(path))
-        copyfile(os.path.join('app', rel_path), path)
+        copyfile(os.path.join(ks_rel_dir, ksfile), path)
 
 all_args = [
-    ('python', 'app/ks', 'snake_case'),
-    ('python', '../PythonClient/ks', 'snake_case'),
-    ('python', '../PythonRandomClient/ks', 'snake_case'),
-    ('cpp', '../CppClient/Game/ks', 'camelCase'),
-    ('java', '../JavaClient/src', 'camelCase')
+    ('python', ks_rel_dir, 'snake_case'),
+    ('python', "../PythonClient/ks", 'snake_case'),
+    ('python', "../PythonRandomClient/ks", 'snake_case'),
+    ('cpp', "../CppClient/Game/ks", 'camelCase'),
+    ('java', "../JavaClient/src", 'camelCase'),
+    ('cs', '../CSharpClient/Game/KS', 'PascalCase')
 ]
 
 for args in all_args:
-    generate(os.path.join('app', commands_reletive_path), *args)
-    generate(os.path.join('app', models_reletive_path), *args)
+    generate(os.path.join(ks_rel_dir, commands_ksfile), *args)
+    generate(os.path.join(ks_rel_dir, models_ksfile), *args)

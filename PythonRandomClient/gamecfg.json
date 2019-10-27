@@ -1,9 +1,9 @@
 {
 	"general": {
-	"command_files": [
-		"ks/commands"
-	],
-	"offline_mode": true
+		"command_files": [
+			"ks/commands"
+		],
+		"offline_mode": true
 	},
 
 	"net": {
@@ -19,6 +19,6 @@
 		"create_new_thread": true,
 		"agent_name": "0",
 		"team_nickname": "RandomTeam",
-		"token": "team_id1-xx"
+		"token": "random_team-xx"
 	}
 }
